@@ -1,0 +1,5 @@
+The threads of fate is a profoundly rare item bestowed upon a group or a person of great importance to the destiny of the world. Where this item comes from and who bestows it is unknown.
+ 
+It is a box containing three threads infused with time manipulating magic, when the owner stands before a trial of great importance they can choose to pluck one of the threads sending out a vibration through time and space, saving this moment in time. In the event that things get out of hand the thread can be cut and the universe will be sent back in time to the moment the thread was plucked, should the owner/owners die the thread will snap on its own.
+ 
+In terms of game mechanics, the app just saves the state when the item is used. When used again the app reverts all changes made after the thread was plucked.

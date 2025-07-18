@@ -1,0 +1,3 @@
+Home of the Humans, this Kingdom is bound together by a happy and loving people stuck in an artic hell scape. Due to the harsh nature of their homeland, the human evolved to work well together and offer kindness and respect to anyone they meet. It's in their fundamental beliefs that helping each other is the only way to survive.
+ 
+They have a group of honored female soldiers called the Shield Maidens. This group of women travel across the lands of Frostheim helping anyone they can. Fighting back the monsters of the land, escorting travelers and traders, lending a hand in day to day work, these are all things the Shield Maidens are known to do.

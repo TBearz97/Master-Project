@@ -1,0 +1,3 @@
+In the earliest recordings of Al'otoro there was only the light of The Luminescent. Relying on a special illuminating ore called Glimmerite and heightened eye sight, the earliest species started developing societies in the dark. These societies developed and prospered for several thousand years and formed the first elves and dwarves. Although these elves and dwarves had a very different culture, language and society that we know today. Their skin was also grey and their eyes red.
+ 
+Then one day, far away in outer space, a Quasar was formed and starting shedding light onto Al'otoro, thus ending the dark age and started the Awakening of the Quasar.

@@ -1,0 +1,1 @@
+A pirate state run by the Pirate Prince.

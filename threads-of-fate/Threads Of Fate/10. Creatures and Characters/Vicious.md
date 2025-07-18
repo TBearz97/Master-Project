@@ -1,0 +1,3 @@
+Demons  
+Devils  
+Imps

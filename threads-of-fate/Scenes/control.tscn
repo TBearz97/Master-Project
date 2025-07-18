@@ -1,0 +1,973 @@
+[gd_scene load_steps=18 format=3 uid="uid://7kpmwnub7nbe"]
+
+[ext_resource type="Texture2D" uid="uid://hwnrcpc7o8lp" path="res://Art/Icons/Durance-portrait.jpg" id="1_pkqba"]
+[ext_resource type="Texture2D" uid="uid://dyy1bmxasy3b3" path="res://Art/Background/Blank Background.png" id="2_8q6qp"]
+[ext_resource type="Script" path="res://Scripts/Stats/attributes.gd" id="2_liibc"]
+[ext_resource type="Theme" uid="uid://bs32h28e1vc7a" path="res://Themes/new_theme.tres" id="3_5mrty"]
+[ext_resource type="Script" path="res://Scripts/Stats/health.gd" id="3_nkjhb"]
+[ext_resource type="Script" path="res://Scripts/Stats/resources.gd" id="4_dn0vo"]
+[ext_resource type="Script" path="res://Scripts/item_list.gd" id="4_mnqwo"]
+[ext_resource type="Script" path="res://Scripts/Stats/defenses.gd" id="5_s4t32"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cncm0"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dm3h8"]
+texture = ExtResource("2_8q6qp")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_tyu2n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rh40t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n5cck"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_r6pqc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_swlrj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y6js5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_www47"]
+
+[node name="Node" type="Node"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-447, -37)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"PanelContainerVariant"
+theme_override_styles/panel = SubResource("StyleBoxEmpty_cncm0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+
+[node name="MenuBar" type="MenuBar" parent="CanvasLayer/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(360, 40)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/MenuBar"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MenuButton" type="MenuButton" parent="CanvasLayer/PanelContainer/VBoxContainer/MenuBar/HBoxContainer"]
+layout_mode = 2
+text = "Menu"
+item_count = 6
+popup/item_0/text = "Main Menu"
+popup/item_0/id = 1
+popup/item_1/text = "Character Sheet"
+popup/item_1/id = 4
+popup/item_2/text = "Rulebook"
+popup/item_2/id = 2
+popup/item_3/text = "Combat Encounter"
+popup/item_3/id = 5
+popup/item_4/text = "Settings"
+popup/item_4/id = 2
+popup/item_5/text = "Quit & Save"
+popup/item_5/id = 3
+
+[node name="CharacterButton" type="MenuButton" parent="CanvasLayer/PanelContainer/VBoxContainer/MenuBar/HBoxContainer"]
+layout_mode = 2
+text = "Character"
+item_count = 3
+popup/item_0/text = "Rest"
+popup/item_0/id = 1
+popup/item_1/text = "Edit"
+popup/item_1/id = 2
+popup/item_2/text = "Level Up"
+popup/item_2/id = 2
+
+[node name="HelpButton" type="MenuButton" parent="CanvasLayer/PanelContainer/VBoxContainer/MenuBar/HBoxContainer"]
+layout_mode = 2
+text = "Help
+"
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_dm3h8")
+
+[node name="PersistentCharacterInfo" type="HBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Character Portrait" type="TextureRect" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("1_pkqba")
+expand_mode = 1
+
+[node name="Character Info" type="GridContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo"]
+custom_minimum_size = Vector2(292, 64)
+layout_mode = 2
+columns = 4
+
+[node name="Character Name" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo/Character Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name"
+horizontal_alignment = 1
+
+[node name="Level" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo/Character Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Level"
+horizontal_alignment = 1
+
+[node name="Race" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo/Character Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Race"
+horizontal_alignment = 1
+
+[node name="Homeland" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo/Character Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Homeland"
+horizontal_alignment = 1
+
+[node name="Health" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo/Character Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Health"
+horizontal_alignment = 1
+
+[node name="Vitality" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo/Character Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Vitality"
+horizontal_alignment = 1
+
+[node name="ActionPoints" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo/Character Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Action Points"
+horizontal_alignment = 1
+
+[node name="LuckPoints" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/PanelContainer/PersistentCharacterInfo/Character Info"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Luck Points"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer"]
+custom_minimum_size = Vector2(360, 688)
+layout_mode = 2
+size_flags_stretch_ratio = 20.0
+current_tab = 1
+
+[node name="Stats" type="ScrollContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer"]
+visible = false
+clip_contents = false
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+metadata/_tab_index = 0
+
+[node name="Stats" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats"]
+custom_minimum_size = Vector2(360, 0)
+layout_mode = 2
+
+[node name="Attributes" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_liibc")
+
+[node name="Attributes Title" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_type_variation = &"HeaderSmall"
+text = "Attributes
+"
+horizontal_alignment = 1
+
+[node name="Attributes" type="HBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes"]
+layout_mode = 2
+
+[node name="Might" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Might" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Might"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MightLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Might/Might"]
+layout_mode = 2
+text = "MGT"
+horizontal_alignment = 1
+
+[node name="MightValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Might/Might"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "5"
+horizontal_alignment = 1
+
+[node name="Agility" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Agility" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Agility"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AgilityLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Agility/Agility"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "AGI"
+horizontal_alignment = 1
+
+[node name="AgilityValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Agility/Agility"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "5"
+horizontal_alignment = 1
+
+[node name="Endurance" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Endurance" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Endurance"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnduranceLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Endurance/Endurance"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "END"
+horizontal_alignment = 1
+
+[node name="EnduranceValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Endurance/Endurance"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "5"
+horizontal_alignment = 1
+
+[node name="Charisma" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Charisma" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Charisma"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CharismaLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Charisma/Charisma"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "CHA"
+horizontal_alignment = 1
+
+[node name="CharismaValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Charisma/Charisma"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "5"
+horizontal_alignment = 1
+
+[node name="Intelligence" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Intelligence" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Intelligence"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="IntelligenceLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Intelligence/Intelligence"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "INT"
+horizontal_alignment = 1
+
+[node name="IntelligenceValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Intelligence/Intelligence"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "5"
+horizontal_alignment = 1
+
+[node name="Resolve" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Resolve" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Resolve"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ResolveLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Resolve/Resolve"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "RES"
+horizontal_alignment = 1
+
+[node name="ResolveValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Attributes/Attributes/Resolve/Resolve"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "5"
+horizontal_alignment = 1
+
+[node name="Health" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("3_nkjhb")
+
+[node name="HealthLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_type_variation = &"HeaderSmall"
+text = "Health"
+horizontal_alignment = 1
+
+[node name="Health" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health"]
+layout_mode = 2
+
+[node name="Health" type="HBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="HealthPoints" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Health"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+
+[node name="HealthPoints" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Health/HealthPoints"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HealthPointsLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Health/HealthPoints/HealthPoints"]
+layout_mode = 2
+text = "Health Points"
+horizontal_alignment = 1
+
+[node name="HealthPointsValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Health/HealthPoints/HealthPoints"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "30/30"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Health/HealthPoints"]
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_tyu2n")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_rh40t")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_n5cck")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_r6pqc")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_swlrj")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_y6js5")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_www47")
+
+[node name="Vitality" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Health"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+
+[node name="Vitality" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Health/Vitality"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VitalityLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Health/Vitality/Vitality"]
+layout_mode = 2
+text = "Vitality"
+horizontal_alignment = 1
+
+[node name="VitalityValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Health/Vitality/Vitality"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "120"
+horizontal_alignment = 1
+
+[node name="Damage" type="HBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="NecroticDamage" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Damage"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Necrotic Damage" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Damage/NecroticDamage"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="NecroticDamageLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Damage/NecroticDamage/Necrotic Damage"]
+layout_mode = 2
+text = "Necrotic Damage"
+horizontal_alignment = 1
+
+[node name="NecroticDamageValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Damage/NecroticDamage/Necrotic Damage"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "0"
+horizontal_alignment = 1
+
+[node name="Fatigue" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Damage"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Fatigue" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Damage/Fatigue"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FatigueLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Damage/Fatigue/Fatigue"]
+layout_mode = 2
+text = "Fatigue"
+horizontal_alignment = 1
+
+[node name="FatigueValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Health/Health/Damage/Fatigue/Fatigue"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "0"
+horizontal_alignment = 1
+
+[node name="Resources" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats"]
+layout_mode = 2
+script = ExtResource("4_dn0vo")
+
+[node name="ResourcesLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Resources"
+horizontal_alignment = 1
+
+[node name="Resources" type="HBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="ActionPoints" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ActionPoints" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources/ActionPoints"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ActionPointsLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources/ActionPoints/ActionPoints"]
+layout_mode = 2
+text = "Action Points
+"
+horizontal_alignment = 1
+
+[node name="ActionPointsValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources/ActionPoints/ActionPoints"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "6"
+horizontal_alignment = 1
+
+[node name="ManaPoints" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ManaPoints" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources/ManaPoints"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ManaPointsLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources/ManaPoints/ManaPoints"]
+layout_mode = 2
+text = "Mana Points"
+horizontal_alignment = 1
+
+[node name="ManaPointsValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources/ManaPoints/ManaPoints"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="LuckPoints" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LuckPoints" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources/LuckPoints"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LuckPointsLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources/LuckPoints/LuckPoints"]
+layout_mode = 2
+text = "Luck Points"
+horizontal_alignment = 1
+
+[node name="LuckPointsValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Resources/Resources/LuckPoints/LuckPoints"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "4"
+horizontal_alignment = 1
+
+[node name="Defenses" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats"]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("5_s4t32")
+
+[node name="DefensesLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses"]
+layout_mode = 2
+size_flags_stretch_ratio = 0.0
+theme_type_variation = &"HeaderSmall"
+text = "Defenses
+"
+horizontal_alignment = 1
+
+[node name="Defenses" type="HBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Deflection" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Deflection" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Deflection"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="DeflectionLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Deflection/Deflection"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Deflection"
+horizontal_alignment = 1
+
+[node name="DeflectionValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Deflection/Deflection"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "3"
+horizontal_alignment = 1
+
+[node name="Reflex" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Reflex" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Reflex"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ReflexLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Reflex/Reflex"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Reflex"
+horizontal_alignment = 1
+
+[node name="ReflexValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Reflex/Reflex"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "3"
+horizontal_alignment = 1
+
+[node name="Constitution" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Constitution" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Constitution"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ConstitutionLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Constitution/Constitution"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Constitution"
+horizontal_alignment = 1
+
+[node name="ConstitutionValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Constitution/Constitution"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "3"
+horizontal_alignment = 1
+
+[node name="Mind" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Mind" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Mind"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MindLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Mind/Mind"]
+layout_mode = 2
+size_flags_vertical = 0
+text = "Mind"
+horizontal_alignment = 1
+
+[node name="MindValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Defenses/Defenses/Mind/Mind"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "3"
+horizontal_alignment = 1
+
+[node name="Damage Reduction" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats"]
+layout_mode = 2
+
+[node name="DamageReductionLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "Damage Reduction"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 4
+
+[node name="Empty" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+horizontal_alignment = 1
+
+[node name="PhysicalLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Physical"
+horizontal_alignment = 1
+
+[node name="MagicalLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Magical"
+horizontal_alignment = 1
+
+[node name="NecroticLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Necrotic
+"
+horizontal_alignment = 1
+
+[node name="HeadLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Head"
+horizontal_alignment = 1
+
+[node name="HeadPhysicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="HeadMagicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="HeadNecroticValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="ChestLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Chest"
+horizontal_alignment = 1
+
+[node name="ChestPhysicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="ChestMagicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="ChestNecroticValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="R_ArmLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "R. Arm"
+horizontal_alignment = 1
+
+[node name="R_ArmPhysicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="R_ArmMagicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="R_ArmNecroticValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="L_ArmLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "L. Arm"
+horizontal_alignment = 1
+
+[node name="L_ArmPhysicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="L_ArmMagicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="L_ArmNecroticValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="R_LegLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "R. Leg"
+horizontal_alignment = 1
+
+[node name="R_LegPhysicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="R_LegMagicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="R_LegNecroticValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="L_LegLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "L. Leg"
+horizontal_alignment = 1
+
+[node name="L_LegPhysicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="L_LegMagicalValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="L_LegNecroticValue" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Stats/Stats/Damage Reduction/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "3"
+horizontal_alignment = 1
+
+[node name="Aspects & Skills" type="ScrollContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Aspects & Skills" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills"]
+layout_mode = 2
+
+[node name="Aspects" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="AspectsLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_type_variation = &"HeaderSmall"
+text = "Aspects
+"
+horizontal_alignment = 1
+
+[node name="Aspects" type="HBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects"]
+layout_mode = 2
+
+[node name="ArcaneAspect" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ArcaneAspect" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/ArcaneAspect"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ArcaneAspectLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/ArcaneAspect/ArcaneAspect"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Arcane Aspect"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ArcaneAspectButton" type="Button" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/ArcaneAspect/ArcaneAspect"]
+layout_mode = 2
+text = "0"
+
+[node name="MartialAspect" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MartialAspect" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/MartialAspect"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MartialAspectLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/MartialAspect/MartialAspect"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Martial Aspect"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MartialAspectButton" type="Button" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/MartialAspect/MartialAspect"]
+layout_mode = 2
+text = "0"
+
+[node name="PrimalAspect" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PrimalAspect" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/PrimalAspect"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PrimalAspectLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/PrimalAspect/PrimalAspect"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Primal Aspect"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="PrimalAspectButton" type="Button" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/PrimalAspect/PrimalAspect"]
+layout_mode = 2
+text = "0"
+
+[node name="ZealousAspect" type="PanelContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ZealousAspect" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/ZealousAspect"]
+layout_mode = 2
+
+[node name="ZealousAspectLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/ZealousAspect/ZealousAspect"]
+layout_mode = 2
+size_flags_vertical = 1
+text = "Zealous Aspect"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ZealousAspectButton" type="Button" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Aspects/Aspects/ZealousAspect/ZealousAspect"]
+layout_mode = 2
+text = "0"
+
+[node name="Skills" type="VBoxContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="SkillsLabel" type="Label" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Skills"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_type_variation = &"HeaderSmall"
+text = "Skills"
+horizontal_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer/Aspects & Skills/Aspects & Skills/Skills"]
+custom_minimum_size = Vector2(360, 8)
+layout_mode = 2
+theme = ExtResource("3_5mrty")
+auto_height = true
+max_columns = 2
+same_column_width = true
+icon_scale = 0.2
+script = ExtResource("4_mnqwo")
+
+[node name="ScrollContainer3" type="ScrollContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="ScrollContainer4" type="ScrollContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="ScrollContainer5" type="ScrollContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="ScrollContainer6" type="ScrollContainer" parent="CanvasLayer/PanelContainer/VBoxContainer/GridContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 5
