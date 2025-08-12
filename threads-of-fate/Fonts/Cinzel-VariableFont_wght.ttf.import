@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://kv0r6p8ox44s"
-path="res://.godot/imported/Cinzel-VariableFont_wght.ttf-b9c66127aaf79b2507669f151ca9b021.fontdata"
+path="res://.godot/imported/Cinzel-VariableFont_wght.ttf-514e382a0cbd3283295b06b10eff8ceb.fontdata"
 
 [deps]
 
-source_file="res://Fonts/Cinzel-VariableFont_wght.ttf"
-dest_files=["res://.godot/imported/Cinzel-VariableFont_wght.ttf-b9c66127aaf79b2507669f151ca9b021.fontdata"]
+source_file="res://threads-of-fate/Fonts/Cinzel-VariableFont_wght.ttf"
+dest_files=["res://.godot/imported/Cinzel-VariableFont_wght.ttf-514e382a0cbd3283295b06b10eff8ceb.fontdata"]
 
 [params]
 
@@ -23,6 +23,7 @@ allow_system_fallback=true
 force_autohinter=false
 hinting=1
 subpixel_positioning=1
+keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
 fallbacks=[]

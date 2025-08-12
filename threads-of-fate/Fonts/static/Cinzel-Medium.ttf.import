@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://d4dkso4rktqm8"
-path="res://.godot/imported/Cinzel-Medium.ttf-747fe73877dc2fd59f0890ff97cfdf52.fontdata"
+path="res://.godot/imported/Cinzel-Medium.ttf-8ff3fe0d9158a2baf49846a8fd102c4c.fontdata"
 
 [deps]
 
-source_file="res://Fonts/static/Cinzel-Medium.ttf"
-dest_files=["res://.godot/imported/Cinzel-Medium.ttf-747fe73877dc2fd59f0890ff97cfdf52.fontdata"]
+source_file="res://threads-of-fate/Fonts/static/Cinzel-Medium.ttf"
+dest_files=["res://.godot/imported/Cinzel-Medium.ttf-8ff3fe0d9158a2baf49846a8fd102c4c.fontdata"]
 
 [params]
 
@@ -23,6 +23,7 @@ allow_system_fallback=true
 force_autohinter=false
 hinting=1
 subpixel_positioning=1
+keep_rounding_remainders=true
 oversampling=0.0
 Fallbacks=null
 fallbacks=[]

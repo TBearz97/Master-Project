@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b5fq6xnbvxfjl"
-path="res://.godot/imported/Basic Border.png-ec71b5a607bd88fed1ba10baf51c0914.ctex"
+path="res://.godot/imported/Basic Border.png-aa58e9386cf90399f03c30cd305540e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Border/Basic Border.png"
-dest_files=["res://.godot/imported/Basic Border.png-ec71b5a607bd88fed1ba10baf51c0914.ctex"]
+source_file="res://threads-of-fate/Art/Border/Basic Border.png"
+dest_files=["res://.godot/imported/Basic Border.png-aa58e9386cf90399f03c30cd305540e4.ctex"]
 
 [params]
 

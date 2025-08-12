@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://hwnrcpc7o8lp"
-path="res://.godot/imported/Durance-portrait.jpg-2630a32a7c7e302e4211e28343864a77.ctex"
+path="res://.godot/imported/Durance-portrait.jpg-31b5383c7612b6ec678403564f310cfb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Icons/Durance-portrait.jpg"
-dest_files=["res://.godot/imported/Durance-portrait.jpg-2630a32a7c7e302e4211e28343864a77.ctex"]
+source_file="res://threads-of-fate/Art/Icons/Durance-portrait.jpg"
+dest_files=["res://.godot/imported/Durance-portrait.jpg-31b5383c7612b6ec678403564f310cfb.ctex"]
 
 [params]
 

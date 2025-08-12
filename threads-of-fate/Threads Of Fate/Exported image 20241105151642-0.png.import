@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://jdygwqcna357"
-path="res://.godot/imported/Exported image 20241105151642-0.png-872206e680f06e79f7f84aac56862a76.ctex"
+path="res://.godot/imported/Exported image 20241105151642-0.png-52d9591a426c267d1e119f6729ef2069.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Threads Of Fate/Exported image 20241105151642-0.png"
-dest_files=["res://.godot/imported/Exported image 20241105151642-0.png-872206e680f06e79f7f84aac56862a76.ctex"]
+source_file="res://threads-of-fate/Threads Of Fate/Exported image 20241105151642-0.png"
+dest_files=["res://.godot/imported/Exported image 20241105151642-0.png-52d9591a426c267d1e119f6729ef2069.ctex"]
 
 [params]
 

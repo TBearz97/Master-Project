@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cuuiwivmdyaxo"
-path="res://.godot/imported/Basic Circle Border.png-bd6efaf82f32b36b43bdd1064cc81934.ctex"
+path="res://.godot/imported/Basic Circle Border.png-65e649196a65f2f66813efa8666d58a6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Border/Basic Circle Border.png"
-dest_files=["res://.godot/imported/Basic Circle Border.png-bd6efaf82f32b36b43bdd1064cc81934.ctex"]
+source_file="res://threads-of-fate/Art/Border/Basic Circle Border.png"
+dest_files=["res://.godot/imported/Basic Circle Border.png-65e649196a65f2f66813efa8666d58a6.ctex"]
 
 [params]
 
