@@ -1,0 +1,247 @@
+[gd_scene load_steps=8 format=3 uid="uid://ckhhasvnjoxxk"]
+
+[ext_resource type="Script" uid="uid://dkp3pwmbw2bpt" path="res://new_character.gd" id="1_epypp"]
+[ext_resource type="Script" uid="uid://clha72deu1p7c" path="res://node_2d.gd" id="1_kdubu"]
+[ext_resource type="Script" uid="uid://blq3xgnlp0vj6" path="res://GameMode.gd" id="1_wtcfe"]
+[ext_resource type="Script" uid="uid://dsvx8w1isgece" path="res://exit.gd" id="2_0e48y"]
+[ext_resource type="LabelSettings" uid="uid://buyj44m37jgfw" path="res://Lable Settings/Title.tres" id="2_q6r6c"]
+[ext_resource type="Script" uid="uid://1427xv4vuto" path="res://main_menu.gd" id="3_0hol4"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kdubu"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_kdubu")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Start_Panel" type="Panel" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Load Character" type="Button" parent="MarginContainer/Start_Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -450.0
+offset_top = 300.0
+offset_right = 450.0
+offset_bottom = 450.0
+grow_horizontal = 2
+text = "Load Character"
+
+[node name="New Character" type="Button" parent="MarginContainer/Start_Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = -480.0
+offset_right = 450.0
+offset_bottom = -330.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "New Character"
+script = ExtResource("1_epypp")
+
+[node name="Character_Creator" type="Panel" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Control" type="ScrollContainer" parent="MarginContainer/Character_Creator"]
+layout_mode = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Who are you?" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Who are you?"
+label_settings = ExtResource("2_q6r6c")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="What is your name?" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "What is your name?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+placeholder_text = "Your Name"
+alignment = 1
+max_length = 50
+expand_to_text_length = true
+
+[node name="What is your gender?" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "What is your gender?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GenderOptions" type="OptionButton" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+item_count = 3
+popup/item_0/text = "Female"
+popup/item_0/id = 0
+popup/item_1/text = "Male"
+popup/item_1/id = 1
+popup/item_2/text = "Other"
+popup/item_2/id = 2
+
+[node name="Your race?" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Your race?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RaceOptions" type="OptionButton" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+item_count = 9
+popup/item_0/text = "Human"
+popup/item_0/id = 0
+popup/item_1/text = "Goliath"
+popup/item_1/id = 1
+popup/item_2/text = "High Elf"
+popup/item_2/id = 2
+popup/item_3/text = "Dwarf"
+popup/item_3/id = 3
+popup/item_4/text = "Halfling"
+popup/item_4/id = 4
+popup/item_5/text = "Ashborne"
+popup/item_5/id = 5
+popup/item_6/text = "Wood Elf"
+popup/item_6/id = 6
+popup/item_7/text = "Orc"
+popup/item_7/id = 7
+popup/item_8/text = "Husk-Folk"
+popup/item_8/id = 8
+
+[node name="Homeland" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Your Homeland?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HomelandOptions" type="OptionButton" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+item_count = 9
+popup/item_0/text = "Human"
+popup/item_0/id = 0
+popup/item_1/text = "Goliath"
+popup/item_1/id = 1
+popup/item_2/text = "High Elf"
+popup/item_2/id = 2
+popup/item_3/text = "Dwarf"
+popup/item_3/id = 3
+popup/item_4/text = "Halfling"
+popup/item_4/id = 4
+popup/item_5/text = "Ashborne"
+popup/item_5/id = 5
+popup/item_6/text = "Wood Elf"
+popup/item_6/id = 6
+popup/item_7/text = "Orc"
+popup/item_7/id = 7
+popup/item_8/text = "Husk-Folk"
+popup/item_8/id = 8
+
+[node name="Background" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Your Background?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackgroundOptions" type="OptionButton" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+item_count = 9
+popup/item_0/text = "Human"
+popup/item_0/id = 0
+popup/item_1/text = "Goliath"
+popup/item_1/id = 1
+popup/item_2/text = "High Elf"
+popup/item_2/id = 2
+popup/item_3/text = "Dwarf"
+popup/item_3/id = 3
+popup/item_4/text = "Halfling"
+popup/item_4/id = 4
+popup/item_5/text = "Ashborne"
+popup/item_5/id = 5
+popup/item_6/text = "Wood Elf"
+popup/item_6/id = 6
+popup/item_7/text = "Orc"
+popup/item_7/id = 7
+popup/item_8/text = "Husk-Folk"
+popup/item_8/id = 8
+
+[node name="Write a backstory" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Write a backstory"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Header" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/Header"]
+custom_minimum_size = Vector2(97, 35)
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Player"
+script = ExtResource("1_wtcfe")
+
+[node name="Main Menu" type="Button" parent="MarginContainer/Header"]
+visible = false
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Main Menu"
+script = ExtResource("3_0hol4")
+
+[node name="Settings" type="Button" parent="MarginContainer/Header"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Settings"
+
+[node name="Exit" type="Button" parent="MarginContainer/Header"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Exit"
+script = ExtResource("2_0e48y")
