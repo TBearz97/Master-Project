@@ -1,0 +1,1586 @@
+[gd_scene load_steps=24 format=3 uid="uid://ckhhasvnjoxxk"]
+
+[ext_resource type="Script" uid="uid://dkp3pwmbw2bpt" path="res://Scenes/Main Menu/Scripts/new_character.gd" id="1_3mro0"]
+[ext_resource type="Script" uid="uid://b57h4e0b7lmwk" path="res://Scenes/Main Menu/Scripts/DBHelper.gd" id="2_tu7k8"]
+[ext_resource type="LabelSettings" uid="uid://buyj44m37jgfw" path="res://Lable Settings/Title.tres" id="3_5cvai"]
+[ext_resource type="Script" uid="uid://blq3xgnlp0vj6" path="res://Scenes/Main Menu/Scripts/GameMode.gd" id="4_domf7"]
+[ext_resource type="Script" uid="uid://fh34a7pcmvj0" path="res://Scenes/Main Menu/Scripts/attribute_points.gd" id="5_edw5c"]
+[ext_resource type="Texture2D" uid="uid://d4nhk84km5ida" path="res://Art/Subtract.png" id="5_ohj3w"]
+[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="5_qqcgi"]
+[ext_resource type="Script" uid="uid://c21o4j75jbh1v" path="res://Scenes/Main Menu/Scripts/incrementer.gd" id="6_4602h"]
+[ext_resource type="Script" uid="uid://cc8bd18e8r42w" path="res://Scenes/Main Menu/Scripts/d_value.gd" id="6_5044s"]
+[ext_resource type="Script" uid="uid://yymbmkyxgqug" path="res://Scenes/Main Menu/Scripts/c_value.gd" id="7_46w1h"]
+[ext_resource type="Script" uid="uid://drwsd6etp3tum" path="res://Scenes/Main Menu/Scripts/i_value.gd" id="8_bh6ol"]
+[ext_resource type="Texture2D" uid="uid://bnqnqaegyfvdw" path="res://Art/Addition.png" id="8_kk8ou"]
+[ext_resource type="Script" uid="uid://duqd1mbme83c4" path="res://Scenes/Main Menu/Scripts/m_value.gd" id="8_upph2"]
+[ext_resource type="Script" uid="uid://bbad8nn53itfb" path="res://Scenes/Main Menu/Scripts/r_value.gd" id="9_upph2"]
+[ext_resource type="Script" uid="uid://t4ig2cjcvuf" path="res://Scenes/Main Menu/Scripts/p_value.gd" id="10_0yd13"]
+[ext_resource type="Script" uid="uid://cma23irun6xiu" path="res://Scenes/Main Menu/Scripts/defence_calculation.gd" id="11_hmdgn"]
+[ext_resource type="Script" uid="uid://bw38ouhtvuopd" path="res://Common_UI/next.gd" id="12_edw5c"]
+[ext_resource type="Script" uid="uid://c8aj8aebdkiaq" path="res://Scenes/Main Menu/perks_points.gd" id="15_4602h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kdubu"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_46w1h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bh6ol"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_0yd13"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_edw5c"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Start_Panel" type="Panel" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Load Character" type="Button" parent="MarginContainer/Start_Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -450.0
+offset_top = 300.0
+offset_right = 450.0
+offset_bottom = 450.0
+grow_horizontal = 2
+text = "Load Character"
+
+[node name="New Character" type="Button" parent="MarginContainer/Start_Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = -480.0
+offset_right = 450.0
+offset_bottom = -330.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "New Character"
+script = ExtResource("1_3mro0")
+
+[node name="Character_Creator" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("attributes_text", "skills_text", "perkGrid")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("2_tu7k8")
+attributes_text = [NodePath("Control/VBoxContainer/Attributes/Attributes2/Might"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Dexterity"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Endurance"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Perception"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Intelligence"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Resolve")]
+skills_text = [NodePath("Control/VBoxContainer/Skills/Skills2/Animal Handling"), NodePath("Control/VBoxContainer/Skills/Skills2/Athletics"), NodePath("Control/VBoxContainer/Skills/Skills2/Command"), NodePath("Control/VBoxContainer/Skills/Skills2/Craft"), NodePath("Control/VBoxContainer/Skills/Skills2/Insight"), NodePath("Control/VBoxContainer/Skills/Skills2/Investigation"), NodePath("Control/VBoxContainer/Skills/Skills2/Lore"), NodePath("Control/VBoxContainer/Skills/Skills2/Medicine"), NodePath("Control/VBoxContainer/Skills/Skills2/Sleight of Hand"), NodePath("Control/VBoxContainer/Skills/Skills2/Society"), NodePath("Control/VBoxContainer/Skills/Skills2/Speech"), NodePath("Control/VBoxContainer/Skills/Skills2/Stealth"), NodePath("Control/VBoxContainer/Skills/Skills2/Survival")]
+perkGrid = NodePath("Control/VBoxContainer/Perks/PerkGrid")
+
+[node name="Control" type="ScrollContainer" parent="MarginContainer/Character_Creator"]
+layout_mode = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Characteristics" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Who are you?" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Who are you?"
+label_settings = ExtResource("3_5cvai")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="What is your name?" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "What is your name?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+placeholder_text = "Your Name"
+alignment = 1
+max_length = 50
+expand_to_text_length = true
+
+[node name="What is your gender?" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "What is your gender?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GenderOptions" type="OptionButton" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+item_count = 3
+popup/item_0/text = "Female"
+popup/item_0/id = 0
+popup/item_1/text = "Male"
+popup/item_1/id = 1
+popup/item_2/text = "Other"
+popup/item_2/id = 2
+
+[node name="Your race?" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Your race?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RaceOptions" type="OptionButton" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="RaceText" type="RichTextLabel" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 2
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+selection_enabled = true
+
+[node name="RacePerk" type="RichTextLabel" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+layout_mode = 2
+
+[node name="Homeland" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Your Homeland?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HomelandOptions" type="OptionButton" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HomelandText" type="RichTextLabel" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 2
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+selection_enabled = true
+
+[node name="Background" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Your Background?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackgroundOptions" type="OptionButton" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="BackgroundText" type="RichTextLabel" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 2
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+selection_enabled = true
+
+[node name="Write a backstory" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Write a backstory"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Characteristics"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Attributes" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Attributes" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Attributes"
+label_settings = ExtResource("3_5cvai")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Explaination" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Assign attribute points"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PointsLeft" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/HBoxContainer"]
+layout_mode = 2
+text = "Points Left:"
+label_settings = SubResource("LabelSettings_bh6ol")
+
+[node name="AttributePoints" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/HBoxContainer" node_paths=PackedStringArray("sbs")]
+layout_mode = 2
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 5.0
+value = 5.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("5_edw5c")
+sbs = [NodePath("../../Attributes2/MValue"), NodePath("../../Attributes2/DValue"), NodePath("../../Attributes2/EValue"), NodePath("../../Attributes2/PValue"), NodePath("../../Attributes2/IValue"), NodePath("../../Attributes2/RValue")]
+maxValue = 15
+
+[node name="Attributes2" type="GridContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/h_separation = 25
+theme_override_constants/v_separation = 25
+columns = 6
+
+[node name="Might" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Might"
+label_settings = SubResource("LabelSettings_0yd13")
+
+[node name="Decementor" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../MValue")
+
+[node name="MValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("bonus1", "bonus2")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = 1.0
+max_value = 15.0
+value = 1.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("8_upph2")
+bonus1 = NodePath("../Damage")
+bonus2 = NodePath("../CarryWeight")
+
+[node name="Incrementer" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../MValue")
+
+[node name="Damage" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Damage & Healing = "
+suffix = "%"
+
+[node name="CarryWeight" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Carry Weight = "
+
+[node name="Dexterity" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Dexterity"
+label_settings = SubResource("LabelSettings_0yd13")
+
+[node name="Decementor2" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../DValue")
+
+[node name="DValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("bonus1", "bonus2")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = 1.0
+max_value = 15.0
+value = 1.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("6_5044s")
+bonus1 = NodePath("../ActionPoints")
+bonus2 = NodePath("../Speed")
+
+[node name="Incrementer2" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../DValue")
+
+[node name="ActionPoints" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Action Points ="
+
+[node name="Speed" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Speed ="
+
+[node name="Endurance" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Endurance"
+label_settings = SubResource("LabelSettings_0yd13")
+
+[node name="Decementor3" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../EValue")
+
+[node name="EValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("bonus1", "bonus2")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = 1.0
+max_value = 15.0
+value = 1.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("7_46w1h")
+bonus1 = NodePath("../Health")
+bonus2 = NodePath("../Vitality")
+
+[node name="Incrementer4" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../EValue")
+
+[node name="Health" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Health = "
+suffix = "x Level"
+
+[node name="Vitality" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Vitality = "
+suffix = "x Health"
+
+[node name="Perception" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Perception"
+label_settings = SubResource("LabelSettings_0yd13")
+
+[node name="Decementor4" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../PValue")
+
+[node name="PValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("bonus1", "bonus2")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = 1.0
+max_value = 15.0
+value = 1.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("10_0yd13")
+bonus1 = NodePath("../Accuracy")
+bonus2 = NodePath("../WeakspotDamage")
+
+[node name="Incrementer5" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../PValue")
+
+[node name="Accuracy" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Accuracy = "
+
+[node name="WeakspotDamage" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Weakspot Damage  = "
+
+[node name="Intelligence" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Intelligence"
+label_settings = SubResource("LabelSettings_0yd13")
+
+[node name="Decementor5" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../IValue")
+
+[node name="IValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("bonus1", "bonus2")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = 1.0
+max_value = 15.0
+value = 1.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("8_bh6ol")
+bonus1 = NodePath("../CCDifficulty")
+bonus2 = NodePath("../ManaGeneration")
+
+[node name="Incrementer6" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../IValue")
+
+[node name="CCDifficulty" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "CC Difficulty = "
+
+[node name="ManaGeneration" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Mana Generation = "
+
+[node name="Resolve" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Resolve"
+label_settings = SubResource("LabelSettings_0yd13")
+
+[node name="Decementor6" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../RValue")
+
+[node name="RValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("bonus1", "bonus2")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = 1.0
+max_value = 15.0
+value = 1.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("9_upph2")
+bonus1 = NodePath("../Concentration")
+bonus2 = NodePath("../CCDuration")
+
+[node name="Incrementer7" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../RValue")
+
+[node name="Concentration" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Concentration = "
+
+[node name="CCDuration" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Attributes2"]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "CC Duration = "
+suffix = "%"
+
+[node name="Defences" type="HBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 25
+
+[node name="Resistance" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Defences" node_paths=PackedStringArray("spb1", "spb2")]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Resistance = "
+script = ExtResource("11_hmdgn")
+spb1 = NodePath("../../Attributes2/MValue")
+spb2 = NodePath("../../Attributes2/EValue")
+
+[node name="Reflex" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Defences" node_paths=PackedStringArray("spb1", "spb2")]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Reflex = "
+script = ExtResource("11_hmdgn")
+spb1 = NodePath("../../Attributes2/DValue")
+spb2 = NodePath("../../Attributes2/PValue")
+
+[node name="Mind" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/Defences" node_paths=PackedStringArray("spb1", "spb2")]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+min_value = -1000.0
+max_value = 1000.0
+rounded = true
+alignment = 1
+editable = false
+prefix = "Mind = "
+script = ExtResource("11_hmdgn")
+spb1 = NodePath("../../Attributes2/IValue")
+spb2 = NodePath("../../Attributes2/RValue")
+
+[node name="Skills" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Skills" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Skills"
+label_settings = ExtResource("3_5cvai")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Explaination" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Assign attribute points. 
+A skills maximum is your level + 2, up until a skill reaches 15."
+label_settings = SubResource("LabelSettings_46w1h")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PointsLeft" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/HBoxContainer"]
+layout_mode = 2
+text = "Points Left:"
+label_settings = SubResource("LabelSettings_bh6ol")
+
+[node name="SkillPoints" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/HBoxContainer" node_paths=PackedStringArray("sbs")]
+layout_mode = 2
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 10.0
+value = 10.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("5_edw5c")
+sbs = [NodePath("../../Skills2/AnimalHandlingValue"), NodePath("../../Skills2/AthleticsValue"), NodePath("../../Skills2/CommandValue"), NodePath("../../Skills2/CraftValue"), NodePath("../../Skills2/InsightValue"), NodePath("../../Skills2/InvestigationValue"), NodePath("../../Skills2/LoreValue"), NodePath("../../Skills2/MedicineValue"), NodePath("../../Skills2/SleightOfHandValue"), NodePath("../../Skills2/SocietyValue"), NodePath("../../Skills2/SpeechValue"), NodePath("../../Skills2/StealthValue"), NodePath("../../Skills2/SurvivalValue")]
+maxValue = 3
+
+[node name="Skills2" type="GridContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 4
+
+[node name="Animal Handling" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "AnimalHandling"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor7" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../AnimalHandlingValue")
+
+[node name="AnimalHandlingValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer3" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../AnimalHandlingValue")
+
+[node name="Athletics" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Athletics"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor8" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../AthleticsValue")
+
+[node name="AthleticsValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer4" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../AthleticsValue")
+
+[node name="Command" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Command"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor9" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../CommandValue")
+
+[node name="CommandValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer5" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../CommandValue")
+
+[node name="Craft" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Craft"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor10" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../CraftValue")
+
+[node name="CraftValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer6" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../CraftValue")
+
+[node name="Insight" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Insight"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor11" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../InsightValue")
+
+[node name="InsightValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer7" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../InsightValue")
+
+[node name="Investigation" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Investigation"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor12" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../InvestigationValue")
+
+[node name="InvestigationValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer8" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../InvestigationValue")
+
+[node name="Lore" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Lore"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor13" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../LoreValue")
+
+[node name="LoreValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer9" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../LoreValue")
+
+[node name="Medicine" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Medicine"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor14" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../MedicineValue")
+
+[node name="MedicineValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer10" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../MedicineValue")
+
+[node name="Sleight of Hand" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Sleight of Hand"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor15" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../SleightOfHandValue")
+
+[node name="SleightOfHandValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer11" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../SleightOfHandValue")
+
+[node name="Society" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Society"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor16" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../SocietyValue")
+
+[node name="SocietyValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer12" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../SocietyValue")
+
+[node name="Speech" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Speech"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor17" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../SpeechValue")
+
+[node name="SpeechValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer13" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../SpeechValue")
+
+[node name="Stealth" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Stealth"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor18" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../StealthValue")
+
+[node name="StealthValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer14" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../StealthValue")
+
+[node name="Survival" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+text = "Survival"
+label_settings = SubResource("LabelSettings_edw5c")
+
+[node name="Decementor19" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("5_ohj3w")
+script = ExtResource("6_4602h")
+sb = NodePath("../SurvivalValue")
+
+[node name="SurvivalValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+rounded = true
+alignment = 1
+editable = false
+
+[node name="Incrementer15" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2" node_paths=PackedStringArray("sb")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+icon = ExtResource("8_kk8ou")
+script = ExtResource("6_4602h")
+increment = true
+sb = NodePath("../SurvivalValue")
+
+[node name="Perks" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Perks" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Perks"
+label_settings = ExtResource("3_5cvai")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Explaination" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Choose 3 perks"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PerksLeft" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks/HBoxContainer"]
+layout_mode = 2
+text = "Perks Left:"
+label_settings = SubResource("LabelSettings_bh6ol")
+
+[node name="PerksPoints" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks/HBoxContainer" node_paths=PackedStringArray("iList")]
+layout_mode = 2
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+value = 3.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("15_4602h")
+iList = NodePath("../../ItemList")
+
+[node name="CurrentlySelected" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Currently Selected:"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="ItemList" type="ItemList" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+tooltip_text = "Click on an item to remove"
+allow_search = false
+auto_width = true
+auto_height = true
+
+[node name="PerkGrid" type="GridContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer" node_paths=PackedStringArray("list", "next", "prev")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+script = ExtResource("12_edw5c")
+list = [NodePath("../Characteristics"), NodePath("../Attributes"), NodePath("../Skills"), NodePath("../Perks")]
+next = NodePath("Next")
+prev = NodePath("Prev")
+
+[node name="Prev" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Prev"
+
+[node name="Next" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Next"
+
+[node name="Header" parent="MarginContainer" instance=ExtResource("5_qqcgi")]
+layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="MarginContainer/Header"]
+custom_minimum_size = Vector2(97, 35)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Player"
+script = ExtResource("4_domf7")

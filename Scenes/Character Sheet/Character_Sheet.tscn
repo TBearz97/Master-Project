@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2bt2o84ygnf4"]
+
+[ext_resource type="Script" uid="uid://cl45wy3umvtxs" path="res://Scenes/Character Sheet/character_sheet.gd" id="1_73yjm"]
+[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="1_orawx"]
+
+[node name="CharacterSheet" type="Node2D"]
+script = ExtResource("1_73yjm")
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="MarginContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+
+[node name="Header" parent="Panel/MarginContainer" instance=ExtResource("1_orawx")]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="TabContainer" type="TabContainer" parent="Panel/MarginContainer/MarginContainer"]
+layout_mode = 2
+current_tab = 0
+
+[node name="Character Info" type="VBoxContainer" parent="Panel/MarginContainer/MarginContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Name" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+layout_mode = 2
+text = "Name:"
+
+[node name="Name_Field" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Gender" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+layout_mode = 2
+text = "Gender:"
+
+[node name="Gender_Field" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Race" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+layout_mode = 2
+text = "Race:"
+
+[node name="Race_Field" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Homeland" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+layout_mode = 2
+text = "Homeland:"
+
+[node name="Homeland_Field" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Background" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+layout_mode = 2
+text = "Background:"
+
+[node name="Background_Field" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Backstory" type="Label" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+layout_mode = 2
+text = "Backstory:"
+
+[node name="Backstory_Field" type="RichTextLabel" parent="Panel/MarginContainer/MarginContainer/TabContainer/Character Info"]
+unique_name_in_owner = true
+layout_mode = 2
