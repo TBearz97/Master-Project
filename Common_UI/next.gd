@@ -11,7 +11,7 @@ func _ready() -> void:
 	prev.pressed.connect(_prev)
 	
 func _next() -> void:
-	if idx < list.size():
+	if idx < list.size() - 1:
 		idx += 1
 		for v in list:
 			v.visible = false

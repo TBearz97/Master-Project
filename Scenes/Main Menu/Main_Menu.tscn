@@ -88,7 +88,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Characteristics" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1558,12 +1557,18 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 columns = 3
 
+[node name="StartingItems" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="Finished" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer" node_paths=PackedStringArray("list", "next", "prev")]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 script = ExtResource("12_edw5c")
-list = [NodePath("../Characteristics"), NodePath("../Attributes"), NodePath("../Skills"), NodePath("../Perks")]
+list = [NodePath("../Characteristics"), NodePath("../Attributes"), NodePath("../Skills"), NodePath("../Perks"), NodePath("../StartingItems"), NodePath("../Finished")]
 next = NodePath("Next")
 prev = NodePath("Prev")
 
