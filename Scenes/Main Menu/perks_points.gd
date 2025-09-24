@@ -2,10 +2,10 @@ extends SpinBox
 
 @export var iList : ItemList
 
-@onready var test : Control = %Character_Creator
+@onready var cc : Control = %Character_Creator
 
 func _ready() -> void:
-	test.perk_chosen.connect(_on_perk_chosen)
+	cc.perk_chosen.connect(_on_perk_chosen)
 	iList.item_selected.connect(_on_selected)
 	
 func _on_perk_chosen(perk: Dictionary) -> void:

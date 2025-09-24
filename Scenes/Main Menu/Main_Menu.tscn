@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://ckhhasvnjoxxk"]
+[gd_scene load_steps=25 format=3 uid="uid://ckhhasvnjoxxk"]
 
 [ext_resource type="Script" uid="uid://dkp3pwmbw2bpt" path="res://Scenes/Main Menu/Scripts/new_character.gd" id="1_3mro0"]
 [ext_resource type="Script" uid="uid://b57h4e0b7lmwk" path="res://Scenes/Main Menu/Scripts/DBHelper.gd" id="2_tu7k8"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://cma23irun6xiu" path="res://Scenes/Main Menu/Scripts/defence_calculation.gd" id="11_hmdgn"]
 [ext_resource type="Script" uid="uid://bw38ouhtvuopd" path="res://Common_UI/next.gd" id="12_edw5c"]
 [ext_resource type="Script" uid="uid://c8aj8aebdkiaq" path="res://Scenes/Main Menu/perks_points.gd" id="15_4602h"]
+[ext_resource type="Script" uid="uid://7bdv26ul6tlo" path="res://Scenes/Main Menu/Scripts/money.gd" id="16_kk8ou"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kdubu"]
 
@@ -68,7 +69,7 @@ grow_vertical = 0
 text = "New Character"
 script = ExtResource("1_3mro0")
 
-[node name="Character_Creator" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("attributes_text", "skills_text", "perkGrid")]
+[node name="Character_Creator" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("attributes_text", "skills_text", "perkGrid", "grid_weapons", "grid_armor", "grid_clothing", "grid_consumables", "grid_utility")]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_filter = 1
@@ -76,6 +77,11 @@ script = ExtResource("2_tu7k8")
 attributes_text = [NodePath("Control/VBoxContainer/Attributes/Attributes2/Might"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Dexterity"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Endurance"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Perception"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Intelligence"), NodePath("Control/VBoxContainer/Attributes/Attributes2/Resolve")]
 skills_text = [NodePath("Control/VBoxContainer/Skills/Skills2/Animal Handling"), NodePath("Control/VBoxContainer/Skills/Skills2/Athletics"), NodePath("Control/VBoxContainer/Skills/Skills2/Command"), NodePath("Control/VBoxContainer/Skills/Skills2/Craft"), NodePath("Control/VBoxContainer/Skills/Skills2/Insight"), NodePath("Control/VBoxContainer/Skills/Skills2/Investigation"), NodePath("Control/VBoxContainer/Skills/Skills2/Lore"), NodePath("Control/VBoxContainer/Skills/Skills2/Medicine"), NodePath("Control/VBoxContainer/Skills/Skills2/Sleight of Hand"), NodePath("Control/VBoxContainer/Skills/Skills2/Society"), NodePath("Control/VBoxContainer/Skills/Skills2/Speech"), NodePath("Control/VBoxContainer/Skills/Skills2/Stealth"), NodePath("Control/VBoxContainer/Skills/Skills2/Survival")]
 perkGrid = NodePath("Control/VBoxContainer/Perks/PerkGrid")
+grid_weapons = NodePath("Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer/WeaponGrid")
+grid_armor = NodePath("Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer/ArmorGrid")
+grid_clothing = NodePath("Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer/ClothingGrid")
+grid_consumables = NodePath("Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer/ConsumablesGrid")
+grid_utility = NodePath("Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer/UtilityGrid")
 
 [node name="Control" type="ScrollContainer" parent="MarginContainer/Character_Creator"]
 layout_mode = 1
@@ -88,6 +94,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Characteristics" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -266,8 +273,8 @@ label_settings = SubResource("LabelSettings_bh6ol")
 
 [node name="AttributePoints" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Attributes/HBoxContainer" node_paths=PackedStringArray("sbs")]
 layout_mode = 2
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -311,8 +318,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -344,8 +351,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -366,8 +373,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -401,8 +408,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -434,8 +441,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -455,8 +462,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -490,8 +497,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -523,8 +530,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -545,8 +552,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -581,8 +588,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -614,8 +621,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -635,8 +642,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -670,8 +677,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -703,8 +710,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -724,8 +731,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -759,8 +766,8 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -792,8 +799,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -813,8 +820,8 @@ custom_minimum_size = Vector2(225, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -841,8 +848,8 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -865,8 +872,8 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -889,8 +896,8 @@ custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -942,8 +949,8 @@ label_settings = SubResource("LabelSettings_bh6ol")
 
 [node name="SkillPoints" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/HBoxContainer" node_paths=PackedStringArray("sbs")]
 layout_mode = 2
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -983,8 +990,8 @@ sb = NodePath("../AnimalHandlingValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1023,8 +1030,8 @@ sb = NodePath("../AthleticsValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1063,8 +1070,8 @@ sb = NodePath("../CommandValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1103,8 +1110,8 @@ sb = NodePath("../CraftValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1143,8 +1150,8 @@ sb = NodePath("../InsightValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1183,8 +1190,8 @@ sb = NodePath("../InvestigationValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1223,8 +1230,8 @@ sb = NodePath("../LoreValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1263,8 +1270,8 @@ sb = NodePath("../MedicineValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1303,8 +1310,8 @@ sb = NodePath("../SleightOfHandValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1343,8 +1350,8 @@ sb = NodePath("../SocietyValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1383,8 +1390,8 @@ sb = NodePath("../SpeechValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1423,8 +1430,8 @@ sb = NodePath("../StealthValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1463,8 +1470,8 @@ sb = NodePath("../SurvivalValue")
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1518,8 +1525,8 @@ label_settings = SubResource("LabelSettings_bh6ol")
 
 [node name="PerksPoints" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks/HBoxContainer" node_paths=PackedStringArray("iList")]
 layout_mode = 2
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
@@ -1559,14 +1566,147 @@ columns = 3
 
 [node name="StartingItems" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="StartingItems" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Starting Equipment"
+label_settings = ExtResource("3_5cvai")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Explaination" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "You can choose items freely to a total cost of 300.
+Any money left is kept in your inventory"
+label_settings = SubResource("LabelSettings_46w1h")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MoneyLeft" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/HBoxContainer"]
+layout_mode = 2
+text = "Money Left:"
+label_settings = SubResource("LabelSettings_bh6ol")
+
+[node name="Money" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/HBoxContainer" node_paths=PackedStringArray("iList")]
+layout_mode = 2
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 300.0
+value = 300.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("16_kk8ou")
+iList = NodePath("../../ItemList")
+
+[node name="CurrentlySelected" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Currently Selected:"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="ItemList" type="ItemList" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Click on an item to remove"
+allow_search = false
+auto_width = true
+auto_height = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="Weapons" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Weapons"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="WeaponGrid" type="GridContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
+
+[node name="Armor" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Armor"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="ArmorGrid" type="GridContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
+
+[node name="Clothing" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Clothing"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="ClothingGrid" type="GridContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
+
+[node name="Consumables" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Consumables"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="ConsumablesGrid" type="GridContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
+
+[node name="Utility" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Utility"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="UtilityGrid" type="GridContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
 
 [node name="Finished" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer" node_paths=PackedStringArray("list", "next", "prev")]
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 6
+size_flags_vertical = 4
 script = ExtResource("12_edw5c")
 list = [NodePath("../Characteristics"), NodePath("../Attributes"), NodePath("../Skills"), NodePath("../Perks"), NodePath("../StartingItems"), NodePath("../Finished")]
 next = NodePath("Next")
