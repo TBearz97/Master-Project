@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://ckhhasvnjoxxk"]
+[gd_scene load_steps=26 format=3 uid="uid://ckhhasvnjoxxk"]
 
 [ext_resource type="Script" uid="uid://dkp3pwmbw2bpt" path="res://Scenes/Main Menu/Scripts/new_character.gd" id="1_3mro0"]
 [ext_resource type="Script" uid="uid://b57h4e0b7lmwk" path="res://Scenes/Main Menu/Scripts/DBHelper.gd" id="2_tu7k8"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://bw38ouhtvuopd" path="res://Common_UI/next.gd" id="12_edw5c"]
 [ext_resource type="Script" uid="uid://c8aj8aebdkiaq" path="res://Scenes/Main Menu/perks_points.gd" id="15_4602h"]
 [ext_resource type="Script" uid="uid://7bdv26ul6tlo" path="res://Scenes/Main Menu/Scripts/money.gd" id="16_kk8ou"]
+[ext_resource type="Script" uid="uid://bhlavjaalqvgv" path="res://Common_UI/create_character.gd" id="17_d2bkh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_kdubu"]
 
@@ -30,15 +31,29 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_edw5c"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Control"]
+custom_minimum_size = Vector2(800, 1000)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-offset_right = 1920.0
-offset_bottom = 1080.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Start_Panel" type="Panel" parent="MarginContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="Load Character" type="Button" parent="MarginContainer/Start_Panel"]
@@ -71,6 +86,7 @@ script = ExtResource("1_3mro0")
 
 [node name="Character_Creator" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("attributes_text", "skills_text", "perkGrid", "grid_weapons", "grid_armor", "grid_clothing", "grid_consumables", "grid_utility")]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 mouse_filter = 1
 script = ExtResource("2_tu7k8")
@@ -85,8 +101,17 @@ grid_utility = NodePath("Control/VBoxContainer/StartingItems/ScrollContainer/VBo
 
 [node name="Control" type="ScrollContainer" parent="MarginContainer/Character_Creator"]
 layout_mode = 1
-offset_right = 1920.0
-offset_bottom = 1080.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -507.0
+offset_right = 960.0
+offset_bottom = 507.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control"]
 layout_mode = 2
@@ -94,7 +119,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Characteristics" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -282,7 +306,6 @@ theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_constants/field_and_buttons_separation = -15
-max_value = 5.0
 value = 5.0
 rounded = true
 alignment = 1
@@ -958,14 +981,14 @@ theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_constants/field_and_buttons_separation = -15
-max_value = 10.0
+max_value = 200.0
 value = 10.0
 rounded = true
 alignment = 1
 editable = false
 script = ExtResource("5_edw5c")
 sbs = [NodePath("../../Skills2/AnimalHandlingValue"), NodePath("../../Skills2/AthleticsValue"), NodePath("../../Skills2/CommandValue"), NodePath("../../Skills2/CraftValue"), NodePath("../../Skills2/InsightValue"), NodePath("../../Skills2/InvestigationValue"), NodePath("../../Skills2/LoreValue"), NodePath("../../Skills2/MedicineValue"), NodePath("../../Skills2/SleightOfHandValue"), NodePath("../../Skills2/SocietyValue"), NodePath("../../Skills2/SpeechValue"), NodePath("../../Skills2/StealthValue"), NodePath("../../Skills2/SurvivalValue")]
-maxValue = 3
+maxValue = 15
 
 [node name="Skills2" type="GridContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills"]
 layout_mode = 2
@@ -987,6 +1010,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../AnimalHandlingValue")
 
 [node name="AnimalHandlingValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1027,6 +1051,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../AthleticsValue")
 
 [node name="AthleticsValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1067,6 +1092,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../CommandValue")
 
 [node name="CommandValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1107,6 +1133,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../CraftValue")
 
 [node name="CraftValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1147,6 +1174,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../InsightValue")
 
 [node name="InsightValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1187,6 +1215,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../InvestigationValue")
 
 [node name="InvestigationValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1227,6 +1256,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../LoreValue")
 
 [node name="LoreValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1267,6 +1297,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../MedicineValue")
 
 [node name="MedicineValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1307,6 +1338,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../SleightOfHandValue")
 
 [node name="SleightOfHandValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1347,6 +1379,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../SocietyValue")
 
 [node name="SocietyValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1387,6 +1420,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../SpeechValue")
 
 [node name="SpeechValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1427,6 +1461,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../StealthValue")
 
 [node name="StealthValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1467,6 +1502,7 @@ script = ExtResource("6_4602h")
 sb = NodePath("../SurvivalValue")
 
 [node name="SurvivalValue" type="SpinBox" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Skills/Skills2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -1540,7 +1576,7 @@ rounded = true
 alignment = 1
 editable = false
 script = ExtResource("15_4602h")
-iList = NodePath("../../ItemList")
+iList = NodePath("../../PerkList")
 
 [node name="CurrentlySelected" type="Label" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks"]
 layout_mode = 2
@@ -1548,7 +1584,8 @@ size_flags_horizontal = 4
 text = "Currently Selected:"
 label_settings = SubResource("LabelSettings_46w1h")
 
-[node name="ItemList" type="ItemList" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks"]
+[node name="PerkList" type="ItemList" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Perks"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -1565,6 +1602,7 @@ size_flags_vertical = 4
 columns = 3
 
 [node name="StartingItems" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1621,6 +1659,7 @@ text = "Currently Selected:"
 label_settings = SubResource("LabelSettings_46w1h")
 
 [node name="ItemList" type="ItemList" parent="MarginContainer/Character_Creator/Control/VBoxContainer/StartingItems"]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -1703,20 +1742,37 @@ columns = 3
 visible = false
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer" node_paths=PackedStringArray("list", "next", "prev")]
+[node name="Button" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Finished"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+text = "Test"
+script = ExtResource("17_d2bkh")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator" node_paths=PackedStringArray("list", "next", "prev")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -31.0
+offset_right = 46.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
 script = ExtResource("12_edw5c")
-list = [NodePath("../Characteristics"), NodePath("../Attributes"), NodePath("../Skills"), NodePath("../Perks"), NodePath("../StartingItems"), NodePath("../Finished")]
+list = [NodePath("../Control/VBoxContainer/Characteristics"), NodePath("../Control/VBoxContainer/Attributes"), NodePath("../Control/VBoxContainer/Skills"), NodePath("../Control/VBoxContainer/Perks"), NodePath("../Control/VBoxContainer/StartingItems"), NodePath("../Control/VBoxContainer/Finished")]
 next = NodePath("Next")
 prev = NodePath("Prev")
 
-[node name="Prev" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/HBoxContainer"]
+[node name="Prev" type="Button" parent="MarginContainer/Character_Creator/HBoxContainer"]
 layout_mode = 2
 text = "Prev"
 
-[node name="Next" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/HBoxContainer"]
+[node name="Next" type="Button" parent="MarginContainer/Character_Creator/HBoxContainer"]
 layout_mode = 2
 text = "Next"
 

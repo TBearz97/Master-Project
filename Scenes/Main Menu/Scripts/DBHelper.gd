@@ -137,7 +137,7 @@ func populate_weapons_grid(grid: GridContainer) -> void:
 
 	var sql := """
 		SELECT weapon AS name, size, COALESCE("range",'') AS range,
-		       COALESCE(qualities,'') AS qualities, weight, cost
+			   COALESCE(qualities,'') AS qualities, weight, cost
 		FROM Weapons
 		WHERE cost != 0
 	"""
@@ -289,7 +289,7 @@ func populate_consumables_grid(grid: GridContainer) -> void:
 
 	var sql := """
 		SELECT item AS name, type, COALESCE(hp_healed,0) AS hp,
-		       COALESCE(duration,'') AS duration, COALESCE(effect,'') AS effect,
+			   COALESCE(duration,'') AS duration, COALESCE(effect,'') AS effect,
 		       weight, cost, COALESCE(alcoholic,0) AS alcoholic,
 		       addiction_threshold
 		FROM Consumables
