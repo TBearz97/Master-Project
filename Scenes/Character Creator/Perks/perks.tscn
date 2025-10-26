@@ -1,0 +1,81 @@
+[gd_scene load_steps=6 format=3 uid="uid://dt7qowykvunv"]
+
+[ext_resource type="Script" uid="uid://d0tdoniwjxl2o" path="res://Scenes/Character Creator/Perks/perks.gd" id="1_dpehy"]
+[ext_resource type="LabelSettings" uid="uid://buyj44m37jgfw" path="res://Lable Settings/Title.tres" id="1_dw00v"]
+[ext_resource type="Script" uid="uid://c8aj8aebdkiaq" path="res://Scenes/Main Menu/perks_points.gd" id="2_dpehy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_46w1h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bh6ol"]
+
+[node name="Perks" type="VBoxContainer"]
+visible = false
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_dpehy")
+
+[node name="Perks" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Perks"
+label_settings = ExtResource("1_dw00v")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Explaination" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Choose 3 perks"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="PerksLeft" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Perks Left:"
+label_settings = SubResource("LabelSettings_bh6ol")
+
+[node name="PerksPoints" type="SpinBox" parent="HBoxContainer" node_paths=PackedStringArray("iList")]
+layout_mode = 2
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 3.0
+value = 3.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("2_dpehy")
+iList = NodePath("../../PerkList")
+
+[node name="CurrentlySelected" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Currently Selected:"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="PerkList" type="ItemList" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+tooltip_text = "Click on an item to remove"
+allow_search = false
+auto_width = true
+auto_height = true
+
+[node name="PerkGrid" type="GridContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
