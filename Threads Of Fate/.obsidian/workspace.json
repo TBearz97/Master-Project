@@ -28,7 +28,11 @@
               "type": "markdown",
               "state": {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                 "file": "8. Character Creation/8.4 Choosing your Background.md",
+=======
+                "file": "8. Character Creation/8.2 Choosing your Race.md",
+>>>>>>> Stashed changes
 =======
                 "file": "8. Character Creation/8.2 Choosing your Race.md",
 >>>>>>> Stashed changes
@@ -36,6 +40,7 @@
                 "source": false
               },
               "icon": "lucide-file",
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
               "title": "8.4 Choosing your Background"
             }
@@ -66,6 +71,9 @@
               },
               "icon": "lucide-file",
               "title": "8.5 Distributing Attributes"
+=======
+              "title": "8.2 Choosing your Race"
+>>>>>>> Stashed changes
 =======
               "title": "8.2 Choosing your Race"
 >>>>>>> Stashed changes
@@ -231,6 +239,7 @@
   "active": "1110e7cb1e4ea578",
   "lastOpenFiles": [
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "5. Equipment/5.7 Tools and Utility.md",
     "5. Equipment/5.8 Services.md",
     "5. Equipment/5.6 Consumables.md",
@@ -242,6 +251,9 @@
     "8. Character Creation/8.5 Distributing Attributes.md",
     "8. Character Creation/8.3 Choosing your Homeland.md",
     "8. Character Creation/8.2 Choosing your Race.md",
+=======
+    "8. Character Creation/8.12 Perks.md",
+>>>>>>> Stashed changes
 =======
     "8. Character Creation/8.12 Perks.md",
 >>>>>>> Stashed changes
@@ -267,6 +279,9 @@
     "3. Social/3.1 Social Encounters.md",
     "3. Social/3.3 Crafting - Incomplete.md",
     "TODO.md",
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     "Untitled.canvas",
     "Work in Progress",

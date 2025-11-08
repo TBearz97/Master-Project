@@ -28,9 +28,13 @@
   "publish": false,
   "sync": false,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   "webviewer": false,
   "footnotes": false,
   "bases": true
+=======
+  "webviewer": false
+>>>>>>> Stashed changes
 =======
   "webviewer": false
 >>>>>>> Stashed changes
