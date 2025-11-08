@@ -40,6 +40,47 @@ var attribute_points : int
 var skill_points : int
 var perk_points : int
 
+func new_Character() -> void:
+	# Character Info
+	character_name = ""
+	gender = ""
+	race = ""
+	homeland = ""
+	background = ""
+	backstory = ""
+
+	# Attributes (start at 1)
+	might = 1
+	dexterity = 1
+	endurance = 1
+	perception = 1
+	intelligence = 1
+	resolve = 1
+
+	# Skills (start at 0)
+	animalHandling = 0
+	athletics = 0
+	command = 0
+	craft = 0
+	insight = 0
+	investigation = 0
+	lore = 0
+	medicine = 0
+	sleightOfHand = 0
+	society = 0
+	speech = 0
+	stealth = 0
+	survival = 0
+
+	# Other
+	perks = []
+	inventory = []
+
+	# Level Up
+	attribute_points = 0
+	skill_points = 0
+	perk_points = 0
+
 func calculate_Damage_Healing_Bonus (MGT: int) -> int:
 	return (MGT - 1) * 5 
 

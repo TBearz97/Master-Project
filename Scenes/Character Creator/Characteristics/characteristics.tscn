@@ -1,0 +1,153 @@
+[gd_scene load_steps=4 format=3 uid="uid://clux31gwf6fb4"]
+
+[ext_resource type="Script" uid="uid://bjrfjkgyhyu0t" path="res://Scenes/Character Creator/Characteristics/characteristics.gd" id="1_cyax2"]
+[ext_resource type="LabelSettings" uid="uid://buyj44m37jgfw" path="res://Lable Settings/Title.tres" id="1_it6ys"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kdubu"]
+
+[node name="Characteristics" type="VBoxContainer"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_cyax2")
+
+[node name="Who are you?" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Who are you?"
+label_settings = ExtResource("1_it6ys")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="What is your name?" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "What is your name?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LineEdit" type="LineEdit" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+placeholder_text = "Your Name"
+alignment = 1
+max_length = 50
+expand_to_text_length = true
+
+[node name="What is your gender?" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "What is your gender?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GenderOptions" type="OptionButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+item_count = 3
+popup/item_0/text = "Female"
+popup/item_0/id = 0
+popup/item_1/text = "Male"
+popup/item_1/id = 1
+popup/item_2/text = "Other"
+popup/item_2/id = 2
+
+[node name="Your race?" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Your race?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RaceOptions" type="OptionButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="RaceText" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 2
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+selection_enabled = true
+
+[node name="RacePerk" type="RichTextLabel" parent="."]
+layout_mode = 2
+
+[node name="Homeland" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Your Homeland?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HomelandOptions" type="OptionButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="HomelandText" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 2
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+selection_enabled = true
+
+[node name="Background" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Your Background?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackgroundOptions" type="OptionButton" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="BackgroundText" type="RichTextLabel" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+focus_mode = 2
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+selection_enabled = true
+
+[node name="Write a backstory" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Write a backstory"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextEdit" type="TextEdit" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(400, 400)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4

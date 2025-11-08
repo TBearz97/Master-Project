@@ -1,0 +1,146 @@
+[gd_scene load_steps=6 format=3 uid="uid://cfa4auer58ypw"]
+
+[ext_resource type="LabelSettings" uid="uid://buyj44m37jgfw" path="res://Lable Settings/Title.tres" id="1_6cv70"]
+[ext_resource type="Script" uid="uid://tlt4mhrywjsd" path="res://Scenes/Character Creator/Items/items.gd" id="1_pefuq"]
+[ext_resource type="Script" uid="uid://7bdv26ul6tlo" path="res://Scenes/Main Menu/Scripts/money.gd" id="2_pefuq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_46w1h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bh6ol"]
+
+[node name="StartingItems" type="VBoxContainer"]
+visible = false
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_pefuq")
+
+[node name="StartingItems" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Starting Equipment"
+label_settings = ExtResource("1_6cv70")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Explaination" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "You can choose items freely to a total cost of 300.
+Any money left is kept in your inventory"
+label_settings = SubResource("LabelSettings_46w1h")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="MoneyLeft" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Money Left:"
+label_settings = SubResource("LabelSettings_bh6ol")
+
+[node name="Money" type="SpinBox" parent="HBoxContainer" node_paths=PackedStringArray("iList")]
+layout_mode = 2
+theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
+theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
+theme_override_constants/field_and_buttons_separation = -15
+max_value = 300.0
+value = 300.0
+rounded = true
+alignment = 1
+editable = false
+script = ExtResource("2_pefuq")
+iList = NodePath("../../ItemList")
+
+[node name="CurrentlySelected" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Currently Selected:"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="ItemList" type="ItemList" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+tooltip_text = "Click on an item to remove"
+allow_search = false
+auto_width = true
+auto_height = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="Weapons" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Weapons"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="WeaponGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
+
+[node name="Armor" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Armor"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="ArmorGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
+
+[node name="Clothing" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Clothing"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="ClothingGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
+
+[node name="Consumables" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Consumables"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="ConsumablesGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3
+
+[node name="Utility" type="Label" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Utility"
+label_settings = SubResource("LabelSettings_46w1h")
+
+[node name="UtilityGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 3

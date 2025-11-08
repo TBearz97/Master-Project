@@ -1,0 +1,120 @@
+[gd_scene load_steps=10 format=3 uid="uid://b4wh8rn6f86ia"]
+
+[ext_resource type="Script" uid="uid://b57h4e0b7lmwk" path="res://Scenes/Main Menu/Scripts/DBHelper.gd" id="1_x6i64"]
+[ext_resource type="PackedScene" uid="uid://clux31gwf6fb4" path="res://Scenes/Character Creator/Characteristics/characteristics.tscn" id="2_iuhi4"]
+[ext_resource type="PackedScene" uid="uid://6dqpucyhajkf" path="res://Scenes/Character Creator/Attributes/attributes.tscn" id="3_xw77k"]
+[ext_resource type="PackedScene" uid="uid://c43iptfbxwtyy" path="res://Scenes/Character Creator/Skills/skills.tscn" id="4_0crhb"]
+[ext_resource type="PackedScene" uid="uid://dt7qowykvunv" path="res://Scenes/Character Creator/Perks/perks.tscn" id="5_eyo8t"]
+[ext_resource type="PackedScene" uid="uid://cfa4auer58ypw" path="res://Scenes/Character Creator/Items/items.tscn" id="6_oy3el"]
+[ext_resource type="Script" uid="uid://bhlavjaalqvgv" path="res://Common_UI/create_character.gd" id="16_rgvvu"]
+[ext_resource type="Script" uid="uid://bw38ouhtvuopd" path="res://Common_UI/next.gd" id="17_doj14"]
+[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="18_sohxo"]
+
+[node name="Character_Creator" type="Control"]
+custom_minimum_size = Vector2(800, 1000)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Character_Creator" type="Panel" parent="MarginContainer" node_paths=PackedStringArray("attributes_text", "skills_text")]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 1
+script = ExtResource("1_x6i64")
+attributes_text = [null, null, null, null, null, null]
+skills_text = [null, null, null, null, null, null, null, null, null, null, null, null, null]
+
+[node name="Control" type="ScrollContainer" parent="MarginContainer/Character_Creator"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -507.0
+offset_right = 960.0
+offset_bottom = 507.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Characteristics" parent="MarginContainer/Character_Creator/Control/VBoxContainer" instance=ExtResource("2_iuhi4")]
+visible = false
+layout_mode = 2
+
+[node name="Attributes" parent="MarginContainer/Character_Creator/Control/VBoxContainer" instance=ExtResource("3_xw77k")]
+layout_mode = 2
+
+[node name="Skills" parent="MarginContainer/Character_Creator/Control/VBoxContainer" instance=ExtResource("4_0crhb")]
+layout_mode = 2
+
+[node name="Perks" parent="MarginContainer/Character_Creator/Control/VBoxContainer" instance=ExtResource("5_eyo8t")]
+layout_mode = 2
+
+[node name="StartingItems" parent="MarginContainer/Character_Creator/Control/VBoxContainer" instance=ExtResource("6_oy3el")]
+layout_mode = 2
+
+[node name="Finished" type="VBoxContainer" parent="MarginContainer/Character_Creator/Control/VBoxContainer"]
+layout_mode = 2
+
+[node name="CharacterSheet" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Finished"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Test"
+script = ExtResource("16_rgvvu")
+
+[node name="MainMenu" type="Button" parent="MarginContainer/Character_Creator/Control/VBoxContainer/Finished"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "Test"
+script = ExtResource("16_rgvvu")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Character_Creator" node_paths=PackedStringArray("list", "next", "prev")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -31.0
+offset_right = 46.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("17_doj14")
+list = [null, null, null, null, null, NodePath("../Control/VBoxContainer/Finished")]
+next = NodePath("Next")
+prev = NodePath("Prev")
+
+[node name="Prev" type="Button" parent="MarginContainer/Character_Creator/HBoxContainer"]
+layout_mode = 2
+text = "Prev"
+
+[node name="Next" type="Button" parent="MarginContainer/Character_Creator/HBoxContainer"]
+layout_mode = 2
+text = "Next"
+
+[node name="Header" parent="MarginContainer" instance=ExtResource("18_sohxo")]
+layout_mode = 2

@@ -39,6 +39,7 @@ func _ready():
 	populate_clothing_grid(grid_clothing)
 	populate_consumables_grid(grid_consumables)
 	populate_utility_grid(grid_utility)
+	PlayerVariables.new_Character()
 
 func fetch_table_options(table_name: String) -> Array:
 	var sql = "SELECT name, short_description, long_description FROM %s" % table_name
