@@ -8,9 +8,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="SpinBox" type="SpinBox" parent="."]
+[node name="ItemList" type="ItemList" parent="."]
 layout_mode = 0
-offset_right = 86.5625
-offset_bottom = 31.0
-min_value = 1.0
-value = 1.0
+offset_right = 417.0
+offset_bottom = 297.0
+item_count = 3
+max_columns = 2
+item_0/text = "Test1"
+item_1/text = "Test2"
+item_2/text = "Test3"

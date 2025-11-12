@@ -9,33 +9,18 @@ var background : String
 var backstory : String
 
 #Attributes
-var might : int
-var dexterity : int
-var endurance : int
-var perception : int
-var intelligence : int
-var resolve : int
+var attributes : Dictionary[String, int] = {}
 
 #Skills
-var animalHandling : int
-var athletics : int
-var command : int
-var craft : int
-var insight : int
-var investigation : int
-var lore : int
-var medicine : int
-var sleightOfHand : int
-var society : int
-var speech : int
-var stealth : int
-var survival : int
+var skills : Dictionary [String, int] = {}
 
 #Other
 var perks : Array[String]
 var inventory : Array[String]
+var money : int
 
 #Level Up
+var level : int
 var attribute_points : int
 var skill_points : int
 var perk_points : int
@@ -49,73 +34,22 @@ func new_Character() -> void:
 	background = ""
 	backstory = ""
 
-	# Attributes (start at 1)
-	might = 1
-	dexterity = 1
-	endurance = 1
-	perception = 1
-	intelligence = 1
-	resolve = 1
-
-	# Skills (start at 0)
-	animalHandling = 0
-	athletics = 0
-	command = 0
-	craft = 0
-	insight = 0
-	investigation = 0
-	lore = 0
-	medicine = 0
-	sleightOfHand = 0
-	society = 0
-	speech = 0
-	stealth = 0
-	survival = 0
-
+	#Attributes
+	attributes = {}
+	
+	#Skills
+	skills = {}
+	
 	# Other
 	perks = []
 	inventory = []
+	money = 300
 
 	# Level Up
-	attribute_points = 0
-	skill_points = 0
-	perk_points = 0
-
-func calculate_Damage_Healing_Bonus (MGT: int) -> int:
-	return (MGT - 1) * 5 
-
-func calculate_Carry_Weight (MGT: int) -> int:
-	return ((MGT - 1) * 5) + 75
-
-func calculate_Action_Points (DEX: int) -> int:
-	return DEX + 3
-	
-func calculate_Speed_Bonus (DEX: int) -> int:
-	return (DEX - 1) * 2
-	
-func calculate_Health_Bonus (END: int) -> int:
-	return END + 5
-	
-func calculate_Vitality_Bonus (END: int) -> int:
-	return (3 + floor((END - 1) / 3))
-
-func calculate_Effect_Difficulty (INT: int) -> int:
-	return floor((INT - 1) / 2) - 1
-
-func calculate_Mana_Generation (INT: int) -> int:
-	return INT
-
-func calculate_Concentration (RES: int) -> int:
-	return RES
-	
-func calculate_Effect_Duration (RES: int) -> int:
-	return (RES - 1) * 5
-
-func calculate_Accuracy (PER: int) -> int:
-	return floor((PER) / 2)
-
-func calculate_Weapspot_Damage (PER: int) -> int:
-	return PER
+	level = 1
+	attribute_points = 5
+	skill_points = 10
+	perk_points = 3
 	
 func calucalte_Defence (att1 : int, att2 : int):
 	return att1 + att2
@@ -127,47 +61,28 @@ func level_Up() -> void :
 
 func save() -> void:
 	var data = {
-  		"CharacterInfo": {
-	"character_name": character_name,
-	"gender": gender,
-	"race": race,
-	"homeland": homeland,
-	"background": background,
-	"backstory": backstory
-  		},
-  		"Attributes": {
-	"might": might,
-	"dexterity": dexterity,
-	"endurance": endurance,
-	"perception": perception,
-	"intelligence": intelligence,
-	"resolve": resolve
-  		},
-  		"Skills": {
-	"animalHandlig": animalHandling,
-	"athletics": athletics,
-	"command": command,
-	"craft": craft,
-	"insight": insight,
-	"investigation": investigation,
-	"lore": lore,
-	"medicine": medicine,
-	"sleightOfHand": sleightOfHand,
-	"society": society,
-	"speech": speech,
-	"stealth": stealth,
-	"survival": survival
-  		},
-  		"Other": {
-	"perks": perks,
-	"inventory": inventory
-  		},
-  		"LevelUp": {
-	"attribute_points": attribute_points,
-	"skill_points": skill_points,
-	"perk_points": perk_points
-  		}
-		}
+	"CharacterInfo": {
+		"character_name": character_name,
+		"gender": gender,
+		"race": race,
+		"homeland": homeland,
+		"background": background,
+		"backstory": backstory
+	},
+	"Attributes": attributes,
+	"Skills": skills,
+	"Other": {
+		"perks": perks,
+		"inventory": inventory,
+		"money": money
+	},
+	"LevelUp": {
+		"level" : level,
+		"attribute_points": attribute_points,
+		"skill_points": skill_points,
+		"perk_points": perk_points
+	}
+	}
 	var _file = FileAccess.open("user://characters" + character_name + ".json", FileAccess.WRITE)
 	_file.store_line(JSON.stringify(data))
 
@@ -183,34 +98,17 @@ func load(_name : String) -> void:
 	background = ci["background"]
 	backstory = ci["backstory"]
 
-	var attr = data["Attributes"]
-	might = attr["might"]
-	dexterity = attr["dexterity"]
-	endurance = attr["endurance"]
-	perception = attr["perception"]
-	intelligence = attr["intelligence"]
-	resolve = attr["resolve"]
+	attributes = data["Attributes"]
 
-	var skills = data["Skills"]
-	animalHandling = skills["animalHandling"]
-	athletics = skills["athletics"]
-	command = skills["command"]
-	craft = skills["craft"]
-	insight = skills["insight"]
-	investigation = skills["investigation"]
-	lore = skills["lore"]
-	medicine = skills["medicine"]
-	sleightOfHand = skills["sleightOfHand"]
-	society = skills["society"]
-	speech = skills["speech"]
-	stealth = skills["stealth"]
-	survival = skills["survival"]
+	skills = data["Skills"]
 
 	var other = data["Other"]
 	perks = other["perks"]
 	inventory = other["inventory"]
+	money = other["money"]
 
 	var lvl = data["LevelUp"]
+	level = lvl["level"]
 	attribute_points = lvl["attribute_points"]
 	skill_points = lvl["skill_points"]
 	perk_points = lvl["perk_points"]

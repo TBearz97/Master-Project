@@ -8,6 +8,7 @@
 [node name="Characteristics" type="VBoxContainer"]
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 20
 script = ExtResource("1_cyax2")
 
 [node name="Who are you?" type="Label" parent="."]
@@ -26,7 +27,7 @@ label_settings = SubResource("LabelSettings_kdubu")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LineEdit" type="LineEdit" parent="."]
+[node name="Name" type="LineEdit" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
@@ -56,86 +57,29 @@ popup/item_1/id = 1
 popup/item_2/text = "Other"
 popup/item_2/id = 2
 
-[node name="Your race?" type="Label" parent="."]
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Your race?"
-label_settings = SubResource("LabelSettings_kdubu")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="RaceOptions" type="OptionButton" parent="."]
+[node name="Race" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_constants/separation = 20
 
-[node name="RaceText" type="RichTextLabel" parent="."]
+[node name="Homeland" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 0)
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 4
-focus_mode = 2
-fit_content = true
-scroll_active = false
-horizontal_alignment = 1
-vertical_alignment = 1
-selection_enabled = true
+size_flags_vertical = 6
+theme_override_constants/separation = 20
 
-[node name="RacePerk" type="RichTextLabel" parent="."]
-layout_mode = 2
-
-[node name="Homeland" type="Label" parent="."]
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Your Homeland?"
-label_settings = SubResource("LabelSettings_kdubu")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HomelandOptions" type="OptionButton" parent="."]
+[node name="Background" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-
-[node name="HomelandText" type="RichTextLabel" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-focus_mode = 2
-fit_content = true
-scroll_active = false
-horizontal_alignment = 1
-vertical_alignment = 1
-selection_enabled = true
-
-[node name="Background" type="Label" parent="."]
-layout_mode = 2
-size_flags_horizontal = 6
-text = "Your Background?"
-label_settings = SubResource("LabelSettings_kdubu")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BackgroundOptions" type="OptionButton" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 4
-
-[node name="BackgroundText" type="RichTextLabel" parent="."]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(400, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-focus_mode = 2
-fit_content = true
-scroll_active = false
-horizontal_alignment = 1
-vertical_alignment = 1
-selection_enabled = true
+size_flags_vertical = 6
+theme_override_constants/separation = 20
 
 [node name="Write a backstory" type="Label" parent="."]
 layout_mode = 2
@@ -145,7 +89,7 @@ label_settings = SubResource("LabelSettings_kdubu")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TextEdit" type="TextEdit" parent="."]
+[node name="Backstory" type="TextEdit" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 400)
 layout_mode = 2

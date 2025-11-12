@@ -16,8 +16,6 @@ func _next() -> void:
 		for v in list:
 			v.visible = false
 		list[idx].visible = true
-	else :
-		print("test")
 
 func _prev() -> void:
 	if idx > 0:
@@ -25,5 +23,3 @@ func _prev() -> void:
 		for v in list:
 			v.visible = false
 		list[idx].visible = true
-	else :
-		print("TTEST")

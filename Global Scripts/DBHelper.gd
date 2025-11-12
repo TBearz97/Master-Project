@@ -79,9 +79,9 @@ func populate_weapons_grid(grid: GridContainer) -> void:
 	_clear_grid(grid)
 
 	var sql := """
-		SELECT weapon AS name, size, COALESCE("range",'') AS range,
+		SELECT item AS name, size, COALESCE("range",'') AS range,
 			   COALESCE(qualities,'') AS qualities, weight, cost
-		FROM Weapons
+		FROM Weapon
 		WHERE cost != 0
 	"""
 	var rows = db_fetch(sql)
@@ -231,7 +231,7 @@ func populate_consumables_grid(grid: GridContainer) -> void:
 			   COALESCE(duration,'') AS duration, COALESCE(effect,'') AS effect,
 		       weight, cost, COALESCE(alcoholic,0) AS alcoholic,
 		       addiction_threshold
-		FROM Consumables
+		FROM Consumable
 		ORDER BY type
 	"""
 	var rows = db_fetch(sql)
@@ -278,7 +278,7 @@ func populate_utility_grid(grid: GridContainer) -> void:
 
 	var sql := """
 		SELECT item AS name, category, COALESCE(effect,'') AS effect, weight, cost
-		FROM UtilityItems
+		FROM UtilityItem
 		ORDER BY category
 	"""
 	var rows = db_fetch(sql)
