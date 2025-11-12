@@ -1,18 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfa4auer58ypw"]
+[gd_scene load_steps=5 format=3 uid="uid://cfa4auer58ypw"]
 
 [ext_resource type="LabelSettings" uid="uid://buyj44m37jgfw" path="res://Lable Settings/Title.tres" id="1_6cv70"]
 [ext_resource type="Script" uid="uid://tlt4mhrywjsd" path="res://Scenes/Character Creator/Items/items.gd" id="1_pefuq"]
-[ext_resource type="Script" uid="uid://7bdv26ul6tlo" path="res://Scenes/Main Menu/Scripts/money.gd" id="2_pefuq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_46w1h"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bh6ol"]
 
-[node name="StartingItems" type="VBoxContainer"]
-visible = false
+[node name="StartingItems" type="VBoxContainer" node_paths=PackedStringArray("points", "selected", "weaponGrid", "armorGrid", "clothingGrid", "consumableGrid", "utilityItemGrid")]
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_pefuq")
+points = NodePath("HBoxContainer/Money")
+selected = NodePath("ItemList")
+weaponGrid = NodePath("ScrollContainer/ItemGrid/WeaponGrid")
+armorGrid = NodePath("ScrollContainer/ItemGrid/ArmorGrid")
+clothingGrid = NodePath("ScrollContainer/ItemGrid/ClothingGrid")
+consumableGrid = NodePath("ScrollContainer/ItemGrid/ConsumableGrid")
+utilityItemGrid = NodePath("ScrollContainer/ItemGrid/UtilityItemGrid")
 
 [node name="StartingItems" type="Label" parent="."]
 layout_mode = 2
@@ -40,7 +45,7 @@ layout_mode = 2
 text = "Money Left:"
 label_settings = SubResource("LabelSettings_bh6ol")
 
-[node name="Money" type="SpinBox" parent="HBoxContainer" node_paths=PackedStringArray("iList")]
+[node name="Money" type="SpinBox" parent="HBoxContainer"]
 layout_mode = 2
 theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
@@ -56,8 +61,6 @@ value = 300.0
 rounded = true
 alignment = 1
 editable = false
-script = ExtResource("2_pefuq")
-iList = NodePath("../../ItemList")
 
 [node name="CurrentlySelected" type="Label" parent="."]
 layout_mode = 2
@@ -66,7 +69,6 @@ text = "Currently Selected:"
 label_settings = SubResource("LabelSettings_46w1h")
 
 [node name="ItemList" type="ItemList" parent="."]
-unique_name_in_owner = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -80,67 +82,55 @@ auto_height = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="ItemGrid" type="GridContainer" parent="ScrollContainer"]
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 5
 
-[node name="Weapons" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Weapon" type="Label" parent="ScrollContainer/ItemGrid"]
 layout_mode = 2
-size_flags_horizontal = 4
 text = "Weapons"
-label_settings = SubResource("LabelSettings_46w1h")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="WeaponGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Armor" type="Label" parent="ScrollContainer/ItemGrid"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-columns = 3
+text = "Armors"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Armor" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Clothing" type="Label" parent="ScrollContainer/ItemGrid"]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "Armor"
-label_settings = SubResource("LabelSettings_46w1h")
+text = "Clothings"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="ArmorGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Consumable" type="Label" parent="ScrollContainer/ItemGrid"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-columns = 3
-
-[node name="Clothing" type="Label" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-text = "Clothing"
-label_settings = SubResource("LabelSettings_46w1h")
-
-[node name="ClothingGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-columns = 3
-
-[node name="Consumables" type="Label" parent="ScrollContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
 text = "Consumables"
-label_settings = SubResource("LabelSettings_46w1h")
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="ConsumablesGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="UtilityItem" type="Label" parent="ScrollContainer/ItemGrid"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-columns = 3
+text = "Utility Items"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Utility" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="WeaponGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "Utility"
-label_settings = SubResource("LabelSettings_46w1h")
 
-[node name="UtilityGrid" type="GridContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="ArmorGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-columns = 3
+
+[node name="ClothingGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
+layout_mode = 2
+
+[node name="ConsumableGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
+layout_mode = 2
+
+[node name="UtilityItemGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
+layout_mode = 2

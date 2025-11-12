@@ -18,6 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerVariables="*res://Global Scripts/player_variables.gd"
+DbHelper="*res://Global Scripts/DBHelper.gd"
+Expressions="*res://Global Scripts/expressions.gd"
 
 [display]
 
