@@ -1,14 +1,21 @@
-extends Node
+extends RichTextLabel
 
-@export var bttn : Button
-@export var sb : SpinBox
-@export var sb2 : SpinBox
+@export var btn : Button
 
 func _ready() -> void:
-	bttn.pressed.connect(_on_pressed.bind(sb, sb2))
+	bbcode_enabled = true
+	text = "Click this: Sword"
 
-func _on_pressed (dc : SpinBox, skill : SpinBox) :
-	var data = DbHelper.db_fetch("SELECT * FROM Test")
-	var _expression = data[0]["expression"]
-	print(Expressions.evaluate(_expression, ["DC", "SKILL"], [dc.value, skill.value]))
+	meta_clicked.connect(_on_meta_clicked)
+	btn.pressed.connect(_on_pressed)
+
+func _on_meta_clicked(meta):
+	print("Clicked:", meta)
 	
+func _on_pressed() :
+	var test = "Sword"
+	if text.contains(test) :
+		print("yes")
+		print(text)
+		text = text.replace(test, "[url=" + test +"]"+test+"[/url]")
+		print(text)

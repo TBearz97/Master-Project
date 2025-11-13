@@ -2,44 +2,86 @@ extends VBoxContainer
 
 @export var points : SpinBox
 @export var selected : ItemList
-@export var weaponGrid : GridContainer
-@export var armorGrid : GridContainer
-@export var clothingGrid : GridContainer
-@export var consumableGrid : GridContainer
-@export var utilityItemGrid : GridContainer
+@export var grid : GridContainer
 
 
 func _ready() -> void:
 	_setup()
 
-func _setup ():
-	DbHelper.item_chosen.connect(_on_item_chosen)
-	selected.item_selected.connect(_on_selected)
-	DbHelper.populate_weapons_grid(weaponGrid)
-	DbHelper.populate_armor_grid(armorGrid)
-	DbHelper.populate_clothing_grid(clothingGrid)
-	DbHelper.populate_consumables_grid(consumableGrid)
-	DbHelper.populate_utility_grid(utilityItemGrid)
-		
 
-func _on_item_chosen(perk: Dictionary) -> void:
-	if points.value - perk["cost"] >= 0:
+func _setup():
+	selected.item_selected.connect(_on_selected)
+	var types =  DbHelper.db_fetch("SELECT DISTINCT type FROM Item")
+	if not types.is_empty() :
+		grid.columns = types.size()
+	
+	for type in types :
+		var title = Label.new()
+		title.text = type["type"]
+		title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		grid.add_child(title)
+	
+	for type in types :
+		var items = DbHelper.db_fetch("SELECT * FROM '%s'" % type["type"])
+		var subGrid = GridContainer.new()
+		subGrid.columns = 4
+		subGrid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var lb1 = Label.new()
+		var lb2 = Label.new()
+		var lb3 = Label.new()
+		var lb4 = Label.new()
+		lb1.text = "Name"
+		lb2.text = "Weight"
+		lb3.text = "Cost"
+		lb4.text = ""
+		
+		subGrid.add_child(lb1)
+		subGrid.add_child(lb2)
+		subGrid.add_child(lb3)
+		subGrid.add_child(lb4)
+		grid.add_child(subGrid)
+		for item in items :
+			item.erase("ID")
+			var _name = Label.new()
+			_name.text = item["item"]
+			_name.mouse_filter = Control.MOUSE_FILTER_PASS
+			_name.tooltip_text = _dicToStr(item)
+			
+			var weight = Label.new()
+			weight.text = str(item["weight"])
+			
+			var cost = Label.new()
+			cost.text = str(item["cost"])
+			
+			var selectBtn = Button.new()
+			selectBtn.text = "Select"
+			selectBtn.pressed.connect(_on_item_chosen.bind(item))
+			
+			subGrid.add_child(_name)
+			subGrid.add_child(weight)
+			subGrid.add_child(cost)
+			subGrid.add_child(selectBtn)
+
+
+func _on_item_chosen(item: Dictionary) -> void:
+	if points.value - item["cost"] >= 0:
 		for i in selected.item_count:
 			var curr_Item = selected.get_item_text(i)
 			var parts = curr_Item.split(" x")
-			if parts[0] == perk["name"]:
+			if parts[0] == item["item"]:
 				var count := 1
 				if parts.size() > 1:
 					count = int(parts[1])
 				count += 1
 				selected.set_item_text(i, "%s x%d" % [parts[0], count])
-				selected.set_item_metadata(selected.item_count - 1, perk["cost"])
-				points.value -= perk["cost"]
+				selected.set_item_metadata(selected.item_count - 1, item)
+				points.value -= item["cost"]
 				return 
 		
-		var idx = selected.add_item(perk["name"])
-		selected.set_item_metadata(idx, perk)
-		points.value -= perk["cost"]
+		var idx = selected.add_item(item["item"])
+		selected.set_item_metadata(idx, item)
+		selected.set_item_tooltip(idx, _dicToStr(item))
+		points.value -= item["cost"]
 	
 func _on_selected(index: int) -> void:
 	var curr_Item = selected.get_item_text(index)
@@ -57,6 +99,12 @@ func _on_selected(index: int) -> void:
 		selected.remove_item(index)
 	
 
+func _dicToStr (dict : Dictionary) -> String :
+	var output = ""
+	for key in dict :
+		output = output + str(key) + ": " + str(dict[key]) + "\n"
+	return output
+
 func _item_exists(_iList : ItemList, _name : String) -> bool :
 	for i in range(_iList.item_count) :
 		if _iList.get_item_text(i) == _name:
@@ -68,4 +116,4 @@ func _save ():
 	for i in range(selected.item_count) :
 		items.append(selected.get_item_metadata(i))
 	PlayerVariables.inventory = items
-	PlayerVariables.money = points.value
+	PlayerVariables.money = int(points.value)

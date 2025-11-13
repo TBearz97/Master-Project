@@ -7,17 +7,13 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_bh6ol"]
 
-[node name="StartingItems" type="VBoxContainer" node_paths=PackedStringArray("points", "selected", "weaponGrid", "armorGrid", "clothingGrid", "consumableGrid", "utilityItemGrid")]
+[node name="StartingItems" type="VBoxContainer" node_paths=PackedStringArray("points", "selected", "grid")]
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_pefuq")
 points = NodePath("HBoxContainer/Money")
 selected = NodePath("ItemList")
-weaponGrid = NodePath("ScrollContainer/ItemGrid/WeaponGrid")
-armorGrid = NodePath("ScrollContainer/ItemGrid/ArmorGrid")
-clothingGrid = NodePath("ScrollContainer/ItemGrid/ClothingGrid")
-consumableGrid = NodePath("ScrollContainer/ItemGrid/ConsumableGrid")
-utilityItemGrid = NodePath("ScrollContainer/ItemGrid/UtilityItemGrid")
+grid = NodePath("ScrollContainer/ItemGrid")
 
 [node name="StartingItems" type="Label" parent="."]
 layout_mode = 2
@@ -89,48 +85,3 @@ size_flags_vertical = 3
 theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 20
 columns = 5
-
-[node name="Weapon" type="Label" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2
-text = "Weapons"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Armor" type="Label" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2
-text = "Armors"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Clothing" type="Label" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2
-text = "Clothings"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Consumable" type="Label" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2
-text = "Consumables"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="UtilityItem" type="Label" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2
-text = "Utility Items"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="WeaponGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2
-
-[node name="ArmorGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2
-
-[node name="ClothingGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2
-
-[node name="ConsumableGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2
-
-[node name="UtilityItemGrid" type="GridContainer" parent="ScrollContainer/ItemGrid"]
-layout_mode = 2

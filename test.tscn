@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://088v6uofm1qb"]
+[gd_scene load_steps=2 format=3 uid="uid://088v6uofm1qb"]
+
+[ext_resource type="Script" uid="uid://davdtbeathlla" path="res://test.gd" id="1_37kl0"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -8,12 +10,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ItemList" type="ItemList" parent="."]
+[node name="RichTextLabel" type="RichTextLabel" parent="." node_paths=PackedStringArray("btn")]
 layout_mode = 0
-offset_right = 417.0
-offset_bottom = 297.0
-item_count = 3
-max_columns = 2
-item_0/text = "Test1"
-item_1/text = "Test2"
-item_2/text = "Test3"
+offset_right = 479.0
+offset_bottom = 177.0
+bbcode_enabled = true
+script = ExtResource("1_37kl0")
+btn = NodePath("../Button")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 71.0
+offset_right = 225.0
+offset_bottom = 157.0
