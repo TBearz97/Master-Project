@@ -6,6 +6,7 @@ extends VBoxContainer
 
 func _ready() -> void:
 	_setup()
+	visibility_changed.connect(_save)
 
 func _setup ():
 	points.value = PlayerVariables.perk_points

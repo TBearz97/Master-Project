@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckhhasvnjoxxk"]
+[gd_scene load_steps=5 format=3 uid="uid://ckhhasvnjoxxk"]
 
 [ext_resource type="Script" uid="uid://dkp3pwmbw2bpt" path="res://Scenes/Main Menu/Scripts/new_character.gd" id="1_3mro0"]
+[ext_resource type="Script" uid="uid://cxht163ope10" path="res://Scenes/Main Menu/Scripts/load_character.gd" id="1_7w0ct"]
 [ext_resource type="Script" uid="uid://blq3xgnlp0vj6" path="res://Scenes/Main Menu/Scripts/GameMode.gd" id="4_domf7"]
 [ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="5_qqcgi"]
 
@@ -29,7 +30,7 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Load Character" type="Button" parent="MarginContainer/Start_Panel"]
+[node name="Load Character" type="Button" parent="MarginContainer/Start_Panel" node_paths=PackedStringArray("character_select")]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -40,6 +41,8 @@ offset_right = 450.0
 offset_bottom = 450.0
 grow_horizontal = 2
 text = "Load Character"
+script = ExtResource("1_7w0ct")
+character_select = NodePath("../../CharacterSelect/GridContainer")
 
 [node name="New Character" type="Button" parent="MarginContainer/Start_Panel"]
 layout_mode = 1
@@ -56,6 +59,26 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "New Character"
 script = ExtResource("1_3mro0")
+
+[node name="CharacterSelect" type="Panel" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/CharacterSelect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
 
 [node name="Header" parent="MarginContainer" instance=ExtResource("5_qqcgi")]
 layout_mode = 2

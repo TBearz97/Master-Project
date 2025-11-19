@@ -4,9 +4,11 @@ extends VBoxContainer
 @export var selected : ItemList
 @export var grid : GridContainer
 
+var inventory : Dictionary
 
 func _ready() -> void:
 	_setup()
+	visibility_changed.connect(_save)
 
 
 func _setup():
@@ -43,15 +45,15 @@ func _setup():
 		for item in items :
 			item.erase("ID")
 			var _name = DbHelper.prepareLabel(RichTextLabel.new(), true)
-			_name.text = DbHelper.replaceText(item["item"]) 
+			_name.text = item["item"]
 			_name.mouse_filter = Control.MOUSE_FILTER_PASS
 			_name.tooltip_text = _dicToStr(item)
 			
 			var weight = DbHelper.prepareLabel(RichTextLabel.new(), true)
-			weight.text = DbHelper.replaceText(str(item["weight"])) 
+			weight.text = str(item["weight"])
 			
 			var cost = DbHelper.prepareLabel(RichTextLabel.new(), true)
-			cost.text = DbHelper.replaceText(str(item["cost"])) 
+			cost.text = str(item["cost"])
 			
 			var selectBtn = Button.new()
 			selectBtn.text = "Select"
@@ -65,38 +67,31 @@ func _setup():
 
 func _on_item_chosen(item: Dictionary) -> void:
 	if points.value - item["cost"] >= 0:
-		for i in selected.item_count:
-			var curr_Item = selected.get_item_text(i)
-			var parts = curr_Item.split(" x")
-			if parts[0] == item["item"]:
-				var count := 1
-				if parts.size() > 1:
-					count = int(parts[1])
-				count += 1
-				selected.set_item_text(i, "%s x%d" % [parts[0], count])
-				selected.set_item_metadata(selected.item_count - 1, item)
-				points.value -= item["cost"]
-				return 
+		if !inventory.has(item) :
+			inventory[item] = 1
+			var idx = selected.add_item(str(item["item"]) + " x" + str(inventory[item]))
+			selected.set_item_metadata(idx, item)
+			selected.set_item_tooltip(idx, _dicToStr(item))
+		else :
+			inventory[item] = inventory[item] + 1
+			for i in range(selected.item_count) :
+				var parts = selected.get_item_text(i).split(" x")
+				if parts[0] == item["item"] :
+					selected.set_item_text(i, str(item["item"]) + " x" + str(inventory[item]))
 		
-		var idx = selected.add_item(item["item"])
-		selected.set_item_metadata(idx, item)
-		selected.set_item_tooltip(idx, _dicToStr(item))
 		points.value -= item["cost"]
 	
 func _on_selected(index: int) -> void:
-	var curr_Item = selected.get_item_text(index)
-	var parts = curr_Item.split(" x")
-	if parts.size() > 1:
-		var count = int(parts[1]) - 1
-		points.value += selected.get_item_metadata(index)["cost"]
-		if count == 1 :
-			selected.set_item_text(index, parts[0])
+	var item = selected.get_item_metadata(index)
+	if inventory.has(item) :
+		inventory[item] = inventory[item] - 1
+		if inventory[item] == 0 :
+			inventory.erase(item)
+			selected.remove_item(index)
 		else :
-			selected.set_item_text(index, "%s x%d" % [parts[0], count])
-		selected.deselect(index)
-	else :
-		points.value += selected.get_item_metadata(index)["cost"]
-		selected.remove_item(index)
+			selected.set_item_text(index, str(item["item"]) + " x" + str(inventory[item]))
+			selected.deselect(index)
+		points.value += item["cost"]
 	
 
 func _dicToStr (dict : Dictionary) -> String :
@@ -112,8 +107,5 @@ func _item_exists(_iList : ItemList, _name : String) -> bool :
 	return false
 
 func _save ():
-	var items = []
-	for i in range(selected.item_count) :
-		items.append(selected.get_item_metadata(i))
-	PlayerVariables.inventory = items
+	PlayerVariables.inventory = inventory
 	PlayerVariables.money = int(points.value)

@@ -20,8 +20,10 @@ func db_fetch(sql: String) -> Array:
 func prepareLabel(label : RichTextLabel, short : bool = true) -> RichTextLabel:
 	label.bbcode_enabled = true
 	label.fit_content = true
+	label.meta_underlined = false
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	label.meta_hover_started.connect(_on_meta_hovered.bind(label))
+	label.meta_hover_ended.connect(_on_meta_hovered_end.bind(label))
 	label.meta_clicked.connect(_on_meta_clicked)
 	if short :
 		label.scroll_active = false
@@ -36,7 +38,9 @@ func replaceText(text : String, ignore : String = "")  -> String:
 	for keyword in keywords :
 		if keyword["keyword"] != ignore and text.contains(keyword["keyword"]) :
 			var meta = encode_meta(keyword)
-			text = text.replace(keyword["keyword"], '[url=' + meta +']'+keyword["keyword"]+'[/url]')
+			text = text.replace(keyword["keyword"], '[url=' + meta + '][color=#EE4B2B]' + keyword["keyword"] + '[/color][/url]'
+
+)
 	return text
 
 func _on_meta_clicked(meta):
@@ -44,15 +48,14 @@ func _on_meta_clicked(meta):
 	var _window = ConfirmationDialog.new()
 	add_child(_window)
 	_window.title = data["keyword"]
-	var rtl = RichTextLabel.new()
-	rtl.bbcode_enabled = true
-	rtl.meta_clicked.connect(_on_meta_clicked)
+	var rtl = prepareLabel(RichTextLabel.new(), false)
+	rtl.fit_content = false
 	rtl.text = replaceText(data["long_description"], data["keyword"])
 	_window.add_child(rtl)
-	_window.size = Vector2(300, 300)
 	_window.get_cancel_button().visible = false
 	_window.get_ok_button().visible = false
 	_window.exclusive = false
+	_window.size = Vector2 (300, 300)
 	_window.popup()
 	_window.position = get_viewport().get_mouse_position()
 
@@ -61,6 +64,9 @@ func _on_meta_hovered(meta, label : RichTextLabel) :
 	label.mouse_filter = Control.MOUSE_FILTER_PASS
 	label.tooltip_text = data["short_description"]
 
+@warning_ignore("unused_parameter")
+func _on_meta_hovered_end(meta, label : RichTextLabel) :
+	label.tooltip_text = ""
 
 func encode_meta(dict : Dictionary) :
 	var json = JSON.stringify(dict)

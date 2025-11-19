@@ -21,6 +21,7 @@ func _find_characters():
 		bttn.custom_minimum_size = Vector2(700, 100)
 		bttn.pressed.connect(func():
 			PlayerVariables.load(_name)  # r contains name/short/long
+			PlayerVariables.print_character_info()
 			get_tree().change_scene_to_file("res://Scenes/Character Sheet/Character_Sheet.tscn")
 		)
 		var del = Button.new()
