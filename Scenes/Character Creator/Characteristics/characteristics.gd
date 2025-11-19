@@ -21,20 +21,12 @@ func _setup() :
 	
 
 func _race () :
-	var title = Label.new()
-	var description = Label.new()
-	var perkTitle = Label.new()
-	var perkDescription = Label.new()
-	
+	var title = DbHelper.prepareLabel(RichTextLabel.new())
+	var description = DbHelper.prepareLabel(RichTextLabel.new(), false)
+	var perkTitle = DbHelper.prepareLabel(RichTextLabel.new())
+	var perkDescription = DbHelper.prepareLabel(RichTextLabel.new(), false)
 	
 	title.text = "Your race?"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	perkTitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	
-	description.autowrap_mode = TextServer.AUTOWRAP_WORD
-	description.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	perkDescription.autowrap_mode = TextServer.AUTOWRAP_WORD
-	perkDescription.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	
 	var ob = OptionButton.new()
 	var popup = ob.get_popup()
@@ -45,11 +37,11 @@ func _race () :
 		popup.set_item_metadata(race["ID"] - 1, race)
 	ob.item_selected.connect(func (index: int):
 		var race = popup.get_item_metadata(index)
-		description.text = race["long_description"]
+		description.text = DbHelper.replaceText(race["long_description"]) 
 		
 		var perk = DbHelper.db_fetch("SELECT * FROM Perk WHERE name =" + "'" + race["perk"] + "'")
-		perkTitle.text = "Perk: " + perk[0]["name"]
-		perkDescription.text = perk[0]["long_description"]
+		perkTitle.text = DbHelper.replaceText("Perk: " + perk[0]["name"]) 
+		perkDescription.text = DbHelper.replaceText(perk[0]["long_description"]) 
 		)
 	ob.select(-1)
 	
@@ -60,20 +52,12 @@ func _race () :
 	raceGroup.add_child(perkDescription)
 
 func _homeland() :
-	var title = Label.new()
-	var description = Label.new()
-	var perkTitle = Label.new()
-	var perkDescription = Label.new()
-	
+	var title = DbHelper.prepareLabel(RichTextLabel.new())
+	var description = DbHelper.prepareLabel(RichTextLabel.new(), false)
+	var perkTitle = DbHelper.prepareLabel(RichTextLabel.new())
+	var perkDescription = DbHelper.prepareLabel(RichTextLabel.new(), false)
 	
 	title.text = "Your Homeland?"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	perkTitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	
-	description.autowrap_mode = TextServer.AUTOWRAP_WORD
-	description.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	perkDescription.autowrap_mode = TextServer.AUTOWRAP_WORD
-	perkDescription.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	
 	var ob = OptionButton.new()
 	var popup = ob.get_popup()
@@ -84,11 +68,11 @@ func _homeland() :
 		popup.set_item_metadata(homeland["ID"] - 1, homeland)
 	ob.item_selected.connect(func (index: int):
 		var homeland = popup.get_item_metadata(index)
-		description.text = homeland["long_description"]
+		description.text = DbHelper.replaceText(homeland["long_description"]) 
 		
 		var perk = DbHelper.db_fetch("SELECT * FROM Perk WHERE name =" + "'" + homeland["perk"] + "'")
-		perkTitle.text = "Perk: " + perk[0]["name"]
-		perkDescription.text = perk[0]["long_description"]
+		perkTitle.text = DbHelper.replaceText("Perk: " + perk[0]["name"]) 
+		perkDescription.text = DbHelper.replaceText(perk[0]["long_description"]) 
 		)
 	ob.select(-1)
 	
@@ -99,20 +83,13 @@ func _homeland() :
 	homelandGroup.add_child(perkDescription)
 
 func _background () :
-	var title = Label.new()
-	var description = Label.new()
-	var perkTitle = Label.new()
-	var perkDescription = Label.new()
+	var title = DbHelper.prepareLabel(RichTextLabel.new())
+	var description = DbHelper.prepareLabel(RichTextLabel.new(), false)
+	var perkTitle = DbHelper.prepareLabel(RichTextLabel.new())
+	var perkDescription = DbHelper.prepareLabel(RichTextLabel.new(), false)
 	
 	
-	title.text = "Your Background?"
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	perkTitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	
-	description.autowrap_mode = TextServer.AUTOWRAP_WORD
-	description.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	perkDescription.autowrap_mode = TextServer.AUTOWRAP_WORD
-	perkDescription.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.text = DbHelper.replaceText("Your Background?") 
 	
 	var ob = OptionButton.new()
 	var popup = ob.get_popup()
@@ -123,11 +100,11 @@ func _background () :
 		popup.set_item_metadata(background["ID"] - 1, background)
 	ob.item_selected.connect(func (index: int):
 		var background = popup.get_item_metadata(index)
-		description.text = background["long_description"]
+		description.text = DbHelper.replaceText(background["long_description"]) 
 		
 		var perk = DbHelper.db_fetch("SELECT * FROM Perk WHERE name =" + '"' + background["perk"] + '"')
-		perkTitle.text = "Perk: " + perk[0]["name"]
-		perkDescription.text = perk[0]["long_description"]
+		perkTitle.text = DbHelper.replaceText("Perk: " + perk[0]["name"]) 
+		perkDescription.text = DbHelper.replaceText(perk[0]["long_description"]) 
 		)
 	ob.select(-1)
 	

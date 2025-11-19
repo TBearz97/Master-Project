@@ -14,8 +14,8 @@ func _setup ():
 		grid.columns = categories.size()
 	
 	for category in categories :
-		var title = Label.new()
-		title.text = category["category"]
+		var title = DbHelper.prepareLabel(RichTextLabel.new(), true)
+		title.text = DbHelper.replaceText(category["category"])
 		title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		grid.add_child(title)
 		
@@ -26,11 +26,11 @@ func _setup ():
 		subGrid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(subGrid)
 		for perk in perks :
-			var _name = Label.new()
-			_name.text = perk["name"]
+			var _name = DbHelper.prepareLabel(RichTextLabel.new(), true)
+			_name.text = DbHelper.replaceText(perk["name"]) 
 			
-			var description = Label.new()
-			description.text = perk["long_description"]
+			var description = DbHelper.prepareLabel(RichTextLabel.new(), false)
+			description.text = DbHelper.replaceText(perk["long_description"]) 
 			description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			

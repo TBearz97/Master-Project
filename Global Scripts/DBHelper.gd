@@ -2,19 +2,83 @@ extends Node
 class_name DBHelper
 
 var db : SQLite
-
+var keywords : Array[Dictionary]
 
 func _ready():
 	db = SQLite.new()
+	keywords = db_fetch("SELECT * FROM Keyword ORDER BY LENGTH(keyword) DESC")
 
 func db_fetch(sql: String) -> Array:
 	db.path = "res://data/Codex.db"
+	db.verbosity_level = 0
 	db.open_db()
 
 	db.query(sql)
 	db.close_db()
 	return db.query_result  # Array of Dictionaries
 
+func prepareLabel(label : RichTextLabel, short : bool = true) -> RichTextLabel:
+	label.bbcode_enabled = true
+	label.fit_content = true
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.meta_hover_started.connect(_on_meta_hovered.bind(label))
+	label.meta_clicked.connect(_on_meta_clicked)
+	if short :
+		label.scroll_active = false
+		label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	else :
+		label.scroll_active = true
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	return label
+
+
+func replaceText(text : String, ignore : String = "")  -> String:
+	for keyword in keywords :
+		if keyword["keyword"] != ignore and text.contains(keyword["keyword"]) :
+			var meta = encode_meta(keyword)
+			text = text.replace(keyword["keyword"], '[url=' + meta +']'+keyword["keyword"]+'[/url]')
+	return text
+
+func _on_meta_clicked(meta):
+	var data = decode_meta(meta)
+	var _window = ConfirmationDialog.new()
+	add_child(_window)
+	_window.title = data["keyword"]
+	var rtl = RichTextLabel.new()
+	rtl.bbcode_enabled = true
+	rtl.meta_clicked.connect(_on_meta_clicked)
+	rtl.text = replaceText(data["long_description"], data["keyword"])
+	_window.add_child(rtl)
+	_window.size = Vector2(300, 300)
+	_window.get_cancel_button().visible = false
+	_window.get_ok_button().visible = false
+	_window.exclusive = false
+	_window.popup()
+	_window.position = get_viewport().get_mouse_position()
+
+func _on_meta_hovered(meta, label : RichTextLabel) :
+	var data = decode_meta(meta)
+	label.mouse_filter = Control.MOUSE_FILTER_PASS
+	label.tooltip_text = data["short_description"]
+
+
+func encode_meta(dict : Dictionary) :
+	var json = JSON.stringify(dict)
+	var bytes = json.to_utf8_buffer()
+	var meta = Marshalls.raw_to_base64(bytes)
+	return meta
+
+func decode_meta(_str : String) :
+	var bytes = Marshalls.base64_to_raw(_str)
+	var json = bytes.get_string_from_utf8()
+	var data = JSON.parse_string(json)
+	return data
+	
+
+## =============== HELPERS =================
+func _clear_grid(grid: GridContainer) -> void:
+	for c in grid.get_children():
+		c.queue_free()
 
 
 #Legacy Code
@@ -315,11 +379,11 @@ func db_fetch(sql: String) -> Array:
 		#)
 		#grid.add_child(btn)
 #
-## =============== HELPERS =================
+### =============== HELPERS =================
 #func _clear_grid(grid: GridContainer) -> void:
 	#for c in grid.get_children():
 		#c.queue_free()
-#
+
 #func _mk_label(txt: String, expand := false) -> Label:
 	#var lbl := Label.new()
 	#lbl.text = txt

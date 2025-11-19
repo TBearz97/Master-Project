@@ -18,21 +18,12 @@ func _setup () :
 	
 	for rows in _attributes :
 		#--- Label ---
-		var label = Label.new()
-		label.text = rows["name"]
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.mouse_filter = Control.MOUSE_FILTER_PASS
-		label.tooltip_text = rows["short_description"]
-		label.gui_input.connect(_on_Label_gui_input.bind(rows["name"], rows["long_description"]))
+		var label = DbHelper.prepareLabel(RichTextLabel.new(), true)
+		label.text = DbHelper.replaceText(rows["name"])
 		
 		#--- Bonuses ---
-		var bonus1 = Label.new()
-		bonus1.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		bonus1.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		var bonus2 = Label.new()
-		bonus2.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		bonus2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		var bonus1 = DbHelper.prepareLabel(RichTextLabel.new(), true)
+		var bonus2 = DbHelper.prepareLabel(RichTextLabel.new(), true)
 		
 		#--- SpinBox ---
 		var sb = SpinBox.new()
@@ -63,9 +54,9 @@ func _save () :
 	PlayerVariables.attribute_points = int(points.value)
 
 # ---- Helpers ----
-func _on_value_changed(new_value: int, bonus1 : Label, bonus2 : Label, rows : Dictionary, sb : SpinBox) -> void:
-	bonus1.text = rows["bonus_1_prefix"] + " " + str(Expressions.evaluate(rows["bonus_1_expression"], ["x"], [new_value])) + " " + rows["bonus_1_suffix"]
-	bonus2.text = rows["bonus_2_prefix"] + " " + str(Expressions.evaluate(rows["bonus_2_expression"], ["x"], [new_value])) +  " " + rows["bonus_2_suffix"]
+func _on_value_changed(new_value: int, bonus1 : RichTextLabel, bonus2 : RichTextLabel, rows : Dictionary, sb : SpinBox) -> void:
+	bonus1.text = DbHelper.replaceText(rows["bonus_1_prefix"] + " " + str(Expressions.evaluate(rows["bonus_1_expression"], ["x"], [new_value])) + " " + rows["bonus_1_suffix"])
+	bonus2.text = DbHelper.replaceText(rows["bonus_2_prefix"] + " " + str(Expressions.evaluate(rows["bonus_2_expression"], ["x"], [new_value])) + " " + rows["bonus_2_suffix"])
 	
 	if new_value > prev[sb] :
 		points.value -= 1
@@ -80,17 +71,3 @@ func _on_value_changed(new_value: int, bonus1 : Label, bonus2 : Label, rows : Di
 	else : 
 		for key in prev :
 			key.max_value = _max
-
-func _on_Label_gui_input(event: InputEvent, attribute : String, description : String):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			var _window = ConfirmationDialog.new()
-			add_child(_window)
-			_window.title = attribute
-			_window.get_label().text = description
-			_window.get_label().autowrap_mode = TextServer.AUTOWRAP_WORD
-			_window.get_cancel_button().visible = false
-			_window.get_ok_button().visible = false
-			_window.popup_centered()
-			_window.focus_exited.connect(func ():
-				_window.hide())

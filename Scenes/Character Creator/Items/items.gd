@@ -16,8 +16,8 @@ func _setup():
 		grid.columns = types.size()
 	
 	for type in types :
-		var title = Label.new()
-		title.text = type["type"]
+		var title = DbHelper.prepareLabel(RichTextLabel.new(), true)
+		title.text = DbHelper.replaceText(type["type"]) 
 		title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		grid.add_child(title)
 	
@@ -42,16 +42,16 @@ func _setup():
 		grid.add_child(subGrid)
 		for item in items :
 			item.erase("ID")
-			var _name = Label.new()
-			_name.text = item["item"]
+			var _name = DbHelper.prepareLabel(RichTextLabel.new(), true)
+			_name.text = DbHelper.replaceText(item["item"]) 
 			_name.mouse_filter = Control.MOUSE_FILTER_PASS
 			_name.tooltip_text = _dicToStr(item)
 			
-			var weight = Label.new()
-			weight.text = str(item["weight"])
+			var weight = DbHelper.prepareLabel(RichTextLabel.new(), true)
+			weight.text = DbHelper.replaceText(str(item["weight"])) 
 			
-			var cost = Label.new()
-			cost.text = str(item["cost"])
+			var cost = DbHelper.prepareLabel(RichTextLabel.new(), true)
+			cost.text = DbHelper.replaceText(str(item["cost"])) 
 			
 			var selectBtn = Button.new()
 			selectBtn.text = "Select"

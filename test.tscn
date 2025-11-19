@@ -12,9 +12,12 @@ grow_vertical = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="." node_paths=PackedStringArray("btn")]
 layout_mode = 0
-offset_right = 479.0
-offset_bottom = 177.0
+offset_left = 191.0
+offset_top = 251.0
+offset_right = 847.0
+offset_bottom = 692.0
 bbcode_enabled = true
+text = "Might"
 script = ExtResource("1_37kl0")
 btn = NodePath("../Button")
 
