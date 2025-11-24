@@ -48,6 +48,7 @@ func _setup():
 			_name.text = item["item"]
 			_name.mouse_filter = Control.MOUSE_FILTER_PASS
 			_name.tooltip_text = _dicToStr(item)
+			_name.gui_input.connect(_on_Label_gui_input.bind(item))
 			
 			var weight = DbHelper.prepareLabel(RichTextLabel.new(), true)
 			weight.text = str(item["weight"])
@@ -93,6 +94,21 @@ func _on_selected(index: int) -> void:
 			selected.deselect(index)
 		points.value += item["cost"]
 	
+
+func _on_Label_gui_input(event: InputEvent, item : Dictionary):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			var _window = ConfirmationDialog.new()
+			add_child(_window)
+			_window.title = item["item"]
+			_window.get_label().text = _dicToStr(item)
+			_window.get_label().autowrap_mode = TextServer.AUTOWRAP_WORD
+			_window.get_cancel_button().visible = false
+			_window.get_ok_button().visible = false
+			_window.popup()
+			_window.position = get_viewport().get_mouse_position()
+			_window.focus_exited.connect(func ():
+				_window.hide())
 
 func _dicToStr (dict : Dictionary) -> String :
 	var output = ""

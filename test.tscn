@@ -11,6 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="." node_paths=PackedStringArray("btn")]
+visible = false
 layout_mode = 0
 offset_left = 191.0
 offset_top = 251.0
@@ -27,3 +28,32 @@ offset_left = 42.0
 offset_top = 71.0
 offset_right = 225.0
 offset_bottom = 157.0
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_left = 555.0
+offset_top = 320.0
+offset_right = 862.0
+offset_bottom = 503.0
+item_count = 8
+max_columns = 4
+same_column_width = true
+item_0/text = "Name"
+item_0/selectable = false
+item_0/disabled = true
+item_1/text = "Weight"
+item_1/selectable = false
+item_1/disabled = true
+item_2/text = "Cost"
+item_2/selectable = false
+item_2/disabled = true
+item_3/text = " "
+item_3/selectable = false
+item_3/disabled = true
+item_4/text = "Axe"
+item_4/selectable = false
+item_5/text = "8.0"
+item_5/selectable = false
+item_6/text = "5g"
+item_6/selectable = false
+item_7/text = "Select"
