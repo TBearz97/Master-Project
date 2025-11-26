@@ -116,19 +116,19 @@ func _background () :
 
 func _save():
 	# Basic information
-	PlayerVariables.character_name = character_name.text
+	PlayerVariables.setName(character_name.text) 
 	if genderOb.selected != -1 :
-		PlayerVariables.gender = genderOb.get_item_text(genderOb.selected)
+		PlayerVariables.setGender(genderOb.get_item_text(genderOb.selected)) 
 	for child in raceGroup.get_children() :
 		if child is OptionButton :
 			if child.selected != -1 :
-				PlayerVariables.race = child.get_item_text(child.selected)
+				PlayerVariables.setRace(child.get_item_text(child.selected)) 
 	for child in homelandGroup.get_children() :
 		if child is OptionButton :
 			if child.selected != -1 :
-				PlayerVariables.homeland = child.get_item_text(child.selected)
+				PlayerVariables.setHomeland(child.get_item_text(child.selected)) 
 	for child in backgroundGroup.get_children() :
 		if child is OptionButton :
 			if child.selected != -1 :
-				PlayerVariables.background = child.get_item_text(child.selected)
-	PlayerVariables.backstory = backstory.text
+				PlayerVariables.setBackground(child.get_item_text(child.selected)) 
+	PlayerVariables.setBackstory(backstory.text) 

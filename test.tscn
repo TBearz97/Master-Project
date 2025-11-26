@@ -57,3 +57,8 @@ item_5/selectable = false
 item_6/text = "5g"
 item_6/selectable = false
 item_7/text = "Select"
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 0
+offset_right = 86.5625
+offset_bottom = 31.0

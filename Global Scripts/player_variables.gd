@@ -1,152 +1,170 @@
 extends Node
 
-#Character Info
-var character_name : String
-var gender : String
-var race : String
-var homeland : String
-var background : String
-var backstory : String
+var data : PlayerData
+# Character Info
+func setName(value: String) -> void:
+	data.character_name = value
 
-#Attributes
-var attributes : Dictionary = {}
+func getName() -> String:
+	return data.character_name
 
-#Skills
-var skills : Dictionary = {}
+func setGender(value: String) -> void:
+	data.gender = value
 
-#Other
-var perks : Array
-var inventory : Dictionary
-var money : int
+func getGender() -> String:
+	return data.gender
 
-#Level Up
-var level : int
-var attribute_points : int
-var skill_points : int
-var perk_points : int
+func setRace(value: String) -> void:
+	data.race = value
 
-func new_Character() -> void:
-	# Character Info
-	character_name = ""
-	gender = ""
-	race = ""
-	homeland = ""
-	background = ""
-	backstory = ""
+func getRace() -> String:
+	return data.race
 
-	#Attributes
-	attributes = {}
-	
-	#Skills
-	skills = {}
-	
-	# Other
-	perks = []
-	inventory = {}
-	money = 300
+func setHomeland(value: String) -> void:
+	data.homeland = value
 
-	# Level Up
-	level = 1
-	attribute_points = 5
-	skill_points = 10
-	perk_points = 3
-	
+func getHomeland() -> String:
+	return data.homeland
+
+func setBackground(value: String) -> void:
+	data.background = value
+
+func getBackground() -> String:
+	return data.background
+
+func setBackstory(value: String) -> void:
+	data.backstory = value
+
+func getBackstory() -> String:
+	return data.backstory
+
+
+# Attributes
+func setAttributes(value: Array) -> void:
+	data.attributes = value
+
+func getAttributes() -> Array:
+	return data.attributes
+
+
+# Skills
+func setSkills(value: Array) -> void:
+	data.skills = value
+
+func getSkills() -> Array:
+	return data.skills
+
+
+# Perks
+func setPerks(value: Array[Perk]) -> void:
+	data.perks = value
+
+func getPerks() -> Array:
+	return data.perks
+
+
+# Inventory
+func setInventory(value: Dictionary) -> void:
+	data.inventory = value
+
+func getInventory() -> Dictionary:
+	return data.inventory
+
+
+# Money
+func setMoney(value: int) -> void:
+	data.money = value
+
+func getMoney() -> int:
+	return data.money
+
+
+# Level Up
+func setLevel(value: int) -> void:
+	data.level = value
+
+func getLevel() -> int:
+	return data.level
+
+func setAttributePoints(value: int) -> void:
+	data.attribute_points = value
+
+func getAttributePoints() -> int:
+	return data.attribute_points
+
+func setSkillPoints(value: int) -> void:
+	data.skill_points = value
+
+func getSkillPoints() -> int:
+	return data.skill_points
+
+func setPerkPoints(value: int) -> void:
+	data.perk_points = value
+
+func getPerkPoints() -> int:
+	return data.perk_points
+
 func calucalte_Defence (att1 : int, att2 : int):
 	return att1 + att2
 
 func level_Up() -> void :
-	attribute_points += 1
-	skill_points += 2
-	perk_points += 1
+	data.attribute_points += 1
+	data.skill_points += 2
+	data.perk_points += 1
 
 func save() -> void:
-	var data = {
-	"CharacterInfo": {
-		"character_name": character_name,
-		"gender": gender,
-		"race": race,
-		"homeland": homeland,
-		"background": background,
-		"backstory": backstory
-	},
-	"Attributes": attributes,
-	"Skills": skills,
-	"Other": {
-		"perks": perks,
-		"inventory": inventory,
-		"money": money
-	},
-	"LevelUp": {
-		"level" : level,
-		"attribute_points": attribute_points,
-		"skill_points": skill_points,
-		"perk_points": perk_points
-	}
-	}
-	var _file = FileAccess.open("user://characters/" + character_name + ".json", FileAccess.WRITE)
-	_file.store_line(JSON.stringify(data))
+	var path = "user://characters/" + data.character_name + ".res"
+	var err = ResourceSaver.save(data, path)
+	if err != OK:
+		push_error("Failed to save player data. Error code: %s" % err)
 
-func load(_name : String) -> void:
-	var file = FileAccess.open("user://characters/" + _name + ".json", FileAccess.READ)
-	var data = JSON.parse_string(file.get_as_text())
-	# Assign values back to variables
-	var ci = data["CharacterInfo"]
-	character_name = ci["character_name"]
-	gender = ci["gender"]
-	race = ci["race"]
-	homeland = ci["homeland"]
-	background = ci["background"]
-	backstory = ci["backstory"]
-	
-	attributes = data["Attributes"]
-	
-	skills = data["Skills"]
+func load(_name : String) :
+	var path = "user://characters/" + _name + ".res"
+	data = ResourceLoader.load(path)
+	if not FileAccess.file_exists(path):
+		push_error("File %s does not exist" % path)
 
-	var other = data["Other"]
-	perks = other["perks"]
-	inventory = other["inventory"]
-	money = other["money"]
-
-	var lvl = data["LevelUp"]
-	level = lvl["level"]
-	attribute_points = lvl["attribute_points"]
-	skill_points = lvl["skill_points"]
-	perk_points = lvl["perk_points"]
+	var res := ResourceLoader.load(path)
+	if res is PlayerData:
+		data = res
+	else:
+		push_error("Save file %s is not a PlayerData resource" % path)
 
 func print_character_info() -> void:
 	print("Character Info")
-	print("Name: ", character_name)
-	print("Gender: ", gender)
-	print("Race: ", race)
-	print("Homeland: ", homeland)
-	print("Background: ", background)
-	print("Backstory: ", backstory)
+	print("Name: ", data.character_name)
+	print("Gender: ", data.gender)
+	print("Race: ", data.race)
+	print("Homeland: ", data.homeland)
+	print("Background: ", data.background)
+	print("Backstory: ", data.backstory)
 	print("")
 
 	print("Attributes")
-	for key in attributes.keys():
-		print("  ", key, ": ", attributes[key])
+	for p in data.attributes:
+		print("  ", p._name + ": " + str(p.value))
 	print("")
 
 	print("Skills")
-	for key in skills.keys():
-		print("  ", key, ": ", skills[key])
+	for p in data.skills:
+		print("  ", p._name + ": " + str(p.value))
 	print("")
 
 	print("Perks")
-	for p in perks:
-		print("  ", p)
+	for p in data.perks:
+		print("  ", p._name)
 	print("")
 
 	print("Inventory")
-	print("  ", inventory)
+	for i in data.inventory:
+		print("  ", i._name + ": " + str(data.inventory[i]))
 	print("")
 
-	print("Money: ", money)
+	print("Money: ", data.money)
 	print("")
 
 	print("Level Up")
-	print("  Level: ", level)
-	print("  Attribute Points: ", attribute_points)
-	print("  Skill Points: ", skill_points)
-	print("  Perk Points: ", perk_points)
+	print("  Level: ", data.level)
+	print("  Attribute Points: ", data.attribute_points)
+	print("  Skill Points: ", data.skill_points)
+	print("  Perk Points: ", data.perk_points)

@@ -2,9 +2,8 @@ extends VBoxContainer
 
 @export var grid : GridContainer
 @export var points : SpinBox
-@export var _max : int
 
-var attributes : Dictionary[String, int] = {}
+var attributes = PlayerVariables.getAttributes()
 var spinBoxes : Array[SpinBox] = []
 var prev = {}
 
@@ -13,10 +12,22 @@ func _ready() -> void:
 	_setup()
 
 func _setup () :
-	points.value = PlayerVariables.attribute_points
+	points.value = PlayerVariables.getAttributePoints()
 	var _attributes = DbHelper.db_fetch("SELECT * FROM Attribute")
 	
 	for rows in _attributes :
+		var attribute = Attribute.new(
+		rows["name"],
+		0,
+		rows["short_description"],
+		rows["long_description"],
+		rows["bonus_1_prefix"],
+		rows["bonus_2_prefix"],
+		rows["bonus_1_expression"],
+		rows["bonus_2_expression"],
+		rows["bonus_1_suffix"],
+		rows["bonus_2_suffix"]
+	)
 		#--- Label ---
 		var label = DbHelper.prepareLabel(RichTextLabel.new(), true)
 		label.text = DbHelper.replaceText(rows["name"])
@@ -29,11 +40,11 @@ func _setup () :
 		var sb = SpinBox.new()
 		spinBoxes.append(sb)
 		sb.tooltip_text = rows["name"]
+		sb.set_meta(sb.tooltip_text.replace(" ", ""), attribute)
 		sb.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sb.min_value = 1
-		sb.max_value = _max
-		if PlayerVariables.attributes.has(rows["name"]) :
-			sb.value = PlayerVariables.attributes[rows["name"]]
+		if attributes.any(func(a): return a.name == rows["name"]):
+			sb.value = attributes[attributes.find_custom(func(a): return a.name == rows["name"])].value
 		sb.rounded = true
 		sb.step = 1
 		prev[sb] = 1
@@ -49,25 +60,30 @@ func _setup () :
 
 func _save () :
 	for sb in spinBoxes :
-		attributes[sb.tooltip_text] = int(sb.value)
-	PlayerVariables.attributes = attributes
-	PlayerVariables.attribute_points = int(points.value)
+		var _name = sb.tooltip_text
+		if attributes.any(func(a): return a._name == _name):
+			attributes[attributes.find_custom(func(a): return a._name == _name)].value = sb.value
+		else :
+			var att = sb.get_meta(_name.replace(" ", ""))
+			att.value = sb.value
+			attributes.append(att)
+	PlayerVariables.setAttributes(attributes)
+	PlayerVariables.setAttributePoints(int(points.value))
 
 # ---- Helpers ----
 func _on_value_changed(new_value: int, bonus1 : RichTextLabel, bonus2 : RichTextLabel, rows : Dictionary, sb : SpinBox) -> void:
 	bonus1.text = DbHelper.replaceText(rows["bonus_1_prefix"] + " " + str(Expressions.evaluate(rows["bonus_1_expression"], ["x"], [new_value])) + " " + rows["bonus_1_suffix"])
 	bonus2.text = DbHelper.replaceText(rows["bonus_2_prefix"] + " " + str(Expressions.evaluate(rows["bonus_2_expression"], ["x"], [new_value])) + " " + rows["bonus_2_suffix"])
 	
-	if new_value > prev[sb] :
-		points.value -= 1
+	if new_value > prev[sb] : 
+		points.value -= new_value - prev[sb]
 	elif new_value < prev[sb] :
-		points.value += 1
+		points.value += prev[sb] - new_value
 	
-	prev[sb] = new_value
+	prev[sb] = sb.value
 	
-	if points.value == 0 :
-		for key in prev :
-			key.max_value = key.value
-	else : 
-		for key in prev :
-			key.max_value = _max
+	for key in prev :
+		var _max = key.value + points.value
+		if _max > 15 :
+			_max = 15
+		key.max_value = _max

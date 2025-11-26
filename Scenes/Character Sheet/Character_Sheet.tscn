@@ -1,10 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://d2bt2o84ygnf4"]
+[gd_scene load_steps=2 format=3 uid="uid://d2bt2o84ygnf4"]
 
-[ext_resource type="Script" uid="uid://cl45wy3umvtxs" path="res://Scenes/Character Sheet/character_sheet.gd" id="1_73yjm"]
 [ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="1_orawx"]
 
 [node name="CharacterSheet" type="Node2D"]
-script = ExtResource("1_73yjm")
 
 [node name="Panel" type="Panel" parent="."]
 offset_right = 1920.0

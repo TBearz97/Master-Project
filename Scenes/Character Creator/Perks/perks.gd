@@ -9,7 +9,7 @@ func _ready() -> void:
 	visibility_changed.connect(_save)
 
 func _setup ():
-	points.value = PlayerVariables.perk_points
+	points.value = PlayerVariables.getPerkPoints()
 	var categories = DbHelper.db_fetch("SELECT DISTINCT category FROM Perk WHERE category NOT IN ('Race', 'Homeland', 'Background')")
 	if not categories.is_empty() :
 		grid.columns = categories.size()
@@ -35,12 +35,14 @@ func _setup ():
 			description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 			description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			
+			var obj = Perk.new(perk["name"], perk["short_description"], perk["long_description"], perk["category"])
+			
 			var selectBtn = Button.new()
 			selectBtn.text = "Select"
 			selectBtn.pressed.connect(func ():
 				if points.value > 0 and !_item_exists(selected, perk["name"]) :
 					var idx = selected.add_item(perk["name"])
-					selected.set_item_metadata(idx, perk)
+					selected.set_item_metadata(idx, obj)
 					selected.set_item_tooltip(idx, perk["short_description"])
 					selected.item_clicked.connect(func (index, _pos, _mbidx):
 						selected.remove_item(index)
@@ -60,9 +62,11 @@ func _item_exists(_iList : ItemList, _name : String) -> bool :
 			return true
 	return false
 
+
+#Consider just saving the entire ItemList instead as it can be reused
 func _save () :
-	var perks = []
+	var perks : Array[Perk] = []
 	for i in range(selected.item_count) :
 		perks.append(selected.get_item_metadata(i))
-	PlayerVariables.perks = perks
-	PlayerVariables.perk_points = int(points.value)
+	PlayerVariables.setPerks(perks) 
+	PlayerVariables.setPerkPoints(int(points.value)) 
