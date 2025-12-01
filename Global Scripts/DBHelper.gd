@@ -3,6 +3,7 @@ class_name DBHelper
 
 var db : SQLite
 var keywords : Array[Dictionary]
+var rules : Dictionary
 
 func _ready():
 	db = SQLite.new()
@@ -38,9 +39,7 @@ func replaceText(text : String, ignore : String = "")  -> String:
 	for keyword in keywords :
 		if keyword["keyword"] != ignore and text.contains(keyword["keyword"]) :
 			var meta = encode_meta(keyword)
-			text = text.replace(keyword["keyword"], '[url=' + meta + '][color=#EE4B2B]' + keyword["keyword"] + '[/color][/url]'
-
-)
+			text = text.replace(keyword["keyword"], '[url=' + meta + '][color=#EE4B2B]' + keyword["keyword"] + '[/color][/url]')
 	return text
 
 func _on_meta_clicked(meta):
@@ -68,6 +67,14 @@ func _on_meta_hovered(meta, label : RichTextLabel) :
 func _on_meta_hovered_end(meta, label : RichTextLabel) :
 	label.tooltip_text = ""
 
+func getRules() :
+	
+	
+## =============== HELPERS =================
+func _clear_grid(grid: GridContainer) -> void:
+	for c in grid.get_children():
+		c.queue_free()
+
 func encode_meta(dict : Dictionary) :
 	var json = JSON.stringify(dict)
 	var bytes = json.to_utf8_buffer()
@@ -80,12 +87,6 @@ func decode_meta(_str : String) :
 	var data = JSON.parse_string(json)
 	return data
 	
-
-## =============== HELPERS =================
-func _clear_grid(grid: GridContainer) -> void:
-	for c in grid.get_children():
-		c.queue_free()
-
 
 #Legacy Code
 #
