@@ -1,13 +1,13 @@
 extends Node
-class_name DBHelper
 
 var db : SQLite
 var keywords : Array[Dictionary]
-var rules : Dictionary
+var rule : Dictionary
 
 func _ready():
 	db = SQLite.new()
 	keywords = db_fetch("SELECT * FROM Keyword ORDER BY LENGTH(keyword) DESC")
+	getRules()
 
 func db_fetch(sql: String) -> Array:
 	db.path = "res://data/Codex.db"
@@ -68,7 +68,9 @@ func _on_meta_hovered_end(meta, label : RichTextLabel) :
 	label.tooltip_text = ""
 
 func getRules() :
-	
+	var rows = db_fetch("SELECT * FROM Rule")
+	for row in rows :
+		rule[row["name"]] = row["expression"] 
 	
 ## =============== HELPERS =================
 func _clear_grid(grid: GridContainer) -> void:

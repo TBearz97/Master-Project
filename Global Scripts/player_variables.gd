@@ -1,6 +1,8 @@
 extends Node
 
 var data : PlayerData
+
+signal leveledUp()
 # Character Info
 func setName(value: String) -> void:
 	data.character_name = value
@@ -13,6 +15,12 @@ func setGender(value: String) -> void:
 
 func getGender() -> String:
 	return data.gender
+
+func setAge(value: int) -> void:
+	data.age = value
+
+func getAge() -> int:
+	return data.age
 
 func setRace(value: String) -> void:
 	data.race = value
@@ -46,6 +54,11 @@ func setAttributes(value: Array) -> void:
 func getAttributes() -> Array:
 	return data.attributes
 
+func getAttribute(value : String) -> Attribute:
+	for att in data.attributes :
+		if att._name == value :
+			return att
+	return null
 
 # Skills
 func setSkills(value: Array) -> void:
@@ -54,6 +67,39 @@ func setSkills(value: Array) -> void:
 func getSkills() -> Array:
 	return data.skills
 
+func getSkill(value : String) -> Skill:
+	for sk in data.skills :
+		if sk._name == value :
+			return sk
+	return null
+
+#Conditions
+func setFatigue(value: int) -> void:
+	data.fatigue = value
+
+func getFatigue() -> int :
+	return data.fatigue
+
+func addFatigue(value : int) -> void:
+	data.fatigue += value
+
+func setNecroticDamage(value : int) -> void:
+	data.necroticDamage = value
+
+func getNecroticDamage() -> int :
+	return data.necroticDamage
+
+func addNecroticDamage(value : int) -> void:
+	data.necroticDamage += value
+
+func setConditions(value : Array[Condition]) -> void:
+	data.conditions = value
+
+func getConditions() -> Array[Condition] :
+	return data.conditions
+
+func addConditions(value : Condition) -> void:
+	data.conditions.append(value)
 
 # Perks
 func setPerks(value: Array[Perk]) -> void:
@@ -62,6 +108,8 @@ func setPerks(value: Array[Perk]) -> void:
 func getPerks() -> Array:
 	return data.perks
 
+func addPerk(value : Perk) -> void:
+	data.perks.append(value)
 
 # Inventory
 func setInventory(value: Dictionary) -> void:
@@ -70,6 +118,11 @@ func setInventory(value: Dictionary) -> void:
 func getInventory() -> Dictionary:
 	return data.inventory
 
+func addToInventory(value : Item) -> void:
+	if data.inventory.has(value) :
+		data.inventory[value] = data.inventory[value] + 1
+	else :
+		data.inventory[value] = 1
 
 # Money
 func setMoney(value: int) -> void:
@@ -78,13 +131,30 @@ func setMoney(value: int) -> void:
 func getMoney() -> int:
 	return data.money
 
+func addMoney(value : int) -> void:
+	data.money += value
 
 # Level Up
+func setLevelAvailable(value : bool) -> void:
+	data.levelAvailable = value
+
+func getLevelAvailable() -> bool:
+	return data.levelAvailable
+
 func setLevel(value: int) -> void:
 	data.level = value
 
 func getLevel() -> int:
 	return data.level
+
+func setExperience(value : int) -> void:
+	data.experience = value
+
+func getExperience() -> int :
+	return data.experience
+
+func addExperience(value : int) -> void:
+	data.experience += value
 
 func setAttributePoints(value: int) -> void:
 	data.attribute_points = value
@@ -108,6 +178,9 @@ func calucalte_Defence (att1 : int, att2 : int):
 	return att1 + att2
 
 func level_Up() -> void :
+	emit_signal("leveledUp")
+	data.levelAvailable = true
+	data.level += 1
 	data.attribute_points += 1
 	data.skill_points += 2
 	data.perk_points += 1

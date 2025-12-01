@@ -2,6 +2,7 @@ extends VBoxContainer
 
 @onready var character_name : LineEdit = %Name
 @onready var genderOb : OptionButton = %GenderOptions
+@onready var age : SpinBox = %Age
 
 @onready var raceGroup : VBoxContainer = %Race
 @onready var homelandGroup : VBoxContainer = %Homeland
@@ -117,6 +118,7 @@ func _background () :
 func _save():
 	# Basic information
 	PlayerVariables.setName(character_name.text) 
+	PlayerVariables.setAge(int(age.value))
 	if genderOb.selected != -1 :
 		PlayerVariables.setGender(genderOb.get_item_text(genderOb.selected)) 
 	for child in raceGroup.get_children() :

@@ -57,10 +57,9 @@ func _on_value_changed(new_value: int, sb : SpinBox) -> void:
 	for key in prev :
 		var pointsAvailable = key.value + points.value
 		var _max = pointsAvailable
-		if key.value + points.value > PlayerVariables.getLevel() + 2 :
-			_max = PlayerVariables.getLevel() + 2
-		elif _max > 10 :
-			_max = 10
+		var cap = Expressions.evaluate(DbHelper.rule["Skill Cap"], ["player_level"], [PlayerVariables.getLevel()])
+		if key.value + points.value > cap :
+			_max = cap
 		key.max_value = _max
 
 

@@ -57,6 +57,24 @@ popup/item_1/id = 1
 popup/item_2/text = "Other"
 popup/item_2/id = 2
 
+[node name="What is your age?" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "What is your gender?"
+label_settings = SubResource("LabelSettings_kdubu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Age" type="SpinBox" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+max_value = 1000.0
+value = 20.0
+rounded = true
+alignment = 1
+
 [node name="Race" type="VBoxContainer" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(500, 0)

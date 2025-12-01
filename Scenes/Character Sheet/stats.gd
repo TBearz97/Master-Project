@@ -21,7 +21,6 @@ func _setup(_grid : GridContainer, _grid2 : GridContainer) :
 	container.add_theme_constant_override("separation", 50)
 	_setupAttributes(container, _grid)
 	_setupSkills(container)
-	#_setupStats(container, _grid2)
 
 func _setupAttributes(main: VBoxContainer, _grid : GridContainer) :
 	var container = VBoxContainer.new()
@@ -59,15 +58,6 @@ func _setupAttributes(main: VBoxContainer, _grid : GridContainer) :
 		split.add_child(bonus1)
 		split.add_child(bonus2)
 		_grid.add_child(split)
-
-#func _setupStats(container : VBoxContainer, _grid : GridContainer) :
-	#var statsTitle = Label.new()
-	#statsTitle.text = "Stats"
-	#statsTitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	#statsTitle.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
-	#container.add_child(statsTitle)
-	#_grid.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
-	#container.add_child(_grid)
 
 func _setupSkills(main: VBoxContainer) :
 	var container = VBoxContainer.new()

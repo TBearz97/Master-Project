@@ -5,6 +5,7 @@ class_name PlayerData
 @export var character_name : String
 @export var gender : String
 @export var race : String
+@export var age : int
 @export var homeland : String
 @export var background : String
 @export var backstory : String
@@ -15,13 +16,20 @@ class_name PlayerData
 #Skills
 @export var skills : Array[Skill]
 
+#Conditions
+@export var fatigue : int
+@export var necroticDamage : int
+@export var conditions : Array[Condition]
+
 #Other
 @export var perks : Array[Perk]
 @export var inventory : Dictionary[Item, int]
 @export var money : int
 
 #Level Up
+@export var levelAvailable : bool
 @export var level : int
+@export var experience : int
 @export var attribute_points : int
 @export var skill_points : int
 @export var perk_points : int
