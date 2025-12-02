@@ -1,19 +1,12 @@
-extends RichTextLabel
+extends ItemList
 
-@export var btn : Button
 
-func _ready() -> void:
-	DbHelper.prepareLabel(self, false)
-	text = DbHelper.replaceText("The Pathfinder moved silently through the edge of the Asharati Forest, guided by a mix of Perception and long-earned Survivor’s Luck. His companion, a Human Scholar of the Old Ways, paused to study the runes etched into an ancient stone, her Insight sharpened by years of Arcane Linguist training. Ahead of them, a Goliath with Titan Grip cleared the path, every motion showing the discipline of someone Born to Fight. Despite the dangers of the wild, the group pushed forward, relying on Animal Handling, quick Investigation, and the steady Resolve that had carried them across the kingdoms from the Quasarian Empire to the Obsidian Desert.")
-	btn.pressed.connect(_on_pressed)
-	
-	
-func _on_pressed() :
-	var _window = ConfirmationDialog.new()
-	add_child(_window)
-	_window.size = Vector2(300, 300)
-	_window.get_label().text = "test"
-	_window.get_cancel_button().visible = false
-	_window.get_ok_button().visible = false
-	_window.popup()
-	_window.position = get_viewport().get_mouse_position()
+
+
+func _get_drag_data(_at_position: Vector2) -> Variant:
+	var idx = get_selected_items()
+	var icon = TextureRect.new()
+	icon.texture = get_item_icon(idx[0])
+	icon.set_meta("Slot", "LeftArm")
+	set_drag_preview(icon)
+	return icon
