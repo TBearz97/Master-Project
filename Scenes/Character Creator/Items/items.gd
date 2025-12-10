@@ -9,7 +9,22 @@ var inventory = PlayerVariables.getInventory()
 func _ready() -> void:
 	_setup()
 	visibility_changed.connect(_save)
-
+	points.value = PlayerVariables.getMoney()
+	if !inventory.is_empty() :
+		for item in inventory.keys():
+			var idx = selected.add_item(str(item), inventory[item][0].icon)
+			selected.set_item_metadata(idx, inventory[item][0])
+			selected.set_item_tooltip(idx, inventory[item][0]._print())
+			
+			var _size = selected.add_item(str(inventory[item].size()))
+			selected.set_item_selectable(_size, false)
+			selected.set_item_disabled(_size, true)
+			var _weight = selected.add_item(str(inventory[item][0].weight * inventory[item].size()))
+			selected.set_item_selectable(_weight, false)
+			selected.set_item_disabled(_weight, true)
+			var _value = selected.add_item(str(inventory[item][0].value * inventory[item].size()))
+			selected.set_item_selectable(_value, false)
+			selected.set_item_disabled(_value, true)
 
 func _setup():
 	selected.item_selected.connect(_on_selected)
@@ -76,29 +91,45 @@ func getItemMeta(item : Dictionary, type : String) :
 
 func _on_item_chosen(obj : Item) -> void:
 	if points.value - obj.value >= 0:
-		if !inventory.has(obj) :
-			inventory[obj] = 1
-			var idx = selected.add_item(str(obj._name) + " x" + str(inventory[obj]))
+		if !inventory.has(obj._name) :
+			inventory[obj._name] = [obj]
+			var idx = selected.add_item(str(obj._name), obj.icon)
 			selected.set_item_metadata(idx, obj)
 			selected.set_item_tooltip(idx, obj._print())
+			
+			var _size = selected.add_item(str(inventory[obj._name].size()))
+			selected.set_item_selectable(_size, false)
+			selected.set_item_disabled(_size, true)
+			var _weight = selected.add_item(str(obj.weight))
+			selected.set_item_selectable(_weight, false)
+			selected.set_item_disabled(_weight, true)
+			var _value = selected.add_item(str(obj.value))
+			selected.set_item_selectable(_value, false)
+			selected.set_item_disabled(_value, true)
 		else :
-			inventory[obj] = inventory[obj] + 1
+			inventory[obj._name].append(obj)
 			for i in range(selected.item_count) :
-				var parts = selected.get_item_text(i).split(" x")
-				if parts[0] == obj._name :
-					selected.set_item_text(i, str(obj._name) + " x" + str(inventory[obj]))
+				if selected.get_item_text(i) == obj._name :
+					selected.set_item_text(i + 1, str(inventory[obj._name].size()))
+					selected.set_item_text(i + 2, str(obj.weight * inventory[obj._name].size()))
+					selected.set_item_text(i + 3, str(obj.value * inventory[obj._name].size()))
 		
 		points.value -= obj.value
 	
 func _on_selected(index: int) -> void:
 	var item = selected.get_item_metadata(index)
-	if inventory.has(item) :
-		inventory[item] = inventory[item] - 1
-		if inventory[item] == 0 :
-			inventory.erase(item)
+	if inventory.has(item._name) :
+		inventory[item._name].erase(item)
+		if inventory[item._name].size() == 0 :
+			inventory.erase(item._name)
+			selected.remove_item(index + 3)
+			selected.remove_item(index + 2)
+			selected.remove_item(index + 1)
 			selected.remove_item(index)
 		else :
-			selected.set_item_text(index, str(item._name) + " x" + str(inventory[item]))
+			selected.set_item_text(index + 1, str(inventory[item._name].size()))
+			selected.set_item_text(index + 2, str(item.weight * inventory[item._name].size()))
+			selected.set_item_text(index + 3, str(item.value * inventory[item._name].size()))
 			selected.deselect(index)
 		points.value += item.value
 

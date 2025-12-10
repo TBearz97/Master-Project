@@ -7,6 +7,15 @@ extends VBoxContainer
 func _ready() -> void:
 	_setup()
 	visibility_changed.connect(_save)
+	if !PlayerVariables.getPerks().is_empty() :
+		for perk in PlayerVariables.getPerks() :
+			var idx = selected.add_item(perk._name)
+			selected.set_item_metadata(idx, perk)
+			selected.set_item_tooltip(idx, perk.shortDesc)
+			selected.item_clicked.connect(func (index, _pos, _mbidx):
+				selected.remove_item(index)
+				points.value += 1
+				)
 
 func _setup ():
 	points.value = PlayerVariables.getPerkPoints()

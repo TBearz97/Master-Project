@@ -16,6 +16,14 @@ func _ready() -> void:
 	
 
 func _setup() :
+	if PlayerVariables.getName() != "" :
+		character_name.text = PlayerVariables.getName()
+	if PlayerVariables.getGender() != "" :
+		for i in range(genderOb.item_count) :
+			if PlayerVariables.getGender() == genderOb.get_item_text(i) :
+				genderOb.select(i)
+	age.value = PlayerVariables.getAge()
+	
 	_race()
 	_homeland()
 	_background()
@@ -44,7 +52,14 @@ func _race () :
 		perkTitle.text = DbHelper.replaceText("Perk: " + perk[0]["name"]) 
 		perkDescription.text = DbHelper.replaceText(perk[0]["long_description"]) 
 		)
-	ob.select(-1)
+	for i in range(ob.item_count) :
+		if PlayerVariables.getRace() == ob.get_item_text(i) :
+			ob.select(i)
+			var race = popup.get_item_metadata(i)
+			description.text = DbHelper.replaceText(race["long_description"])
+			break
+		else :
+			ob.select(-1)
 	
 	raceGroup.add_child(title)
 	raceGroup.add_child(ob)
@@ -75,7 +90,14 @@ func _homeland() :
 		perkTitle.text = DbHelper.replaceText("Perk: " + perk[0]["name"]) 
 		perkDescription.text = DbHelper.replaceText(perk[0]["long_description"]) 
 		)
-	ob.select(-1)
+	for i in range(ob.item_count) :
+		if PlayerVariables.getHomeland() == ob.get_item_text(i) :
+			ob.select(i)
+			var homeland = popup.get_item_metadata(i)
+			description.text = DbHelper.replaceText(homeland["long_description"])
+			break
+		else :
+			ob.select(-1)
 	
 	homelandGroup.add_child(title)
 	homelandGroup.add_child(ob)
@@ -107,7 +129,14 @@ func _background () :
 		perkTitle.text = DbHelper.replaceText("Perk: " + perk[0]["name"]) 
 		perkDescription.text = DbHelper.replaceText(perk[0]["long_description"]) 
 		)
-	ob.select(-1)
+	for i in range(ob.item_count) :
+		if PlayerVariables.getBackground() == ob.get_item_text(i) :
+			ob.select(i)
+			var background = popup.get_item_metadata(i)
+			description.text = DbHelper.replaceText(background["long_description"])
+			break
+		else :
+			ob.select(-1)
 	
 	backgroundGroup.add_child(title)
 	backgroundGroup.add_child(ob)
@@ -121,16 +150,24 @@ func _save():
 	PlayerVariables.setAge(int(age.value))
 	if genderOb.selected != -1 :
 		PlayerVariables.setGender(genderOb.get_item_text(genderOb.selected)) 
+	else :
+		PlayerVariables.setGender(genderOb.get_item_text(0))
 	for child in raceGroup.get_children() :
 		if child is OptionButton :
 			if child.selected != -1 :
-				PlayerVariables.setRace(child.get_item_text(child.selected)) 
+				PlayerVariables.setRace(child.get_item_text(child.selected))
+			else :
+				PlayerVariables.setRace(child.get_item_text(0)) 
 	for child in homelandGroup.get_children() :
 		if child is OptionButton :
 			if child.selected != -1 :
-				PlayerVariables.setHomeland(child.get_item_text(child.selected)) 
+				PlayerVariables.setHomeland(child.get_item_text(child.selected))
+			else :
+				PlayerVariables.setHomeland(child.get_item_text(0)) 
 	for child in backgroundGroup.get_children() :
 		if child is OptionButton :
 			if child.selected != -1 :
-				PlayerVariables.setBackground(child.get_item_text(child.selected)) 
+				PlayerVariables.setBackground(child.get_item_text(child.selected))
+			else :
+				PlayerVariables.setBackground(child.get_item_text(0)) 
 	PlayerVariables.setBackstory(backstory.text) 

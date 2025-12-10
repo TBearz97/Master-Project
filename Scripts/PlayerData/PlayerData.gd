@@ -23,8 +23,9 @@ class_name PlayerData
 
 #Other
 @export var perks : Array[Perk]
-@export var inventory : Dictionary[Item, int]
+@export var inventory : Dictionary[String, Array]
 @export var money : int
+@export var equipment : Equipment
 
 #Level Up
 @export var levelAvailable : bool
@@ -52,10 +53,11 @@ func _init() -> void:
 	# Other
 	perks = []
 	inventory = {}
-	money = 300
+	money = 0
+	equipment = Equipment.new()
 
 	# Level Up
 	level = 1
-	attribute_points = 5
-	skill_points = 10
-	perk_points = 3
+	attribute_points = 0
+	skill_points = 0
+	perk_points = 0

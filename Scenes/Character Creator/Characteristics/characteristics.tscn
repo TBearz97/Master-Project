@@ -60,7 +60,7 @@ popup/item_2/id = 2
 [node name="What is your age?" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 6
-text = "What is your gender?"
+text = "What is your age?"
 label_settings = SubResource("LabelSettings_kdubu")
 horizontal_alignment = 1
 vertical_alignment = 1

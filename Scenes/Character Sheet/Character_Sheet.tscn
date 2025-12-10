@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2bt2o84ygnf4"]
+[gd_scene load_steps=6 format=3 uid="uid://d2bt2o84ygnf4"]
 
 [ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="1_orawx"]
 [ext_resource type="Texture2D" uid="uid://hwnrcpc7o8lp" path="res://Art/Icons/Durance-portrait.jpg" id="2_m0l0a"]
 [ext_resource type="Script" uid="uid://3k0r8553xra4" path="res://Scenes/Character Sheet/character_info.gd" id="3_nl4im"]
 [ext_resource type="Script" uid="uid://b5l01deswc32q" path="res://Scenes/Character Sheet/stats.gd" id="4_t4xyy"]
+[ext_resource type="PackedScene" uid="uid://cys02mj06x6vs" path="res://Scripts/Inventory/draganddrop.tscn" id="5_nl4im"]
 
 [node name="CharacterSheet" type="Control"]
 layout_mode = 3
@@ -259,10 +260,11 @@ size_flags_vertical = 3
 
 [node name="TabContainer" type="TabContainer" parent="Panel/MarginContainer/MarginContainer"]
 layout_mode = 2
-current_tab = 0
+current_tab = 3
 drag_to_rearrange_enabled = true
 
 [node name="Character Info" type="ScrollContainer" parent="Panel/MarginContainer/MarginContainer/TabContainer" node_paths=PackedStringArray("grid")]
+visible = false
 layout_mode = 2
 script = ExtResource("3_nl4im")
 grid = NodePath("../../../QuickInfo/CharacterInfo")
@@ -282,9 +284,13 @@ layout_mode = 2
 metadata/_tab_index = 2
 
 [node name="Inventory & Equipment" type="ScrollContainer" parent="Panel/MarginContainer/MarginContainer/TabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 3
+
+[node name="Control" parent="Panel/MarginContainer/MarginContainer/TabContainer/Inventory & Equipment" instance=ExtResource("5_nl4im")]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="Bestiary" type="ScrollContainer" parent="Panel/MarginContainer/MarginContainer/TabContainer"]
 visible = false

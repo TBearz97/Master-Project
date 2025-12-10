@@ -6,6 +6,7 @@ class_name Consumable
 
 func _init(itemName: String= "", itemWeight : float = 0, itemHealing : int = 0, itemEffect: String= "", itemAddiction : int = 0,  itemValue: int = 0) -> void:
 	super(itemName, itemWeight, itemEffect, itemValue)
+	allowed_slots = [ItemSlots.QuickItem]
 	healing = itemHealing
 	addiction = itemAddiction
 

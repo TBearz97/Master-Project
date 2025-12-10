@@ -1,8 +1,13 @@
 extends Node
 
 var data : PlayerData
+var expThreshold : int
 
 signal leveledUp()
+
+func _ready() -> void:
+	data = PlayerData.new()
+
 # Character Info
 func setName(value: String) -> void:
 	data.character_name = value
@@ -119,10 +124,16 @@ func getInventory() -> Dictionary:
 	return data.inventory
 
 func addToInventory(value : Item) -> void:
-	if data.inventory.has(value) :
-		data.inventory[value] = data.inventory[value] + 1
+	if data.inventory.has(value._name) :
+		data.inventory[value._name] = [value]
 	else :
-		data.inventory[value] = 1
+		data.inventory[value._name].append(value)
+
+func setEquipment(value : Equipment) -> void:
+	data.equipment = value
+
+func getEquipment () -> Equipment :
+	return data.equipment
 
 # Money
 func setMoney(value: int) -> void:
@@ -155,6 +166,9 @@ func getExperience() -> int :
 
 func addExperience(value : int) -> void:
 	data.experience += value
+	if data.experience > expThreshold :
+		data.experience -= expThreshold
+		level_Up()
 
 func setAttributePoints(value: int) -> void:
 	data.attribute_points = value
@@ -207,6 +221,7 @@ func print_character_info() -> void:
 	print("Character Info")
 	print("Name: ", data.character_name)
 	print("Gender: ", data.gender)
+	print("Age: ", data.age)
 	print("Race: ", data.race)
 	print("Homeland: ", data.homeland)
 	print("Background: ", data.background)
@@ -230,7 +245,7 @@ func print_character_info() -> void:
 
 	print("Inventory")
 	for i in data.inventory:
-		print("  ", i._name + ": " + str(data.inventory[i]))
+		print("  ", i + ": " + str(data.inventory[i].size()))
 	print("")
 
 	print("Money: ", data.money)

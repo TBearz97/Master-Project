@@ -12,6 +12,7 @@ enum WeaponRange {MELEE, CLOSE, MEDIUM, LONG}
 
 func _init(itemName: String = "", itemWeight: float = 0, itemValue: int = 0, itemDamage: float = 0, itemSpeed : int = 0, itemQualities : String = "", itemSize : String = "", itemRange : String = "") -> void:
 	super(itemName, itemWeight, itemValue)
+	allowed_slots = [ItemSlots.WeaponSlot]
 	damage = itemDamage
 	speed = itemSpeed
 	qualities = itemQualities.split(",")
