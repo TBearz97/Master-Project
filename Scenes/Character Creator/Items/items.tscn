@@ -8,6 +8,17 @@
 [sub_resource type="LabelSettings" id="LabelSettings_bh6ol"]
 
 [node name="StartingItems" type="VBoxContainer" node_paths=PackedStringArray("points", "selected", "grid")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -190.5
+offset_top = -139.0
+offset_right = 190.5
+offset_bottom = 139.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_pefuq")
@@ -52,8 +63,7 @@ theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
 theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
 theme_override_constants/field_and_buttons_separation = -15
-max_value = 300.0
-value = 300.0
+max_value = 9.223372e+18
 rounded = true
 alignment = 1
 editable = false

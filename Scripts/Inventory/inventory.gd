@@ -1,8 +1,17 @@
 extends ItemList
 
+@export var carryWeightLabel : Label
+@export var moneyLabel : Label 
+
 var inventory = PlayerVariables.getInventory()
 
 func _ready() -> void:
+	setup()
+
+func setup () :
+	clear()
+	moneyLabel.text = "Currency: " + str(PlayerVariables.getMoney())
+	updateCarryWeight()
 	if !inventory.is_empty() :
 		for item in inventory.values():
 			add_item_from_resource(item[0])
@@ -14,6 +23,7 @@ func _add_item(item: Item) -> void:
 	else :
 		inventory[item._name] = [item]
 		add_item_from_resource(item)
+	updateCarryWeight()
 
 func add_item_from_resource(item: Item) -> void:
 	var idx = add_item(item._name, item.icon)
@@ -30,6 +40,12 @@ func add_item_from_resource(item: Item) -> void:
 	var _value = add_item(str(item.value * qty))
 	set_item_selectable(_value, false)
 	set_item_disabled(_value, true)
+
+func updateCarryWeight() :
+	var carryWeight = 0
+	for item in inventory.values() :
+		carryWeight += item[0].weight * item.size()
+	carryWeightLabel.text = "Carry Weight: " + str(carryWeight)
 
 func remove_item_from_inventory(item: Item, count: int = 1) -> void:
 	if item == null:
@@ -51,6 +67,7 @@ func remove_item_from_inventory(item: Item, count: int = 1) -> void:
 		_remove_item_row_from_list(item._name)
 	else:
 		_update_item_row_in_list(item._name, stack.size(), item)
+	updateCarryWeight()
 
 func _remove_item_row_from_list(item_name: String) -> void:
 	var base_index := _find_item_row_base_index(item_name)
@@ -140,14 +157,38 @@ func _handle_drop_from_slot(item: Item, data: Dictionary) -> void:
 		var stack: Array = inventory[item_name]
 		stack.append(item)
 		_update_item_row_in_list(item_name, stack.size(), stack[0])
-
+	updateCarryWeight()
+	
 	# 2. Clear the source slot
 	var from_slot = data.get("from_slot", null)
 	if from_slot and "set_item" in from_slot:
-		for itemSlot in item.allowed_slots :
-			if item is Armor :
+		if item is Armor :
+			for itemSlot in item.allowed_slots :
 				for slot in get_tree().get_nodes_in_group("Armor Slots") :
 					if slot.item_slot == itemSlot :
 						slot.set_item(null)
-			else :
-				from_slot.set_item(null)
+		elif item is Weapon:
+			var other_slots = get_tree().get_nodes_in_group("Weapon Set 1") if get_tree().get_nodes_in_group("Weapon Set 1").has(from_slot) else get_tree().get_nodes_in_group("Weapon Set 2")
+			for slot in other_slots:
+				slot.set_item(null)
+		else :
+			from_slot.set_item(null)
+
+
+func _on_button_button_up() -> void:
+	var window := Window.new()
+	window.size = Vector2i(800, 600)
+	window.title = "Items"
+	var panel = Panel.new()
+	panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var packed_scene := load("res://Scenes/Character Creator/Items/items.tscn") as PackedScene
+	var scene_instance := packed_scene.instantiate() as VBoxContainer
+	scene_instance.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	panel.add_child(scene_instance)
+	window.add_child(panel)
+	add_child(window)
+	window.close_requested.connect(func () :
+		scene_instance._save()
+		setup()
+		window.queue_free())
+	window.popup_centered()

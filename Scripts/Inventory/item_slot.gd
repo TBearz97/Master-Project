@@ -2,9 +2,10 @@ extends Panel
 
 @export var item_slot: Item.ItemSlots
 
+@onready var DTReference : VBoxContainer = %Equipment
 @onready var icon: TextureRect = $Icon
 
-var equipped: Item = null
+var equipped: Item = Item.new()
 var inventory : ItemList
 
 func _ready() -> void:
@@ -30,6 +31,7 @@ func _ready() -> void:
 			add_to_group("Armor Slots")
 			set_item(equipment.leftLeg)
 
+
 func set_item(item: Item, recursion: bool = false) -> void:
 	var slots = Item.ItemSlots
 	var equipment = PlayerVariables.getEquipment()
@@ -50,15 +52,17 @@ func set_item(item: Item, recursion: bool = false) -> void:
 		slots.LeftLeg:
 			equipment.leftLeg = item
 	if item != null and not recursion:
-		if item.allowed_slots.size() > 1 :
-			var other_slots = get_tree().get_nodes_in_group("Armor Slots")
-			for slot in other_slots :
-				for item_slots in item.allowed_slots :
-					if slot.item_slot == item_slots :
-						if slot.equipped != null and inventory != null :
-							if slot.equipped.allowed_slots.size() == 1:
-								inventory._add_item(slot.equipped)
-						slot.set_item(item, true)
+		if item is Armor :
+			if item.allowed_slots.size() > 1 :
+				var other_slots = get_tree().get_nodes_in_group("Armor Slots")
+				for slot in other_slots :
+					for item_slots in item.allowed_slots :
+						if slot.item_slot == item_slots :
+							if slot.equipped != null and inventory != null :
+								if slot.equipped.allowed_slots.size() == 1:
+									inventory._add_item(slot.equipped)
+							slot.set_item(item, true)
+	DTReference.recalculateDTs()
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	if equipped == null:
@@ -114,22 +118,36 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 			inventory.remove_item_from_inventory(item, 1)
 		if previous != null :
 			inventory._add_item(previous)
-			if previous.allowed_slots.size() > 1 :
-				if previous is Armor :
+			if previous is Armor :
+				if previous.allowed_slots.size() > 1 :
 					for slots in get_tree().get_nodes_in_group("Armor Slots") :
 						if previous.allowed_slots.has(slots.item_slot) :
 							slots.set_item(null)
+			if previous is Weapon :
+				if previous.size == Weapon.WeaponSize.TWO_HANDED :
+					var other_slots = get_tree().get_nodes_in_group("Weapon Set 1") if get_tree().get_nodes_in_group("Weapon Set 1").has(self) else get_tree().get_nodes_in_group("Weapon Set 2")
+					for slt in other_slots :
+						if slt != self :
+							slt.set_item(null)
+				
 		else :
 			var done = false
-			if item.allowed_slots.size() > 1:
-				for itemSlot in item.allowed_slots:
-					for slots in get_tree().get_nodes_in_group("Armor Slots"):
-						if itemSlot == slots.item_slot and slots.equipped != null:
-							inventory._add_item(slots.equipped)
-							done = true
+			if item is Armor:
+				if item.allowed_slots.size() > 1:
+					for itemSlot in item.allowed_slots:
+						for slots in get_tree().get_nodes_in_group("Armor Slots"):
+							if itemSlot == slots.item_slot and slots.equipped != null and slots.equipped.allowed_slots.size() > 1:
+								inventory._add_item(slots.equipped)
+								done = true
+								break
+						if done:
 							break
-					if done:
-						break
+			if item is Weapon:
+				if item.size == Weapon.WeaponSize.TWO_HANDED :
+					var other_slots = get_tree().get_nodes_in_group("Weapon Set 1") if get_tree().get_nodes_in_group("Weapon Set 1").has(self) else get_tree().get_nodes_in_group("Weapon Set 2")
+					for slots in other_slots :
+						if slots != self and slots.equipped != null:
+							inventory._add_item(slots.equipped)
 
 	
 	set_item(item)

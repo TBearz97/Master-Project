@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://cys02mj06x6vs"]
+[gd_scene load_steps=12 format=3 uid="uid://cys02mj06x6vs"]
 
+[ext_resource type="Script" uid="uid://de1tpmyqn8j8v" path="res://Scripts/Inventory/defences.gd" id="1_7ww4v"]
 [ext_resource type="Script" uid="uid://ca3yavmxf7n0t" path="res://Scripts/Inventory/item_slot.gd" id="1_70u83"]
 [ext_resource type="Texture2D" uid="uid://docntyppe6af" path="res://Art/Icons/template armor/head.png" id="1_lqqrh"]
 [ext_resource type="Texture2D" uid="uid://c3mkp834crxpj" path="res://Art/Icons/template armor/belt-armor.png" id="2_c8hub"]
@@ -9,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://corhhvoyn35vt" path="res://Art/Icons/template armor/hand.png" id="6_rvjno"]
 [ext_resource type="Script" uid="uid://b0fsmrxf227tv" path="res://Scripts/Inventory/weapon_slot.gd" id="8_avkx6"]
 [ext_resource type="Script" uid="uid://davdtbeathlla" path="res://Scripts/Inventory/inventory.gd" id="8_c8hub"]
+[ext_resource type="Script" uid="uid://cdyw0rwxx5hq5" path="res://Scripts/Inventory/quick_slot.gd" id="8_mqrws"]
 
 [node name="Panel" type="Panel"]
 custom_minimum_size = Vector2(1000, 500)
@@ -28,32 +30,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Equipment" type="Panel" parent="HBoxContainer"]
+[node name="Equipment" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+script = ExtResource("1_7ww4v")
 
-[node name="GridContainer" type="Panel" parent="HBoxContainer/Equipment"]
+[node name="Control" type="Control" parent="HBoxContainer/Equipment"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GridContainer" type="Panel" parent="HBoxContainer/Equipment/Control"]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -109.0
-offset_top = -137.0
-offset_right = 109.0
-offset_bottom = 137.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Head" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
+[node name="Head" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 56.0
-offset_right = 106.0
-offset_bottom = 50.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4618474
+anchor_top = 0.02
+anchor_right = 0.64257026
+anchor_bottom = 0.2
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/Head"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/Head"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,54 +68,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_lqqrh")
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
 
-[node name="QuickSlot1" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
+[node name="Torso" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 168.0
-offset_right = 218.0
-offset_bottom = 50.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/QuickSlot1"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.4618474
+anchor_top = 0.22
+anchor_right = 0.64257026
+anchor_bottom = 0.4
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_c8hub")
-expand_mode = 2
-stretch_mode = 5
+metadata/_edit_use_anchors_ = true
 
-[node name="LeftArm" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_top = 56.0
-offset_right = 50.0
-offset_bottom = 106.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/LeftArm"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_n7lc8")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="Torso" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 56.0
-offset_top = 56.0
-offset_right = 106.0
-offset_bottom = 106.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/Torso"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/Torso"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -116,18 +90,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_qxqin")
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
 
-[node name="RightArm" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
+[node name="LeftArm" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 112.0
-offset_top = 56.0
-offset_right = 162.0
-offset_bottom = 106.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.26104417
+anchor_top = 0.22
+anchor_right = 0.44176707
+anchor_bottom = 0.4
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/RightArm"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/LeftArm"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -135,478 +112,660 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_n7lc8")
-expand_mode = 2
-stretch_mode = 5
-flip_h = true
+expand_mode = 1
 
-[node name="QuickSlot2" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
+[node name="RightArm" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 168.0
-offset_top = 56.0
-offset_right = 218.0
-offset_bottom = 106.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/QuickSlot2"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_c8hub")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="LeftLeg" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_top = 112.0
-offset_right = 50.0
-offset_bottom = 162.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/LeftLeg"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_2nsol")
-expand_mode = 2
-stretch_mode = 5
-flip_h = true
-
-[node name="RightLeg" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 112.0
-offset_top = 112.0
-offset_right = 162.0
-offset_bottom = 162.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/RightLeg"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_2nsol")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="QuickSlot3" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 168.0
-offset_top = 112.0
-offset_right = 218.0
-offset_bottom = 162.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/QuickSlot3"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_c8hub")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="LeftHand1" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_top = 168.0
-offset_right = 50.0
-offset_bottom = 218.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/LeftHand1"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("6_rvjno")
-expand_mode = 2
-stretch_mode = 5
-flip_h = true
-
-[node name="RightHand1" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 56.0
-offset_top = 168.0
-offset_right = 106.0
-offset_bottom = 218.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/RightHand1"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("6_rvjno")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="QuickSlot4" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 168.0
-offset_top = 168.0
-offset_right = 218.0
-offset_bottom = 218.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/QuickSlot4"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_c8hub")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="LeftHand2" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_top = 224.0
-offset_right = 50.0
-offset_bottom = 274.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/LeftHand2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("6_rvjno")
-expand_mode = 2
-stretch_mode = 5
-flip_h = true
-
-[node name="RightHand2" type="Panel" parent="HBoxContainer/Equipment/GridContainer"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 56.0
-offset_top = 224.0
-offset_right = 106.0
-offset_bottom = 274.0
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer/RightHand2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("6_rvjno")
-expand_mode = 2
-stretch_mode = 5
-
-[node name="GridContainer2" type="Panel" parent="HBoxContainer/Equipment"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -109.0
-offset_top = -137.0
-offset_right = 109.0
-offset_bottom = 137.0
+anchors_preset = -1
+anchor_left = 0.6626506
+anchor_top = 0.22
+anchor_right = 0.8433735
+anchor_bottom = 0.4
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="Head" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 56.0
-offset_right = 106.0
-offset_bottom = 50.0
-script = ExtResource("1_70u83")
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/Head"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/RightArm"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+texture = ExtResource("3_n7lc8")
+expand_mode = 1
+flip_h = true
 
-[node name="QuickSlot1" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="LeftLeg" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 168.0
-offset_right = 218.0
-offset_bottom = 50.0
-script = ExtResource("1_70u83")
-item_slot = 6
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.36144578
+anchor_top = 0.42
+anchor_right = 0.5421687
+anchor_bottom = 0.6
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/QuickSlot1"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/LeftLeg"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+texture = ExtResource("5_2nsol")
+expand_mode = 1
+flip_h = true
 
-[node name="LeftArm" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="RightLeg" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_top = 56.0
-offset_right = 50.0
-offset_bottom = 106.0
-script = ExtResource("1_70u83")
-item_slot = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.562249
+anchor_top = 0.42
+anchor_right = 0.7429719
+anchor_bottom = 0.6
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/LeftArm"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/RightLeg"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+texture = ExtResource("5_2nsol")
+expand_mode = 1
 
-[node name="Torso" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="LeftHand1" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 56.0
-offset_top = 56.0
-offset_right = 106.0
-offset_bottom = 106.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.12048193
+anchor_top = 0.8
+anchor_right = 0.30120483
+anchor_bottom = 0.98
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/LeftHand1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_rvjno")
+expand_mode = 1
+flip_h = true
+
+[node name="RightHand1" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.32128513
+anchor_top = 0.8
+anchor_right = 0.502008
+anchor_bottom = 0.98
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/RightHand1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_rvjno")
+expand_mode = 1
+
+[node name="LeftHand2" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.60240966
+anchor_top = 0.8
+anchor_right = 0.78313255
+anchor_bottom = 0.98
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/LeftHand2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_rvjno")
+expand_mode = 1
+flip_h = true
+
+[node name="RightHand2" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8032129
+anchor_top = 0.8
+anchor_right = 0.9839357
+anchor_bottom = 0.98
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/RightHand2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_rvjno")
+expand_mode = 1
+
+[node name="QuickSlot1" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02008032
+anchor_top = 0.02
+anchor_right = 0.20080322
+anchor_bottom = 0.2
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/QuickSlot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_c8hub")
+expand_mode = 1
+
+[node name="QuickSlot2" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02008032
+anchor_top = 0.22
+anchor_right = 0.20080322
+anchor_bottom = 0.4
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/QuickSlot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_c8hub")
+expand_mode = 1
+
+[node name="QuickSlot3" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02008032
+anchor_top = 0.42
+anchor_right = 0.20080322
+anchor_bottom = 0.6
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/QuickSlot3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_c8hub")
+expand_mode = 1
+
+[node name="QuickSlot4" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02008032
+anchor_top = 0.62
+anchor_right = 0.20080322
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer/QuickSlot4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_c8hub")
+expand_mode = 1
+
+[node name="GridContainer2" type="Panel" parent="HBoxContainer/Equipment/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Head" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4618474
+anchor_top = 0.02
+anchor_right = 0.64257026
+anchor_bottom = 0.2
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_70u83")
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/Head"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Torso" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4618474
+anchor_top = 0.22
+anchor_right = 0.64257026
+anchor_bottom = 0.4
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_70u83")
 item_slot = 3
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/Torso"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/Torso"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
 
-[node name="RightArm" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="LeftArm" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 112.0
-offset_top = 56.0
-offset_right = 162.0
-offset_bottom = 106.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.26104417
+anchor_top = 0.22
+anchor_right = 0.44176707
+anchor_bottom = 0.4
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_70u83")
+item_slot = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/LeftArm"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="RightArm" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6626506
+anchor_top = 0.22
+anchor_right = 0.8433735
+anchor_bottom = 0.4
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_70u83")
 item_slot = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/RightArm"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/RightArm"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
+flip_h = true
 
-[node name="QuickSlot2" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="LeftLeg" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 168.0
-offset_top = 56.0
-offset_right = 218.0
-offset_bottom = 106.0
-script = ExtResource("1_70u83")
-item_slot = 6
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/QuickSlot2"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.36144578
+anchor_top = 0.42
+anchor_right = 0.5421687
+anchor_bottom = 0.6
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
-
-[node name="LeftLeg" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_top = 112.0
-offset_right = 50.0
-offset_bottom = 162.0
 script = ExtResource("1_70u83")
 item_slot = 5
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/LeftLeg"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/LeftLeg"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
+flip_h = true
 
-[node name="RightLeg" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="RightLeg" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 112.0
-offset_top = 112.0
-offset_right = 162.0
-offset_bottom = 162.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.562249
+anchor_top = 0.42
+anchor_right = 0.7429719
+anchor_bottom = 0.6
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_70u83")
 item_slot = 4
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/RightLeg"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/RightLeg"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
 
-[node name="QuickSlot3" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="LeftHand1" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 168.0
-offset_top = 112.0
-offset_right = 218.0
-offset_bottom = 162.0
-script = ExtResource("1_70u83")
-item_slot = 6
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/QuickSlot3"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.12048193
+anchor_top = 0.8
+anchor_right = 0.30120483
+anchor_bottom = 0.98
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
-
-[node name="LeftHand1" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_top = 168.0
-offset_right = 50.0
-offset_bottom = 218.0
 script = ExtResource("8_avkx6")
 item_slot = 7
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/LeftHand1"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/LeftHand1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
+flip_h = true
 
-[node name="RightHand1" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="RightHand1" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 56.0
-offset_top = 168.0
-offset_right = 106.0
-offset_bottom = 218.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.32128513
+anchor_top = 0.8
+anchor_right = 0.502008
+anchor_bottom = 0.98
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("8_avkx6")
 slot = 1
 item_slot = 7
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/RightHand1"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/RightHand1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
 
-[node name="QuickSlot4" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="LeftHand2" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 168.0
-offset_top = 168.0
-offset_right = 218.0
-offset_bottom = 218.0
-script = ExtResource("1_70u83")
-item_slot = 6
-
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/QuickSlot4"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = 0.60240966
+anchor_top = 0.8
+anchor_right = 0.78313255
+anchor_bottom = 0.98
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
-
-[node name="LeftHand2" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_top = 224.0
-offset_right = 50.0
-offset_bottom = 274.0
 script = ExtResource("8_avkx6")
 weaponSet = 1
 item_slot = 7
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/LeftHand2"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/LeftHand2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
+flip_h = true
 
-[node name="RightHand2" type="Panel" parent="HBoxContainer/Equipment/GridContainer2"]
+[node name="RightHand2" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
 custom_minimum_size = Vector2(50, 50)
-layout_mode = 0
-offset_left = 56.0
-offset_top = 224.0
-offset_right = 106.0
-offset_bottom = 274.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8032129
+anchor_top = 0.8
+anchor_right = 0.9839357
+anchor_bottom = 0.98
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("8_avkx6")
 weaponSet = 1
 slot = 1
 item_slot = 7
+metadata/_edit_use_anchors_ = true
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/GridContainer2/RightHand2"]
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/RightHand2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-expand_mode = 2
-stretch_mode = 5
+expand_mode = 1
+
+[node name="QuickSlot1" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02008032
+anchor_top = 0.02
+anchor_right = 0.20080322
+anchor_bottom = 0.2
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_mqrws")
+slot = 0
+item_slot = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/QuickSlot1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="QuickSlot2" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02008032
+anchor_top = 0.22
+anchor_right = 0.20080322
+anchor_bottom = 0.4
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_mqrws")
+item_slot = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/QuickSlot2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="QuickSlot3" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02008032
+anchor_top = 0.42
+anchor_right = 0.20080322
+anchor_bottom = 0.6
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_mqrws")
+slot = 2
+item_slot = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/QuickSlot3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="QuickSlot4" type="Panel" parent="HBoxContainer/Equipment/Control/GridContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.02008032
+anchor_top = 0.62
+anchor_right = 0.20080322
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_mqrws")
+slot = 3
+item_slot = 6
+metadata/_edit_use_anchors_ = true
+
+[node name="Icon" type="TextureRect" parent="HBoxContainer/Equipment/Control/GridContainer2/QuickSlot4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="Defence Label" type="Label" parent="HBoxContainer/Equipment"]
+visible = false
+layout_mode = 2
+text = "Defences"
+horizontal_alignment = 1
+
+[node name="Defences" type="HBoxContainer" parent="HBoxContainer/Equipment"]
+visible = false
+layout_mode = 2
+
+[node name="Deflection" type="Label" parent="HBoxContainer/Equipment/Defences"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Deflection: 0"
+horizontal_alignment = 1
+
+[node name="Endurance" type="Label" parent="HBoxContainer/Equipment/Defences"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Endurance: 0"
+horizontal_alignment = 1
+
+[node name="Reflex" type="Label" parent="HBoxContainer/Equipment/Defences"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Reflex: 0"
+horizontal_alignment = 1
+
+[node name="Mind" type="Label" parent="HBoxContainer/Equipment/Defences"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mind: 0"
+horizontal_alignment = 1
+
+[node name="DT Label" type="Label" parent="HBoxContainer/Equipment"]
+visible = false
+layout_mode = 2
+text = "Damage Threshold"
+horizontal_alignment = 1
+
+[node name="Damage Thresholds" type="HBoxContainer" parent="HBoxContainer/Equipment"]
+visible = false
+layout_mode = 2
 
 [node name="Inventory" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ItemList" type="ItemList" parent="HBoxContainer/Inventory"]
+[node name="Labels" type="HBoxContainer" parent="HBoxContainer/Inventory"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="HBoxContainer/Inventory/Labels"]
+layout_mode = 2
+text = "Edit Inventory"
+
+[node name="Carry Weight" type="Label" parent="HBoxContainer/Inventory/Labels"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Carry Weight:"
+
+[node name="Money" type="Label" parent="HBoxContainer/Inventory/Labels"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Currency :"
+
+[node name="ItemList" type="ItemList" parent="HBoxContainer/Inventory" node_paths=PackedStringArray("carryWeightLabel", "moneyLabel")]
 layout_mode = 2
 size_flags_vertical = 3
 allow_search = false
@@ -622,3 +781,7 @@ item_1/text = "Quantity"
 item_2/text = "Weight"
 item_3/text = "Cost"
 script = ExtResource("8_c8hub")
+carryWeightLabel = NodePath("../Labels/Carry Weight")
+moneyLabel = NodePath("../Labels/Money")
+
+[connection signal="button_up" from="HBoxContainer/Inventory/Labels/Button" to="HBoxContainer/Inventory/ItemList" method="_on_button_button_up"]
