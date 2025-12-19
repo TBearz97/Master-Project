@@ -21,8 +21,13 @@ PlayerVariables="*res://Global Scripts/player_variables.gd"
 DbHelper="*res://Global Scripts/DBHelper.gd"
 Expressions="*res://Global Scripts/expressions.gd"
 SignalBus="*res://Scripts/signalBus.gd"
+CampaignNetwork="*res://Scripts/SteamNetwork/CampaignNetwork.gd"
 
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-sqlite/plugin.cfg")

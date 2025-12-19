@@ -1,0 +1,91 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1hjcr78y7rkk"]
+
+[ext_resource type="Script" uid="uid://d1udl7cwep0f3" path="res://CampaignMenu.gd" id="1_mua5l"]
+
+[node name="FoldableContainer" type="FoldableContainer"]
+custom_minimum_size = Vector2(400, 400)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_right = 24.0
+grow_vertical = 0
+title = "Log"
+title_position = 1
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mua5l")
+
+[node name="StartCampaignButton" type="Button" parent="Panel/Control"]
+layout_mode = 0
+offset_top = -35.945
+offset_right = 124.0
+offset_bottom = -4.9449883
+text = "StartCampaign"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="JoinCampaign" type="HSplitContainer" parent="Panel/Control/VBoxContainer"]
+layout_mode = 2
+split_offset = 1000
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="CampaignCodeInput" type="LineEdit" parent="Panel/Control/VBoxContainer/JoinCampaign"]
+layout_mode = 2
+
+[node name="JoinCampaignButton" type="Button" parent="Panel/Control/VBoxContainer/JoinCampaign"]
+layout_mode = 2
+text = "Join Campaign"
+
+[node name="LeaveCampaign" type="HSplitContainer" parent="Panel/Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+split_offset = 1000
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="CampaignCode" type="Label" parent="Panel/Control/VBoxContainer/LeaveCampaign"]
+layout_mode = 2
+text = "Campaign Code: "
+
+[node name="LeaveCampaignButton" type="Button" parent="Panel/Control/VBoxContainer/LeaveCampaign"]
+layout_mode = 2
+text = "Leave Campaign"
+
+[node name="StatusLabel" type="RichTextLabel" parent="Panel/Control/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Status"
+
+[node name="ChatLog" type="RichTextLabel" parent="Panel/Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SendMessage" type="HSplitContainer" parent="Panel/Control/VBoxContainer"]
+layout_mode = 2
+split_offset = 1000
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="ChatInput" type="LineEdit" parent="Panel/Control/VBoxContainer/SendMessage"]
+layout_mode = 2
+
+[node name="SendChatButton" type="Button" parent="Panel/Control/VBoxContainer/SendMessage"]
+layout_mode = 2
+text = "Send Message"

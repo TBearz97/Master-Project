@@ -28,6 +28,7 @@ size_flags_vertical = 3
 
 [node name="Start_Panel" type="Panel" parent="MarginContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="Load Character" type="Button" parent="MarginContainer/Start_Panel" node_paths=PackedStringArray("character_select")]
@@ -59,6 +60,37 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "New Character"
 script = ExtResource("1_3mro0")
+
+[node name="GM_Start_panel" type="Panel" parent="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Load Character" type="Button" parent="MarginContainer/GM_Start_panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -450.0
+offset_top = 300.0
+offset_right = 450.0
+offset_bottom = 450.0
+grow_horizontal = 2
+text = "Load Campaign"
+
+[node name="New Character" type="Button" parent="MarginContainer/GM_Start_panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -450.0
+offset_top = -480.0
+offset_right = 450.0
+offset_bottom = -330.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "New Champaign"
 
 [node name="CharacterSelect" type="Panel" parent="MarginContainer"]
 unique_name_in_owner = true
