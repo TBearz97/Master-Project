@@ -35,7 +35,7 @@ func _process(_delta: float) -> void:
 func start_campaign(maximum_members: int = 6) -> void:
 	current_lobby_steam_id = 0
 	current_campaign_code = ""
-
+	
 	Steam.createLobby(Steam.LOBBY_TYPE_INVISIBLE, maximum_members)
 
 func join_campaign_by_code(campaign_code: String) -> void:
@@ -88,7 +88,11 @@ func _on_lobby_created(_connect: int, lobby_steam_id: int) -> void:
 	current_campaign_code = _generate_campaign_code_from_lobby_identifier(lobby_steam_id)
 
 	Steam.setLobbyData(current_lobby_steam_id, lobby_data_key_campaign_code, current_campaign_code)
-
+	
+	var peer = SteamMultiplayerPeer.new()
+	peer.create_host()
+	multiplayer.multiplayer_peer = peer
+	
 	emit_signal("campaign_created", current_campaign_code, current_lobby_steam_id)
 	emit_signal("campaign_joined", current_lobby_steam_id)
 
@@ -96,10 +100,15 @@ func _on_lobby_joined(lobby_steam_id: int, _permissions: int, _locked: bool, res
 	if response != 1:
 		emit_signal("campaign_join_failed", "Join failed with response code: %s" % str(response))
 		return
-
+		
 	current_lobby_steam_id = lobby_steam_id
 	current_campaign_code = Steam.getLobbyData(current_lobby_steam_id, lobby_data_key_campaign_code)
-
+	
+	if !multiplayer.is_server() :
+		var peer = SteamMultiplayerPeer.new()
+		peer.create_client(Steam.getLobbyOwner(lobby_steam_id))
+		multiplayer.multiplayer_peer = peer
+	
 	emit_signal("campaign_joined", current_lobby_steam_id)
 
 func _on_lobby_match_list(lobby_steam_id_list: Array) -> void:
@@ -161,3 +170,47 @@ func _to_base36(value: int) -> String:
 		result = alphabet[digit] + result
 		remaining /= 36
 	return result
+
+@rpc("any_peer", "call_local")
+func rpc_test_message():
+	var sender_id := multiplayer.get_remote_sender_id()
+	print("RPC received from peer ", sender_id, ": ")
+	var window = ConfirmationDialog.new()
+	window.exclusive = false
+	add_child(window)
+	window.popup_centered()
+
+func send_rpc_test():
+	# Send to everyone including host
+	rpc_request_popup.rpc_id(1, "Popup from peer %d" % multiplayer.get_unique_id())
+
+
+const SERVER_PEER_ID := 1
+
+# Step 1: request to server
+@rpc("any_peer", "call_remote", "reliable")
+func rpc_request_popup(message_text: String) -> void:
+	# Only the server should relay.
+	if not multiplayer.is_server():
+		return
+
+	var sender_id := multiplayer.get_remote_sender_id()
+	print("Server received popup request from ", sender_id)
+
+	# Step 2: server broadcasts to all peers (and itself)
+	rpc_show_popup.rpc(message_text, sender_id)
+
+# Step 2: broadcast to everyone (including the broadcaster via call_local)
+@rpc("any_peer", "call_local", "reliable")
+func rpc_show_popup(message_text: String, sender_id: int) -> void:
+	print("Showing popup. Sender was ", sender_id)
+
+	var dialog := AcceptDialog.new()
+	dialog.title = "RPC Test"
+	dialog.dialog_text = message_text
+	dialog.exclusive = false
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+
+	add_child(dialog)
+	dialog.popup_centered()

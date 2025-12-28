@@ -1,0 +1,133 @@
+[gd_scene load_steps=5 format=3 uid="uid://d1hjcr78y7rkk"]
+
+[ext_resource type="Script" uid="uid://03uionys5gkq" path="res://Scripts/Multiplayer/campaign_manager.gd" id="1_x03r7"]
+[ext_resource type="Script" uid="uid://lykqrclch1h1" path="res://Scripts/Multiplayer/Networks/network_manager.gd" id="2_xmlr4"]
+[ext_resource type="Script" uid="uid://bl3xxwor1rtc3" path="res://multiplayer_synchronizer.gd" id="3_xmlr4"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nnf2h"]
+properties/0/path = NodePath("MultiplayerSynchronizer:current_campaing_code")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[node name="FoldableContainer" type="FoldableContainer"]
+custom_minimum_size = Vector2(400, 400)
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+offset_right = 24.0
+grow_vertical = 0
+title = "Log"
+title_position = 1
+script = ExtResource("1_x03r7")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 2
+
+[node name="Lobby" type="Control" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Lobby"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="JoinCampaign" type="HSplitContainer" parent="Panel/Lobby/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+split_offset = 1000
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="CampaignCodeInput" type="LineEdit" parent="Panel/Lobby/VBoxContainer/JoinCampaign"]
+layout_mode = 2
+
+[node name="JoinCampaignButton" type="Button" parent="Panel/Lobby/VBoxContainer/JoinCampaign"]
+layout_mode = 2
+text = "Join Campaign"
+
+[node name="StartCampaignButton" type="Button" parent="Panel/Lobby/VBoxContainer/JoinCampaign"]
+layout_mode = 2
+text = "StartCampaign"
+
+[node name="LeaveCampaign" type="HSplitContainer" parent="Panel/Lobby/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+split_offset = 1000
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="CampaignCode" type="Label" parent="Panel/Lobby/VBoxContainer/LeaveCampaign"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Campaign Code: "
+
+[node name="LeaveCampaignButton" type="Button" parent="Panel/Lobby/VBoxContainer/LeaveCampaign"]
+layout_mode = 2
+text = "Leave Campaign"
+
+[node name="StatusLabel" type="RichTextLabel" parent="Panel/Lobby/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Status"
+
+[node name="ChatLog" type="RichTextLabel" parent="Panel/Lobby/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="SendMessage" type="HSplitContainer" parent="Panel/Lobby/VBoxContainer"]
+layout_mode = 2
+split_offset = 1000
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="ChatInput" type="LineEdit" parent="Panel/Lobby/VBoxContainer/SendMessage"]
+layout_mode = 2
+
+[node name="SendChatButton" type="Button" parent="Panel/Lobby/VBoxContainer/SendMessage"]
+layout_mode = 2
+text = "Send Message"
+
+[node name="NetworkSelector" type="VBoxContainer" parent="Panel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="EnetButton" type="Button" parent="Panel/NetworkSelector"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 7
+text = "Use ENet"
+
+[node name="SteamButton" type="Button" parent="Panel/NetworkSelector"]
+layout_mode = 2
+size_flags_horizontal = 5
+size_flags_vertical = 7
+text = "Use Steam"
+
+[node name="NetworkManager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_xmlr4")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+unique_name_in_owner = true
+replication_config = SubResource("SceneReplicationConfig_nnf2h")
+script = ExtResource("3_xmlr4")
+
+[connection signal="pressed" from="Panel/Lobby/VBoxContainer/JoinCampaign/StartCampaignButton" to="." method="become_host"]
+[connection signal="pressed" from="Panel/NetworkSelector/EnetButton" to="." method="use_enet"]
+[connection signal="pressed" from="Panel/NetworkSelector/SteamButton" to="." method="use_steam"]

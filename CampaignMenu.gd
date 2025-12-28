@@ -15,6 +15,8 @@ extends Control
 var lobbyID
 
 func _ready() -> void:
+	set_process_input(true)
+	
 	DbHelper.prepareLabel(chat_log, false)
 	chat_log.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	chat_log.fit_content = false
@@ -37,7 +39,7 @@ func _ready() -> void:
 func _on_start_campaign_pressed() -> void:
 	status_label.clear()
 	status_label.append_text("Creating campaign...\n")
-	CampaignNetwork.start_campaign(6)
+	N
 
 func _on_leave_campaign_pressed() -> void:
 	return
@@ -82,3 +84,8 @@ func _set_chat_enabled(is_enabled: bool) -> void:
 	if lobbyID != null :
 		var campaignKey = Steam.getLobbyData(lobbyID, "Campaign Key")
 		campaign_code_label.text = "Campaign Code: " + campaignKey
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo:
+		if event.keycode == KEY_T:
+			CampaignNetwork.send_rpc_test()

@@ -28,7 +28,6 @@ size_flags_vertical = 3
 
 [node name="Start_Panel" type="Panel" parent="MarginContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="Load Character" type="Button" parent="MarginContainer/Start_Panel" node_paths=PackedStringArray("character_select")]
@@ -63,6 +62,7 @@ script = ExtResource("1_3mro0")
 
 [node name="GM_Start_panel" type="Panel" parent="MarginContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="Load Character" type="Button" parent="MarginContainer/GM_Start_panel"]
