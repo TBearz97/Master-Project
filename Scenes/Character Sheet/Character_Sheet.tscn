@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://d2bt2o84ygnf4"]
+[gd_scene load_steps=7 format=3 uid="uid://d2bt2o84ygnf4"]
 
 [ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="1_orawx"]
 [ext_resource type="Texture2D" uid="uid://hwnrcpc7o8lp" path="res://Art/Icons/Durance-portrait.jpg" id="2_m0l0a"]
 [ext_resource type="Script" uid="uid://3k0r8553xra4" path="res://Scenes/Character Sheet/character_info.gd" id="3_nl4im"]
 [ext_resource type="Script" uid="uid://b5l01deswc32q" path="res://Scenes/Character Sheet/stats.gd" id="4_t4xyy"]
 [ext_resource type="PackedScene" uid="uid://cys02mj06x6vs" path="res://Scripts/Inventory/draganddrop.tscn" id="5_nl4im"]
+[ext_resource type="PackedScene" uid="uid://d1hjcr78y7rkk" path="res://CampaignManager.tscn" id="6_t4xyy"]
 
 [node name="CharacterSheet" type="Control"]
 layout_mode = 3
@@ -296,3 +297,8 @@ size_flags_vertical = 3
 visible = false
 layout_mode = 2
 metadata/_tab_index = 4
+
+[node name="CampaignManager" parent="Panel" instance=ExtResource("6_t4xyy")]
+layout_mode = 1
+offset_top = -500.0
+offset_right = 500.0

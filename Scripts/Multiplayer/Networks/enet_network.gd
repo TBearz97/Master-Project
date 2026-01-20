@@ -10,7 +10,8 @@ var multiplayer_peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 
 func become_host():
 	print("Starting host!")
-	var campaigncodelbl :Label = get_tree().current_scene.get_node("Panel/Lobby/VBoxContainer/LeaveCampaign/CampaignCode")
+	print(get_parent())
+	var campaigncodelbl :Label = get_parent().get_parent().get_node("Panel/Lobby/VBoxContainer/TabContainer/Settings/LeaveCampaign/CampaignCode")
 	campaigncodelbl.text = "Campaign Code: " + current_campaign_code
 	
 	multiplayer_peer.create_server(SERVER_PORT)
