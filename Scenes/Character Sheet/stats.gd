@@ -49,11 +49,11 @@ func _setupAttributes(main: VBoxContainer, _grid : GridContainer) :
 	for att in atts :
 		var split = VSplitContainer.new()
 		
-		var bonus1 = DbHelper.prepareLabel(RichTextLabel.new())
-		bonus1.text = DbHelper.replaceText(att.bonus_1_prefix + " " + str(Expressions.evaluate(att.bonus_1_expression, ["x"], [att.value])) + " " + att.bonus_1_suffix)
+		var bonus1 = CampaignVariables.prepareLabel(RichTextLabel.new())
+		bonus1.text = CampaignVariables.replaceText(att.bonus_1_prefix + " " + str(Expressions.evaluate(att.bonus_1_expression, ["x"], [att.value])) + " " + att.bonus_1_suffix)
 	
-		var bonus2 = DbHelper.prepareLabel(RichTextLabel.new())
-		bonus2.text = DbHelper.replaceText(att.bonus_2_prefix + " " + str(Expressions.evaluate(att.bonus_2_expression, ["x"], [att.value])) + " " + att.bonus_2_suffix)
+		var bonus2 = CampaignVariables.prepareLabel(RichTextLabel.new())
+		bonus2.text = CampaignVariables.replaceText(att.bonus_2_prefix + " " + str(Expressions.evaluate(att.bonus_2_expression, ["x"], [att.value])) + " " + att.bonus_2_suffix)
 		
 		split.add_child(bonus1)
 		split.add_child(bonus2)
@@ -91,15 +91,16 @@ func _setupSkills(main: VBoxContainer) :
 		split.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		split.custom_minimum_size = Vector2(300, 0)
 		
-		var lbl = DbHelper.prepareLabel(RichTextLabel.new())
-		lbl.text = DbHelper.replaceText(skill._name)
+		var lbl = CampaignVariables.prepareLabel(RichTextLabel.new())
+		lbl.text = CampaignVariables.replaceText(skill._name)
 		split.add_child(lbl)
 		
 		var btn = Button.new()
 		btn.text = str(skill.value)
 		btn.set_meta("Value", skill.value)
 		btn.pressed.connect(func () : 
-			print("Roll for " + skill._name + ": " + ("Succeeded" if skillCheck(int(skill.value)) else "Failed") ))
+			%CampaignManager._add_combat_log(("Roll for " + skill._name + ": " + ("Succeeded" if skillCheck(int(skill.value)) else "Failed")))  
+			)
 		split.add_child(btn)
 		btns.append(btn)
 		
@@ -112,8 +113,8 @@ func _setupAttHeader() -> GridContainer:
 		container.dragging_enabled = false
 		container.dragger_visibility = SplitContainer.DRAGGER_HIDDEN
 		
-		var label = DbHelper.prepareLabel(RichTextLabel.new())
-		label.text = DbHelper.replaceText(att._name)
+		var label = CampaignVariables.prepareLabel(RichTextLabel.new())
+		label.text = CampaignVariables.replaceText(att._name)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		container.add_child(label)
 		
@@ -152,7 +153,7 @@ func _setupStatHeader() -> GridContainer:
 
 func skillCheck (skill : int) :
 	var difficulty = int(optionButton.get_item_text(optionButton.selected))
-	return Expressions.evaluate(DbHelper.rule["Skill Check"], ["difficulty", "skill"], [difficulty, skill])
+	return Expressions.evaluate(CampaignVariables.codex.Rules["Skill Check"].expression, ["difficulty", "skill"], [difficulty, skill])
 
 func _update_percentage(idx : int) :
 	var difficulty = int(optionButton.get_item_text(idx))

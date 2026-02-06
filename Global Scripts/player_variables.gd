@@ -27,22 +27,22 @@ func setAge(value: int) -> void:
 func getAge() -> int:
 	return data.age
 
-func setRace(value: String) -> void:
+func setRace(value: Race) -> void:
 	data.race = value
 
-func getRace() -> String:
+func getRace() -> Race:
 	return data.race
 
-func setHomeland(value: String) -> void:
+func setHomeland(value: Homeland) -> void:
 	data.homeland = value
 
-func getHomeland() -> String:
+func getHomeland() -> Homeland:
 	return data.homeland
 
-func setBackground(value: String) -> void:
+func setBackground(value: Background) -> void:
 	data.background = value
 
-func getBackground() -> String:
+func getBackground() -> Background:
 	return data.background
 
 func setBackstory(value: String) -> void:
@@ -200,22 +200,50 @@ func level_Up() -> void :
 	data.perk_points += 1
 
 func save() -> void:
-	var path = "user://characters/" + data.character_name + ".res"
-	var err = ResourceSaver.save(data, path)
-	if err != OK:
-		push_error("Failed to save player data. Error code: %s" % err)
+	var directory_path := "user://characters"
+	var file_path := directory_path + "/" + data.character_name + ".res"
 
-func load(_name : String) :
-	var path = "user://characters/" + _name + ".res"
-	data = ResourceLoader.load(path)
-	if not FileAccess.file_exists(path):
-		push_error("File %s does not exist" % path)
+	# Ensure directory exists
+	var directory := DirAccess.open("user://")
+	if directory == null:
+		push_error("Failed to open user:// directory")
+		return
+	if not directory.dir_exists("characters"):
+		var _result := directory.make_dir("characters")
+		if _result != OK:
+			push_error("Failed to create characters directory. Error code: %s" % _result)
+			return
 
-	var res := ResourceLoader.load(path)
-	if res is PlayerData:
-		data = res
+	var result := ResourceSaver.save(data, file_path)
+	if result != OK:
+		push_error("Failed to save player data. Error code: %s" % result)
+
+
+func load(character_name: String) -> void:
+	var directory_path := "user://characters"
+	var file_path := directory_path + "/" + character_name + ".res"
+
+	# Ensure directory exists
+	var directory := DirAccess.open("user://")
+	if directory == null:
+		push_error("Failed to open user:// directory")
+		return
+	if not directory.dir_exists("characters"):
+		var result := directory.make_dir("characters")
+		if result != OK:
+			push_error("Failed to create characters directory. Error code: %s" % result)
+			return
+
+	if not FileAccess.file_exists(file_path):
+		push_error("File %s does not exist" % file_path)
+		return
+
+	var resource := ResourceLoader.load(file_path)
+	if resource is PlayerData:
+		data = resource
 	else:
-		push_error("Save file %s is not a PlayerData resource" % path)
+		push_error("Save file %s is not a PlayerData resource" % file_path)
+
 
 func print_character_info() -> void:
 	print("Character Info")

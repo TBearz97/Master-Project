@@ -10,8 +10,8 @@ enum WeaponRange {MELEE, CLOSE, MEDIUM, LONG}
 @export var size: WeaponSize
 @export var weaponRange: WeaponRange
 
-func _init(itemName: String = "", itemWeight: float = 0, itemValue: int = 0, itemDamage: float = 0, itemSpeed: int = 0, itemQualities: String = "", itemSize: String = "", itemRange: String = "") -> void:
-	super(itemName, itemWeight, itemValue)
+func _init(itemName: String = "", shortDescription : String = "", longDescription : String = "", itemWeight: float = 0, itemValue: int = 0, itemDamage: float = 0, itemSpeed: int = 0, itemQualities: String = "", itemSize: String = "", itemRange: String = "") -> void:
+	super(itemName, shortDescription, longDescription, itemWeight, itemValue)
 	allowed_slots = [ItemSlots.WeaponSlot]
 	damage = itemDamage
 	speed = itemSpeed

@@ -3,6 +3,7 @@ extends ScrollContainer
 @export var grid : GridContainer
 
 func _ready() -> void:
+	%CampaignManager.use_enet()
 	_setup()
 	for child in grid.get_children() :
 		match child.name :
@@ -10,16 +11,16 @@ func _ready() -> void:
 			"Gender" : child.get_child(1).text = PlayerVariables.getGender()
 			"Age" : child.get_child(1).text = str(PlayerVariables.getAge())
 			"Race" : 
-				var rt = DbHelper.prepareLabel(RichTextLabel.new())
-				rt.text = DbHelper.replaceText(PlayerVariables.getRace())
+				var rt = CampaignVariables.prepareLabel(RichTextLabel.new())
+				rt.text = CampaignVariables.replaceText(PlayerVariables.getRace()._name)
 				child.add_child(rt)
 			"Homeland" : 
-				var rt = DbHelper.prepareLabel(RichTextLabel.new())
-				rt.text = DbHelper.replaceText(PlayerVariables.getHomeland())
+				var rt = CampaignVariables.prepareLabel(RichTextLabel.new())
+				rt.text = CampaignVariables.replaceText(PlayerVariables.getHomeland()._name)
 				child.add_child(rt)
 			"Background" : 
-				var rt = DbHelper.prepareLabel(RichTextLabel.new())
-				rt.text = DbHelper.replaceText(PlayerVariables.getBackground())
+				var rt = CampaignVariables.prepareLabel(RichTextLabel.new())
+				rt.text = CampaignVariables.replaceText(PlayerVariables.getBackground()._name)
 				child.add_child(rt)
 
 func _setup() -> void:
@@ -44,28 +45,23 @@ func _setup() -> void:
 	backstoryLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	backstoryContainer.add_child(backstoryLabel)
 
-	var backstoryValue = DbHelper.prepareLabel(RichTextLabel.new(), false)
+	var backstoryValue = CampaignVariables.prepareLabel(RichTextLabel.new(), false)
 	backstoryValue.text = PlayerVariables.getBackstory()
 	backstoryContainer.add_child(backstoryValue)
 	box.add_child(backstoryContainer)
 
-func _add_info(parent: VBoxContainer, label_text: String, value_text: String) -> void:
+func _add_info(parent: VBoxContainer, label_text: String, codexItem) -> void:
 	var container = VBoxContainer.new()
 	var lbl = Label.new()
-	lbl.text = label_text
 	lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	container.add_child(lbl)
 
-	var val = Label.new()
-	val.text = value_text
-	val.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	container.add_child(val)
-	
-	var table = label_text.split(": ")
-	if table[0] != "Gender" and table[0] != "Character Name":
-		var query = 'SELECT * FROM ' + table[0] + ' WHERE name = "' + value_text + '"'
-		var rows = DbHelper.db_fetch(query)
-		var rt = DbHelper.prepareLabel(RichTextLabel.new(), false)
-		rt.text = DbHelper.replaceText(rows[0]["long_description"])
+	if codexItem is CodexItem:
+		lbl.text = label_text + codexItem._name
+		var rt = CampaignVariables.prepareLabel(RichTextLabel.new(), false)
+		rt.text = CampaignVariables.replaceText(codexItem.long_description)
 		container.add_child(rt)
+	elif codexItem is String :
+		lbl.text = label_text + codexItem
+	
 	parent.add_child(container)

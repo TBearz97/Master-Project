@@ -1,0 +1,3556 @@
+[gd_resource type="Resource" load_steps=999 format=3]
+
+[ext_resource type="Script" path="res://ruleset/Ruleset.gd" id="1"]
+[ext_resource type="Script" path="res://ruleset/AttributeData.gd" id="2"]
+[ext_resource type="Script" path="res://ruleset/SkillData.gd" id="3"]
+[ext_resource type="Script" path="res://ruleset/PerkData.gd" id="4"]
+[ext_resource type="Script" path="res://ruleset/RaceData.gd" id="5"]
+[ext_resource type="Script" path="res://ruleset/ItemData.gd" id="6"]
+
+[sub_resource type="Resource" id="1"]
+script = ExtResource("2")
+id = "1"
+name = "Might"
+description = ""
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("2")
+id = "2"
+name = "Dexterity"
+description = ""
+
+[sub_resource type="Resource" id="3"]
+script = ExtResource("2")
+id = "3"
+name = "Constitution"
+description = ""
+
+[sub_resource type="Resource" id="4"]
+script = ExtResource("2")
+id = "4"
+name = "Perception"
+description = ""
+
+[sub_resource type="Resource" id="5"]
+script = ExtResource("2")
+id = "5"
+name = "Intelligence"
+description = ""
+
+[sub_resource type="Resource" id="6"]
+script = ExtResource("2")
+id = "6"
+name = "Resolve"
+description = ""
+
+[sub_resource type="Resource" id="7"]
+script = ExtResource("3")
+id = "1"
+name = "Animal Handling"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="8"]
+script = ExtResource("3")
+id = "2"
+name = "Athletics"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="9"]
+script = ExtResource("3")
+id = "3"
+name = "Command"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="10"]
+script = ExtResource("3")
+id = "4"
+name = "Craft"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="11"]
+script = ExtResource("3")
+id = "5"
+name = "Insight"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="12"]
+script = ExtResource("3")
+id = "6"
+name = "Investigation"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="13"]
+script = ExtResource("3")
+id = "7"
+name = "Lore"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="14"]
+script = ExtResource("3")
+id = "8"
+name = "Medicine"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="15"]
+script = ExtResource("3")
+id = "9"
+name = "Sleight of Hand"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="16"]
+script = ExtResource("3")
+id = "10"
+name = "Society"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="17"]
+script = ExtResource("3")
+id = "11"
+name = "Speech"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="18"]
+script = ExtResource("3")
+id = "12"
+name = "Stealth"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="19"]
+script = ExtResource("3")
+id = "13"
+name = "Survival"
+description = ""
+linked_attribute_ids = PackedStringArray()
+
+[sub_resource type="Resource" id="20"]
+script = ExtResource("4")
+id = "1"
+name = "Good Natured"
+description = ""
+
+[sub_resource type="Resource" id="21"]
+script = ExtResource("4")
+id = "2"
+name = "Survival of the Fittest"
+description = ""
+
+[sub_resource type="Resource" id="22"]
+script = ExtResource("4")
+id = "3"
+name = "Social Beings"
+description = ""
+
+[sub_resource type="Resource" id="23"]
+script = ExtResource("4")
+id = "4"
+name = "Runic Destiny"
+description = ""
+
+[sub_resource type="Resource" id="24"]
+script = ExtResource("4")
+id = "5"
+name = "Small Frame"
+description = ""
+
+[sub_resource type="Resource" id="25"]
+script = ExtResource("4")
+id = "6"
+name = "From Fire and Flame"
+description = ""
+
+[sub_resource type="Resource" id="26"]
+script = ExtResource("4")
+id = "7"
+name = "Forest Child"
+description = ""
+
+[sub_resource type="Resource" id="27"]
+script = ExtResource("4")
+id = "8"
+name = "Resilient Frame"
+description = ""
+
+[sub_resource type="Resource" id="28"]
+script = ExtResource("4")
+id = "9"
+name = "Soulless"
+description = ""
+
+[sub_resource type="Resource" id="29"]
+script = ExtResource("4")
+id = "10"
+name = "The Way of the Jungle"
+description = ""
+
+[sub_resource type="Resource" id="30"]
+script = ExtResource("4")
+id = "11"
+name = "Elven Education"
+description = ""
+
+[sub_resource type="Resource" id="31"]
+script = ExtResource("4")
+id = "12"
+name = "Frostborn"
+description = ""
+
+[sub_resource type="Resource" id="32"]
+script = ExtResource("4")
+id = "13"
+name = "Desert Adventurer"
+description = ""
+
+[sub_resource type="Resource" id="33"]
+script = ExtResource("4")
+id = "14"
+name = "Adaptable"
+description = ""
+
+[sub_resource type="Resource" id="34"]
+script = ExtResource("4")
+id = "15"
+name = "Born to Fight"
+description = ""
+
+[sub_resource type="Resource" id="35"]
+script = ExtResource("4")
+id = "16"
+name = "Looter"
+description = ""
+
+[sub_resource type="Resource" id="36"]
+script = ExtResource("4")
+id = "17"
+name = "Animal Friend"
+description = ""
+
+[sub_resource type="Resource" id="37"]
+script = ExtResource("4")
+id = "18"
+name = "No Perk"
+description = ""
+
+[sub_resource type="Resource" id="38"]
+script = ExtResource("4")
+id = "19"
+name = "Survivor"
+description = ""
+
+[sub_resource type="Resource" id="39"]
+script = ExtResource("4")
+id = "20"
+name = "Heat Resistant"
+description = ""
+
+[sub_resource type="Resource" id="40"]
+script = ExtResource("4")
+id = "21"
+name = "Battle-Hardened"
+description = ""
+
+[sub_resource type="Resource" id="41"]
+script = ExtResource("4")
+id = "22"
+name = "Underworld Connections"
+description = ""
+
+[sub_resource type="Resource" id="42"]
+script = ExtResource("4")
+id = "23"
+name = "Master of Disguise"
+description = ""
+
+[sub_resource type="Resource" id="43"]
+script = ExtResource("4")
+id = "24"
+name = "Of the same Cloth"
+description = ""
+
+[sub_resource type="Resource" id="44"]
+script = ExtResource("4")
+id = "25"
+name = "One of the People"
+description = ""
+
+[sub_resource type="Resource" id="45"]
+script = ExtResource("4")
+id = "26"
+name = "Educated"
+description = ""
+
+[sub_resource type="Resource" id="46"]
+script = ExtResource("4")
+id = "27"
+name = "Blessed Guidance"
+description = ""
+
+[sub_resource type="Resource" id="47"]
+script = ExtResource("4")
+id = "28"
+name = "Captivating Performance"
+description = ""
+
+[sub_resource type="Resource" id="48"]
+script = ExtResource("4")
+id = "29"
+name = "Masterwork"
+description = ""
+
+[sub_resource type="Resource" id="49"]
+script = ExtResource("4")
+id = "30"
+name = "Veteran's Instinct"
+description = ""
+
+[sub_resource type="Resource" id="50"]
+script = ExtResource("4")
+id = "31"
+name = "Trailblazer"
+description = ""
+
+[sub_resource type="Resource" id="51"]
+script = ExtResource("4")
+id = "32"
+name = "Haggle for a Living"
+description = ""
+
+[sub_resource type="Resource" id="52"]
+script = ExtResource("4")
+id = "33"
+name = "Home at Sea"
+description = ""
+
+[sub_resource type="Resource" id="53"]
+script = ExtResource("4")
+id = "34"
+name = "Crowd's Favor"
+description = ""
+
+[sub_resource type="Resource" id="54"]
+script = ExtResource("4")
+id = "35"
+name = "Marksman's Patience"
+description = ""
+
+[sub_resource type="Resource" id="55"]
+script = ExtResource("4")
+id = "36"
+name = "Wise Counsel"
+description = ""
+
+[sub_resource type="Resource" id="56"]
+script = ExtResource("4")
+id = "37"
+name = "Beast Affinity"
+description = ""
+
+[sub_resource type="Resource" id="57"]
+script = ExtResource("4")
+id = "38"
+name = "Trained to Kill"
+description = ""
+
+[sub_resource type="Resource" id="58"]
+script = ExtResource("4")
+id = "39"
+name = "Secluded"
+description = ""
+
+[sub_resource type="Resource" id="59"]
+script = ExtResource("4")
+id = "40"
+name = "Weapon Mastery"
+description = ""
+
+[sub_resource type="Resource" id="60"]
+script = ExtResource("4")
+id = "41"
+name = "Battle Instinct"
+description = ""
+
+[sub_resource type="Resource" id="61"]
+script = ExtResource("4")
+id = "42"
+name = "Second Wind"
+description = ""
+
+[sub_resource type="Resource" id="62"]
+script = ExtResource("4")
+id = "43"
+name = "Tactical Advance"
+description = ""
+
+[sub_resource type="Resource" id="63"]
+script = ExtResource("4")
+id = "44"
+name = "Overpower"
+description = ""
+
+[sub_resource type="Resource" id="64"]
+script = ExtResource("4")
+id = "45"
+name = "Shield Wall"
+description = ""
+
+[sub_resource type="Resource" id="65"]
+script = ExtResource("4")
+id = "46"
+name = "Momentum"
+description = ""
+
+[sub_resource type="Resource" id="66"]
+script = ExtResource("4")
+id = "47"
+name = "Defensive Footwork"
+description = ""
+
+[sub_resource type="Resource" id="67"]
+script = ExtResource("4")
+id = "48"
+name = "Warlord’s Command"
+description = ""
+
+[sub_resource type="Resource" id="68"]
+script = ExtResource("4")
+id = "49"
+name = "Last Stand"
+description = ""
+
+[sub_resource type="Resource" id="69"]
+script = ExtResource("4")
+id = "50"
+name = "Sacred Vow"
+description = ""
+
+[sub_resource type="Resource" id="70"]
+script = ExtResource("4")
+id = "51"
+name = "Smite the Unholy"
+description = ""
+
+[sub_resource type="Resource" id="71"]
+script = ExtResource("4")
+id = "52"
+name = "Conviction"
+description = ""
+
+[sub_resource type="Resource" id="72"]
+script = ExtResource("4")
+id = "53"
+name = "Faithful Surge"
+description = ""
+
+[sub_resource type="Resource" id="73"]
+script = ExtResource("4")
+id = "54"
+name = "Divine Shield"
+description = ""
+
+[sub_resource type="Resource" id="74"]
+script = ExtResource("4")
+id = "55"
+name = "Inquisitor’s Wrath"
+description = ""
+
+[sub_resource type="Resource" id="75"]
+script = ExtResource("4")
+id = "56"
+name = "Righteous Zeal"
+description = ""
+
+[sub_resource type="Resource" id="76"]
+script = ExtResource("4")
+id = "57"
+name = "Inspiring Hymn"
+description = ""
+
+[sub_resource type="Resource" id="77"]
+script = ExtResource("4")
+id = "58"
+name = "Martyr’s Will"
+description = ""
+
+[sub_resource type="Resource" id="78"]
+script = ExtResource("4")
+id = "59"
+name = "Faith Beyond Death"
+description = ""
+
+[sub_resource type="Resource" id="79"]
+script = ExtResource("4")
+id = "60"
+name = "Spirit Bond"
+description = ""
+
+[sub_resource type="Resource" id="80"]
+script = ExtResource("4")
+id = "61"
+name = "Earthen Armor"
+description = ""
+
+[sub_resource type="Resource" id="81"]
+script = ExtResource("4")
+id = "62"
+name = "Verdant Renewal"
+description = ""
+
+[sub_resource type="Resource" id="82"]
+script = ExtResource("4")
+id = "63"
+name = "Beast Whisperer"
+description = ""
+
+[sub_resource type="Resource" id="83"]
+script = ExtResource("4")
+id = "64"
+name = "Stormcaller"
+description = ""
+
+[sub_resource type="Resource" id="84"]
+script = ExtResource("4")
+id = "65"
+name = "Totemic Strength"
+description = ""
+
+[sub_resource type="Resource" id="85"]
+script = ExtResource("4")
+id = "66"
+name = "Root Snare"
+description = ""
+
+[sub_resource type="Resource" id="86"]
+script = ExtResource("4")
+id = "67"
+name = "Spirit Echo"
+description = ""
+
+[sub_resource type="Resource" id="87"]
+script = ExtResource("4")
+id = "68"
+name = "Warden’s Step"
+description = ""
+
+[sub_resource type="Resource" id="88"]
+script = ExtResource("4")
+id = "69"
+name = "Ancestral Guardian"
+description = ""
+
+[sub_resource type="Resource" id="89"]
+script = ExtResource("4")
+id = "70"
+name = "Arcane Channeling"
+description = ""
+
+[sub_resource type="Resource" id="90"]
+script = ExtResource("4")
+id = "71"
+name = "Mana Efficiency"
+description = ""
+
+[sub_resource type="Resource" id="91"]
+script = ExtResource("4")
+id = "72"
+name = "Runic Focus"
+description = ""
+
+[sub_resource type="Resource" id="92"]
+script = ExtResource("4")
+id = "73"
+name = "Spell Echo"
+description = ""
+
+[sub_resource type="Resource" id="93"]
+script = ExtResource("4")
+id = "74"
+name = "Arcane Ward"
+description = ""
+
+[sub_resource type="Resource" id="94"]
+script = ExtResource("4")
+id = "75"
+name = "Temporal Distortion"
+description = ""
+
+[sub_resource type="Resource" id="95"]
+script = ExtResource("4")
+id = "76"
+name = "Elemental Mastery"
+description = ""
+
+[sub_resource type="Resource" id="96"]
+script = ExtResource("4")
+id = "77"
+name = "Feedback Loop"
+description = ""
+
+[sub_resource type="Resource" id="97"]
+script = ExtResource("4")
+id = "78"
+name = "Disruptive Casting"
+description = ""
+
+[sub_resource type="Resource" id="98"]
+script = ExtResource("4")
+id = "79"
+name = "Reality Tear"
+description = ""
+
+[sub_resource type="Resource" id="99"]
+script = ExtResource("4")
+id = "80"
+name = "Beast Empathy"
+description = ""
+
+[sub_resource type="Resource" id="100"]
+script = ExtResource("4")
+id = "81"
+name = "Enduring Stride"
+description = ""
+
+[sub_resource type="Resource" id="101"]
+script = ExtResource("4")
+id = "82"
+name = "Battle Orders"
+description = ""
+
+[sub_resource type="Resource" id="102"]
+script = ExtResource("4")
+id = "83"
+name = "Efficient Smith"
+description = ""
+
+[sub_resource type="Resource" id="103"]
+script = ExtResource("4")
+id = "84"
+name = "Truth Seeker"
+description = ""
+
+[sub_resource type="Resource" id="104"]
+script = ExtResource("4")
+id = "85"
+name = "Eagle Eye"
+description = ""
+
+[sub_resource type="Resource" id="105"]
+script = ExtResource("4")
+id = "86"
+name = "Archivist"
+description = ""
+
+[sub_resource type="Resource" id="106"]
+script = ExtResource("4")
+id = "87"
+name = "Field Medic"
+description = ""
+
+[sub_resource type="Resource" id="107"]
+script = ExtResource("4")
+id = "88"
+name = "Quick Fingers"
+description = ""
+
+[sub_resource type="Resource" id="108"]
+script = ExtResource("4")
+id = "89"
+name = "Diplomat"
+description = ""
+
+[sub_resource type="Resource" id="109"]
+script = ExtResource("4")
+id = "90"
+name = "Silver Tongue"
+description = ""
+
+[sub_resource type="Resource" id="110"]
+script = ExtResource("4")
+id = "91"
+name = "Shadowmeld"
+description = ""
+
+[sub_resource type="Resource" id="111"]
+script = ExtResource("4")
+id = "92"
+name = "Forager"
+description = ""
+
+[sub_resource type="Resource" id="112"]
+script = ExtResource("4")
+id = "93"
+name = "Beast Empathy"
+description = ""
+
+[sub_resource type="Resource" id="113"]
+script = ExtResource("4")
+id = "94"
+name = "Trained Mounts"
+description = ""
+
+[sub_resource type="Resource" id="114"]
+script = ExtResource("4")
+id = "95"
+name = "Pack Leader"
+description = ""
+
+[sub_resource type="Resource" id="115"]
+script = ExtResource("4")
+id = "96"
+name = "Animal Bond"
+description = ""
+
+[sub_resource type="Resource" id="116"]
+script = ExtResource("4")
+id = "97"
+name = "Hunter’s Instinct"
+description = ""
+
+[sub_resource type="Resource" id="117"]
+script = ExtResource("4")
+id = "98"
+name = "Quick Command"
+description = ""
+
+[sub_resource type="Resource" id="118"]
+script = ExtResource("4")
+id = "99"
+name = "Pack Tactics"
+description = ""
+
+[sub_resource type="Resource" id="119"]
+script = ExtResource("4")
+id = "100"
+name = "Veterinarian"
+description = ""
+
+[sub_resource type="Resource" id="120"]
+script = ExtResource("4")
+id = "101"
+name = "Beast Whisper"
+description = ""
+
+[sub_resource type="Resource" id="121"]
+script = ExtResource("4")
+id = "102"
+name = "Alpha Presence"
+description = ""
+
+[sub_resource type="Resource" id="122"]
+script = ExtResource("4")
+id = "103"
+name = "Enduring Stride"
+description = ""
+
+[sub_resource type="Resource" id="123"]
+script = ExtResource("4")
+id = "104"
+name = "Power Jump"
+description = ""
+
+[sub_resource type="Resource" id="124"]
+script = ExtResource("4")
+id = "105"
+name = "Marathoner"
+description = ""
+
+[sub_resource type="Resource" id="125"]
+script = ExtResource("4")
+id = "106"
+name = "Titan Grip"
+description = ""
+
+[sub_resource type="Resource" id="126"]
+script = ExtResource("4")
+id = "107"
+name = "Braced Impact"
+description = ""
+
+[sub_resource type="Resource" id="127"]
+script = ExtResource("4")
+id = "108"
+name = "Iron Body"
+description = ""
+
+[sub_resource type="Resource" id="128"]
+script = ExtResource("4")
+id = "109"
+name = "Momentum Boost"
+description = ""
+
+[sub_resource type="Resource" id="129"]
+script = ExtResource("4")
+id = "110"
+name = "Climber’s Grip"
+description = ""
+
+[sub_resource type="Resource" id="130"]
+script = ExtResource("4")
+id = "111"
+name = "Sprinter’s Focus"
+description = ""
+
+[sub_resource type="Resource" id="131"]
+script = ExtResource("4")
+id = "112"
+name = "Unyielding"
+description = ""
+
+[sub_resource type="Resource" id="132"]
+script = ExtResource("4")
+id = "113"
+name = "Battle Orders"
+description = ""
+
+[sub_resource type="Resource" id="133"]
+script = ExtResource("4")
+id = "114"
+name = "Rally Cry"
+description = ""
+
+[sub_resource type="Resource" id="134"]
+script = ExtResource("4")
+id = "115"
+name = "Coordinated Strike"
+description = ""
+
+[sub_resource type="Resource" id="135"]
+script = ExtResource("4")
+id = "116"
+name = "Formation Discipline"
+description = ""
+
+[sub_resource type="Resource" id="136"]
+script = ExtResource("4")
+id = "117"
+name = "Strategist’s Eye"
+description = ""
+
+[sub_resource type="Resource" id="137"]
+script = ExtResource("4")
+id = "118"
+name = "Retaliate Order"
+description = ""
+
+[sub_resource type="Resource" id="138"]
+script = ExtResource("4")
+id = "119"
+name = "Reinforce Line"
+description = ""
+
+[sub_resource type="Resource" id="139"]
+script = ExtResource("4")
+id = "120"
+name = "Efficient Command"
+description = ""
+
+[sub_resource type="Resource" id="140"]
+script = ExtResource("4")
+id = "121"
+name = "Tactical Withdrawal"
+description = ""
+
+[sub_resource type="Resource" id="141"]
+script = ExtResource("4")
+id = "122"
+name = "Inspiring Leadership"
+description = ""
+
+[sub_resource type="Resource" id="142"]
+script = ExtResource("4")
+id = "123"
+name = "Efficient Smith"
+description = ""
+
+[sub_resource type="Resource" id="143"]
+script = ExtResource("4")
+id = "124"
+name = "Runic Etching"
+description = ""
+
+[sub_resource type="Resource" id="144"]
+script = ExtResource("4")
+id = "125"
+name = "Master Artisan"
+description = ""
+
+[sub_resource type="Resource" id="145"]
+script = ExtResource("4")
+id = "126"
+name = "Salvager"
+description = ""
+
+[sub_resource type="Resource" id="146"]
+script = ExtResource("4")
+id = "127"
+name = "Field Repairs"
+description = ""
+
+[sub_resource type="Resource" id="147"]
+script = ExtResource("4")
+id = "128"
+name = "Tinker’s Touch"
+description = ""
+
+[sub_resource type="Resource" id="148"]
+script = ExtResource("4")
+id = "129"
+name = "Apprentice Mentor"
+description = ""
+
+[sub_resource type="Resource" id="149"]
+script = ExtResource("4")
+id = "130"
+name = "Improvised Tools"
+description = ""
+
+[sub_resource type="Resource" id="150"]
+script = ExtResource("4")
+id = "131"
+name = "Quick Forge"
+description = ""
+
+[sub_resource type="Resource" id="151"]
+script = ExtResource("4")
+id = "132"
+name = "Resourceful"
+description = ""
+
+[sub_resource type="Resource" id="152"]
+script = ExtResource("4")
+id = "133"
+name = "Truth Seeker"
+description = ""
+
+[sub_resource type="Resource" id="153"]
+script = ExtResource("4")
+id = "134"
+name = "Predictive Reading"
+description = ""
+
+[sub_resource type="Resource" id="154"]
+script = ExtResource("4")
+id = "135"
+name = "Heightened Awareness"
+description = ""
+
+[sub_resource type="Resource" id="155"]
+script = ExtResource("4")
+id = "136"
+name = "Mind’s Eye"
+description = ""
+
+[sub_resource type="Resource" id="156"]
+script = ExtResource("4")
+id = "137"
+name = "Foresight"
+description = ""
+
+[sub_resource type="Resource" id="157"]
+script = ExtResource("4")
+id = "138"
+name = "Empathic Reading"
+description = ""
+
+[sub_resource type="Resource" id="158"]
+script = ExtResource("4")
+id = "139"
+name = "Clear Mind"
+description = ""
+
+[sub_resource type="Resource" id="159"]
+script = ExtResource("4")
+id = "140"
+name = "Detect Lies"
+description = ""
+
+[sub_resource type="Resource" id="160"]
+script = ExtResource("4")
+id = "141"
+name = "Meditative Focus"
+description = ""
+
+[sub_resource type="Resource" id="161"]
+script = ExtResource("4")
+id = "142"
+name = "Mind Mirror"
+description = ""
+
+[sub_resource type="Resource" id="162"]
+script = ExtResource("4")
+id = "143"
+name = "Eagle Eye"
+description = ""
+
+[sub_resource type="Resource" id="163"]
+script = ExtResource("4")
+id = "144"
+name = "Analyst"
+description = ""
+
+[sub_resource type="Resource" id="164"]
+script = ExtResource("4")
+id = "145"
+name = "Deductive Leap"
+description = ""
+
+[sub_resource type="Resource" id="165"]
+script = ExtResource("4")
+id = "146"
+name = "Keen Observer"
+description = ""
+
+[sub_resource type="Resource" id="166"]
+script = ExtResource("4")
+id = "147"
+name = "Forensic Insight"
+description = ""
+
+[sub_resource type="Resource" id="167"]
+script = ExtResource("4")
+id = "148"
+name = "Pattern Recognition"
+description = ""
+
+[sub_resource type="Resource" id="168"]
+script = ExtResource("4")
+id = "149"
+name = "Crime Scene Reconstruction"
+description = ""
+
+[sub_resource type="Resource" id="169"]
+script = ExtResource("4")
+id = "150"
+name = "Logical Clarity"
+description = ""
+
+[sub_resource type="Resource" id="170"]
+script = ExtResource("4")
+id = "151"
+name = "Rapid Assessment"
+description = ""
+
+[sub_resource type="Resource" id="171"]
+script = ExtResource("4")
+id = "152"
+name = "Academic Diligence"
+description = ""
+
+[sub_resource type="Resource" id="172"]
+script = ExtResource("4")
+id = "153"
+name = "Archivist"
+description = ""
+
+[sub_resource type="Resource" id="173"]
+script = ExtResource("4")
+id = "154"
+name = "Scholar of the Old Ways"
+description = ""
+
+[sub_resource type="Resource" id="174"]
+script = ExtResource("4")
+id = "155"
+name = "Arcane Linguist"
+description = ""
+
+[sub_resource type="Resource" id="175"]
+script = ExtResource("4")
+id = "156"
+name = "Sage’s Recall"
+description = ""
+
+[sub_resource type="Resource" id="176"]
+script = ExtResource("4")
+id = "157"
+name = "Cultural Expert"
+description = ""
+
+[sub_resource type="Resource" id="177"]
+script = ExtResource("4")
+id = "158"
+name = "Runic Memory"
+description = ""
+
+[sub_resource type="Resource" id="178"]
+script = ExtResource("4")
+id = "159"
+name = "Tome Collector"
+description = ""
+
+[sub_resource type="Resource" id="179"]
+script = ExtResource("4")
+id = "160"
+name = "Historical Insight"
+description = ""
+
+[sub_resource type="Resource" id="180"]
+script = ExtResource("4")
+id = "161"
+name = "Lorekeeper’s Guidance"
+description = ""
+
+[sub_resource type="Resource" id="181"]
+script = ExtResource("4")
+id = "162"
+name = "Elder Scholar"
+description = ""
+
+[sub_resource type="Resource" id="182"]
+script = ExtResource("4")
+id = "163"
+name = "Field Medic"
+description = ""
+
+[sub_resource type="Resource" id="183"]
+script = ExtResource("4")
+id = "164"
+name = "Anatomist"
+description = ""
+
+[sub_resource type="Resource" id="184"]
+script = ExtResource("4")
+id = "165"
+name = "Emergency Aid"
+description = ""
+
+[sub_resource type="Resource" id="185"]
+script = ExtResource("4")
+id = "166"
+name = "Potion Brewer"
+description = ""
+
+[sub_resource type="Resource" id="186"]
+script = ExtResource("4")
+id = "167"
+name = "Quick Patch"
+description = ""
+
+[sub_resource type="Resource" id="187"]
+script = ExtResource("4")
+id = "168"
+name = "Resuscitate"
+description = ""
+
+[sub_resource type="Resource" id="188"]
+script = ExtResource("4")
+id = "169"
+name = "Antidote Expert"
+description = ""
+
+[sub_resource type="Resource" id="189"]
+script = ExtResource("4")
+id = "170"
+name = "Combat Surgeon"
+description = ""
+
+[sub_resource type="Resource" id="190"]
+script = ExtResource("4")
+id = "171"
+name = "Preventive Care"
+description = ""
+
+[sub_resource type="Resource" id="191"]
+script = ExtResource("4")
+id = "172"
+name = "Vital Pulse"
+description = ""
+
+[sub_resource type="Resource" id="192"]
+script = ExtResource("4")
+id = "173"
+name = "Quick Fingers"
+description = ""
+
+[sub_resource type="Resource" id="193"]
+script = ExtResource("4")
+id = "174"
+name = "Pickpocket Master"
+description = ""
+
+[sub_resource type="Resource" id="194"]
+script = ExtResource("4")
+id = "175"
+name = "Hidden Draw"
+description = ""
+
+[sub_resource type="Resource" id="195"]
+script = ExtResource("4")
+id = "176"
+name = "Improvised Tools"
+description = ""
+
+[sub_resource type="Resource" id="196"]
+script = ExtResource("4")
+id = "177"
+name = "Distraction Artist"
+description = ""
+
+[sub_resource type="Resource" id="197"]
+script = ExtResource("4")
+id = "178"
+name = "Silent Steps"
+description = ""
+
+[sub_resource type="Resource" id="198"]
+script = ExtResource("4")
+id = "179"
+name = "Pressure Point"
+description = ""
+
+[sub_resource type="Resource" id="199"]
+script = ExtResource("4")
+id = "180"
+name = "Illusionist’s Touch"
+description = ""
+
+[sub_resource type="Resource" id="200"]
+script = ExtResource("4")
+id = "181"
+name = "Magpie Instinct"
+description = ""
+
+[sub_resource type="Resource" id="201"]
+script = ExtResource("4")
+id = "182"
+name = "Perfect Timing"
+description = ""
+
+[sub_resource type="Resource" id="202"]
+script = ExtResource("4")
+id = "183"
+name = "Diplomat"
+description = ""
+
+[sub_resource type="Resource" id="203"]
+script = ExtResource("4")
+id = "184"
+name = "Merchant’s Eye"
+description = ""
+
+[sub_resource type="Resource" id="204"]
+script = ExtResource("4")
+id = "185"
+name = "Etiquette"
+description = ""
+
+[sub_resource type="Resource" id="205"]
+script = ExtResource("4")
+id = "186"
+name = "Mediator"
+description = ""
+
+[sub_resource type="Resource" id="206"]
+script = ExtResource("4")
+id = "187"
+name = "Social Network"
+description = ""
+
+[sub_resource type="Resource" id="207"]
+script = ExtResource("4")
+id = "188"
+name = "Cultural Adaptation"
+description = ""
+
+[sub_resource type="Resource" id="208"]
+script = ExtResource("4")
+id = "189"
+name = "Guild Connections"
+description = ""
+
+[sub_resource type="Resource" id="209"]
+script = ExtResource("4")
+id = "190"
+name = "Political Sense"
+description = ""
+
+[sub_resource type="Resource" id="210"]
+script = ExtResource("4")
+id = "191"
+name = "Host’s Grace"
+description = ""
+
+[sub_resource type="Resource" id="211"]
+script = ExtResource("4")
+id = "192"
+name = "Highborn Bearing"
+description = ""
+
+[sub_resource type="Resource" id="212"]
+script = ExtResource("4")
+id = "193"
+name = "Silver Tongue"
+description = ""
+
+[sub_resource type="Resource" id="213"]
+script = ExtResource("4")
+id = "194"
+name = "Intimidator"
+description = ""
+
+[sub_resource type="Resource" id="214"]
+script = ExtResource("4")
+id = "195"
+name = "Charm Offensive"
+description = ""
+
+[sub_resource type="Resource" id="215"]
+script = ExtResource("4")
+id = "196"
+name = "Fast Talker"
+description = ""
+
+[sub_resource type="Resource" id="216"]
+script = ExtResource("4")
+id = "197"
+name = "Negotiator"
+description = ""
+
+[sub_resource type="Resource" id="217"]
+script = ExtResource("4")
+id = "198"
+name = "Mocking Rebuke"
+description = ""
+
+[sub_resource type="Resource" id="218"]
+script = ExtResource("4")
+id = "199"
+name = "Commanding Presence"
+description = ""
+
+[sub_resource type="Resource" id="219"]
+script = ExtResource("4")
+id = "200"
+name = "Bardic Flourish"
+description = ""
+
+[sub_resource type="Resource" id="220"]
+script = ExtResource("4")
+id = "201"
+name = "Fearless Orator"
+description = ""
+
+[sub_resource type="Resource" id="221"]
+script = ExtResource("4")
+id = "202"
+name = "Manipulator"
+description = ""
+
+[sub_resource type="Resource" id="222"]
+script = ExtResource("4")
+id = "203"
+name = "Shadowmeld"
+description = ""
+
+[sub_resource type="Resource" id="223"]
+script = ExtResource("4")
+id = "204"
+name = "Silent Takedown"
+description = ""
+
+[sub_resource type="Resource" id="224"]
+script = ExtResource("4")
+id = "205"
+name = "Camouflage"
+description = ""
+
+[sub_resource type="Resource" id="225"]
+script = ExtResource("4")
+id = "206"
+name = "Ghost Step"
+description = ""
+
+[sub_resource type="Resource" id="226"]
+script = ExtResource("4")
+id = "207"
+name = "Lightfoot"
+description = ""
+
+[sub_resource type="Resource" id="227"]
+script = ExtResource("4")
+id = "208"
+name = "Ambusher"
+description = ""
+
+[sub_resource type="Resource" id="228"]
+script = ExtResource("4")
+id = "209"
+name = "Unseen Exit"
+description = ""
+
+[sub_resource type="Resource" id="229"]
+script = ExtResource("4")
+id = "210"
+name = "Obscured Form"
+description = ""
+
+[sub_resource type="Resource" id="230"]
+script = ExtResource("4")
+id = "211"
+name = "Hidden Path"
+description = ""
+
+[sub_resource type="Resource" id="231"]
+script = ExtResource("4")
+id = "212"
+name = "Night Prowler"
+description = ""
+
+[sub_resource type="Resource" id="232"]
+script = ExtResource("4")
+id = "213"
+name = "Forager"
+description = ""
+
+[sub_resource type="Resource" id="233"]
+script = ExtResource("4")
+id = "214"
+name = "Tracker"
+description = ""
+
+[sub_resource type="Resource" id="234"]
+script = ExtResource("4")
+id = "215"
+name = "Camp Master"
+description = ""
+
+[sub_resource type="Resource" id="235"]
+script = ExtResource("4")
+id = "216"
+name = "Weathered"
+description = ""
+
+[sub_resource type="Resource" id="236"]
+script = ExtResource("4")
+id = "217"
+name = "Firekeeper"
+description = ""
+
+[sub_resource type="Resource" id="237"]
+script = ExtResource("4")
+id = "218"
+name = "Beast Trap"
+description = ""
+
+[sub_resource type="Resource" id="238"]
+script = ExtResource("4")
+id = "219"
+name = "Hardened Skin"
+description = ""
+
+[sub_resource type="Resource" id="239"]
+script = ExtResource("4")
+id = "220"
+name = "Pathfinder"
+description = ""
+
+[sub_resource type="Resource" id="240"]
+script = ExtResource("4")
+id = "221"
+name = "Wild Instinct"
+description = ""
+
+[sub_resource type="Resource" id="241"]
+script = ExtResource("4")
+id = "222"
+name = "Survivor’s Luck"
+description = ""
+
+[sub_resource type="Resource" id="242"]
+script = ExtResource("5")
+id = "1"
+name = "Human"
+description = ""
+
+[sub_resource type="Resource" id="243"]
+script = ExtResource("5")
+id = "2"
+name = "Goliath"
+description = ""
+
+[sub_resource type="Resource" id="244"]
+script = ExtResource("5")
+id = "3"
+name = "High Elves"
+description = ""
+
+[sub_resource type="Resource" id="245"]
+script = ExtResource("5")
+id = "4"
+name = "Dwarf"
+description = ""
+
+[sub_resource type="Resource" id="246"]
+script = ExtResource("5")
+id = "5"
+name = "Halfling"
+description = ""
+
+[sub_resource type="Resource" id="247"]
+script = ExtResource("5")
+id = "6"
+name = "Ashborne"
+description = ""
+
+[sub_resource type="Resource" id="248"]
+script = ExtResource("5")
+id = "7"
+name = "Wood Elf"
+description = ""
+
+[sub_resource type="Resource" id="249"]
+script = ExtResource("5")
+id = "8"
+name = "Orc"
+description = ""
+
+[sub_resource type="Resource" id="250"]
+script = ExtResource("5")
+id = "9"
+name = "Husk-Folk"
+description = ""
+
+[sub_resource type="Resource" id="251"]
+script = ExtResource("6")
+id = "1"
+name = "Unarmed"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="252"]
+script = ExtResource("6")
+id = "2"
+name = "Bear Claws"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="253"]
+script = ExtResource("6")
+id = "3"
+name = "Whip"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="254"]
+script = ExtResource("6")
+id = "4"
+name = "Knife"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="255"]
+script = ExtResource("6")
+id = "5"
+name = "Dagger"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="256"]
+script = ExtResource("6")
+id = "6"
+name = "Stiletto"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="257"]
+script = ExtResource("6")
+id = "7"
+name = "Reaper"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="258"]
+script = ExtResource("6")
+id = "8"
+name = "Staff"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="259"]
+script = ExtResource("6")
+id = "9"
+name = "Club"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="260"]
+script = ExtResource("6")
+id = "10"
+name = "Maul"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="261"]
+script = ExtResource("6")
+id = "11"
+name = "Hand Axe"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="262"]
+script = ExtResource("6")
+id = "12"
+name = "Battle Axe"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="263"]
+script = ExtResource("6")
+id = "13"
+name = "Great Axe"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="264"]
+script = ExtResource("6")
+id = "14"
+name = "Hammer"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="265"]
+script = ExtResource("6")
+id = "15"
+name = "Warhammer"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="266"]
+script = ExtResource("6")
+id = "16"
+name = "Great Hammer"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="267"]
+script = ExtResource("6")
+id = "17"
+name = "Short Sword"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="268"]
+script = ExtResource("6")
+id = "18"
+name = "Broad Sword"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="269"]
+script = ExtResource("6")
+id = "19"
+name = "Great Sword"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="270"]
+script = ExtResource("6")
+id = "20"
+name = "Javelin"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="271"]
+script = ExtResource("6")
+id = "21"
+name = "Spear"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="272"]
+script = ExtResource("6")
+id = "22"
+name = "Pike"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="273"]
+script = ExtResource("6")
+id = "23"
+name = "Wakizashi"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="274"]
+script = ExtResource("6")
+id = "24"
+name = "Katana"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="275"]
+script = ExtResource("6")
+id = "25"
+name = "Ōdachi"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="276"]
+script = ExtResource("6")
+id = "26"
+name = "Flail"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="277"]
+script = ExtResource("6")
+id = "27"
+name = "Morning Star"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="278"]
+script = ExtResource("6")
+id = "28"
+name = "Scimitar"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="279"]
+script = ExtResource("6")
+id = "29"
+name = "Rapier"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="280"]
+script = ExtResource("6")
+id = "30"
+name = "Polearm"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="281"]
+script = ExtResource("6")
+id = "31"
+name = "Halberd"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="282"]
+script = ExtResource("6")
+id = "32"
+name = "Blunderbuss"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="283"]
+script = ExtResource("6")
+id = "33"
+name = "Pistol"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="284"]
+script = ExtResource("6")
+id = "34"
+name = "Musket"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="285"]
+script = ExtResource("6")
+id = "35"
+name = "Short Bow"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="286"]
+script = ExtResource("6")
+id = "36"
+name = "Hunting Bow"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="287"]
+script = ExtResource("6")
+id = "37"
+name = "War Bow"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="288"]
+script = ExtResource("6")
+id = "38"
+name = "Long Bow"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="289"]
+script = ExtResource("6")
+id = "39"
+name = "Hand Crossbow"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="290"]
+script = ExtResource("6")
+id = "40"
+name = "Crossbow"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="291"]
+script = ExtResource("6")
+id = "41"
+name = "Arbalest"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="292"]
+script = ExtResource("6")
+id = "42"
+name = "Wand"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="293"]
+script = ExtResource("6")
+id = "43"
+name = "Buckler"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="294"]
+script = ExtResource("6")
+id = "44"
+name = "Shield"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="295"]
+script = ExtResource("6")
+id = "45"
+name = "Tower Shield"
+description = ""
+item_type = "Weapon"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="296"]
+script = ExtResource("6")
+id = "46"
+name = "Hide Head"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="297"]
+script = ExtResource("6")
+id = "47"
+name = "Hide Torso"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="298"]
+script = ExtResource("6")
+id = "48"
+name = "Hide Arm"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="299"]
+script = ExtResource("6")
+id = "49"
+name = "Hide Leg"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="300"]
+script = ExtResource("6")
+id = "50"
+name = "Leather Head"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="301"]
+script = ExtResource("6")
+id = "51"
+name = "Leather Torso"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="302"]
+script = ExtResource("6")
+id = "52"
+name = "Leather Arm"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="303"]
+script = ExtResource("6")
+id = "53"
+name = "Leather Leg"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="304"]
+script = ExtResource("6")
+id = "54"
+name = "Chain Mail Head"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="305"]
+script = ExtResource("6")
+id = "55"
+name = "Chain Mail Torso"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="306"]
+script = ExtResource("6")
+id = "56"
+name = "Chain Mail Arm"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="307"]
+script = ExtResource("6")
+id = "57"
+name = "Chain Mail Leg"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="308"]
+script = ExtResource("6")
+id = "58"
+name = "Scale Armor Head"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="309"]
+script = ExtResource("6")
+id = "59"
+name = "Scale Armor Torso"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="310"]
+script = ExtResource("6")
+id = "60"
+name = "Scale Armor Arm"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="311"]
+script = ExtResource("6")
+id = "61"
+name = "Scale Armor Leg"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="312"]
+script = ExtResource("6")
+id = "62"
+name = "Plate Armor Head"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="313"]
+script = ExtResource("6")
+id = "63"
+name = "Plate Armor Torso"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="314"]
+script = ExtResource("6")
+id = "64"
+name = "Plate Armor Arm"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="315"]
+script = ExtResource("6")
+id = "65"
+name = "Plate Armor Leg"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="316"]
+script = ExtResource("6")
+id = "66"
+name = "Brigandines Head"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="317"]
+script = ExtResource("6")
+id = "67"
+name = "Brigandines Torso"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="318"]
+script = ExtResource("6")
+id = "68"
+name = "Brigandines Arm"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="319"]
+script = ExtResource("6")
+id = "69"
+name = "Brigandines Leg"
+description = ""
+item_type = "Armor"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="320"]
+script = ExtResource("6")
+id = "70"
+name = "Alchemist's Attire"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="321"]
+script = ExtResource("6")
+id = "71"
+name = "Blacksmith's Outfit"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="322"]
+script = ExtResource("6")
+id = "72"
+name = "Bandit's Outfit"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="323"]
+script = ExtResource("6")
+id = "73"
+name = "Mercenary's Outfit"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="324"]
+script = ExtResource("6")
+id = "74"
+name = "Nature's Gown"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="325"]
+script = ExtResource("6")
+id = "75"
+name = "Noble's Attire"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="326"]
+script = ExtResource("6")
+id = "76"
+name = "Performer's Outfit"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="327"]
+script = ExtResource("6")
+id = "77"
+name = "Pirate's Attire"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="328"]
+script = ExtResource("6")
+id = "78"
+name = "Priest's Garments"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="329"]
+script = ExtResource("6")
+id = "79"
+name = "Scribe's Robe"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="330"]
+script = ExtResource("6")
+id = "80"
+name = "Ranger's Outfit"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="331"]
+script = ExtResource("6")
+id = "81"
+name = "Tribal Outfit"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="332"]
+script = ExtResource("6")
+id = "82"
+name = "Wizard's Robe"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="333"]
+script = ExtResource("6")
+id = "83"
+name = "Commoner's Clothing"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="334"]
+script = ExtResource("6")
+id = "84"
+name = "Desert Clothing"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="335"]
+script = ExtResource("6")
+id = "85"
+name = "Fur Clothing"
+description = ""
+item_type = "Clothing"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="336"]
+script = ExtResource("6")
+id = "86"
+name = "Apple"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="337"]
+script = ExtResource("6")
+id = "87"
+name = "Bear Meat"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="338"]
+script = ExtResource("6")
+id = "88"
+name = "Bear Ribs"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="339"]
+script = ExtResource("6")
+id = "89"
+name = "Bear Roast"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="340"]
+script = ExtResource("6")
+id = "90"
+name = "Bread"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="341"]
+script = ExtResource("6")
+id = "91"
+name = "Carrot"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="342"]
+script = ExtResource("6")
+id = "92"
+name = "Cheese"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="343"]
+script = ExtResource("6")
+id = "93"
+name = "Corn"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="344"]
+script = ExtResource("6")
+id = "94"
+name = "Crab Meat"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="345"]
+script = ExtResource("6")
+id = "95"
+name = "Crab Cake"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="346"]
+script = ExtResource("6")
+id = "96"
+name = "Deer Meat"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="347"]
+script = ExtResource("6")
+id = "97"
+name = "Deer Stew"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="348"]
+script = ExtResource("6")
+id = "98"
+name = "Grilled Deer"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="349"]
+script = ExtResource("6")
+id = "99"
+name = "Dragon Egg"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="350"]
+script = ExtResource("6")
+id = "100"
+name = "Dragon Meat"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="351"]
+script = ExtResource("6")
+id = "101"
+name = "Dragon Omelet"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="352"]
+script = ExtResource("6")
+id = "102"
+name = "Dragon Steak"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="353"]
+script = ExtResource("6")
+id = "103"
+name = "Squirrel Meat"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="354"]
+script = ExtResource("6")
+id = "104"
+name = "Roasted Squirrel"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="355"]
+script = ExtResource("6")
+id = "105"
+name = "Squirrel Stew"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="356"]
+script = ExtResource("6")
+id = "106"
+name = "Tomato"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="357"]
+script = ExtResource("6")
+id = "107"
+name = "Potato"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="358"]
+script = ExtResource("6")
+id = "108"
+name = "Pork Meat"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="359"]
+script = ExtResource("6")
+id = "109"
+name = "Pork Ribs"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="360"]
+script = ExtResource("6")
+id = "110"
+name = "Pork Roast"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="361"]
+script = ExtResource("6")
+id = "111"
+name = "Raw Beef"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="362"]
+script = ExtResource("6")
+id = "112"
+name = "Cooked Beef"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="363"]
+script = ExtResource("6")
+id = "113"
+name = "Vegetable Soup"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="364"]
+script = ExtResource("6")
+id = "114"
+name = "Banana"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="365"]
+script = ExtResource("6")
+id = "115"
+name = "Mango"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="366"]
+script = ExtResource("6")
+id = "116"
+name = "Raw Fish"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="367"]
+script = ExtResource("6")
+id = "117"
+name = "Fried Fish"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="368"]
+script = ExtResource("6")
+id = "118"
+name = "Raw Chicken"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="369"]
+script = ExtResource("6")
+id = "119"
+name = "Roasted Chicken"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="370"]
+script = ExtResource("6")
+id = "120"
+name = "Pancakes"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="371"]
+script = ExtResource("6")
+id = "121"
+name = "Burger"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="372"]
+script = ExtResource("6")
+id = "122"
+name = "Wolf Meat"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="373"]
+script = ExtResource("6")
+id = "123"
+name = "Grilled Wolf"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="374"]
+script = ExtResource("6")
+id = "124"
+name = "Dirty Water"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="375"]
+script = ExtResource("6")
+id = "125"
+name = "Clean Water"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="376"]
+script = ExtResource("6")
+id = "126"
+name = "Ale"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="377"]
+script = ExtResource("6")
+id = "127"
+name = "Apple Juice"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="378"]
+script = ExtResource("6")
+id = "128"
+name = "Bourbon"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="379"]
+script = ExtResource("6")
+id = "129"
+name = "Carrot Juice"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="380"]
+script = ExtResource("6")
+id = "130"
+name = "Dirty Wanderer"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="381"]
+script = ExtResource("6")
+id = "131"
+name = "Milk"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="382"]
+script = ExtResource("6")
+id = "132"
+name = "Moonshine"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="383"]
+script = ExtResource("6")
+id = "133"
+name = "Stillheart Champagne"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="384"]
+script = ExtResource("6")
+id = "134"
+name = "Stillheart Port Wine"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="385"]
+script = ExtResource("6")
+id = "135"
+name = "Stillheart Wine"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="386"]
+script = ExtResource("6")
+id = "136"
+name = "Rum"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="387"]
+script = ExtResource("6")
+id = "137"
+name = "Tomato Juice"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="388"]
+script = ExtResource("6")
+id = "138"
+name = "Vodka"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="389"]
+script = ExtResource("6")
+id = "139"
+name = "Whiskey"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="390"]
+script = ExtResource("6")
+id = "140"
+name = "Wine"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="391"]
+script = ExtResource("6")
+id = "141"
+name = "Brox Weed"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="392"]
+script = ExtResource("6")
+id = "142"
+name = "Grol Bark"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="393"]
+script = ExtResource("6")
+id = "143"
+name = "Yorin's Root"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="394"]
+script = ExtResource("6")
+id = "144"
+name = "Potion of Vitality"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="395"]
+script = ExtResource("6")
+id = "145"
+name = "Potion of Greater Vitality"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="396"]
+script = ExtResource("6")
+id = "146"
+name = "Potion of Fitness"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="397"]
+script = ExtResource("6")
+id = "147"
+name = "Potion of Sharp Mind"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="398"]
+script = ExtResource("6")
+id = "148"
+name = "Potion of Quickened Mind"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="399"]
+script = ExtResource("6")
+id = "149"
+name = "Potion of the Eased Mind"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="400"]
+script = ExtResource("6")
+id = "150"
+name = "Potion of the Opened Mind"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="401"]
+script = ExtResource("6")
+id = "151"
+name = "Potion of Fury"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="402"]
+script = ExtResource("6")
+id = "152"
+name = "Potion of Charm"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="403"]
+script = ExtResource("6")
+id = "153"
+name = "Potion of Speed"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="404"]
+script = ExtResource("6")
+id = "154"
+name = "Potion of Greater Speed"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="405"]
+script = ExtResource("6")
+id = "155"
+name = "Potion of Lasting Speed"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="406"]
+script = ExtResource("6")
+id = "156"
+name = "Demon Blood, Raw"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="407"]
+script = ExtResource("6")
+id = "157"
+name = "Demon Blood, Distilled"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="408"]
+script = ExtResource("6")
+id = "158"
+name = "Potion of Demon Speed"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="409"]
+script = ExtResource("6")
+id = "159"
+name = "Potion of Demon Vitality"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="410"]
+script = ExtResource("6")
+id = "160"
+name = "Potion of Demon Mind"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="411"]
+script = ExtResource("6")
+id = "161"
+name = "Potion of Invisibility"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="412"]
+script = ExtResource("6")
+id = "162"
+name = "Healing Potion"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="413"]
+script = ExtResource("6")
+id = "163"
+name = "Greater Healing Potion"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="414"]
+script = ExtResource("6")
+id = "164"
+name = "Superior Healing Potion"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="415"]
+script = ExtResource("6")
+id = "165"
+name = "The Erudite's Brew"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="416"]
+script = ExtResource("6")
+id = "166"
+name = "Potion of Mana"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="417"]
+script = ExtResource("6")
+id = "167"
+name = "Greater Potion of Mana"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="418"]
+script = ExtResource("6")
+id = "168"
+name = "Superior Potion of Mana"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="419"]
+script = ExtResource("6")
+id = "169"
+name = "Stunning Poison"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="420"]
+script = ExtResource("6")
+id = "170"
+name = "Persistent Poison"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="421"]
+script = ExtResource("6")
+id = "171"
+name = "Nightshade Toxin"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="422"]
+script = ExtResource("6")
+id = "172"
+name = "Paralytic Venom"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="423"]
+script = ExtResource("6")
+id = "173"
+name = "Blinding Powder"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="424"]
+script = ExtResource("6")
+id = "174"
+name = "Corrosive Oil"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="425"]
+script = ExtResource("6")
+id = "175"
+name = "Sleeping Draught"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="426"]
+script = ExtResource("6")
+id = "176"
+name = "Weakness Ichor"
+description = ""
+item_type = "Consumable"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="427"]
+script = ExtResource("6")
+id = "177"
+name = "Backpack, Large"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="428"]
+script = ExtResource("6")
+id = "178"
+name = "Backpack, Small"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="429"]
+script = ExtResource("6")
+id = "179"
+name = "Lockpick"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="430"]
+script = ExtResource("6")
+id = "180"
+name = "Medical Bag"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="431"]
+script = ExtResource("6")
+id = "181"
+name = "Bandages"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="432"]
+script = ExtResource("6")
+id = "182"
+name = "Lantern"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="433"]
+script = ExtResource("6")
+id = "183"
+name = "Lockpick Set"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="434"]
+script = ExtResource("6")
+id = "184"
+name = "Torch"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="435"]
+script = ExtResource("6")
+id = "185"
+name = "Bedroll"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="436"]
+script = ExtResource("6")
+id = "186"
+name = "Hunting Trap"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="437"]
+script = ExtResource("6")
+id = "187"
+name = "Ink"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="438"]
+script = ExtResource("6")
+id = "188"
+name = "Ink Pen"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="439"]
+script = ExtResource("6")
+id = "189"
+name = "Paper"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="440"]
+script = ExtResource("6")
+id = "190"
+name = "Manacles"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="441"]
+script = ExtResource("6")
+id = "191"
+name = "Oil"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="442"]
+script = ExtResource("6")
+id = "192"
+name = "Portable Ram"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="443"]
+script = ExtResource("6")
+id = "193"
+name = "Rope"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="444"]
+script = ExtResource("6")
+id = "194"
+name = "Two-Person Tent"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="445"]
+script = ExtResource("6")
+id = "195"
+name = "One-Person Tent"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="446"]
+script = ExtResource("6")
+id = "196"
+name = "Waterskin"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="447"]
+script = ExtResource("6")
+id = "197"
+name = "Bottle"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="448"]
+script = ExtResource("6")
+id = "198"
+name = "Pouch"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="449"]
+script = ExtResource("6")
+id = "199"
+name = "Vial"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="450"]
+script = ExtResource("6")
+id = "200"
+name = "Bit and Bridle"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="451"]
+script = ExtResource("6")
+id = "201"
+name = "Smithing Tools"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="452"]
+script = ExtResource("6")
+id = "202"
+name = "Alchemy Kit"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="453"]
+script = ExtResource("6")
+id = "203"
+name = "Bowyer's Tools"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="454"]
+script = ExtResource("6")
+id = "204"
+name = "Cooking Utensils"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="455"]
+script = ExtResource("6")
+id = "205"
+name = "Tailoring Kit"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="456"]
+script = ExtResource("6")
+id = "206"
+name = "Tanner's Tools"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="457"]
+script = ExtResource("6")
+id = "207"
+name = "Tinkering Kit"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="458"]
+script = ExtResource("6")
+id = "208"
+name = "Scribe's Supplies"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="459"]
+script = ExtResource("6")
+id = "209"
+name = "Bagpipes"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="460"]
+script = ExtResource("6")
+id = "210"
+name = "Banjo"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="461"]
+script = ExtResource("6")
+id = "211"
+name = "Chácaras"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="462"]
+script = ExtResource("6")
+id = "212"
+name = "Drum"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="463"]
+script = ExtResource("6")
+id = "213"
+name = "Flute"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="464"]
+script = ExtResource("6")
+id = "214"
+name = "Hurdy-gurdy"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="465"]
+script = ExtResource("6")
+id = "215"
+name = "Lute"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="466"]
+script = ExtResource("6")
+id = "216"
+name = "Lyre"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="467"]
+script = ExtResource("6")
+id = "217"
+name = "Pan Flute"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="468"]
+script = ExtResource("6")
+id = "218"
+name = "Viol"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="469"]
+script = ExtResource("6")
+id = "219"
+name = "Compass"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="470"]
+script = ExtResource("6")
+id = "220"
+name = "Shovel"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="471"]
+script = ExtResource("6")
+id = "221"
+name = "Spyglass"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="472"]
+script = ExtResource("6")
+id = "222"
+name = "Fishing Rod"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="473"]
+script = ExtResource("6")
+id = "223"
+name = "Chalk"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="474"]
+script = ExtResource("6")
+id = "224"
+name = "Pickaxe"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[sub_resource type="Resource" id="475"]
+script = ExtResource("6")
+id = "225"
+name = "Portable Stove"
+description = ""
+item_type = "Utility"
+damage = 0
+armor_value = 0
+
+[resource]
+script = ExtResource("1")
+ruleset_id = "codex"
+version = "sqlite_import"
+attributes = [SubResource("1"), SubResource("2"), SubResource("3"), SubResource("4"), SubResource("5"), SubResource("6")]
+skills = [SubResource("7"), SubResource("8"), SubResource("9"), SubResource("10"), SubResource("11"), SubResource("12"), SubResource("13"), SubResource("14"), SubResource("15"), SubResource("16"), SubResource("17"), SubResource("18"), SubResource("19")]
+perks = [SubResource("20"), SubResource("21"), SubResource("22"), SubResource("23"), SubResource("24"), SubResource("25"), SubResource("26"), SubResource("27"), SubResource("28"), SubResource("29"), SubResource("30"), SubResource("31"), SubResource("32"), SubResource("33"), SubResource("34"), SubResource("35"), SubResource("36"), SubResource("37"), SubResource("38"), SubResource("39"), SubResource("40"), SubResource("41"), SubResource("42"), SubResource("43"), SubResource("44"), SubResource("45"), SubResource("46"), SubResource("47"), SubResource("48"), SubResource("49"), SubResource("50"), SubResource("51"), SubResource("52"), SubResource("53"), SubResource("54"), SubResource("55"), SubResource("56"), SubResource("57"), SubResource("58"), SubResource("59"), SubResource("60"), SubResource("61"), SubResource("62"), SubResource("63"), SubResource("64"), SubResource("65"), SubResource("66"), SubResource("67"), SubResource("68"), SubResource("69"), SubResource("70"), SubResource("71"), SubResource("72"), SubResource("73"), SubResource("74"), SubResource("75"), SubResource("76"), SubResource("77"), SubResource("78"), SubResource("79"), SubResource("80"), SubResource("81"), SubResource("82"), SubResource("83"), SubResource("84"), SubResource("85"), SubResource("86"), SubResource("87"), SubResource("88"), SubResource("89"), SubResource("90"), SubResource("91"), SubResource("92"), SubResource("93"), SubResource("94"), SubResource("95"), SubResource("96"), SubResource("97"), SubResource("98"), SubResource("99"), SubResource("100"), SubResource("101"), SubResource("102"), SubResource("103"), SubResource("104"), SubResource("105"), SubResource("106"), SubResource("107"), SubResource("108"), SubResource("109"), SubResource("110"), SubResource("111"), SubResource("112"), SubResource("113"), SubResource("114"), SubResource("115"), SubResource("116"), SubResource("117"), SubResource("118"), SubResource("119"), SubResource("120"), SubResource("121"), SubResource("122"), SubResource("123"), SubResource("124"), SubResource("125"), SubResource("126"), SubResource("127"), SubResource("128"), SubResource("129"), SubResource("130"), SubResource("131"), SubResource("132"), SubResource("133"), SubResource("134"), SubResource("135"), SubResource("136"), SubResource("137"), SubResource("138"), SubResource("139"), SubResource("140"), SubResource("141"), SubResource("142"), SubResource("143"), SubResource("144"), SubResource("145"), SubResource("146"), SubResource("147"), SubResource("148"), SubResource("149"), SubResource("150"), SubResource("151"), SubResource("152"), SubResource("153"), SubResource("154"), SubResource("155"), SubResource("156"), SubResource("157"), SubResource("158"), SubResource("159"), SubResource("160"), SubResource("161"), SubResource("162"), SubResource("163"), SubResource("164"), SubResource("165"), SubResource("166"), SubResource("167"), SubResource("168"), SubResource("169"), SubResource("170"), SubResource("171"), SubResource("172"), SubResource("173"), SubResource("174"), SubResource("175"), SubResource("176"), SubResource("177"), SubResource("178"), SubResource("179"), SubResource("180"), SubResource("181"), SubResource("182"), SubResource("183"), SubResource("184"), SubResource("185"), SubResource("186"), SubResource("187"), SubResource("188"), SubResource("189"), SubResource("190"), SubResource("191"), SubResource("192"), SubResource("193"), SubResource("194"), SubResource("195"), SubResource("196"), SubResource("197"), SubResource("198"), SubResource("199"), SubResource("200"), SubResource("201"), SubResource("202"), SubResource("203"), SubResource("204"), SubResource("205"), SubResource("206"), SubResource("207"), SubResource("208"), SubResource("209"), SubResource("210"), SubResource("211"), SubResource("212"), SubResource("213"), SubResource("214"), SubResource("215"), SubResource("216"), SubResource("217"), SubResource("218"), SubResource("219"), SubResource("220"), SubResource("221"), SubResource("222"), SubResource("223"), SubResource("224"), SubResource("225"), SubResource("226"), SubResource("227"), SubResource("228"), SubResource("229"), SubResource("230"), SubResource("231"), SubResource("232"), SubResource("233"), SubResource("234"), SubResource("235"), SubResource("236"), SubResource("237"), SubResource("238"), SubResource("239"), SubResource("240"), SubResource("241")]
+races = [SubResource("242"), SubResource("243"), SubResource("244"), SubResource("245"), SubResource("246"), SubResource("247"), SubResource("248"), SubResource("249"), SubResource("250")]
+items = [SubResource("251"), SubResource("252"), SubResource("253"), SubResource("254"), SubResource("255"), SubResource("256"), SubResource("257"), SubResource("258"), SubResource("259"), SubResource("260"), SubResource("261"), SubResource("262"), SubResource("263"), SubResource("264"), SubResource("265"), SubResource("266"), SubResource("267"), SubResource("268"), SubResource("269"), SubResource("270"), SubResource("271"), SubResource("272"), SubResource("273"), SubResource("274"), SubResource("275"), SubResource("276"), SubResource("277"), SubResource("278"), SubResource("279"), SubResource("280"), SubResource("281"), SubResource("282"), SubResource("283"), SubResource("284"), SubResource("285"), SubResource("286"), SubResource("287"), SubResource("288"), SubResource("289"), SubResource("290"), SubResource("291"), SubResource("292"), SubResource("293"), SubResource("294"), SubResource("295"), SubResource("296"), SubResource("297"), SubResource("298"), SubResource("299"), SubResource("300"), SubResource("301"), SubResource("302"), SubResource("303"), SubResource("304"), SubResource("305"), SubResource("306"), SubResource("307"), SubResource("308"), SubResource("309"), SubResource("310"), SubResource("311"), SubResource("312"), SubResource("313"), SubResource("314"), SubResource("315"), SubResource("316"), SubResource("317"), SubResource("318"), SubResource("319"), SubResource("320"), SubResource("321"), SubResource("322"), SubResource("323"), SubResource("324"), SubResource("325"), SubResource("326"), SubResource("327"), SubResource("328"), SubResource("329"), SubResource("330"), SubResource("331"), SubResource("332"), SubResource("333"), SubResource("334"), SubResource("335"), SubResource("336"), SubResource("337"), SubResource("338"), SubResource("339"), SubResource("340"), SubResource("341"), SubResource("342"), SubResource("343"), SubResource("344"), SubResource("345"), SubResource("346"), SubResource("347"), SubResource("348"), SubResource("349"), SubResource("350"), SubResource("351"), SubResource("352"), SubResource("353"), SubResource("354"), SubResource("355"), SubResource("356"), SubResource("357"), SubResource("358"), SubResource("359"), SubResource("360"), SubResource("361"), SubResource("362"), SubResource("363"), SubResource("364"), SubResource("365"), SubResource("366"), SubResource("367"), SubResource("368"), SubResource("369"), SubResource("370"), SubResource("371"), SubResource("372"), SubResource("373"), SubResource("374"), SubResource("375"), SubResource("376"), SubResource("377"), SubResource("378"), SubResource("379"), SubResource("380"), SubResource("381"), SubResource("382"), SubResource("383"), SubResource("384"), SubResource("385"), SubResource("386"), SubResource("387"), SubResource("388"), SubResource("389"), SubResource("390"), SubResource("391"), SubResource("392"), SubResource("393"), SubResource("394"), SubResource("395"), SubResource("396"), SubResource("397"), SubResource("398"), SubResource("399"), SubResource("400"), SubResource("401"), SubResource("402"), SubResource("403"), SubResource("404"), SubResource("405"), SubResource("406"), SubResource("407"), SubResource("408"), SubResource("409"), SubResource("410"), SubResource("411"), SubResource("412"), SubResource("413"), SubResource("414"), SubResource("415"), SubResource("416"), SubResource("417"), SubResource("418"), SubResource("419"), SubResource("420"), SubResource("421"), SubResource("422"), SubResource("423"), SubResource("424"), SubResource("425"), SubResource("426"), SubResource("427"), SubResource("428"), SubResource("429"), SubResource("430"), SubResource("431"), SubResource("432"), SubResource("433"), SubResource("434"), SubResource("435"), SubResource("436"), SubResource("437"), SubResource("438"), SubResource("439"), SubResource("440"), SubResource("441"), SubResource("442"), SubResource("443"), SubResource("444"), SubResource("445"), SubResource("446"), SubResource("447"), SubResource("448"), SubResource("449"), SubResource("450"), SubResource("451"), SubResource("452"), SubResource("453"), SubResource("454"), SubResource("455"), SubResource("456"), SubResource("457"), SubResource("458"), SubResource("459"), SubResource("460"), SubResource("461"), SubResource("462"), SubResource("463"), SubResource("464"), SubResource("465"), SubResource("466"), SubResource("467"), SubResource("468"), SubResource("469"), SubResource("470"), SubResource("471"), SubResource("472"), SubResource("473"), SubResource("474"), SubResource("475")]

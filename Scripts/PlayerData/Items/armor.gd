@@ -5,8 +5,8 @@ class_name Armor
 @export var magicalDT: int
 @export var necroticDT: int
 
-func _init(itemName: String = "", itemWeight: float = 0, itemValue: int = 0, itemSlot: String = "", itemPhysical: int = 0, itemMagical: int = 0, itemNecrotic: int = 0) -> void:
-	super(itemName, itemWeight, itemValue)
+func _init(__name : String = "", shortDescription : String = "", longDescription : String = "", itemWeight : float = 0, itemValue : int = 0, itemSlot: String = "", itemPhysical: int = 0, itemMagical: int = 0, itemNecrotic: int = 0) -> void:
+	super(__name, shortDescription, longDescription, itemWeight, itemValue)
 	allowed_slots = []
 
 	var slots := itemSlot.split(", ")

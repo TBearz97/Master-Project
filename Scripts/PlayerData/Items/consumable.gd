@@ -4,21 +4,11 @@ class_name Consumable
 @export var healing: int
 @export var addiction: int
 
-func _init(itemName: String = "", itemWeight: float = 0, itemHealing: int = 0, itemEffect: String = "", itemAddiction: int = 0, itemValue: int = 0) -> void:
-	super(itemName, itemWeight, itemEffect, itemValue)
+func _init(itemName: String = "", shortDescription : String = "", longDescription : String = "", itemWeight: float = 0, itemHealing: int = 0, itemEffect: String = "", itemAddiction: int = 0, itemValue: int = 0) -> void:
+	super(itemName, shortDescription, longDescription, itemWeight, itemEffect, itemValue)
 	allowed_slots = [ItemSlots.QuickItem]
 	healing = itemHealing
 	addiction = itemAddiction
-
-func get_shared_properties() -> Array[SharedProperty]:
-	return super.get_shared_properties() + [
-		SharedProperty.new("healing")
-			.with_type(BytePacker.TYPE.SINT16)
-			.in_sync(true),
-		SharedProperty.new("addiction")
-			.with_type(BytePacker.TYPE.SINT16)
-			.in_sync(true),
-	]
 
 func _print() -> String:
 	return (super() +

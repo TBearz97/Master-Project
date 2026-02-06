@@ -8,6 +8,19 @@
 
 config_version=5
 
+[addons]
+
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/color_rows=true
+resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
+resources_spreadsheet_view/clip_headers=false
+resources_spreadsheet_view/dupe_arrays=true
+resources_spreadsheet_view/context_menu_on_leftclick=false
+resources_spreadsheet_view/fold_docks=true
+resources_spreadsheet_view/resource_cell_label_mode=1
+resources_spreadsheet_view/freeze_first_column=true
+
 [application]
 
 config/name="Master Project"
@@ -18,10 +31,10 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerVariables="*res://Global Scripts/player_variables.gd"
-DbHelper="*res://Global Scripts/DBHelper.gd"
 Expressions="*res://Global Scripts/expressions.gd"
 SignalBus="*res://Scripts/signalBus.gd"
 SteamManager="*res://Scripts/Multiplayer/Steam/steam_manager.gd"
+CampaignVariables="*res://Global Scripts/campaign_variables.gd"
 
 [display]
 

@@ -1,20 +1,19 @@
-extends Resource
+extends CodexItem
 class_name Skill
 
-@export var _name : String
 @export var value : int
-@export var shortDesc : String
-@export var longDesc : String
 
 
 
 func _init(
-		nameDB : String = "",
-		valueDB : int = 0,
-		shortDescDB : String = "",
-		longDescDB : String = ""
+		__name : String = "",
+		shortDescription : String = "",
+		longDescription : String = "",
+		_value : int = 0
 	):
-	self._name = nameDB
-	self.value = valueDB
-	self.shortDesc = shortDescDB
-	self.longDesc = longDescDB
+	super(__name, shortDescription, longDescription)
+	self.value = _value
+	
+	var error = ResourceSaver.save(self, "res://data/Skill/" + _name + ".res")
+	if error != 0:
+		print("Skill Error: " + str(error))

@@ -26,7 +26,7 @@ func _on_lobby_created(_connect: int, lobby_steam_id: int) -> void:
 
 	current_lobby_steam_id = lobby_steam_id
 	current_campaign_code = _generate_campaign_code_from_lobby_identifier(lobby_steam_id)
-	owner.get_node("Panel/Lobby/VBoxContainer/LeaveCampaign/CampaignCode").text = "Campaign Code: " + current_campaign_code
+	get_parent().get_parent().get_node("Panel/Lobby/VBoxContainer/TabContainer/Settings/LeaveCampaign/CampaignCode").text = "Campaign Code: " + current_campaign_code
 
 	Steam.setLobbyData(current_lobby_steam_id, lobby_data_key_campaign_code, current_campaign_code)
 	

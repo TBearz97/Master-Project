@@ -28,18 +28,61 @@ func _ready() -> void:
 
 func _setup():
 	selected.item_selected.connect(_on_selected)
-	var types =  DbHelper.db_fetch("SELECT DISTINCT type FROM Item")
+	var weapons = (func () -> Array[Weapon]:
+		var temp: Array[Weapon] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Weapon:
+				temp.append(item)
+		return temp
+		).call()
+
+	var armors = (func () -> Array[Armor]:
+		var temp: Array[Armor] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Armor:
+				temp.append(item)
+		return temp
+	).call()
+
+	var clothing = (func () -> Array[Clothing]:
+		var temp: Array[Clothing] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Clothing:
+				temp.append(item)
+		return temp
+	).call()
+
+	var consumables = (func () -> Array[Consumable]:
+		var temp: Array[Consumable] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Consumable:
+				temp.append(item)
+		return temp
+	).call()
+
+	var utilities = (func () -> Array[Utility]:
+		var temp: Array[Utility] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Utility:
+				temp.append(item)
+		return temp
+	).call()
+
+	var types : Dictionary =  {"Armor"= armors, 
+		"Clothing" = clothing, 
+		"Consumable" = consumables, 
+		"Utility" =  utilities, 
+		"Weapon" = weapons}
 	if not types.is_empty() :
 		grid.columns = types.size()
 	
-	for type in types :
-		var title = DbHelper.prepareLabel(RichTextLabel.new(), true)
-		title.text = DbHelper.replaceText(type["type"]) 
+	for type in types.keys() :
+		var title = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		title.text = CampaignVariables.replaceText(type) 
 		title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		grid.add_child(title)
 	
-	for type in types :
-		var items = DbHelper.db_fetch("SELECT * FROM '%s'" % type["type"])
+	for type in types.values() :
 		var subGrid = GridContainer.new()
 		subGrid.columns = 4
 		subGrid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -57,36 +100,26 @@ func _setup():
 		subGrid.add_child(lb3)
 		subGrid.add_child(lb4)
 		grid.add_child(subGrid)
-		for item in items :
-			var meta = getItemMeta(item, type["type"])
-			item.erase("ID")
-			var _name = DbHelper.prepareLabel(RichTextLabel.new(), true)
-			_name.text = item["item"]
+		for item : Item in type :
+			var _name = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+			_name.text = item._name
 			_name.mouse_filter = Control.MOUSE_FILTER_PASS
-			_name.gui_input.connect(_on_Label_gui_input.bind(meta))
+			_name.gui_input.connect(_on_Label_gui_input.bind(item))
 			
-			var weight = DbHelper.prepareLabel(RichTextLabel.new(), true)
-			weight.text = str(item["weight"])
+			var weight = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+			weight.text = str(item.weight)
 			
-			var cost = DbHelper.prepareLabel(RichTextLabel.new(), true)
-			cost.text = str(item["cost"])
+			var cost = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+			cost.text = str(item.value)
 			
 			var selectBtn = Button.new()
 			selectBtn.text = "Select"
-			selectBtn.pressed.connect(_on_item_chosen.bind(meta))
+			selectBtn.pressed.connect(_on_item_chosen.bind(item))
 			
 			subGrid.add_child(_name)
 			subGrid.add_child(weight)
 			subGrid.add_child(cost)
 			subGrid.add_child(selectBtn)
-
-func getItemMeta(item : Dictionary, type : String) :
-	match type:
-		"Weapon" : return Weapon.new(item["item"], item["weight"], item["cost"], item["damage_multiplier"], item["base_speed"], str(item["qualities"]), str(item["size"]), str(item["range"]))
-		"Armor" : return Armor.new(item["item"], item["weight"],  item["cost"], item["armor_slot"], item["physical_dt"], item["magical_dt"], item["necrotic_dt"])
-		"Clothing" : return Clothing.new(item["item"], item["weight"], item["cost"], item["locations_covered"], 0, 0, 0, "")
-		"Consumable" : return Consumable.new(item["item"], item["weight"], item["hp_healed"], str(item["effect"]), item["addiction_threshold"] if item["addiction_threshold"] != null else  0 ,  item["cost"])
-		"Utility" : return Utility.new(item["item"], item["weight"], item["effect"],  item["cost"])
 
 
 func _on_item_chosen(obj : Item) -> void:

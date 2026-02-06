@@ -13,27 +13,22 @@ func _ready() -> void:
 
 func _setup () :
 	points.value = PlayerVariables.getSkillPoints()
-	var _skills = DbHelper.db_fetch("SELECT * FROM Skill")
+	var _skills = CampaignVariables.codex.Skills
 	
-	for rows in _skills :
-		var skill = Skill.new(
-		rows["name"],
-		0,
-		rows["short_description"],
-		rows["long_description"]
-	)
+	for skill : Skill in _skills.values() :
+		
 		#--- Label ---
-		var label = DbHelper.prepareLabel(RichTextLabel.new(), true)
-		label.text = DbHelper.replaceText(rows["name"])
+		var label = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		label.text = CampaignVariables.replaceText(skill._name)
 		#--- SpinBox ---
 		var sb = SpinBox.new()
 		spinBoxes.append(sb)
-		sb.tooltip_text = rows["name"]
+		sb.tooltip_text = skill._name
 		sb.set_meta(sb.tooltip_text.replace(" ", ""), skill)
 		sb.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sb.min_value = 1
-		if skills.any(func(a): return a._name == rows["name"]):
-			sb.value = skills[skills.find_custom(func(a): return a._name == rows["name"])].value
+		if skills.any(func(a): return a._name == skill._name):
+			sb.value = skills[skills.find_custom(func(a): return a._name == skill._name)].value
 		sb.rounded = true
 		sb.step = 1
 		prev[sb] = 1
@@ -57,7 +52,7 @@ func _on_value_changed(new_value: int, sb : SpinBox) -> void:
 	for key in prev :
 		var pointsAvailable = key.value + points.value
 		var _max = pointsAvailable
-		var cap = Expressions.evaluate(DbHelper.rule["Skill Cap"], ["player_level"], [PlayerVariables.getLevel()])
+		var cap = Expressions.evaluate(CampaignVariables.codex.Rules["Skill Cap"].expression, ["player_level"], [PlayerVariables.getLevel()])
 		if key.value + points.value > cap :
 			_max = cap
 		key.max_value = _max

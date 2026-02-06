@@ -4,10 +4,10 @@ class_name PlayerData
 #Character Info
 @export var character_name : String
 @export var gender : String
-@export var race : String
+@export var race : Race
 @export var age : int
-@export var homeland : String
-@export var background : String
+@export var homeland : Homeland
+@export var background : Background
 @export var backstory : String
 
 #Attributes
@@ -39,9 +39,9 @@ func _init() -> void:
 	# Character Info
 	character_name = ""
 	gender = ""
-	race = ""
-	homeland = ""
-	background = ""
+	race = Race.new()
+	homeland = Homeland.new()
+	background = Background.new()
 	backstory = ""
 
 	#Attributes

@@ -6,40 +6,40 @@ func _ready() -> void:
 	_setup()
 
 func _setup() -> void:
-	var defencesLabel = DbHelper.prepareLabel(RichTextLabel.new())
-	defencesLabel.text = DbHelper.replaceText("Defences")
+	var defencesLabel = CampaignVariables.prepareLabel(RichTextLabel.new())
+	defencesLabel.text = CampaignVariables.replaceText("Defences")
 	add_child(defencesLabel)
 	
 	var defencesHbox = HBoxContainer.new()
 	
-	var rows = DbHelper.db_fetch("SELECT * FROM Defence")
-	for row in rows:
-		var label = DbHelper.prepareLabel(RichTextLabel.new())
+	var defences = CampaignVariables.codex.Defences
+	for defence : Defence in defences.values():
+		var label = CampaignVariables.prepareLabel(RichTextLabel.new())
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var value = _recalculate_defence(row["attribute1"], row["attribute2"] if row["attribute2"] != null else "")
-		label.text = DbHelper.replaceText(row["name"] + ": " + str(value))
+		var value = _recalculate_defence(defence.attribute1, defence.attribute2)
+		label.text = CampaignVariables.replaceText(defence._name + ": " + str(value))
 		defencesHbox.add_child(label)
 	add_child(defencesHbox)
 	
-	var dtLabel = DbHelper.prepareLabel(RichTextLabel.new())
-	dtLabel.text = DbHelper.replaceText("Damage Thresholds")
+	var dtLabel = CampaignVariables.prepareLabel(RichTextLabel.new())
+	dtLabel.text = CampaignVariables.replaceText("Damage Thresholds")
 	add_child(dtLabel)
 	
 	var dtHbox = HBoxContainer.new()
 	
-	var physLabel = DbHelper.prepareLabel(RichTextLabel.new())
+	var physLabel = CampaignVariables.prepareLabel(RichTextLabel.new())
 	physLabel.text = "Physical DT: 0"
 	physLabel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	dtHbox.add_child(physLabel)
 	DTs.append(physLabel)
 	
-	var magiLabel = DbHelper.prepareLabel(RichTextLabel.new())
+	var magiLabel = CampaignVariables.prepareLabel(RichTextLabel.new())
 	magiLabel.text = "Magical DT: 0"
 	magiLabel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	dtHbox.add_child(magiLabel)
 	DTs.append(magiLabel)
 	
-	var necLabel = DbHelper.prepareLabel(RichTextLabel.new())
+	var necLabel = CampaignVariables.prepareLabel(RichTextLabel.new())
 	necLabel.text = "Necrotic DT: 0"
 	necLabel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	dtHbox.add_child(necLabel)
@@ -67,14 +67,14 @@ func recalculateDTs () :
 		if lbl.text.contains("Necrotic") :
 			lbl.text = "Necrotic DT: " + str(necroticDT)
 
-func _recalculate_defence(attr1 : String, attr2 : String = "") -> int:
+func _recalculate_defence(attr1 : Attribute, attr2 : Attribute = null) -> int:
 		var atts : Array[Attribute] = PlayerVariables.getAttributes()
 		var total := 0
 		
 		for att in atts :
-			if att._name == attr1 :
+			if att._name == attr1._name :
 				total += att.value
-			if attr2 != null and attr2 != "":
-				if att._name == attr2 :
+			if attr2 != null:
+				if att._name == attr2._name :
 					total += att.value
 		return total

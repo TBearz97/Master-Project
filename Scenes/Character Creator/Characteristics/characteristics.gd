@@ -30,33 +30,37 @@ func _setup() :
 	
 
 func _race () :
-	var title = DbHelper.prepareLabel(RichTextLabel.new())
-	var description = DbHelper.prepareLabel(RichTextLabel.new(), false)
-	var perkTitle = DbHelper.prepareLabel(RichTextLabel.new())
-	var perkDescription = DbHelper.prepareLabel(RichTextLabel.new(), false)
+	var title = CampaignVariables.prepareLabel(RichTextLabel.new())
+	var description = CampaignVariables.prepareLabel(RichTextLabel.new(), false)
+	var perkTitle = CampaignVariables.prepareLabel(RichTextLabel.new())
+	var perkDescription = CampaignVariables.prepareLabel(RichTextLabel.new(), false)
 	
 	title.text = "Your race?"
 	
 	var ob = OptionButton.new()
 	var popup = ob.get_popup()
-	var races = DbHelper.db_fetch("SELECT * FROM Race")
-	for race in races :
-		ob.add_item(race["name"], race["ID"] - 1)
-		popup.set_item_tooltip(race["ID"] - 1, race["short_description"])
-		popup.set_item_metadata(race["ID"] - 1, race)
-	ob.item_selected.connect(func (index: int):
-		var race = popup.get_item_metadata(index)
-		description.text = DbHelper.replaceText(race["long_description"]) 
+	var races = CampaignVariables.codex.Races
+	var id = 0
+	for race : Race in races.values() :
+		ob.add_item(race._name, id)
+		popup.set_item_tooltip(id, race.short_description)
+		popup.set_item_metadata(id, race)
+		id += 1
 		
-		var perk = DbHelper.db_fetch("SELECT * FROM Perk WHERE name =" + "'" + race["perk"] + "'")
-		perkTitle.text = DbHelper.replaceText("Perk: " + perk[0]["name"]) 
-		perkDescription.text = DbHelper.replaceText(perk[0]["long_description"]) 
+	ob.item_selected.connect(func (index: int):
+		var race : Race = popup.get_item_metadata(index)
+		description.text = CampaignVariables.replaceText(race.long_description) 
+		
+		var perk : Perk = race.perk
+		perkTitle.text = CampaignVariables.replaceText("Perk: " + perk._name) 
+		perkDescription.text = CampaignVariables.replaceText(perk.long_description) 
 		)
+		
 	for i in range(ob.item_count) :
-		if PlayerVariables.getRace() == ob.get_item_text(i) :
+		if PlayerVariables.getRace()._name == ob.get_item_text(i) :
 			ob.select(i)
 			var race = popup.get_item_metadata(i)
-			description.text = DbHelper.replaceText(race["long_description"])
+			description.text = CampaignVariables.replaceText(race.long_description)
 			break
 		else :
 			ob.select(-1)
@@ -68,33 +72,37 @@ func _race () :
 	raceGroup.add_child(perkDescription)
 
 func _homeland() :
-	var title = DbHelper.prepareLabel(RichTextLabel.new())
-	var description = DbHelper.prepareLabel(RichTextLabel.new(), false)
-	var perkTitle = DbHelper.prepareLabel(RichTextLabel.new())
-	var perkDescription = DbHelper.prepareLabel(RichTextLabel.new(), false)
+	var title = CampaignVariables.prepareLabel(RichTextLabel.new())
+	var description = CampaignVariables.prepareLabel(RichTextLabel.new(), false)
+	var perkTitle = CampaignVariables.prepareLabel(RichTextLabel.new())
+	var perkDescription = CampaignVariables.prepareLabel(RichTextLabel.new(), false)
 	
 	title.text = "Your Homeland?"
 	
 	var ob = OptionButton.new()
 	var popup = ob.get_popup()
-	var homelands = DbHelper.db_fetch("SELECT * FROM Homeland")
-	for homeland in homelands :
-		ob.add_item(homeland["name"], homeland["ID"] - 1)
-		popup.set_item_tooltip(homeland["ID"] - 1, homeland["short_description"])
-		popup.set_item_metadata(homeland["ID"] - 1, homeland)
+	var homelands = CampaignVariables.codex.Homelands
+	var id = 0
+	for homeland : Homeland in homelands.values() :
+		ob.add_item(homeland._name, id)
+		popup.set_item_tooltip(id, homeland.short_description)
+		popup.set_item_metadata(id, homeland)
+		id += 1
+	
 	ob.item_selected.connect(func (index: int):
 		var homeland = popup.get_item_metadata(index)
-		description.text = DbHelper.replaceText(homeland["long_description"]) 
+		description.text = CampaignVariables.replaceText(homeland.long_description) 
 		
-		var perk = DbHelper.db_fetch("SELECT * FROM Perk WHERE name =" + "'" + homeland["perk"] + "'")
-		perkTitle.text = DbHelper.replaceText("Perk: " + perk[0]["name"]) 
-		perkDescription.text = DbHelper.replaceText(perk[0]["long_description"]) 
+		var perk = homeland.perk
+		perkTitle.text = CampaignVariables.replaceText("Perk: " + perk._name) 
+		perkDescription.text = CampaignVariables.replaceText(perk.long_description) 
 		)
+	
 	for i in range(ob.item_count) :
-		if PlayerVariables.getHomeland() == ob.get_item_text(i) :
+		if PlayerVariables.getHomeland()._name == ob.get_item_text(i) :
 			ob.select(i)
 			var homeland = popup.get_item_metadata(i)
-			description.text = DbHelper.replaceText(homeland["long_description"])
+			description.text = CampaignVariables.replaceText(homeland.long_description)
 			break
 		else :
 			ob.select(-1)
@@ -106,34 +114,38 @@ func _homeland() :
 	homelandGroup.add_child(perkDescription)
 
 func _background () :
-	var title = DbHelper.prepareLabel(RichTextLabel.new())
-	var description = DbHelper.prepareLabel(RichTextLabel.new(), false)
-	var perkTitle = DbHelper.prepareLabel(RichTextLabel.new())
-	var perkDescription = DbHelper.prepareLabel(RichTextLabel.new(), false)
+	var title = CampaignVariables.prepareLabel(RichTextLabel.new())
+	var description = CampaignVariables.prepareLabel(RichTextLabel.new(), false)
+	var perkTitle = CampaignVariables.prepareLabel(RichTextLabel.new())
+	var perkDescription = CampaignVariables.prepareLabel(RichTextLabel.new(), false)
 	
 	
-	title.text = DbHelper.replaceText("Your Background?") 
+	title.text = CampaignVariables.replaceText("Your Background?") 
 	
 	var ob = OptionButton.new()
 	var popup = ob.get_popup()
-	var backgrounds = DbHelper.db_fetch("SELECT * FROM Background")
-	for background in backgrounds :
-		ob.add_item(background["name"], background["ID"] - 1)
-		popup.set_item_tooltip(background["ID"] - 1, background["short_description"])
-		popup.set_item_metadata(background["ID"] - 1, background)
+	var backgrounds = CampaignVariables.codex.Backgrounds
+	var id = 0
+	for background : Background in backgrounds.values() :
+		ob.add_item(background._name, id)
+		popup.set_item_tooltip(id, background.short_description)
+		popup.set_item_metadata(id, background)
+		id += 1
+	
 	ob.item_selected.connect(func (index: int):
 		var background = popup.get_item_metadata(index)
-		description.text = DbHelper.replaceText(background["long_description"]) 
+		description.text = CampaignVariables.replaceText(background.long_description) 
 		
-		var perk = DbHelper.db_fetch("SELECT * FROM Perk WHERE name =" + '"' + background["perk"] + '"')
-		perkTitle.text = DbHelper.replaceText("Perk: " + perk[0]["name"]) 
-		perkDescription.text = DbHelper.replaceText(perk[0]["long_description"]) 
+		var perk = background.perk
+		perkTitle.text = CampaignVariables.replaceText("Perk: " + perk._name) 
+		perkDescription.text = CampaignVariables.replaceText(perk.long_description) 
 		)
+	
 	for i in range(ob.item_count) :
-		if PlayerVariables.getBackground() == ob.get_item_text(i) :
+		if PlayerVariables.getBackground()._name == ob.get_item_text(i) :
 			ob.select(i)
 			var background = popup.get_item_metadata(i)
-			description.text = DbHelper.replaceText(background["long_description"])
+			description.text = CampaignVariables.replaceText(background.long_description)
 			break
 		else :
 			ob.select(-1)
@@ -155,19 +167,19 @@ func _save():
 	for child in raceGroup.get_children() :
 		if child is OptionButton :
 			if child.selected != -1 :
-				PlayerVariables.setRace(child.get_item_text(child.selected))
+				PlayerVariables.setRace(child.get_item_metadata(child.selected))
 			else :
-				PlayerVariables.setRace(child.get_item_text(0)) 
+				PlayerVariables.setRace(child.get_item_metadata(0)) 
 	for child in homelandGroup.get_children() :
 		if child is OptionButton :
 			if child.selected != -1 :
-				PlayerVariables.setHomeland(child.get_item_text(child.selected))
+				PlayerVariables.setHomeland(child.get_item_metadata(child.selected))
 			else :
-				PlayerVariables.setHomeland(child.get_item_text(0)) 
+				PlayerVariables.setHomeland(child.get_item_metadata(0)) 
 	for child in backgroundGroup.get_children() :
 		if child is OptionButton :
 			if child.selected != -1 :
-				PlayerVariables.setBackground(child.get_item_text(child.selected))
+				PlayerVariables.setBackground(child.get_item_metadata(child.selected))
 			else :
-				PlayerVariables.setBackground(child.get_item_text(0)) 
+				PlayerVariables.setBackground(child.get_item_metadata(0)) 
 	PlayerVariables.setBackstory(backstory.text) 

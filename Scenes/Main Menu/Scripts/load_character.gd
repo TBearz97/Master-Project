@@ -11,14 +11,14 @@ func _find_characters():
 	start_panel.visible = false
 	character_panel.visible = true
 	
-	DbHelper._clear_grid(character_select)
+	CampaignVariables._clear_grid(character_select)
 	
 	var names = dir_contents()
 	for _name in names :
 		var bttn = Button.new()
 		character_select.add_child(bttn)
 		bttn.text = _name
-		bttn.custom_minimum_size = Vector2(700, 100)
+		bttn.custom_minimum_size = Vector2(300, 100)
 		bttn.pressed.connect(func():
 			PlayerVariables.load(_name)  # r contains name/short/long
 			get_tree().change_scene_to_file("res://Scenes/Character Sheet/Character_Sheet.tscn")
@@ -26,7 +26,7 @@ func _find_characters():
 		var del = Button.new()
 		character_select.add_child(del)
 		del.text = "Delete"
-		del.custom_minimum_size = Vector2(200, 100)
+		del.custom_minimum_size = Vector2(100, 100)
 		del.pressed.connect(func():
 			var dir = DirAccess.open("user://")
 			var file_path = "user://characters/" + _name + ".res"

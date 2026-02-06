@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bpdcou5jfrtvw"]
+[gd_scene load_steps=5 format=3 uid="uid://bpdcou5jfrtvw"]
 
 [ext_resource type="PackedScene" uid="uid://bc2ayb5gcytyd" path="res://Common_UI/mm_Button.tscn" id="1_n3agg"]
 [ext_resource type="PackedScene" uid="uid://carvuuy657wm4" path="res://Common_UI/settings.tscn" id="2_1wvxc"]
+[ext_resource type="Script" uid="uid://blq3xgnlp0vj6" path="res://Scenes/Main Menu/Scripts/GameMode.gd" id="3_itk5j"]
 [ext_resource type="PackedScene" uid="uid://dpxm62tsy0uxi" path="res://Common_UI/exit.tscn" id="3_kigju"]
 
 [node name="Header" type="HBoxContainer"]
@@ -12,6 +13,10 @@ layout_mode = 2
 
 [node name="Settings" parent="." instance=ExtResource("2_1wvxc")]
 layout_mode = 2
+
+[node name="CheckButton" type="CheckButton" parent="."]
+layout_mode = 2
+script = ExtResource("3_itk5j")
 
 [node name="Exit" parent="." instance=ExtResource("3_kigju")]
 layout_mode = 2

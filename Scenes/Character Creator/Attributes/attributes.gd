@@ -8,7 +8,7 @@ var attributes = PlayerVariables.getAttributes()
 var spinBoxes : Array[SpinBox] = []
 var prev = {}
 
-var defence_rows : Array = []
+var defence_rows : Dictionary[String, Defence] = CampaignVariables.codex.Defences
 var defence_labels : Dictionary = {}
 
 func _ready() -> void:
@@ -18,43 +18,31 @@ func _ready() -> void:
 
 func _setup () :
 	points.value = PlayerVariables.getAttributePoints()
-	var _attributes = DbHelper.db_fetch("SELECT * FROM Attribute")
+	var _attributes = CampaignVariables.codex.Attributes
 	
-	for rows in _attributes :
-		var attribute = Attribute.new(
-		rows["name"],
-		0,
-		rows["short_description"],
-		rows["long_description"],
-		rows["bonus_1_prefix"],
-		rows["bonus_2_prefix"],
-		rows["bonus_1_expression"],
-		rows["bonus_2_expression"],
-		rows["bonus_1_suffix"],
-		rows["bonus_2_suffix"]
-	)
+	for attribute : Attribute in _attributes.values() :
 		#--- Label ---
-		var label = DbHelper.prepareLabel(RichTextLabel.new(), true)
-		label.text = DbHelper.replaceText(rows["name"])
+		var label = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		label.text = CampaignVariables.replaceText(attribute._name)
 		
 		#--- Bonuses ---
-		var bonus1 = DbHelper.prepareLabel(RichTextLabel.new(), true)
-		var bonus2 = DbHelper.prepareLabel(RichTextLabel.new(), true)
+		var bonus1 = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		var bonus2 = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
 		
 		#--- SpinBox ---
 		var sb = SpinBox.new()
 		spinBoxes.append(sb)
-		sb.tooltip_text = rows["name"]
+		sb.tooltip_text = attribute._name
 		sb.set_meta(sb.tooltip_text.replace(" ", ""), attribute)
 		sb.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sb.min_value = 1
-		if attributes.any(func(a): return a._name == rows["name"]):
-			sb.value = attributes[attributes.find_custom(func(a): return a._name == rows["name"])].value
+		if attributes.any(func(a): return a._name == attribute._name):
+			sb.value = attributes[attributes.find_custom(func(a): return a._name == attribute._name)].value
 		sb.rounded = true
 		sb.step = 1
 		prev[sb] = 1
-		sb.value_changed.connect(_on_value_changed.bind(bonus1, bonus2, rows, sb))
-		_on_value_changed(1, bonus1, bonus2, rows, sb)
+		sb.value_changed.connect(_on_value_changed.bind(bonus1, bonus2, attribute, sb))
+		_on_value_changed(1, bonus1, bonus2, attribute, sb)
 		
 		#--- Grid Setup
 		grid.columns = 4
@@ -68,17 +56,16 @@ func setupDefences() -> void:
 	for child in defBox.get_children():
 		child.queue_free()
 
-	defence_rows = DbHelper.db_fetch("SELECT * FROM Defence")
 	defence_labels.clear()
 
 	# create UI for each defence
-	for row in defence_rows:
-		var _name : String = row["name"]
+	for row : Defence in defence_rows.values():
+		var _name : String = row._name
 
-		var label_name := DbHelper.prepareLabel(RichTextLabel.new(), true)
-		label_name.text = DbHelper.replaceText(_name)
+		var label_name := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		label_name.text = CampaignVariables.replaceText(_name)
 
-		var label_value := DbHelper.prepareLabel(RichTextLabel.new(), true)
+		var label_value := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
 		label_value.text = "0"
 
 		defence_labels[_name] = label_value
@@ -107,9 +94,9 @@ func _save () :
 	PlayerVariables.setAttributePoints(int(points.value))
 
 # ---- Helpers ----
-func _on_value_changed(new_value: int, bonus1 : RichTextLabel, bonus2 : RichTextLabel, rows : Dictionary, sb : SpinBox) -> void:
-	bonus1.text = DbHelper.replaceText(rows["bonus_1_prefix"] + " " + str(Expressions.evaluate(rows["bonus_1_expression"], ["x"], [new_value])) + " " + rows["bonus_1_suffix"])
-	bonus2.text = DbHelper.replaceText(rows["bonus_2_prefix"] + " " + str(Expressions.evaluate(rows["bonus_2_expression"], ["x"], [new_value])) + " " + rows["bonus_2_suffix"])
+func _on_value_changed(new_value: int, bonus1 : RichTextLabel, bonus2 : RichTextLabel, rows : Attribute, sb : SpinBox) -> void:
+	bonus1.text = CampaignVariables.replaceText(rows.bonus_1_prefix + " " + str(Expressions.evaluate(rows.bonus_1_expression, ["x"], [new_value])) + " " + rows.bonus_1_suffix)
+	bonus2.text = CampaignVariables.replaceText(rows.bonus_2_prefix + " " + str(Expressions.evaluate(rows.bonus_2_expression, ["x"], [new_value])) + " " + rows.bonus_2_suffix)
 	
 	if new_value > prev[sb] : 
 		points.value -= new_value - prev[sb]
@@ -128,10 +115,10 @@ func _on_attribute_changed_for_defences(_new_value: int) -> void:
 	_recalculate_defences()
 
 func _recalculate_defences() -> void:
-	for row in defence_rows:
-		var def_name : String = row["name"]
-		var attr1 : String = row["attribute1"]
-		var attr2 = row["attribute2"]
+	for row : Defence in defence_rows.values():
+		var def_name : String = row._name
+		var attr1 : String = row.attribute1._name
+		var attr2 = row.attribute2._name
 
 		var total := 0
 

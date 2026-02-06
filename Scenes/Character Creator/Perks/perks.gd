@@ -19,40 +19,55 @@ func _ready() -> void:
 
 func _setup ():
 	points.value = PlayerVariables.getPerkPoints()
-	var categories = DbHelper.db_fetch("SELECT DISTINCT category FROM Perk WHERE category NOT IN ('Race', 'Homeland', 'Background')")
+	var categories : Array = (func () -> Array:
+		var excluded := ["Race", "Homeland", "Background"]
+		var temp: Array = []
+		for perk: Perk in CampaignVariables.codex.Perks.values():
+			if excluded.has(perk.category):
+				continue
+			if not temp.has(perk.category):
+				temp.append(perk.category)
+		return temp
+		).call()
+
 	if not categories.is_empty() :
 		grid.columns = categories.size()
 	
 	for category in categories :
-		var title = DbHelper.prepareLabel(RichTextLabel.new(), true)
-		title.text = DbHelper.replaceText(category["category"])
+		var title = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		title.text = CampaignVariables.replaceText(category)
 		title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		grid.add_child(title)
 		
 	for category in categories :
-		var perks = DbHelper.db_fetch("SELECT * FROM Perk WHERE category = '%s'" % category["category"])
+		var perks = (func () -> Array[Perk] :
+			var result : Array[Perk] = []
+			for perk : Perk in CampaignVariables.codex.Perks.values() :
+				if perk.category == category :
+					result.append(perk)
+			return result
+			).call()
 		var subGrid = GridContainer.new()
 		subGrid.columns = 3
 		subGrid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		grid.add_child(subGrid)
-		for perk in perks :
-			var _name = DbHelper.prepareLabel(RichTextLabel.new(), true)
-			_name.text = DbHelper.replaceText(perk["name"]) 
+		for perk : Perk in perks :
+			var _name = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+			_name.text = CampaignVariables.replaceText(perk._name) 
 			
-			var description = DbHelper.prepareLabel(RichTextLabel.new(), false)
-			description.text = DbHelper.replaceText(perk["long_description"]) 
-			description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			var description = CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+			description.text = CampaignVariables.replaceText(perk.long_description)
+			description.custom_minimum_size = Vector2(100, 50)
+			description.autowrap_mode = TextServer.AUTOWRAP_WORD
 			description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			
-			var obj = Perk.new(perk["name"], perk["short_description"], perk["long_description"], perk["category"])
 			
 			var selectBtn = Button.new()
 			selectBtn.text = "Select"
 			selectBtn.pressed.connect(func ():
-				if points.value > 0 and !_item_exists(selected, perk["name"]) :
-					var idx = selected.add_item(perk["name"])
-					selected.set_item_metadata(idx, obj)
-					selected.set_item_tooltip(idx, perk["short_description"])
+				if points.value > 0 and !_item_exists(selected, perk._name) :
+					var idx = selected.add_item(perk._name)
+					selected.set_item_metadata(idx, perk)
+					selected.set_item_tooltip(idx, perk.short_description)
 					selected.item_clicked.connect(func (index, _pos, _mbidx):
 						selected.remove_item(index)
 						points.value += 1
