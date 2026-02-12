@@ -5,26 +5,9 @@ class_name Armor
 @export var magicalDT: int
 @export var necroticDT: int
 
-func _init(__name : String = "", shortDescription : String = "", longDescription : String = "", itemWeight : float = 0, itemValue : int = 0, itemSlot: String = "", itemPhysical: int = 0, itemMagical: int = 0, itemNecrotic: int = 0) -> void:
+func _init(__name : String = "", shortDescription : String = "", longDescription : String = "", itemWeight : float = 0, itemValue : int = 0, itemSlot: Array[ItemSlots] = [], itemPhysical: int = 0, itemMagical: int = 0, itemNecrotic: int = 0) -> void:
 	super(__name, shortDescription, longDescription, itemWeight, itemValue)
-	allowed_slots = []
-
-	var slots := itemSlot.split(", ")
-	for slot in slots:
-		match slot:
-			"Head":
-				allowed_slots.append(ItemSlots.Head)
-			"Torso":
-				allowed_slots.append(ItemSlots.Torso)
-			"Arm Left":
-				allowed_slots.append(ItemSlots.LeftArm)
-			"Arm Right":
-				allowed_slots.append(ItemSlots.RightArm)
-			"Leg Right":
-				allowed_slots.append(ItemSlots.RightLeg)
-			"Leg Left":
-				allowed_slots.append(ItemSlots.LeftLeg)
-
+	allowed_slots = itemSlot
 	physicalDT = itemPhysical
 	magicalDT = itemMagical
 	necroticDT = itemNecrotic

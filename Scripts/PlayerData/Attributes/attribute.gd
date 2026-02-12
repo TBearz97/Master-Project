@@ -30,6 +30,7 @@ func _init(
 	self.bonus_1_suffix = bonus_1_suffixDB
 	self.bonus_2_suffix = bonus_2_suffixDB
 	
-	var error = ResourceSaver.save(self, "res://data/Attribute/" + _name + ".res")
-	if error != 0:
-		print("Attribute Error: " + str(error))
+	if _name != "":
+		var error = ResourceSaver.save(self, "res://data/Attribute/" + _name + ".res")
+		if error != 0:
+			print("Race Error: " + str(error))

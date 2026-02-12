@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bv3yfx8wu2y8g"]
+[gd_scene load_steps=3 format=3 uid="uid://d20gfc7aqgfj1"]
 
-[ext_resource type="Script" uid="uid://7atrjox3aw3s" path="res://temp.gd" id="1_pippe"]
+[ext_resource type="Script" uid="uid://4dpg8mppys6c" path="res://temp.gd" id="1_pippe"]
+[ext_resource type="PackedScene" uid="uid://bv3yfx8wu2y8g" path="res://NameIcon.tscn" id="2_ufh25"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -10,3 +11,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_pippe")
+name_icon_scene = ExtResource("2_ufh25")

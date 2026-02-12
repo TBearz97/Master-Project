@@ -14,6 +14,7 @@ func _init(
 	super(__name, shortDescription, longDescription)
 	self.value = _value
 	
-	var error = ResourceSaver.save(self, "res://data/Skill/" + _name + ".res")
-	if error != 0:
-		print("Skill Error: " + str(error))
+	if _name != "":
+		var error = ResourceSaver.save(self, "res://data/Skill/" + _name + ".res")
+		if error != 0:
+			print("Race Error: " + str(error))

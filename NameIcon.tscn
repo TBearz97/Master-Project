@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://bv3yfx8wu2y8g"]
+
+[ext_resource type="Script" uid="uid://7atrjox3aw3s" path="res://NameIcon.gd" id="1_vhigu"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_vhigu")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="NameLabel" type="Label" parent="Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 44
+text = "Potion of the Opened Mind"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

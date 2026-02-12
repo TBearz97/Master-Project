@@ -13,11 +13,12 @@ func _init(__name : String = "", shortDescription : String = "", longDescription
 	weight = itemWeight
 	value = itemValue
 	allowed_slots = []
-	_load_icon_from_name()
 	
-	var error = ResourceSaver.save(self, "res://data/Item/" + _name + ".res")
-	if error != 0:
-		print("Item Error: " + str(error))
+	if _name != "":
+		_load_icon_from_name()
+		var error = ResourceSaver.save(self, "res://data/Item/" + _name + ".res")
+		if error != 0:
+			print("Item Error: " + str(error))
 
 func _print() -> String:
 	return (
@@ -27,9 +28,8 @@ func _print() -> String:
 	)
 
 func _load_icon_from_name() -> void:
-	var file_name := _name.to_lower().replace(" ", "_") + ".png"
+	var file_name := _name + ".png"
 	var path := "res://Art/Icons/Items/" + file_name
-
 	if ResourceLoader.exists(path):
 		icon = load(path)
 	else:

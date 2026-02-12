@@ -39,7 +39,7 @@ func _setup():
 	var armors = (func () -> Array[Armor]:
 		var temp: Array[Armor] = []
 		for item in CampaignVariables.codex.Items.values():
-			if item is Armor:
+			if item is Armor and not (item is Clothing):
 				temp.append(item)
 		return temp
 	).call()
@@ -55,7 +55,7 @@ func _setup():
 	var consumables = (func () -> Array[Consumable]:
 		var temp: Array[Consumable] = []
 		for item in CampaignVariables.codex.Items.values():
-			if item is Consumable:
+			if item is Consumable :
 				temp.append(item)
 		return temp
 	).call()
@@ -63,7 +63,7 @@ func _setup():
 	var utilities = (func () -> Array[Utility]:
 		var temp: Array[Utility] = []
 		for item in CampaignVariables.codex.Items.values():
-			if item is Utility:
+			if item is Utility and not (item is Consumable):
 				temp.append(item)
 		return temp
 	).call()

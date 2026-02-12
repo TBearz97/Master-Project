@@ -7,6 +7,8 @@ class_name Background
 func _init(__name : String = "", shortDescription : String = "", longDescription : String = "", _perk : Perk = Perk.new()) -> void:
 	super(__name, shortDescription, longDescription)
 	perk = _perk
-	var error = ResourceSaver.save(self, "res://data/Background/" + _name + ".res")
-	if error != 0:
-		print("Background Error: " + str(error))
+	
+	if _name != "":
+		var error = ResourceSaver.save(self, "res://data/Background/" + _name + ".res")
+		if error != 0:
+			print("Background Error: " + str(error))

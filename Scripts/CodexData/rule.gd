@@ -7,6 +7,7 @@ func _init(__name : String = "", shortDescription : String = "", longDescription
 	super(__name, shortDescription, longDescription)
 	expression = expr
 	
-	var error = ResourceSaver.save(self, "res://data/Rule/" + _name + ".res")
-	if error != 0:
-		print("Rule Error: " + str(error))
+	if _name != "":
+		var error = ResourceSaver.save(self, "res://data/Rule/" + _name + ".res")
+		if error != 0:
+			print("Rule Error: " + str(error))

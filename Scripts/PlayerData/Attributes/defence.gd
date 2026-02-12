@@ -9,6 +9,7 @@ func _init(__name : String = "", shortDescription : String = "", longDescription
 	attribute1 = att1
 	attribute2 = att2
 	
-	var error = ResourceSaver.save(self, "res://data/Defence/" + _name + ".res")
-	if error != 0:
-		print("Defence Error: " + str(error))
+	if _name != "":
+		var error = ResourceSaver.save(self, "res://data/Defence/" + _name + ".res")
+		if error != 0:
+			print("Race Error: " + str(error))

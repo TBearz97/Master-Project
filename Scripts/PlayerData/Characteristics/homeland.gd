@@ -8,6 +8,7 @@ func _init(__name : String = "", shortDescription : String = "", longDescription
 	super(__name, shortDescription, longDescription)
 	perk = _perk
 	
-	var error = ResourceSaver.save(self, "res://data/Homeland/" + _name + ".res")
-	if error != 0:
-		print("Homeland Error: " + str(error))
+	if _name != "":
+		var error = ResourceSaver.save(self, "res://data/Homeland/" + _name + ".res")
+		if error != 0:
+			print("Race Error: " + str(error))
