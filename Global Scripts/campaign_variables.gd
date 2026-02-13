@@ -176,3 +176,72 @@ func decode_meta(_str : String) :
 	var json = bytes.get_string_from_utf8()
 	var _data : String = JSON.parse_string(json)
 	return _data
+
+#func test() :
+	#var items = dir_contents("res://data/Item/")
+	#codex.Items.clear()
+	#for item in items :
+		#var _load : CodexItem = ResourceLoader.load("res://data/Item/" + item + ".res")
+		#codex.Items[_load._name] = _load
+	#
+	#items = dir_contents("res://data/Attribute/")
+	#codex.Attributes.clear()
+	#for item in items :
+		#var _load : CodexItem = ResourceLoader.load("res://data/Attribute/" + item + ".res")
+		#codex.Attributes[_load._name] = _load
+	#
+	#items = dir_contents("res://data/Background/")
+	#codex.Backgrounds.clear()
+	#for item in items :
+		#var _load : CodexItem = ResourceLoader.load("res://data/Background/" + item + ".res")
+		#codex.Backgrounds[_load._name] = _load
+	#
+	#items = dir_contents("res://data/Defence/")
+	#codex.Defences.clear()
+	#for item in items :
+		#var _load : CodexItem = ResourceLoader.load("res://data/Defence/" + item + ".res")
+		#codex.Defences[_load._name] = _load
+	#
+	#items = dir_contents("res://data/Homeland/")
+	#codex.Homelands.clear()
+	#for item in items :
+		#var _load : CodexItem = ResourceLoader.load("res://data/Homeland/" + item + ".res")
+		#codex.Homelands[_load._name] = _load
+		#
+	#items = dir_contents("res://data/Perk/")
+	#codex.Perks.clear()
+	#for item in items :
+		#var _load : CodexItem = ResourceLoader.load("res://data/Perk/" + item + ".res")
+		#codex.Perks[_load._name] = _load
+		#
+	#items = dir_contents("res://data/Race/")
+	#codex.Races.clear()
+	#for item in items :
+		#var _load : CodexItem = ResourceLoader.load("res://data/Race/" + item + ".res")
+		#codex.Races[_load._name] = _load
+	#
+	#items = dir_contents("res://data/Rule/")
+	#codex.Rules.clear()
+	#for item in items :
+		#var _load : CodexItem = ResourceLoader.load("res://data/Rule/" + item + ".res")
+		#codex.Rules[_load._name] = _load
+		#
+	#items = dir_contents("res://data/Skill/")
+	#codex.Skills.clear()
+	#for item in items :
+		#var _load : CodexItem = ResourceLoader.load("res://data/Skill/" + item + ".res")
+		#codex.Skills[_load._name] = _load
+#
+#func dir_contents(path : String) -> Array[String]:
+	#var files : Array[String]
+	#var dir = DirAccess.open(path)
+	#if dir:
+		#dir.list_dir_begin()
+		#var file_name = dir.get_next()
+		#while file_name != "":
+			#if !dir.current_is_dir() and file_name.contains(".res") and file_name != ".res":
+				#files.append(file_name.left(file_name.length() - 4))
+			#file_name = dir.get_next()
+	#else:
+		#print("An error occurred when trying to access the path.")
+	#return files
