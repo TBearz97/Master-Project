@@ -10,10 +10,10 @@ func _ready() -> void:
 
 # Character Info
 func setName(value: String) -> void:
-	data.character_name = value
+	data._name = value
 
 func getName() -> String:
-	return data.character_name
+	return data._name
 
 func setGender(value: String) -> void:
 	data.gender = value
@@ -201,7 +201,7 @@ func level_Up() -> void :
 
 func save() -> void:
 	var directory_path := "user://characters"
-	var file_path := directory_path + "/" + data.character_name + ".res"
+	var file_path := directory_path + "/" + data._name + ".res"
 
 	# Ensure directory exists
 	var directory := DirAccess.open("user://")
@@ -219,9 +219,9 @@ func save() -> void:
 		push_error("Failed to save player data. Error code: %s" % result)
 
 
-func load(character_name: String) -> void:
+func load(_name: String) -> void:
 	var directory_path := "user://characters"
-	var file_path := directory_path + "/" + character_name + ".res"
+	var file_path := directory_path + "/" + _name + ".res"
 
 	# Ensure directory exists
 	var directory := DirAccess.open("user://")
@@ -247,7 +247,7 @@ func load(character_name: String) -> void:
 
 func print_character_info() -> void:
 	print("Character Info")
-	print("Name: ", data.character_name)
+	print("Name: ", data._name)
 	print("Gender: ", data.gender)
 	print("Age: ", data.age)
 	print("Race: ", data.race)
