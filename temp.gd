@@ -10,9 +10,16 @@ func _ready() -> void:
 	generate_all_icons()
 
 func generate_all_icons() -> void:
+	if CampaignVariables == null:
+		return
+
+	var codex: Variant = CampaignVariables.get("codex")
+	if codex == null:
+		return
+
 	DirAccess.make_dir_recursive_absolute(OUTPUT_DIR)
 
-	for item in CampaignVariables.codex.Items.values():
+	for item in codex.Items.values():
 		_generate_icon(item)
 
 	print("Name icon generation finished.")

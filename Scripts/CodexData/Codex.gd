@@ -16,7 +16,7 @@ class_name Codex
 
 @export var Items: Dictionary[String, Item] = {}
 
-@export var Enemies: Dictionary[String, Enemy] = {}
+@export var NPCs: Dictionary[String, CreatureData] = {}
 
 var Keywords : Dictionary[String, CodexItem]
 var orderedKeywords : Array
@@ -32,7 +32,7 @@ func _init(
 	default_conditions: Dictionary[String, Condition] = {},
 	default_rules: Dictionary[String, Rule] = {},
 	default_items: Dictionary[String, Item] = {},
-	default_enemies: Dictionary[String, Enemy] = {}
+	default_npcs: Dictionary[String, CreatureData] = {}
 ) -> void:
 	Races = default_races
 	Backgrounds = default_backgrounds
@@ -47,13 +47,13 @@ func _init(
 
 	Rules = default_rules
 	Items = default_items
-	Enemies = default_enemies
+	NPCs = default_npcs
 
 func addToDictionary(dict : Dictionary, new : CodexItem) -> void:
 	dict[new._name] = new
 
 func createKeywords() -> void:
-	for d in [Races, Backgrounds, Homelands, Attributes, Skills, Defences, Perks, Conditions, Rules, Items]:
+	for d in [Races, Backgrounds, Homelands, Attributes, Skills, Defences, Perks, Conditions, Rules, Items, NPCs]:
 		Keywords.merge(d)
 	orderedKeywords = Keywords.keys()
 	orderedKeywords.sort_custom(func(a, b): return a.length() > b.length())
