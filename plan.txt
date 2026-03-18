@@ -1,0 +1,155 @@
+First Playable Goal
+- Start a campaign
+- Load at least 2 player characters
+- Add at least 2 NPCs
+- Select source and target
+- Use at least 1 action
+- Resolve damage/effects
+- Update HP/state/log
+- Repeat for testing
+
+Testing Setup Requirement
+- Players: minimum 2
+- NPCs: minimum 2
+- Recommended test roster:
+  - Players: Warrior, Rogue
+  - NPCs: Guard (HumanoidData), Skeleton (UndeadData)
+
+Phase 1: Stabilize Data Model
+- Goal: make runtime actor data trustworthy before adding gameplay
+- Tasks:
+  - confirm CreatureData is the universal runtime base
+  - confirm HumanoidData contains race, homeland, background, skills, equipment
+  - confirm PlayerData only contains player-specific fields
+  - confirm codex NPCs is Dictionary[String, CreatureData]
+  - verify all save/load/display code uses _name consistently
+- Done when:
+  - players and NPCs can both be treated as CreatureData
+  - no code still depends on deleted Enemy
+
+Phase 2: Define the First Combat Slice
+- Goal: pick the smallest possible playable rules loop
+- Implement only:
+  - Basic Attack
+  - target selection
+  - hit resolution
+  - damage application
+  - death/defeat check
+  - combat log entry
+- Do not add yet:
+  - initiative
+  - AP system
+  - reactions
+  - advanced status logic
+- Done when:
+  - one actor can attack another and HP changes visibly
+
+Phase 3: Build Test Content
+- Goal: create enough actors to actually test gameplay
+- Minimum required:
+  - 2 player saves
+  - 2 NPC resources in codex
+- Recommended content:
+  - Player 1: high Might / melee
+  - Player 2: high Dexterity or support
+  - NPC 1: HumanoidData guard
+  - NPC 2: UndeadData skeleton
+- Done when:
+  - you can run a 2-player vs 2-NPC encounter manually
+
+Phase 4: Turn CampaignSheet into the Play Screen
+- Goal: use one scene as the testing battlefield
+- Add/show these runtime panels:
+  - player list
+  - NPC list
+  - selected actor
+  - selected target
+  - available actions
+  - combat log
+  - HP summary
+- Keep it simple:
+  - list-based UI is enough
+  - no map required yet
+- Done when:
+  - you can click through a full test encounter from one screen
+
+Phase 5: Implement Runtime State Mutation
+- Goal: centralize gameplay changes
+- Needed systems:
+  - apply damage
+  - apply healing
+  - add/remove conditions
+  - check defeated/dead
+- Important:
+  - put this in gameplay/runtime logic, not UI scripts
+- Done when:
+  - actions mutate actor state in one consistent way
+
+Phase 6: Strengthen Action Just Enough
+- Goal: support real tests without overbuilding flexibility
+- Keep using Expression
+- Add only the helper functions needed for the first playable loop, for example:
+  - get_attr(actor, name)
+  - get_skill(actor, name)
+  - eq(a, b)
+  - roll_dice(count, sides)
+  - deal_damage(target, amount)
+  - is_type(value, type_name) or typed helpers like is_undead(target)
+- Done when:
+  - one action can be expressed and resolved using target: CreatureData, source: CreatureData
+
+Phase 7: Load Players into Campaign Runtime
+- Goal: support your required 2+ player testing
+- Tasks:
+  - make campaign/session hold a list of loaded player actors
+  - show both players in runtime UI
+  - allow selecting which player acts
+- Done when:
+  - both player characters are visible and actionable in the campaign runtime
+
+Phase 8: Load NPCs into Campaign Runtime
+- Goal: support your required 2+ NPC testing
+- Tasks:
+  - load/select codex NPCs
+  - add them to current encounter
+  - show both NPCs in runtime UI
+- Done when:
+  - both NPCs are present as valid CreatureData targets
+
+Phase 9: Run Manual Encounter Tests
+- Goal: prove the loop works before adding complexity
+- Test cases:
+  - Player 1 attacks NPC 1
+  - Player 2 attacks NPC 2
+  - NPC attacks player
+  - one target reaches 0 HP
+  - undead-specific or humanoid-specific rule check works at least once
+- Done when:
+  - a full encounter can be played manually without broken state
+
+Phase 10: Only Then Expand
+- After first playable works, add in this order:
+  1. more actions
+  2. perk/race/background interactions
+  3. conditions
+  4. turn order / initiative
+  5. progression / XP
+  6. better rules flexibility
+  7. multiplayer syncing if needed
+
+What To Postpone
+- no-code rule authoring
+- full codex-variable dynamism
+- advanced AI
+- tactical map/movement
+- polished multiplayer
+- full campaign systems
+
+Immediate Priority Order
+1. Fix remaining data-model/runtime inconsistencies
+2. Create 2 player saves and 2 NPC resources
+3. Make CampaignSheet usable as the encounter screen
+4. Implement Basic Attack
+5. Implement HP/log updates
+6. Test 2 players vs 2 NPCs
+7. Add one rules-based variation
