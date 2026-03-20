@@ -1,7 +1,5 @@
 extends VBoxContainer
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visibility_changed.connect(save_info)
 	%ReturnToMM.pressed.connect(returnMM)
@@ -15,7 +13,7 @@ func save_info() -> void:
 func returnMM() -> void:
 	CampaignVariables.save()
 	get_tree().change_scene_to_file("res://Scenes/Main Menu/Main_Menu.tscn")
-	
+
 func proceedGS() -> void:
 	CampaignVariables.save()
 	get_tree().change_scene_to_file("res://Scenes/Campaign Sheet/CampaignSheet.tscn")

@@ -1,8 +1,8 @@
 extends FoldableContainer
 
-@onready var memberList: VBoxContainer = %Members
+@onready var member_list: VBoxContainer = %Members
 
-var membersByPeerId: Dictionary = {} # int -> String
+var membersByPeerId: Dictionary = {}
 var membersCharacters: Dictionary = {}
 
 func _ready() -> void:
@@ -29,7 +29,6 @@ func become_host() -> void:
 	%JoinCampaign.hide()
 	%LeaveCampaign.show()
 
-	# Server adds itself
 	var serverPeerId: int = multiplayer.get_unique_id()
 	membersByPeerId[serverPeerId] = "GameMaster"
 	_broadcast_member_list()
@@ -39,17 +38,14 @@ func become_client() -> void:
 
 	%JoinCampaign.hide()
 	%LeaveCampaign.show()
-	# Actual registration happens in _on_connected_to_server
 
 func _on_connected_to_server() -> void:
-	# Client sends its data to the server (peer id 1)
 	rpc_id(1, "server_register_player", FileAccess.get_file_as_bytes("user://characters/" + PlayerVariables.getName() + ".res"))
 
 func _on_peer_connected(peerId: int) -> void:
 	if not multiplayer.is_server():
 		return
 
-	# Placeholder until the client registers its name
 	if not membersByPeerId.has(peerId):
 		membersByPeerId[peerId] = "Connecting..."
 		_broadcast_member_list()
@@ -64,12 +60,11 @@ func _on_peer_disconnected(peerId: int) -> void:
 
 @rpc("any_peer", "reliable")
 func server_register_player(playerData: PackedByteArray) -> void:
-	# Runs on server when a client calls it
 	if not multiplayer.is_server():
 		return
-		
+
 	var peerId: int = multiplayer.get_remote_sender_id()
-	
+
 	var tempPath := "user://temp/net_player_" + str(peerId) + ".res"
 
 	var file := FileAccess.open(tempPath, FileAccess.WRITE)
@@ -80,31 +75,34 @@ func server_register_player(playerData: PackedByteArray) -> void:
 		var loaded: Resource = ResourceLoader.load(tempPath)
 		if loaded is PlayerData:
 			membersCharacters[peerId] = loaded
-	
-	membersByPeerId[peerId] = membersCharacters[peerId].character_name
+
+	if not membersCharacters.has(peerId):
+		push_error("Failed to load player data for peer %s" % peerId)
+		return
+
+	membersByPeerId[peerId] = membersCharacters[peerId]._name
 	_broadcast_member_list()
 
 func _broadcast_member_list() -> void:
-	# Server pushes full list to everyone (including itself)
 	rpc("client_set_member_list", membersByPeerId)
 
 @rpc("authority", "call_local", "reliable")
-func client_set_member_list(serverList: Dictionary) -> void:
-	membersByPeerId = serverList.duplicate(true)
+func client_set_member_list(server_list: Dictionary) -> void:
+	membersByPeerId = server_list.duplicate(true)
 	_rebuild_member_list()
 
-
 func _disconnected() -> void:
-	for child in memberList.get_children():
+	for child in member_list.get_children():
 		child.queue_free()
-		
+
 	membersByPeerId.clear()
-	
+	membersCharacters.clear()
+
 	%JoinCampaign.show()
 	%LeaveCampaign.hide()
 
 func _rebuild_member_list() -> void:
-	for child in memberList.get_children():
+	for child in member_list.get_children():
 		child.queue_free()
 
 	var peerIds: Array = membersByPeerId.keys()
@@ -128,7 +126,7 @@ func _rebuild_member_list() -> void:
 				PlayerVariables.print_character_info()
 		)
 
-		memberList.add_child(button)
+		member_list.add_child(button)
 
 func sendMsg() -> void:
 	var inputField: LineEdit = get_node("Panel/Lobby/VBoxContainer/SendMessage/ChatInput")
@@ -139,21 +137,17 @@ func sendMsg() -> void:
 	inputField.text = ""
 
 	if multiplayer.is_server():
-		# Server can directly broadcast its own message
 		_server_receive_chat(messageText)
 	else:
-		# Client sends to server
 		rpc_id(1, "_server_receive_chat", messageText)
 
 @rpc("any_peer", "reliable")
 func _server_receive_chat(messageText: String) -> void:
-	# Runs on server (clients may call it)
 	if not multiplayer.is_server():
 		return
 
 	var senderPeerId: int = multiplayer.get_remote_sender_id()
 
-	# If the server itself called sendMsg and reached here directly, remote sender id can be 0
 	if senderPeerId == 0:
 		senderPeerId = multiplayer.get_unique_id()
 
@@ -172,30 +166,30 @@ func _client_append_chat_line(senderPeerId: int, messageText: String) -> void:
 
 	if senderPeerId == multiplayer.get_unique_id():
 		senderName += " (You)"
-	
+
 	_chat_log.text += senderName + ": " + messageText + "\n"
 	_log.text += senderName + ": " + messageText + "\n"
 
-func _add_combat_log(combat_line : String) -> void:
-	if multiplayer.is_server() :
+func _add_combat_log(combat_line: String) -> void:
+	if multiplayer.is_server():
 		_server_receive_combat(combat_line)
 	else:
 		rpc_id(1, "_server_receive_combat", combat_line)
-	
+
 @rpc("any_peer", "reliable")
-func _server_receive_combat(combat_line : String) -> void:
+func _server_receive_combat(combat_line: String) -> void:
 	if not multiplayer.is_server():
 		return
-	
+
 	var senderPeerId: int = multiplayer.get_remote_sender_id()
-	
+
 	if senderPeerId == 0:
 		senderPeerId = multiplayer.get_unique_id()
-	
+
 	rpc("_client_append_combat_line", senderPeerId, combat_line)
 
 @rpc("authority", "call_local", "reliable")
-func _client_append_combat_line(senderPeerId: int, combat_line : String) -> void:
+func _client_append_combat_line(senderPeerId: int, combat_line: String) -> void:
 	var _chat_log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/CombatLog")
 	var _log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/AllLogs")
 
@@ -207,12 +201,12 @@ func _client_append_combat_line(senderPeerId: int, combat_line : String) -> void
 
 	if senderPeerId == multiplayer.get_unique_id():
 		senderName += " (You)"
-	
+
 	_chat_log.text += senderName + ": " + combat_line + "\n"
 	_log.text += senderName + ": " + combat_line + "\n"
 
-func broadcast_dice(diceRolled : Array) -> void:
-	var message = ""
+func broadcast_dice(diceRolled: Array) -> void:
+	var message := ""
 	for dice in diceRolled:
 		message += "\nRolled a: " + str(dice)
 	_add_combat_log(message)

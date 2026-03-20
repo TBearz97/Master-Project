@@ -1,15 +1,15 @@
 extends Node
 
-@export var list : Array[Control]
-@export var next : Button
-@export var prev : Button
+@export var list: Array[Control]
+@export var next: Button
+@export var prev: Button
 
-var idx : int = 0
+var idx: int = 0
 
 func _ready() -> void:
 	next.pressed.connect(_next)
 	prev.pressed.connect(_prev)
-	
+
 func _next() -> void:
 	if idx < list.size() - 1:
 		idx += 1

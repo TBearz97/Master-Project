@@ -1,9 +1,9 @@
 extends Button
 
-func _ready():
+func _ready() -> void:
 	pressed.connect(_on_pressed)
 
-func _on_pressed():
+func _on_pressed() -> void:
 	PlayerVariables.data = PlayerData.new()
 	PlayerVariables.setAttributePoints(5)
 	PlayerVariables.setSkillPoints(10)
