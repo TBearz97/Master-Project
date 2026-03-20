@@ -50,10 +50,10 @@ func _setupAttributes(main: VBoxContainer, _grid : GridContainer) :
 		var split = VSplitContainer.new()
 		
 		var bonus1 = CampaignVariables.prepareLabel(RichTextLabel.new())
-		bonus1.text = CampaignVariables.replaceText(att.bonus_1_prefix + " " + str(Expressions.evaluate(att.bonus_1_expression, ["x"], [att.value])) + " " + att.bonus_1_suffix)
+		bonus1.text = CampaignVariables.replaceText(att.bonus_1_prefix + " " + str(RuleEngine.evaluate(att.bonus_1_expression, ["x"], [att.value])) + " " + att.bonus_1_suffix)
 	
 		var bonus2 = CampaignVariables.prepareLabel(RichTextLabel.new())
-		bonus2.text = CampaignVariables.replaceText(att.bonus_2_prefix + " " + str(Expressions.evaluate(att.bonus_2_expression, ["x"], [att.value])) + " " + att.bonus_2_suffix)
+		bonus2.text = CampaignVariables.replaceText(att.bonus_2_prefix + " " + str(RuleEngine.evaluate(att.bonus_2_expression, ["x"], [att.value])) + " " + att.bonus_2_suffix)
 		
 		split.add_child(bonus1)
 		split.add_child(bonus2)
@@ -78,7 +78,7 @@ func _setupSkills(main: VBoxContainer) :
 	optionButton = OptionButton.new()
 	optionButton.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
 	optionButton.item_selected.connect(_update_percentage)
-	for type in Expressions.diceType.values() :
+	for type in RuleEngine.DiceType.values() :
 		optionButton.add_item(str(type))
 	container.add_child(optionButton)
 	
@@ -134,15 +134,15 @@ func _setupStatHeader() -> GridContainer:
 			"Level" : child.get_child(1).text = str(PlayerVariables.getLevel())
 			"Health" : 
 				var att = PlayerVariables.getAttribute("Constitution")
-				health = (Expressions.evaluate(att.bonus_1_expression, ["x"], [att.value])) * PlayerVariables.getLevel() - PlayerVariables.getNecroticDamage()
+				health = (RuleEngine.evaluate(att.bonus_1_expression, ["x"], [att.value])) * PlayerVariables.getLevel() - PlayerVariables.getNecroticDamage()
 				child.get_child(1).text = str(health)
 			"ActionPoints" :
 				var att = PlayerVariables.getAttribute("Dexterity")
-				child.get_child(1).text = str((Expressions.evaluate(att.bonus_1_expression, ["x"], [att.value]) - PlayerVariables.getFatigue()))
+				child.get_child(1).text = str((RuleEngine.evaluate(att.bonus_1_expression, ["x"], [att.value]) - PlayerVariables.getFatigue()))
 			"Experience" : child.get_child(1).text = str(PlayerVariables.getExperience())
 			"Vitality" : 
 				var att = PlayerVariables.getAttribute("Constitution")
-				child.get_child(1).text = str((Expressions.evaluate(att.bonus_2_expression, ["x"], [att.value]) * health + PlayerVariables.getNecroticDamage()))
+				child.get_child(1).text = str((RuleEngine.evaluate(att.bonus_2_expression, ["x"], [att.value]) * health + PlayerVariables.getNecroticDamage()))
 			"Fatigue" : child.get_child(1).text = str(PlayerVariables.getFatigue())
 			"LevelUp" : 
 				PlayerVariables.leveledUp.connect(func (): child.disabled = !PlayerVariables.getLevelAvailable())
@@ -153,7 +153,7 @@ func _setupStatHeader() -> GridContainer:
 
 func skillCheck (skill : int) :
 	var difficulty = int(optionButton.get_item_text(optionButton.selected))
-	return Expressions.evaluate(CampaignVariables.codex.Rules["Skill Check"].expression, ["difficulty", "skill"], [difficulty, skill])
+	return RuleEngine.evaluate(CampaignVariables.codex.Rules["Skill Check"].expression, ["difficulty", "skill"], [difficulty, skill])
 
 func _update_percentage(idx : int) :
 	var difficulty = int(optionButton.get_item_text(idx))

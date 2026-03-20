@@ -1,13 +1,13 @@
 extends CodexItem
 class_name Perk
 
-@export var category : String
+@export var category: String
 
-func _init(__name : String = "", shortDescription : String = "", longDescription : String = "", perkCategory : String = "") -> void:
+func _init(__name: String = "", shortDescription: String = "", longDescription: String = "", perkCategory: String = "") -> void:
 	super(__name, shortDescription, longDescription)
 	category = perkCategory
-	
+
 	if _name != "":
-		var error = ResourceSaver.save(self, "res://data/Perk/" + _name + ".res")
-		if error != 0:
-			print("Perk Error: " + str(error))
+		var error := ResourceSaver.save(self, "res://data/Perk/" + _name + ".res")
+		if error != OK:
+			push_error("Perk save failed for %s: %s" % [_name, error])

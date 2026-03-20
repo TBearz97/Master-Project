@@ -10,7 +10,7 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.server_disconnected.connect(_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
-	Expressions.diceRolled.connect(broadcast_dice)
+	RuleEngine.diceRolled.connect(broadcast_dice)
 
 func use_enet() -> void:
 	%NetworkManager.active_network_type = %NetworkManager.MULTIPLAYER_NETWORK_TYPE.ENET

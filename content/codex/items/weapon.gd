@@ -1,8 +1,8 @@
 extends Item
 class_name Weapon
 
-enum WeaponSize {ONE_HANDED, TWO_HANDED}
-enum WeaponRange {MELEE, CLOSE, MEDIUM, LONG}
+enum WeaponSize { ONE_HANDED, TWO_HANDED }
+enum WeaponRange { MELEE, CLOSE, MEDIUM, LONG }
 
 @export var damage: float
 @export var speed: int
@@ -10,12 +10,13 @@ enum WeaponRange {MELEE, CLOSE, MEDIUM, LONG}
 @export var size: WeaponSize
 @export var weaponRange: WeaponRange
 
-func _init(itemName: String = "", shortDescription : String = "", longDescription : String = "", itemWeight: float = 0, itemValue: int = 0, itemDamage: float = 0, itemSpeed: int = 0, itemQualities: String = "", itemSize: String = "", itemRange: String = "") -> void:
+func _init(itemName: String = "", shortDescription: String = "", longDescription: String = "", itemWeight: float = 0, itemValue: int = 0, itemDamage: float = 0, itemSpeed: int = 0, itemQualities: String = "", itemSize: String = "", itemRange: String = "") -> void:
 	super(itemName, shortDescription, longDescription, itemWeight, itemValue)
 	allowed_slots = [ItemSlots.WeaponSlot]
 	damage = itemDamage
 	speed = itemSpeed
-	qualities.assign(itemQualities.split(",")) 
+	qualities = []
+	qualities.assign(itemQualities.split(","))
 
 	match itemSize:
 		"1H":
@@ -38,7 +39,8 @@ func _init(itemName: String = "", shortDescription : String = "", longDescriptio
 			weaponRange = WeaponRange.MELEE
 
 func _print() -> String:
-	return(super() +
+	return (
+		super() +
 		"Damage: " + str(damage) + "\n" +
 		"Speed: " + str(speed) + "\n" +
 		"Qualities: " + str(qualities) + "\n" +

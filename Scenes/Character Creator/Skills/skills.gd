@@ -52,7 +52,7 @@ func _on_value_changed(new_value: int, sb : SpinBox) -> void:
 	for key in prev :
 		var pointsAvailable = key.value + points.value
 		var _max = pointsAvailable
-		var cap = Expressions.evaluate(CampaignVariables.codex.Rules["Skill Cap"].expression, ["player_level"], [PlayerVariables.getLevel()])
+		var cap = RuleEngine.evaluate(CampaignVariables.codex.Rules["Skill Cap"].expression, ["player_level"], [PlayerVariables.getLevel()])
 		if key.value + points.value > cap :
 			_max = cap
 		key.max_value = _max

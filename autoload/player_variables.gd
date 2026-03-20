@@ -1,7 +1,7 @@
 extends Node
 
-var data : PlayerData
-var expThreshold : int
+var data: PlayerData
+var expThreshold: int
 
 signal leveledUp()
 
@@ -51,88 +51,87 @@ func setBackstory(value: String) -> void:
 func getBackstory() -> String:
 	return data.backstory
 
-
 # Attributes
-func setAttributes(value: Array) -> void:
+func setAttributes(value: Array[Attribute]) -> void:
 	data.attributes = value
 
-func getAttributes() -> Array:
+func getAttributes() -> Array[Attribute]:
 	return data.attributes
 
-func getAttribute(value : String) -> Attribute:
-	for att in data.attributes :
-		if att._name == value :
+func getAttribute(value: String) -> Attribute:
+	for att in data.attributes:
+		if att._name == value:
 			return att
 	return null
 
 # Skills
-func setSkills(value: Array) -> void:
+func setSkills(value: Array[Skill]) -> void:
 	data.skills = value
 
-func getSkills() -> Array:
+func getSkills() -> Array[Skill]:
 	return data.skills
 
-func getSkill(value : String) -> Skill:
-	for sk in data.skills :
-		if sk._name == value :
+func getSkill(value: String) -> Skill:
+	for sk in data.skills:
+		if sk._name == value:
 			return sk
 	return null
 
-#Conditions
+# Conditions
 func setFatigue(value: int) -> void:
 	data.fatigue = value
 
-func getFatigue() -> int :
+func getFatigue() -> int:
 	return data.fatigue
 
-func addFatigue(value : int) -> void:
+func addFatigue(value: int) -> void:
 	data.fatigue += value
 
-func setNecroticDamage(value : int) -> void:
+func setNecroticDamage(value: int) -> void:
 	data.necroticDamage = value
 
-func getNecroticDamage() -> int :
+func getNecroticDamage() -> int:
 	return data.necroticDamage
 
-func addNecroticDamage(value : int) -> void:
+func addNecroticDamage(value: int) -> void:
 	data.necroticDamage += value
 
-func setConditions(value : Array[Condition]) -> void:
+func setConditions(value: Array[Condition]) -> void:
 	data.conditions = value
 
-func getConditions() -> Array[Condition] :
+func getConditions() -> Array[Condition]:
 	return data.conditions
 
-func addConditions(value : Condition) -> void:
+func addConditions(value: Condition) -> void:
 	data.conditions.append(value)
 
 # Perks
 func setPerks(value: Array[Perk]) -> void:
 	data.perks = value
 
-func getPerks() -> Array:
+func getPerks() -> Array[Perk]:
 	return data.perks
 
-func addPerk(value : Perk) -> void:
+func addPerk(value: Perk) -> void:
 	data.perks.append(value)
 
 # Inventory
-func setInventory(value: Dictionary) -> void:
+func setInventory(value: Dictionary[String, Array]) -> void:
 	data.inventory = value
 
-func getInventory() -> Dictionary:
+func getInventory() -> Dictionary[String, Array]:
 	return data.inventory
 
-func addToInventory(value : Item) -> void:
-	if data.inventory.has(value._name) :
+func addToInventory(value: Item) -> void:
+	if not data.inventory.has(value._name):
 		data.inventory[value._name] = [value]
-	else :
+	else:
 		data.inventory[value._name].append(value)
 
-func setEquipment(value : Equipment) -> void:
+func setEquipment(value: Equipment) -> void:
 	data.equipment = value
 
-func getEquipment () -> Equipment :
+func getEquipment() -> Equipment:
 	return data.equipment
 
 # Money
@@ -142,11 +141,11 @@ func setMoney(value: int) -> void:
 func getMoney() -> int:
 	return data.money
 
-func addMoney(value : int) -> void:
+func addMoney(value: int) -> void:
 	data.money += value
 
 # Level Up
-func setLevelAvailable(value : bool) -> void:
+func setLevelAvailable(value: bool) -> void:
 	data.levelAvailable = value
 
 func getLevelAvailable() -> bool:
@@ -158,15 +157,15 @@ func setLevel(value: int) -> void:
 func getLevel() -> int:
 	return data.level
 
-func setExperience(value : int) -> void:
+func setExperience(value: int) -> void:
 	data.experience = value
 
-func getExperience() -> int :
+func getExperience() -> int:
 	return data.experience
 
-func addExperience(value : int) -> void:
+func addExperience(value: int) -> void:
 	data.experience += value
-	if data.experience > expThreshold :
+	if data.experience > expThreshold:
 		data.experience -= expThreshold
 		level_Up()
 
@@ -188,11 +187,11 @@ func setPerkPoints(value: int) -> void:
 func getPerkPoints() -> int:
 	return data.perk_points
 
-func calucalte_Defence (att1 : int, att2 : int):
+func calucalte_Defence(att1: int, att2: int) -> int:
 	return att1 + att2
 
-func level_Up() -> void :
-	emit_signal("leveledUp")
+func level_Up() -> void:
+	leveledUp.emit()
 	data.levelAvailable = true
 	data.level += 1
 	data.attribute_points += 1
@@ -200,39 +199,20 @@ func level_Up() -> void :
 	data.perk_points += 1
 
 func save() -> void:
-	var directory_path := "user://characters"
-	var file_path := directory_path + "/" + data._name + ".res"
-
-	# Ensure directory exists
-	var directory := DirAccess.open("user://")
-	if directory == null:
-		push_error("Failed to open user:// directory")
+	if not _ensure_character_directory():
 		return
-	if not directory.dir_exists("characters"):
-		var _result := directory.make_dir("characters")
-		if _result != OK:
-			push_error("Failed to create characters directory. Error code: %s" % _result)
-			return
+
+	var file_path := "user://characters/%s.res" % data._name
 
 	var result := ResourceSaver.save(data, file_path)
 	if result != OK:
 		push_error("Failed to save player data. Error code: %s" % result)
 
-
-func load(_name: String) -> void:
-	var directory_path := "user://characters"
-	var file_path := directory_path + "/" + _name + ".res"
-
-	# Ensure directory exists
-	var directory := DirAccess.open("user://")
-	if directory == null:
-		push_error("Failed to open user:// directory")
+func load(character_name: String) -> void:
+	if not _ensure_character_directory():
 		return
-	if not directory.dir_exists("characters"):
-		var result := directory.make_dir("characters")
-		if result != OK:
-			push_error("Failed to create characters directory. Error code: %s" % result)
-			return
+
+	var file_path := "user://characters/%s.res" % character_name
 
 	if not FileAccess.file_exists(file_path):
 		push_error("File %s does not exist" % file_path)
@@ -244,6 +224,21 @@ func load(_name: String) -> void:
 	else:
 		push_error("Save file %s is not a PlayerData resource" % file_path)
 
+func _ensure_character_directory() -> bool:
+	var directory := DirAccess.open("user://")
+	if directory == null:
+		push_error("Failed to open user:// directory")
+		return false
+
+	if directory.dir_exists("characters"):
+		return true
+
+	var result := directory.make_dir("characters")
+	if result != OK:
+		push_error("Failed to create characters directory. Error code: %s" % result)
+		return false
+
+	return true
 
 func print_character_info() -> void:
 	print("Character Info")

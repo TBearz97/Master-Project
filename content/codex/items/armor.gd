@@ -5,13 +5,12 @@ class_name Armor
 @export var magicalDT: int
 @export var necroticDT: int
 
-func _init(__name : String = "", shortDescription : String = "", longDescription : String = "", itemWeight : float = 0, itemValue : int = 0, itemSlot: Array[ItemSlots] = [], itemPhysical: int = 0, itemMagical: int = 0, itemNecrotic: int = 0) -> void:
+func _init(__name: String = "", shortDescription: String = "", longDescription: String = "", itemWeight: float = 0, itemValue: int = 0, itemSlot: Array[ItemSlots] = [], itemPhysical: int = 0, itemMagical: int = 0, itemNecrotic: int = 0) -> void:
 	super(__name, shortDescription, longDescription, itemWeight, itemValue)
 	allowed_slots = itemSlot
 	physicalDT = itemPhysical
 	magicalDT = itemMagical
 	necroticDT = itemNecrotic
-
 
 func _print() -> String:
 	var armor_slots := ""
@@ -30,7 +29,8 @@ func _print() -> String:
 			ItemSlots.Torso:
 				armor_slots += "[Torso]"
 
-	return (super() +
+	return (
+		super() +
 		"Armor Slots: " + str(armor_slots) + "\n" +
 		"Physical DT: " + str(physicalDT) + "\n" +
 		"Magical DT: " + str(magicalDT) + "\n" +

@@ -15,7 +15,6 @@ class_name CreatureData
 @export var perks: Array[Perk]
 @export var inventory: Dictionary[String, Array]
 @export var money: int
-
 @export var level: int
 
 func _init() -> void:

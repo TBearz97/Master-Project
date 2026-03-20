@@ -22,7 +22,6 @@ class_name Equipment
 @export var quickItem4: Item
 
 func _init() -> void:
-	# Must be non-null: SharedProperty.read_bytes calls .read_bytes on the existing instance.
 	head = Armor.new()
 	torso = Armor.new()
 	leftArm = Armor.new()
@@ -39,7 +38,6 @@ func _init() -> void:
 	quickItem2 = Item.new()
 	quickItem3 = Item.new()
 	quickItem4 = Item.new()
-
 
 func equipmentList() -> Array[Item]:
 	return [

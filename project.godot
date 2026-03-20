@@ -31,8 +31,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 PlayerVariables="*res://autoload/player_variables.gd"
-Expressions="*res://autoload/expressions.gd"
-SignalBus="*res://autoload/signalBus.gd"
+RuleEngine="*res://autoload/rule_engine.gd"
+SignalBus="*res://autoload/signal_bus.gd"
 SteamManager="*res://autoload/steam_manager.gd"
 CampaignVariables="*res://autoload/campaign_variables.gd"
 

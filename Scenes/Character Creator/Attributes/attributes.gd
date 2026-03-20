@@ -95,8 +95,8 @@ func _save () :
 
 # ---- Helpers ----
 func _on_value_changed(new_value: int, bonus1 : RichTextLabel, bonus2 : RichTextLabel, rows : Attribute, sb : SpinBox) -> void:
-	bonus1.text = CampaignVariables.replaceText(rows.bonus_1_prefix + " " + str(Expressions.evaluate(rows.bonus_1_expression, ["x"], [new_value])) + " " + rows.bonus_1_suffix)
-	bonus2.text = CampaignVariables.replaceText(rows.bonus_2_prefix + " " + str(Expressions.evaluate(rows.bonus_2_expression, ["x"], [new_value])) + " " + rows.bonus_2_suffix)
+	bonus1.text = CampaignVariables.replaceText(rows.bonus_1_prefix + " " + str(RuleEngine.evaluate(rows.bonus_1_expression, ["x"], [new_value])) + " " + rows.bonus_1_suffix)
+	bonus2.text = CampaignVariables.replaceText(rows.bonus_2_prefix + " " + str(RuleEngine.evaluate(rows.bonus_2_expression, ["x"], [new_value])) + " " + rows.bonus_2_suffix)
 	
 	if new_value > prev[sb] : 
 		points.value -= new_value - prev[sb]

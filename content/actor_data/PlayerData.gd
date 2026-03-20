@@ -18,7 +18,6 @@ func _init() -> void:
 	age = 0
 	backstory = ""
 
-	# Level Up
 	levelAvailable = false
 	experience = 0
 	level = 1

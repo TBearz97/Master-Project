@@ -1,10 +1,8 @@
 extends CodexItem
-class_name  NPC
+class_name NPC
 
-@export var data : CreatureData
+@export var data: CreatureData
 
-func _init(__name: String, shortDescription: String, longDescription: String, _data) -> void:
-	_name = __name
-	short_description = shortDescription
-	long_description = longDescription
+func _init(__name: String = "", shortDescription: String = "", longDescription: String = "", _data: CreatureData = null) -> void:
+	super(__name, shortDescription, longDescription)
 	data = _data

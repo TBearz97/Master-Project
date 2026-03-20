@@ -1,7 +1,7 @@
 extends Resource
 class_name Codex
 
-@export var Races : Dictionary[String, Race] = {}
+@export var Races: Dictionary[String, Race] = {}
 @export var Backgrounds: Dictionary[String, Background] = {}
 @export var Homelands: Dictionary[String, Homeland] = {}
 
@@ -10,7 +10,7 @@ class_name Codex
 @export var Defences: Dictionary[String, Defence] = {}
 
 @export var Perks: Dictionary[String, Perk] = {}
-@export var Conditions : Dictionary[String, Condition] = {}
+@export var Conditions: Dictionary[String, Condition] = {}
 
 @export var Rules: Dictionary[String, Rule] = {}
 
@@ -18,8 +18,8 @@ class_name Codex
 
 @export var NPCs: Dictionary[String, NPC] = {}
 
-var Keywords : Dictionary[String, CodexItem]
-var orderedKeywords : Array
+var Keywords: Dictionary[String, CodexItem]
+var orderedKeywords: Array[String]
 
 func _init(
 	default_races: Dictionary[String, Race] = {},
@@ -49,8 +49,8 @@ func _init(
 	Items = default_items
 	NPCs = default_npcs
 
-func addToDictionary(dict : Dictionary, new : CodexItem) -> void:
-	dict[new._name] = new
+func addToDictionary(dict: Dictionary, new_item: CodexItem) -> void:
+	dict[new_item._name] = new_item
 
 func createKeywords() -> void:
 	if Keywords == null:
