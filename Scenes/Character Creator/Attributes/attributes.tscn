@@ -7,13 +7,13 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_bh6ol"]
 
-[node name="Attributes" type="VBoxContainer" node_paths=PackedStringArray("grid", "points")]
+[node name="Attributes" type="VBoxContainer" node_paths=PackedStringArray("grid", "points", "defBox")]
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_taak8")
 grid = NodePath("AttributesGrid")
 points = NodePath("HBoxContainer/AttributePoints")
-_max = 15
+defBox = NodePath("Defences")
 
 [node name="Attributes" type="Label" parent="."]
 layout_mode = 2
@@ -64,71 +64,7 @@ theme_override_constants/v_separation = 25
 columns = 6
 
 [node name="Defences" type="HBoxContainer" parent="."]
-visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 25
-
-[node name="Resistance" type="SpinBox" parent="Defences"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
-theme_override_constants/field_and_buttons_separation = -15
-min_value = -1000.0
-max_value = 1000.0
-rounded = true
-alignment = 1
-editable = false
-prefix = "Resistance = "
-
-[node name="Reflex" type="SpinBox" parent="Defences"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
-theme_override_constants/field_and_buttons_separation = -15
-min_value = -1000.0
-max_value = 1000.0
-rounded = true
-alignment = 1
-editable = false
-prefix = "Reflex = "
-
-[node name="Mind" type="SpinBox" parent="Defences"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-theme_override_colors/up_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/up_hover_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/up_pressed_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/up_disabled_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_hover_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_pressed_icon_modulate = Color(0, 0, 0, 0)
-theme_override_colors/down_disabled_icon_modulate = Color(0, 0, 0, 0)
-theme_override_constants/field_and_buttons_separation = -15
-min_value = -1000.0
-max_value = 1000.0
-rounded = true
-alignment = 1
-editable = false
-prefix = "Mind = "

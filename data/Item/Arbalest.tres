@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Arbalest.png" id="1_8vgj4"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_b8x0h"]
+
+[resource]
+script = ExtResource("2_b8x0h")
+damage = 2.5
+speed = 10
+qualities = Array[String](["Accurate"])
+size = 1
+weaponRange = 3
+weight = 4.0
+value = 42
+icon = ExtResource("1_8vgj4")
+allowed_slots = Array[int]([7])
+_name = "Arbalest"

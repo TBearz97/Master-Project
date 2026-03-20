@@ -1,96 +1,132 @@
 extends VBoxContainer
 
-@export var grid : GridContainer
-@export var points : SpinBox
-@export var _max : int
+@export var grid: GridContainer
+@export var points: SpinBox
+@export var defBox: HBoxContainer
 
-var attributes : Dictionary[String, int] = {}
-var spinBoxes : Array[SpinBox] = []
-var prev = {}
+var attributes: Array[Attribute] = PlayerVariables.getAttributes()
+var spinBoxes: Array[SpinBox] = []
+var prev: Dictionary = {}
+
+var defence_rows: Dictionary[String, Defence] = CampaignVariables.codex.Defences
+var defence_labels: Dictionary = {}
 
 func _ready() -> void:
 	visibility_changed.connect(_save)
 	_setup()
+	setupDefences()
 
-func _setup () :
-	points.value = PlayerVariables.attribute_points
-	var _attributes = DbHelper.db_fetch("SELECT * FROM Attribute")
-	
-	for rows in _attributes :
-		#--- Label ---
-		var label = Label.new()
-		label.text = rows["name"]
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		label.mouse_filter = Control.MOUSE_FILTER_PASS
-		label.tooltip_text = rows["short_description"]
-		label.gui_input.connect(_on_Label_gui_input.bind(rows["name"], rows["long_description"]))
-		
-		#--- Bonuses ---
-		var bonus1 = Label.new()
-		bonus1.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		bonus1.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		var bonus2 = Label.new()
-		bonus2.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		bonus2.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-		
-		#--- SpinBox ---
-		var sb = SpinBox.new()
+func _setup() -> void:
+	points.value = PlayerVariables.getAttributePoints()
+	var _attributes := CampaignVariables.codex.Attributes
+
+	for attribute: Attribute in _attributes.values():
+		var label := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		label.text = CampaignVariables.replaceText(attribute._name)
+
+		var bonus1 := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		var bonus2 := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+
+		var sb := SpinBox.new()
 		spinBoxes.append(sb)
-		sb.tooltip_text = rows["name"]
+		sb.tooltip_text = attribute._name
+		sb.set_meta(sb.tooltip_text.replace(" ", ""), attribute)
 		sb.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sb.min_value = 1
-		sb.max_value = _max
-		if PlayerVariables.attributes.has(rows["name"]) :
-			sb.value = PlayerVariables.attributes[rows["name"]]
+		if attributes.any(func(a): return a._name == attribute._name):
+			sb.value = attributes[attributes.find_custom(func(a): return a._name == attribute._name)].value
 		sb.rounded = true
 		sb.step = 1
 		prev[sb] = 1
-		sb.value_changed.connect(_on_value_changed.bind(bonus1, bonus2, rows, sb))
-		_on_value_changed(1, bonus1, bonus2, rows, sb)
-		
-		#--- Grid Setup
+		sb.value_changed.connect(_on_value_changed.bind(bonus1, bonus2, attribute, sb))
+		_on_value_changed(1, bonus1, bonus2, attribute, sb)
+
 		grid.columns = 4
 		grid.add_child(label)
 		grid.add_child(sb)
 		grid.add_child(bonus1)
 		grid.add_child(bonus2)
 
-func _save () :
-	for sb in spinBoxes :
-		attributes[sb.tooltip_text] = int(sb.value)
-	PlayerVariables.attributes = attributes
-	PlayerVariables.attribute_points = int(points.value)
+func setupDefences() -> void:
+	for child in defBox.get_children():
+		child.queue_free()
 
-# ---- Helpers ----
-func _on_value_changed(new_value: int, bonus1 : Label, bonus2 : Label, rows : Dictionary, sb : SpinBox) -> void:
-	bonus1.text = rows["bonus_1_prefix"] + " " + str(Expressions.evaluate(rows["bonus_1_expression"], ["x"], [new_value])) + " " + rows["bonus_1_suffix"]
-	bonus2.text = rows["bonus_2_prefix"] + " " + str(Expressions.evaluate(rows["bonus_2_expression"], ["x"], [new_value])) +  " " + rows["bonus_2_suffix"]
-	
-	if new_value > prev[sb] :
-		points.value -= 1
-	elif new_value < prev[sb] :
-		points.value += 1
-	
-	prev[sb] = new_value
-	
-	if points.value == 0 :
-		for key in prev :
-			key.max_value = key.value
-	else : 
-		for key in prev :
-			key.max_value = _max
+	defence_labels.clear()
 
-func _on_Label_gui_input(event: InputEvent, attribute : String, description : String):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			var _window = ConfirmationDialog.new()
-			add_child(_window)
-			_window.title = attribute
-			_window.get_label().text = description
-			_window.get_label().autowrap_mode = TextServer.AUTOWRAP_WORD
-			_window.get_cancel_button().visible = false
-			_window.get_ok_button().visible = false
-			_window.popup_centered()
-			_window.focus_exited.connect(func ():
-				_window.hide())
+	for row: Defence in defence_rows.values():
+		var _name: String = row._name
+
+		var label_name := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		label_name.text = CampaignVariables.replaceText(_name)
+
+		var label_value := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		label_value.text = "0"
+
+		defence_labels[_name] = label_value
+
+		defBox.add_child(label_name)
+		defBox.add_child(label_value)
+
+	for att_sb in spinBoxes:
+		if not att_sb.value_changed.is_connected(_on_attribute_changed_for_defences):
+			att_sb.value_changed.connect(_on_attribute_changed_for_defences)
+
+	_recalculate_defences()
+
+
+func _save() -> void:
+	for sb in spinBoxes:
+		var _name := sb.tooltip_text
+		if attributes.any(func(a): return a._name == _name):
+			attributes[attributes.find_custom(func(a): return a._name == _name)].value = int(sb.value)
+		else:
+			var att: Attribute = sb.get_meta(_name.replace(" ", ""))
+			att.value = int(sb.value)
+			attributes.append(att)
+	PlayerVariables.setAttributes(attributes)
+	PlayerVariables.setAttributePoints(int(points.value))
+
+func _on_value_changed(new_value: int, bonus1: RichTextLabel, bonus2: RichTextLabel, rows: Attribute, sb: SpinBox) -> void:
+	bonus1.text = CampaignVariables.replaceText(rows.bonus_1_prefix + " " + str(RuleEngine.evaluate(rows.bonus_1_expression, ["x"], [new_value])) + " " + rows.bonus_1_suffix)
+	bonus2.text = CampaignVariables.replaceText(rows.bonus_2_prefix + " " + str(RuleEngine.evaluate(rows.bonus_2_expression, ["x"], [new_value])) + " " + rows.bonus_2_suffix)
+
+	if new_value > prev[sb]:
+		points.value -= new_value - prev[sb]
+	elif new_value < prev[sb]:
+		points.value += prev[sb] - new_value
+
+	prev[sb] = sb.value
+
+	for key in prev:
+		var _max: float = key.value + points.value
+		if _max > 15:
+			_max = 15
+		key.max_value = _max
+
+func _on_attribute_changed_for_defences(_new_value: int) -> void:
+	_recalculate_defences()
+
+func _recalculate_defences() -> void:
+	for row: Defence in defence_rows.values():
+		var def_name: String = row._name
+		var attr1: String = row.attribute1._name if row.attribute1 != null else ""
+		var attr2: String = row.attribute2._name if row.attribute2 != null else ""
+
+		var total := 0
+
+		var sb1 := _find_attribute_spinbox(attr1)
+		if sb1 != null:
+			total += int(sb1.value)
+
+		if attr2 != null and attr2 != "":
+			var sb2 := _find_attribute_spinbox(attr2)
+			if sb2 != null:
+				total += int(sb2.value)
+
+		defence_labels[def_name].text = str(total)
+
+func _find_attribute_spinbox(attr_name: String) -> SpinBox:
+	for sb in spinBoxes:
+		if sb.tooltip_text == attr_name:
+			return sb
+	return null

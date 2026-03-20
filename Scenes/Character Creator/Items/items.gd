@@ -1,71 +1,193 @@
 extends VBoxContainer
 
-@export var points : SpinBox
-@export var selected : ItemList
-@export var weaponGrid : GridContainer
-@export var armorGrid : GridContainer
-@export var clothingGrid : GridContainer
-@export var consumableGrid : GridContainer
-@export var utilityItemGrid : GridContainer
+@export var points: SpinBox
+@export var selected: ItemList
+@export var grid: GridContainer
 
+var inventory: Dictionary[String, Array] = PlayerVariables.getInventory()
 
 func _ready() -> void:
 	_setup()
+	visibility_changed.connect(_save)
+	points.value = PlayerVariables.getMoney()
+	if not inventory.is_empty():
+		for item in inventory.keys():
+			var idx := selected.add_item(str(item), inventory[item][0].icon)
+			selected.set_item_metadata(idx, inventory[item][0])
+			selected.set_item_tooltip(idx, inventory[item][0]._print())
 
-func _setup ():
-	DbHelper.item_chosen.connect(_on_item_chosen)
+			var _size := selected.add_item(str(inventory[item].size()))
+			selected.set_item_selectable(_size, false)
+			selected.set_item_disabled(_size, true)
+			var _weight := selected.add_item(str(inventory[item][0].weight * inventory[item].size()))
+			selected.set_item_selectable(_weight, false)
+			selected.set_item_disabled(_weight, true)
+			var _value := selected.add_item(str(inventory[item][0].value * inventory[item].size()))
+			selected.set_item_selectable(_value, false)
+			selected.set_item_disabled(_value, true)
+
+func _setup() -> void:
 	selected.item_selected.connect(_on_selected)
-	DbHelper.populate_weapons_grid(weaponGrid)
-	DbHelper.populate_armor_grid(armorGrid)
-	DbHelper.populate_clothing_grid(clothingGrid)
-	DbHelper.populate_consumables_grid(consumableGrid)
-	DbHelper.populate_utility_grid(utilityItemGrid)
-		
+	var weapons: Array[Weapon] = (func() -> Array[Weapon]:
+		var temp: Array[Weapon] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Weapon:
+				temp.append(item)
+		return temp
+	).call()
 
-func _on_item_chosen(perk: Dictionary) -> void:
-	if points.value - perk["cost"] >= 0:
-		for i in selected.item_count:
-			var curr_Item = selected.get_item_text(i)
-			var parts = curr_Item.split(" x")
-			if parts[0] == perk["name"]:
-				var count := 1
-				if parts.size() > 1:
-					count = int(parts[1])
-				count += 1
-				selected.set_item_text(i, "%s x%d" % [parts[0], count])
-				selected.set_item_metadata(selected.item_count - 1, perk["cost"])
-				points.value -= perk["cost"]
-				return 
+	var armors: Array[Armor] = (func() -> Array[Armor]:
+		var temp: Array[Armor] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Armor and not (item is Clothing):
+				temp.append(item)
+		return temp
+	).call()
+
+	var clothing: Array[Clothing] = (func() -> Array[Clothing]:
+		var temp: Array[Clothing] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Clothing:
+				temp.append(item)
+		return temp
+	).call()
+
+	var consumables: Array[Consumable] = (func() -> Array[Consumable]:
+		var temp: Array[Consumable] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Consumable:
+				temp.append(item)
+		return temp
+	).call()
+
+	var utilities: Array[Utility] = (func() -> Array[Utility]:
+		var temp: Array[Utility] = []
+		for item in CampaignVariables.codex.Items.values():
+			if item is Utility and not (item is Consumable):
+				temp.append(item)
+		return temp
+	).call()
+
+	var types: Dictionary = {
+		"Armor": armors,
+		"Clothing": clothing,
+		"Consumable": consumables,
+		"Utility": utilities,
+		"Weapon": weapons,
+	}
+	if not types.is_empty():
+		grid.columns = types.size()
+
+	for type in types.keys():
+		var title := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+		title.text = CampaignVariables.replaceText(type)
+		title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		grid.add_child(title)
+
+	for type in types.values():
+		var subGrid := GridContainer.new()
+		subGrid.columns = 4
+		subGrid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var lb1 := Label.new()
+		var lb2 := Label.new()
+		var lb3 := Label.new()
+		var lb4 := Label.new()
+		lb1.text = "Name"
+		lb2.text = "Weight"
+		lb3.text = "Cost"
+		lb4.text = ""
 		
-		var idx = selected.add_item(perk["name"])
-		selected.set_item_metadata(idx, perk)
-		points.value -= perk["cost"]
-	
+		subGrid.add_child(lb1)
+		subGrid.add_child(lb2)
+		subGrid.add_child(lb3)
+		subGrid.add_child(lb4)
+		grid.add_child(subGrid)
+		for item: Item in type:
+			var _name := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+			_name.text = item._name
+			_name.mouse_filter = Control.MOUSE_FILTER_PASS
+			_name.gui_input.connect(_on_Label_gui_input.bind(item))
+
+			var weight := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+			weight.text = str(item.weight)
+
+			var cost := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
+			cost.text = str(item.value)
+
+			var selectBtn := Button.new()
+			selectBtn.text = "Select"
+			selectBtn.pressed.connect(_on_item_chosen.bind(item))
+
+			subGrid.add_child(_name)
+			subGrid.add_child(weight)
+			subGrid.add_child(cost)
+			subGrid.add_child(selectBtn)
+
+func _on_item_chosen(obj: Item) -> void:
+	if points.value - obj.value >= 0:
+		if not inventory.has(obj._name):
+			inventory[obj._name] = [obj]
+			var idx := selected.add_item(str(obj._name), obj.icon)
+			selected.set_item_metadata(idx, obj)
+			selected.set_item_tooltip(idx, obj._print())
+
+			var _size := selected.add_item(str(inventory[obj._name].size()))
+			selected.set_item_selectable(_size, false)
+			selected.set_item_disabled(_size, true)
+			var _weight := selected.add_item(str(obj.weight))
+			selected.set_item_selectable(_weight, false)
+			selected.set_item_disabled(_weight, true)
+			var _value := selected.add_item(str(obj.value))
+			selected.set_item_selectable(_value, false)
+			selected.set_item_disabled(_value, true)
+		else:
+			inventory[obj._name].append(obj)
+			for i in range(selected.item_count):
+				if selected.get_item_text(i) == obj._name:
+					selected.set_item_text(i + 1, str(inventory[obj._name].size()))
+					selected.set_item_text(i + 2, str(obj.weight * inventory[obj._name].size()))
+					selected.set_item_text(i + 3, str(obj.value * inventory[obj._name].size()))
+
+		points.value -= obj.value
+
 func _on_selected(index: int) -> void:
-	var curr_Item = selected.get_item_text(index)
-	var parts = curr_Item.split(" x")
-	if parts.size() > 1:
-		var count = int(parts[1]) - 1
-		points.value += selected.get_item_metadata(index)["cost"]
-		if count == 1 :
-			selected.set_item_text(index, parts[0])
-		else :
-			selected.set_item_text(index, "%s x%d" % [parts[0], count])
-		selected.deselect(index)
-	else :
-		points.value += selected.get_item_metadata(index)["cost"]
-		selected.remove_item(index)
-	
+	var item: Item = selected.get_item_metadata(index)
+	if inventory.has(item._name):
+		inventory[item._name].erase(item)
+		if inventory[item._name].size() == 0:
+			inventory.erase(item._name)
+			selected.remove_item(index + 3)
+			selected.remove_item(index + 2)
+			selected.remove_item(index + 1)
+			selected.remove_item(index)
+		else:
+			selected.set_item_text(index + 1, str(inventory[item._name].size()))
+			selected.set_item_text(index + 2, str(item.weight * inventory[item._name].size()))
+			selected.set_item_text(index + 3, str(item.value * inventory[item._name].size()))
+			selected.deselect(index)
+		points.value += item.value
 
-func _item_exists(_iList : ItemList, _name : String) -> bool :
-	for i in range(_iList.item_count) :
+func _on_Label_gui_input(event: InputEvent, item: Item) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			var _window := ConfirmationDialog.new()
+			add_child(_window)
+			_window.title = item._name
+			_window.get_label().text = item._print()
+			_window.get_label().autowrap_mode = TextServer.AUTOWRAP_WORD
+			_window.get_cancel_button().visible = false
+			_window.get_ok_button().visible = false
+			_window.popup()
+			_window.position = get_viewport().get_mouse_position()
+			_window.focus_exited.connect(func() -> void:
+				_window.hide())
+
+func _item_exists(_iList: ItemList, _name: String) -> bool:
+	for i in range(_iList.item_count):
 		if _iList.get_item_text(i) == _name:
 			return true
 	return false
 
-func _save ():
-	var items = []
-	for i in range(selected.item_count) :
-		items.append(selected.get_item_metadata(i))
-	PlayerVariables.inventory = items
-	PlayerVariables.money = points.value
+func _save() -> void:
+	PlayerVariables.setInventory(inventory)
+	PlayerVariables.setMoney(int(points.value))

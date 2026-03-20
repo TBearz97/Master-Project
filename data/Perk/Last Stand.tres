@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_e238s"]
+
+[resource]
+script = ExtResource("1_e238s")
+category = "Martial"
+_name = "Last Stand"
+short_description = "Become stronger near death."
+long_description = "When close to defeat, gain a massive boost to both damage and defense."

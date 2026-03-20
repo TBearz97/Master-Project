@@ -8,30 +8,39 @@
 
 config_version=5
 
+[addons]
+
+resources_spreadsheet_view/array_color_tint=100.0
+resources_spreadsheet_view/color_rows=true
+resources_spreadsheet_view/array_min_width=128.0
+resources_spreadsheet_view/resource_preview_size=32.0
+resources_spreadsheet_view/clip_headers=false
+resources_spreadsheet_view/dupe_arrays=true
+resources_spreadsheet_view/context_menu_on_leftclick=false
+resources_spreadsheet_view/fold_docks=true
+resources_spreadsheet_view/resource_cell_label_mode=1
+resources_spreadsheet_view/freeze_first_column=true
+
 [application]
 
 config/name="Master Project"
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 run/main_scene="res://Scenes/Main Menu/Main_Menu.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-PlayerVariables="*res://Global Scripts/player_variables.gd"
-DbHelper="*res://Global Scripts/DBHelper.gd"
-Expressions="*res://Global Scripts/expressions.gd"
+PlayerVariables="*res://autoload/player_variables.gd"
+RuleEngine="*res://autoload/rule_engine.gd"
+SignalBus="*res://autoload/signal_bus.gd"
+SteamManager="*res://autoload/steam_manager.gd"
+CampaignVariables="*res://autoload/campaign_variables.gd"
 
 [display]
 
-window/size/viewport_width=1920
-window/size/viewport_height=1080
-=======
-config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
->>>>>>> Stashed changes
-=======
-config/features=PackedStringArray("4.4", "Forward Plus")
-config/icon="res://icon.svg"
->>>>>>> Stashed changes
+window/size/viewport_width=800
+window/size/viewport_height=600
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot-sqlite/plugin.cfg")

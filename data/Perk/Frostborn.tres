@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_fn200"]
+
+[resource]
+script = ExtResource("1_fn200")
+category = "Homeland"
+_name = "Frostborn"
+short_description = "Adapted to endure freezing climates."
+long_description = "You can increase your survival rating by 1.5 when it comes to exposure to cold weather. Also, you can reduce Freeze Effects on you by 1."

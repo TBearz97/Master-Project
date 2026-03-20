@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_m37g1"]
+
+[resource]
+script = ExtResource("1_m37g1")
+category = "Background"
+_name = "Veteran's Instinct"
+short_description = "Years of combat sharpen survival."
+long_description = "Gain +2 to Resistance tests when facing ambushes or sudden danger."

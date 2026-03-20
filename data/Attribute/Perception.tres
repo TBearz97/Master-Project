@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attribute" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/attribute.gd" id="1_kmw1g"]
+
+[resource]
+script = ExtResource("1_kmw1g")
+bonus_1_prefix = "Accuracy:"
+bonus_2_prefix = "Critical Damage:"
+bonus_1_expression = "x"
+bonus_2_expression = "((x - 1) * 5) + 50"
+bonus_2_suffix = "%"
+_name = "Perception"
+short_description = "Represents awareness and precision."
+long_description = "Perception measures a character’s ability to notice details, aim accurately, and react swiftly to subtle changes in their surroundings. High Perception increases accuracy with all attacks and improves the likelihood of striking vital points, resulting in more devastating critical hits."

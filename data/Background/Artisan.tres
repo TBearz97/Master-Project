@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Background" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ann0o"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_in5j1"]
+
+[sub_resource type="Resource" id="Resource_i1k48"]
+script = ExtResource("1_ann0o")
+category = "Background"
+_name = "Masterwork"
+short_description = "Your creations carry exceptional quality."
+long_description = "Once per session, you may treat a crafted item as if its rarity were 1 higher when using it in a skill test."
+
+[resource]
+script = ExtResource("2_in5j1")
+perk = SubResource("Resource_i1k48")
+_name = "Artisan"
+short_description = "Craftsman devoted to honing a trade."
+long_description = "You are an artisan spending most of your life honing your craft. You might spend life becoming the best in one field or you might want to learn the basics of several. Skills: Society, Discipline, Sleight of Hand, Melee Weapons or Ranged Weapons. Equipment: Outfit of your choice and Crafting Tools of your choice."

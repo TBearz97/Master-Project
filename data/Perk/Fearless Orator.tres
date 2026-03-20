@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_hlpw6"]
+
+[resource]
+script = ExtResource("1_hlpw6")
+category = "Skills"
+_name = "Fearless Orator"
+short_description = "Ignore fear penalties."
+long_description = "Speak confidently even under duress."

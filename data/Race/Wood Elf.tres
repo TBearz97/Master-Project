@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_gsjhr"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_nlgyo"]
+
+[sub_resource type="Resource" id="Resource_ipy2j"]
+script = ExtResource("1_gsjhr")
+category = "Race"
+_name = "Forest Child"
+short_description = "Plant-based diet grants immunity to disease and better nourishment."
+long_description = "Living in harmony with nature, your diet is strictly herbivorous. This bond with the forest grants you immunity to disease and enhanced nourishment from plant-based foods. You can't eat meat, if you do you Max Health is reduced by 25% until a you've had a full nights rest. You are also immune to diseases and all other food gives you double benefit."
+
+[resource]
+script = ExtResource("2_nlgyo")
+perk = SubResource("Resource_ipy2j")
+_name = "Wood Elf"
+short_description = "Children of the forest bound to nature."
+long_description = "Wood Elves live in deep harmony with the natural world, their lives tied to the rhythm of the forest. Their herbivorous way of life strengthens their bond to the land, granting them resistance to disease and vitality from plant-based sustenance. Though gentle in outlook, their resilience comes from centuries of coexistence with wild and untamed realms."

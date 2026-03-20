@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Potion of Demon Speed.png" id="1_w2c5a"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_xkt5j"]
+
+[resource]
+script = ExtResource("2_xkt5j")
+addiction = 1
+effect = "+2 CD to all attacks; +4 Physical DR; Gain 4 IP immediately (lost if not spent)"
+weight = 0.2
+value = 70
+icon = ExtResource("1_w2c5a")
+allowed_slots = Array[int]([6])
+_name = "Potion of Demon Speed"

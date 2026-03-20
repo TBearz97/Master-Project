@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_sv4xq"]
+
+[resource]
+script = ExtResource("1_sv4xq")
+category = "Zealous"
+_name = "Smite the Unholy"
+short_description = "Deal bonus holy damage."
+long_description = "Your attacks deal additional holy damage to corrupted or undead targets."

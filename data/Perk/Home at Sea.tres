@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_nmrhc"]
+
+[resource]
+script = ExtResource("1_nmrhc")
+category = "Background"
+_name = "Home at Sea"
+short_description = "At ease with ship life and navigation."
+long_description = "You can re-roll 1d20 on Navigation tests while at sea. You also always gain Well-Rested when sleeping on a ship."

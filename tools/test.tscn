@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://088v6uofm1qb"]
+
+[ext_resource type="Script" uid="uid://davdtbeathlla" path="res://systems/inventory/inventory.gd" id="1_37kl0"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 191.0
+offset_top = 251.0
+offset_right = 847.0
+offset_bottom = 692.0
+bbcode_enabled = true
+text = "Might"
+script = ExtResource("1_37kl0")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 71.0
+offset_right = 225.0
+offset_bottom = 157.0
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 0
+offset_left = 555.0
+offset_top = 320.0
+offset_right = 862.0
+offset_bottom = 503.0
+item_count = 8
+max_columns = 4
+same_column_width = true
+item_0/text = "Name"
+item_0/selectable = false
+item_0/disabled = true
+item_1/text = "Weight"
+item_1/selectable = false
+item_1/disabled = true
+item_2/text = "Cost"
+item_2/selectable = false
+item_2/disabled = true
+item_3/text = " "
+item_3/selectable = false
+item_3/disabled = true
+item_4/text = "Axe"
+item_4/selectable = false
+item_5/text = "8.0"
+item_5/selectable = false
+item_6/text = "5g"
+item_6/selectable = false
+item_7/text = "Select"
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 0
+offset_right = 86.5625
+offset_bottom = 31.0

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Scale Armor Torso.png" id="1_micfo"]
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="2_krcqq"]
+
+[resource]
+script = ExtResource("2_krcqq")
+physicalDT = 4
+magicalDT = 6
+necroticDT = 2
+weight = 4.0
+value = 42
+icon = ExtResource("1_micfo")
+allowed_slots = Array[int]([3])
+_name = "Scale Armor Torso"

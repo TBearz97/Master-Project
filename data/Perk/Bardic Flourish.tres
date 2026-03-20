@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_msxwn"]
+
+[resource]
+script = ExtResource("1_msxwn")
+category = "Skills"
+_name = "Bardic Flourish"
+short_description = "Influence crowds."
+long_description = "Performances improve group opinion and mood."

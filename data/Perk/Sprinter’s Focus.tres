@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_jjgcm"]
+
+[resource]
+script = ExtResource("1_jjgcm")
+category = "Skills"
+_name = "Sprinter’s Focus"
+short_description = "Gain speed burst after dodge."
+long_description = "Performing evasive moves increases your running speed briefly."

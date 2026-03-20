@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Halberd.png" id="1_yup04"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_604t8"]
+
+[resource]
+script = ExtResource("2_604t8")
+damage = 2.0
+speed = 50
+qualities = Array[String](["Reach"])
+size = 1
+weight = 5.0
+value = 48
+icon = ExtResource("1_yup04")
+allowed_slots = Array[int]([7])
+_name = "Halberd"

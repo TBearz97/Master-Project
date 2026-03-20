@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_r5vqv"]
+
+[resource]
+script = ExtResource("1_r5vqv")
+category = "Skills"
+_name = "Arcane Linguist"
+short_description = "Read magical texts."
+long_description = "Understand and use arcane runes and inscriptions."

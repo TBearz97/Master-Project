@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_m8u1b"]
+
+[resource]
+script = ExtResource("1_m8u1b")
+category = "Martial"
+_name = "Warlord’s Command"
+short_description = "Buff nearby allies."
+long_description = "Your shouts inspire allies, granting them small attack bonuses."

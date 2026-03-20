@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_tuq6o"]
+
+[resource]
+script = ExtResource("1_tuq6o")
+expression = "min(player_level + 2, 10)"
+_name = "Skill Cap"

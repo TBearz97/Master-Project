@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_56j17"]
+
+[resource]
+script = ExtResource("1_56j17")
+category = "Skills"
+_name = "Wild Instinct"
+short_description = "Enhanced detection."
+long_description = "Detect threats and prey earlier outdoors."

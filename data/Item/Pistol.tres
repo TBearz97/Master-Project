@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Pistol.png" id="1_viegg"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_to0d4"]
+
+[resource]
+script = ExtResource("2_to0d4")
+damage = 2.0
+speed = 10
+qualities = Array[String](["Brutal", " Close Quarters"])
+weaponRange = 2
+weight = 2.0
+value = 35
+icon = ExtResource("1_viegg")
+allowed_slots = Array[int]([7])
+_name = "Pistol"

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/War Bow.png" id="1_8u2bh"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_cyddf"]
+
+[resource]
+script = ExtResource("2_cyddf")
+damage = 1.6
+speed = 33
+size = 1
+weaponRange = 2
+weight = 2.0
+value = 32
+icon = ExtResource("1_8u2bh")
+allowed_slots = Array[int]([7])
+_name = "War Bow"

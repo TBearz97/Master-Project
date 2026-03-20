@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Dirty Wanderer.png" id="1_4l6a5"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_5kdj7"]
+
+[resource]
+script = ExtResource("2_5kdj7")
+effect = "Alcoholic, -1 difficulty to STR tests, +2 difficulty to INT tests"
+weight = 0.2
+value = 14
+icon = ExtResource("1_4l6a5")
+allowed_slots = Array[int]([6])
+_name = "Dirty Wanderer"

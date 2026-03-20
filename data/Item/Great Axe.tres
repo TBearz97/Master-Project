@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Axe.png" id="1_er16q"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_i6c7y"]
+
+[resource]
+script = ExtResource("2_i6c7y")
+damage = 2.0
+speed = 50
+qualities = Array[String](["Brutal"])
+size = 1
+weight = 5.5
+value = 45
+icon = ExtResource("1_er16q")
+allowed_slots = Array[int]([7])
+_name = "Great Axe"

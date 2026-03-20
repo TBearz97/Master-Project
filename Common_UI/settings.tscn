@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://carvuuy657wm4"]
-
-[node name="Settings" type="Button"]
-custom_minimum_size = Vector2(35, 35)
-size_flags_horizontal = 0
-text = "Settings"

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpxm62tsy0uxi"]
+
+[ext_resource type="Script" uid="uid://dsvx8w1isgece" path="res://ui/common/scripts/exit.gd" id="1_6sfst"]
+
+[node name="Exit" type="Button"]
+custom_minimum_size = Vector2(35, 35)
+size_flags_horizontal = 10
+text = "Exit"
+script = ExtResource("1_6sfst")

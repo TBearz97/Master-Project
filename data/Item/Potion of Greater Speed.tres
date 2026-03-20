@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Potion of Greater Speed.png" id="1_adph5"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_hv2pm"]
+
+[resource]
+script = ExtResource("2_hv2pm")
+addiction = 3
+effect = "Gain 6 AP immediately (lost if not spent); Extra actions cost 1 less IP"
+weight = 0.2
+value = 67
+icon = ExtResource("1_adph5")
+allowed_slots = Array[int]([6])
+_name = "Potion of Greater Speed"

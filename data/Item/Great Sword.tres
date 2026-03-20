@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Sword.png" id="1_42km6"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_tm2is"]
+
+[resource]
+script = ExtResource("2_tm2is")
+damage = 2.0
+speed = 50
+qualities = Array[String](["Parry"])
+size = 1
+weight = 5.5
+value = 46
+icon = ExtResource("1_42km6")
+allowed_slots = Array[int]([7])
+_name = "Great Sword"

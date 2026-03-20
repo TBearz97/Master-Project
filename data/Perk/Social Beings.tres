@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_nxsln"]
+
+[resource]
+script = ExtResource("1_nxsln")
+category = "Race"
+_name = "Social Beings"
+short_description = "Naturally persuasive, gaining a boost in conversations."
+long_description = "With an innate charm and eloquence, High Elves effortlessly navigate social landscapes, bending conversations to their will with ease and finesse. High Elves have a knack for getting what they want in conversations, gain a +2 Social Modifier."

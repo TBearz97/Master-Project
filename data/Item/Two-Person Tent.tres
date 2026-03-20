@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Two-Person Tent.png" id="1_1w6gn"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="2_nbgtx"]
+
+[resource]
+script = ExtResource("2_nbgtx")
+effect = "Allows 2 characters to rest outdoors."
+weight = 10.0
+value = 84
+icon = ExtResource("1_1w6gn")
+allowed_slots = Array[int]([6])
+_name = "Two-Person Tent"

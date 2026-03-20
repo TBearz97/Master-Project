@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Nature's Gown.png" id="1_6g2gw"]
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="2_jvfsp"]
+
+[resource]
+script = ExtResource("2_jvfsp")
+effect = "Outfit"
+weight = 1.0
+value = 20
+icon = ExtResource("1_6g2gw")
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+_name = "Nature's Gown"

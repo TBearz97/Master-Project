@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Carrot Juice.png" id="1_j18w8"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_f1ojg"]
+
+[resource]
+script = ExtResource("2_f1ojg")
+healing = 3
+effect = "Reroll 1d20 on all AGI tests"
+weight = 0.2
+value = 9
+icon = ExtResource("1_j18w8")
+allowed_slots = Array[int]([6])
+_name = "Carrot Juice"

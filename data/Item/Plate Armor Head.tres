@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Plate Armor Head.png" id="1_5jmr8"]
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="2_2xjfp"]
+
+[resource]
+script = ExtResource("2_2xjfp")
+physicalDT = 10
+magicalDT = 8
+necroticDT = 2
+weight = 3.0
+value = 55
+icon = ExtResource("1_5jmr8")
+allowed_slots = Array[int]([0])
+_name = "Plate Armor Head"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_r3b0g"]
+
+[resource]
+script = ExtResource("1_r3b0g")
+category = "Skills"
+_name = "Inspiring Leadership"
+short_description = "Boost ally accuracy."
+long_description = "Allies under your presence strike with increased precision."

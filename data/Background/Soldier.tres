@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Background" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_em0t5"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_2w48j"]
+
+[sub_resource type="Resource" id="Resource_ociry"]
+script = ExtResource("1_em0t5")
+category = "Background"
+_name = "Battle-Hardened"
+short_description = "Military training keeps you effective in combat."
+long_description = "Once per scene, re-roll a failed Melee or Ranged attack test."
+
+[resource]
+script = ExtResource("2_2w48j")
+perk = SubResource("Resource_ociry")
+_name = "Soldier"
+short_description = "Disciplined fighter with military training."
+long_description = "You have served with the Military and gained adequate military training as well as a proper education. After your service you get to keep your gear as reward for your service. However you are expected to report in at your nearest military post should get the call for duty. Skills: Discipline, Command, Melee Weapons, Ranged Weapons, Lore or Warfare. Equipment: Full set of Chain Mail or Leather Armor."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_0ubpn"]
+
+[resource]
+script = ExtResource("1_0ubpn")
+category = "Skills"
+_name = "Tracker"
+short_description = "Identify tracks easily."
+long_description = "Recognize the species and direction of tracks."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_lqqgk"]
+
+[resource]
+script = ExtResource("1_lqqgk")
+category = "Race"
+_name = "Resilient Frame"
+short_description = "Sturdy bones give you an edge against injuries."
+long_description = "Your bones are exceptionally sturdy, providing a robust defense against injuries that would cripple others. When making a Fortitude test to resist injury, gain +5 for that test."

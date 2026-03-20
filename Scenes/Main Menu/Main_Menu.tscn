@@ -1,11 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://ckhhasvnjoxxk"]
+[gd_scene load_steps=5 format=3 uid="uid://ckhhasvnjoxxk"]
 
 [ext_resource type="Script" uid="uid://dkp3pwmbw2bpt" path="res://Scenes/Main Menu/Scripts/new_character.gd" id="1_3mro0"]
-[ext_resource type="Script" uid="uid://blq3xgnlp0vj6" path="res://Scenes/Main Menu/Scripts/GameMode.gd" id="4_domf7"]
-[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="5_qqcgi"]
+[ext_resource type="Script" uid="uid://cxht163ope10" path="res://Scenes/Main Menu/Scripts/load_character.gd" id="1_7w0ct"]
+[ext_resource type="Script" uid="uid://c3u6jrqfx3vfy" path="res://Scenes/Main Menu/campaignloader.gd" id="3_7w0ct"]
+[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://ui/common/header.tscn" id="5_qqcgi"]
 
-[node name="Node2D" type="Control"]
-custom_minimum_size = Vector2(800, 1000)
+[node name="Main_Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,40 +29,85 @@ size_flags_vertical = 3
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="Load Character" type="Button" parent="MarginContainer/Start_Panel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Start_Panel"]
 layout_mode = 1
-anchors_preset = 5
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-offset_left = -450.0
-offset_top = 300.0
-offset_right = 450.0
-offset_bottom = 450.0
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 grow_horizontal = 2
-text = "Load Character"
+grow_vertical = 2
 
-[node name="New Character" type="Button" parent="MarginContainer/Start_Panel"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -450.0
-offset_top = -480.0
-offset_right = 450.0
-offset_bottom = -330.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="Load Character" type="Button" parent="MarginContainer/Start_Panel/VBoxContainer" node_paths=PackedStringArray("character_select")]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+text = "Load Character"
+script = ExtResource("1_7w0ct")
+character_select = NodePath("../../../CharacterSelect/ScrollContainer/GridContainer")
+
+[node name="New Character" type="Button" parent="MarginContainer/Start_Panel/VBoxContainer"]
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
 text = "New Character"
 script = ExtResource("1_3mro0")
 
-[node name="Header" parent="MarginContainer" instance=ExtResource("5_qqcgi")]
+[node name="GM_Start_Panel" type="Panel" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
-[node name="CheckButton" type="CheckButton" parent="MarginContainer/Header"]
-custom_minimum_size = Vector2(97, 35)
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/GM_Start_Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_7w0ct")
+
+[node name="LoadCampaign" type="Button" parent="MarginContainer/GM_Start_Panel/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 100)
 layout_mode = 2
-size_flags_horizontal = 0
-text = "Player"
-script = ExtResource("4_domf7")
+text = "Load Campaign"
+
+[node name="NewCampaign" type="Button" parent="MarginContainer/GM_Start_Panel/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 100)
+layout_mode = 2
+text = "New Champaign"
+
+[node name="CharacterSelect" type="Panel" parent="MarginContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/CharacterSelect"]
+custom_minimum_size = Vector2(410, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/CharacterSelect/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 2
+
+[node name="Header" parent="MarginContainer" instance=ExtResource("5_qqcgi")]
+layout_mode = 2

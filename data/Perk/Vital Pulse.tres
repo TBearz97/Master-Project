@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_pc3bv"]
+
+[resource]
+script = ExtResource("1_pc3bv")
+category = "Skills"
+_name = "Vital Pulse"
+short_description = "Heal over time."
+long_description = "Your healing effects gradually restore health."

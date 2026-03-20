@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsabk6r4o5dca"]
+
+[ext_resource type="Script" uid="uid://bwb1up53j7jn4" path="res://Scenes/Campaign Sheet/campaign_sheet.gd" id="1_x8waw"]
+[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://ui/common/header.tscn" id="2_l1fye"]
+[ext_resource type="PackedScene" uid="uid://d1hjcr78y7rkk" path="res://Scenes/Networks/CampaignManager.tscn" id="3_oi6iy"]
+
+[node name="Sheet" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x8waw")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Header" parent="Panel" instance=ExtResource("2_l1fye")]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 35.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+split_offset = 200
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="CampaignName" type="Label" parent="Panel/VBoxContainer/HSplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Campaign Name"
+horizontal_alignment = 1
+
+[node name="CampaignDescription" type="RichTextLabel" parent="Panel/VBoxContainer/HSplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "The campaign description is a structured text field intended to give players a clear overview of the campaign’s premise and scope. It summarizes the setting, central themes, and overall direction of the campaign without going into mechanical details or spoilers.
+
+This description typically explains what kind of story the campaign aims to tell, such as political intrigue, exploration, survival, or heroic fantasy, and sets expectations for tone and style. It may also outline the starting situation, the role of the player characters in the world, and any defining constraints or assumptions."
+fit_content = true
+scroll_active = false
+
+[node name="TabContainer" type="TabContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="CampaignManager" parent="Panel" instance=ExtResource("3_oi6iy")]
+unique_name_in_owner = true
+layout_mode = 1
+folded = true

@@ -13,4 +13,5 @@ func _return_to_mm () :
 	
 func _to_sheet () :
 	PlayerVariables.save()
+	PlayerVariables.print_character_info()
 	get_tree().change_scene_to_file("res://Scenes/Character Sheet/Character_Sheet.tscn")

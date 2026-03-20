@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Whiskey.png" id="1_af18t"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_dnebm"]
+
+[resource]
+script = ExtResource("2_dnebm")
+effect = "Alcoholic, Reroll up to two d20 on STR tests (total)"
+weight = 0.2
+value = 27
+icon = ExtResource("1_af18t")
+allowed_slots = Array[int]([6])
+_name = "Whiskey"

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_n3qfh"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_y5el7"]
+
+[sub_resource type="Resource" id="Resource_8cgvh"]
+script = ExtResource("1_n3qfh")
+category = "Race"
+_name = "Soulless"
+short_description = "Necrotic damage heals you instead of harming you."
+long_description = "Devoid of a soul, the forces of necrosis that would harm others instead rejuvenate you, turning death itself into a source of strength. You are immune to necrotic damage. In fact, you’re healed by it, you regain half of the necrotic damage inflicted upon you."
+
+[resource]
+script = ExtResource("2_y5el7")
+perk = SubResource("Resource_8cgvh")
+_name = "Husk-Folk"
+short_description = "Soul-deprived beings sustained by death’s touch."
+long_description = "The Husk-Folk are eerie figures, hollowed of soul yet animated by a strange vitality. Where necrotic forces drain others, these beings draw strength, healing in the presence of decay. Neither fully dead nor alive, they stand apart from mortal kin, unsettling yet undeniably powerful in their bond to the energies of death."

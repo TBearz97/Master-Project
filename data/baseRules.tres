@@ -1,0 +1,4829 @@
+[gd_resource type="Resource" script_class="Codex" load_steps=729 format=3 uid="uid://df7ufkbpglwfx"]
+
+[ext_resource type="Script" uid="uid://cjefm20dfgs57" path="res://content/codex/character_options/attribute.gd" id="1_j010n"]
+[ext_resource type="Script" uid="uid://d04lmqjjt3iiw" path="res://content/codex/character_options/background.gd" id="2_iojns"]
+[ext_resource type="Script" uid="uid://oeqbli81j6x8" path="res://content/codex/character_options/perk.gd" id="3_vnboh"]
+[ext_resource type="Script" uid="uid://byidg23a3f70v" path="res://content/codex/gameplay/condition.gd" id="4_avfv7"]
+[ext_resource type="Script" uid="uid://pg784lc4ql0m" path="res://content/codex/character_options/defence.gd" id="5_qh5qs"]
+[ext_resource type="Script" uid="uid://cpljujvac5b1" path="res://content/codex/character_options/homeland.gd" id="6_xa2d3"]
+[ext_resource type="Script" uid="uid://d0clx27p5pab3" path="res://content/codex/items/item.gd" id="7_gv0fg"]
+[ext_resource type="Texture2D" uid="uid://bp2irc3jhcjrp" path="res://Art/Icons/Items/Unarmed.png" id="8_k5s5j"]
+[ext_resource type="Script" uid="uid://oaiqtna85o4f" path="res://content/codex/items/weapon.gd" id="9_g8f55"]
+[ext_resource type="Texture2D" uid="uid://did71eap7bfmj" path="res://Art/Icons/Items/Bear Claws.png" id="10_4fatp"]
+[ext_resource type="Texture2D" uid="uid://d4dey0pw1l14e" path="res://Art/Icons/Items/Whip.png" id="11_in67y"]
+[ext_resource type="Texture2D" uid="uid://cvxs3kmnjrfir" path="res://Art/Icons/Items/Knife.png" id="12_4v3u0"]
+[ext_resource type="Texture2D" uid="uid://bppopfxv0swmc" path="res://Art/Icons/Items/Dagger.png" id="13_xeion"]
+[ext_resource type="Texture2D" uid="uid://bw4m15xaw5ey1" path="res://Art/Icons/Items/Stiletto.png" id="14_irq6k"]
+[ext_resource type="Texture2D" uid="uid://bpjg87gor0g5s" path="res://Art/Icons/Items/Reaper.png" id="15_0gh3k"]
+[ext_resource type="Texture2D" uid="uid://dc0uua66r7itj" path="res://Art/Icons/Items/Staff.png" id="16_31f75"]
+[ext_resource type="Texture2D" uid="uid://dfjvvfxx2mfi5" path="res://Art/Icons/Items/Club.png" id="17_vqtfl"]
+[ext_resource type="Texture2D" uid="uid://b5a2l8k7j3v0t" path="res://Art/Icons/Items/Maul.png" id="18_r1jli"]
+[ext_resource type="Texture2D" uid="uid://be808cl5d4g83" path="res://Art/Icons/Items/Hand Axe.png" id="19_6x1ku"]
+[ext_resource type="Texture2D" uid="uid://c8jineqp4kfsi" path="res://Art/Icons/Items/Battle Axe.png" id="20_7cl47"]
+[ext_resource type="Texture2D" uid="uid://bb54f14b8wjae" path="res://Art/Icons/Items/Great Axe.png" id="21_gw1i1"]
+[ext_resource type="Texture2D" uid="uid://yywa645ksh3m" path="res://Art/Icons/Items/Hammer.png" id="22_tdv0i"]
+[ext_resource type="Texture2D" uid="uid://ceip02ys6mvi0" path="res://Art/Icons/Items/Warhammer.png" id="23_uh3vk"]
+[ext_resource type="Texture2D" uid="uid://bwlwv60vniman" path="res://Art/Icons/Items/Great Hammer.png" id="24_ck0fb"]
+[ext_resource type="Texture2D" uid="uid://cl75ul61gtiwp" path="res://Art/Icons/Items/Short Sword.png" id="25_roorf"]
+[ext_resource type="Texture2D" uid="uid://jemrnwbgs45g" path="res://Art/Icons/Items/Broad Sword.png" id="26_8mh2x"]
+[ext_resource type="Texture2D" uid="uid://5ol0wmk6y3ds" path="res://Art/Icons/Items/Great Sword.png" id="27_83kd0"]
+[ext_resource type="Texture2D" uid="uid://bahyum0c0yy4d" path="res://Art/Icons/Items/Javelin.png" id="28_twuj3"]
+[ext_resource type="Texture2D" uid="uid://dr7dh0mlo6k5h" path="res://Art/Icons/Items/Spear.png" id="29_dqr4r"]
+[ext_resource type="Texture2D" uid="uid://dh8aillg5yfi3" path="res://Art/Icons/Items/Pike.png" id="30_m7esd"]
+[ext_resource type="Texture2D" uid="uid://bwbiq2nfc5dm8" path="res://Art/Icons/Items/Wakizashi.png" id="31_0ewdf"]
+[ext_resource type="Texture2D" uid="uid://54mm8va6ryt4" path="res://Art/Icons/Items/Katana.png" id="32_u0l7g"]
+[ext_resource type="Texture2D" uid="uid://ujxijtq8lg3f" path="res://Art/Icons/Items/Ōdachi.png" id="33_8w6aq"]
+[ext_resource type="Texture2D" uid="uid://dit2bqo86uhgs" path="res://Art/Icons/Items/Flail.png" id="34_efr8p"]
+[ext_resource type="Texture2D" uid="uid://macjmnf5n0cs" path="res://Art/Icons/Items/Morning Star.png" id="35_m7e5y"]
+[ext_resource type="Texture2D" uid="uid://bkmnuygjp6jfy" path="res://Art/Icons/Items/Scimitar.png" id="36_5embg"]
+[ext_resource type="Texture2D" uid="uid://1vfrgp3hl3j5" path="res://Art/Icons/Items/Rapier.png" id="37_ebhi1"]
+[ext_resource type="Texture2D" uid="uid://5c0du5dbjddj" path="res://Art/Icons/Items/Polearm.png" id="38_fgm8a"]
+[ext_resource type="Texture2D" uid="uid://8kvp3fbyaxgq" path="res://Art/Icons/Items/Halberd.png" id="39_e3xnd"]
+[ext_resource type="Texture2D" uid="uid://cwermbb60elxu" path="res://Art/Icons/Items/Blunderbuss.png" id="40_c86jw"]
+[ext_resource type="Texture2D" uid="uid://bxhveyxnckj0m" path="res://Art/Icons/Items/Pistol.png" id="41_y1o4w"]
+[ext_resource type="Texture2D" uid="uid://dnqxjmhoujyp8" path="res://Art/Icons/Items/Musket.png" id="42_ge1i1"]
+[ext_resource type="Texture2D" uid="uid://t3nn7f2ps88a" path="res://Art/Icons/Items/Short Bow.png" id="43_klcv5"]
+[ext_resource type="Texture2D" uid="uid://c10u8vlcickdg" path="res://Art/Icons/Items/Hunting Bow.png" id="44_6076c"]
+[ext_resource type="Texture2D" uid="uid://cfidoaagm2mu2" path="res://Art/Icons/Items/War Bow.png" id="45_1aou7"]
+[ext_resource type="Texture2D" uid="uid://cb5lhcbenv5h5" path="res://Art/Icons/Items/Long Bow.png" id="46_qvmhy"]
+[ext_resource type="Texture2D" uid="uid://dpq5mjmme3m4w" path="res://Art/Icons/Items/Hand Crossbow.png" id="47_3i1it"]
+[ext_resource type="Texture2D" uid="uid://cd1mh30kuln4o" path="res://Art/Icons/Items/Crossbow.png" id="48_6ukck"]
+[ext_resource type="Texture2D" uid="uid://dn0ym4iabber2" path="res://Art/Icons/Items/Arbalest.png" id="49_7n24t"]
+[ext_resource type="Texture2D" uid="uid://be8qqv77ygrvn" path="res://Art/Icons/Items/Wand.png" id="50_4rtfr"]
+[ext_resource type="Texture2D" uid="uid://c3a4isu1nk52m" path="res://Art/Icons/Items/Buckler.png" id="51_a6pdv"]
+[ext_resource type="Texture2D" uid="uid://3chvg22ipdam" path="res://Art/Icons/Items/Shield.png" id="52_wwi67"]
+[ext_resource type="Texture2D" uid="uid://cxf2xojth6lr0" path="res://Art/Icons/Items/Tower Shield.png" id="53_tg4wd"]
+[ext_resource type="Texture2D" uid="uid://c1aljalo8xwuw" path="res://Art/Icons/Items/Hide Head.png" id="54_kl4hb"]
+[ext_resource type="Script" uid="uid://cjmkj02j1jj00" path="res://content/codex/items/armor.gd" id="55_ebkcq"]
+[ext_resource type="Texture2D" uid="uid://b2ahsy3qg8lb4" path="res://Art/Icons/Items/Hide Torso.png" id="56_lok8m"]
+[ext_resource type="Texture2D" uid="uid://b1okustpael5g" path="res://Art/Icons/Items/default.png" id="57_63wmv"]
+[ext_resource type="Texture2D" uid="uid://crmp61bt42w2y" path="res://Art/Icons/Items/Leather Head.png" id="58_p1n2g"]
+[ext_resource type="Texture2D" uid="uid://dvw3a6yt2ft43" path="res://Art/Icons/Items/Leather Torso.png" id="59_t720k"]
+[ext_resource type="Texture2D" uid="uid://du25jmr7kg60b" path="res://Art/Icons/Items/Chain Mail Head.png" id="60_6lmnf"]
+[ext_resource type="Texture2D" uid="uid://8vxukre84tdm" path="res://Art/Icons/Items/Chain Mail Torso.png" id="61_57gyt"]
+[ext_resource type="Texture2D" uid="uid://cv3miiwj7vs01" path="res://Art/Icons/Items/Scale Armor Head.png" id="62_wvmao"]
+[ext_resource type="Texture2D" uid="uid://b0nppgpy7ql42" path="res://Art/Icons/Items/Scale Armor Torso.png" id="63_bvqnd"]
+[ext_resource type="Texture2D" uid="uid://gjkvr5gvlwo5" path="res://Art/Icons/Items/Plate Armor Head.png" id="64_yrod8"]
+[ext_resource type="Texture2D" uid="uid://b68s4ds46pt1w" path="res://Art/Icons/Items/Plate Armor Torso.png" id="65_6ye7e"]
+[ext_resource type="Texture2D" uid="uid://ymq7qw321mt0" path="res://Art/Icons/Items/Brigandines Head.png" id="66_52uai"]
+[ext_resource type="Texture2D" uid="uid://bgirpiplhe7v" path="res://Art/Icons/Items/Brigandines Torso.png" id="67_nmflc"]
+[ext_resource type="Texture2D" uid="uid://b8ajx75nimxrq" path="res://Art/Icons/Items/Alchemist's Attire.png" id="68_7xvql"]
+[ext_resource type="Script" uid="uid://bm15758obowxi" path="res://content/codex/items/clothing.gd" id="69_60u4c"]
+[ext_resource type="Texture2D" uid="uid://ocvjcmetm1wp" path="res://Art/Icons/Items/Blacksmith's Outfit.png" id="70_s4cww"]
+[ext_resource type="Texture2D" uid="uid://du1vf08rbwh2p" path="res://Art/Icons/Items/Bandit's Outfit.png" id="71_vk617"]
+[ext_resource type="Texture2D" uid="uid://cvrl555fxffeb" path="res://Art/Icons/Items/Mercenary's Outfit.png" id="72_1g6x7"]
+[ext_resource type="Texture2D" uid="uid://nrrc6sf2kxvl" path="res://Art/Icons/Items/Nature's Gown.png" id="73_26n6u"]
+[ext_resource type="Texture2D" uid="uid://be6610ryvpvwn" path="res://Art/Icons/Items/Noble's Attire.png" id="74_ip4qo"]
+[ext_resource type="Texture2D" uid="uid://owr3iqpf2kjc" path="res://Art/Icons/Items/Performer's Outfit.png" id="75_21n5t"]
+[ext_resource type="Texture2D" uid="uid://dtpl0shqyn3wv" path="res://Art/Icons/Items/Pirate's Attire.png" id="76_0c02c"]
+[ext_resource type="Texture2D" uid="uid://c4nifltcttcyy" path="res://Art/Icons/Items/Priest's Garments.png" id="77_jusn3"]
+[ext_resource type="Texture2D" uid="uid://b8ob6foa8bfmt" path="res://Art/Icons/Items/Scribe's Robe.png" id="78_dd1ts"]
+[ext_resource type="Texture2D" uid="uid://qp7q632uovhb" path="res://Art/Icons/Items/Ranger's Outfit.png" id="79_o7st5"]
+[ext_resource type="Texture2D" uid="uid://wdjxt85r1rxh" path="res://Art/Icons/Items/Tribal Outfit.png" id="80_0c1d7"]
+[ext_resource type="Texture2D" uid="uid://bmj8nefnim72q" path="res://Art/Icons/Items/Wizard's Robe.png" id="81_pm88h"]
+[ext_resource type="Texture2D" uid="uid://ccrxv4gqiim10" path="res://Art/Icons/Items/Commoner's Clothing.png" id="82_n773f"]
+[ext_resource type="Texture2D" uid="uid://bljih2yiatk03" path="res://Art/Icons/Items/Desert Clothing.png" id="83_4v080"]
+[ext_resource type="Texture2D" uid="uid://ckp2lcy2oxuv1" path="res://Art/Icons/Items/Fur Clothing.png" id="84_8asyo"]
+[ext_resource type="Texture2D" uid="uid://2vq0yra110mu" path="res://Art/Icons/Items/Apple.png" id="85_4xnyi"]
+[ext_resource type="Script" uid="uid://dmib4o8fwh5t6" path="res://content/codex/items/consumable.gd" id="86_uetr4"]
+[ext_resource type="Texture2D" uid="uid://haefiax8pfoc" path="res://Art/Icons/Items/Bear Meat.png" id="87_sks1i"]
+[ext_resource type="Texture2D" uid="uid://cquubdlae3d1r" path="res://Art/Icons/Items/Bear Ribs.png" id="88_sxcco"]
+[ext_resource type="Texture2D" uid="uid://dv6lu8br3ny30" path="res://Art/Icons/Items/Bear Roast.png" id="89_wag4i"]
+[ext_resource type="Texture2D" uid="uid://c7ghpgewv5t86" path="res://Art/Icons/Items/Bread.png" id="90_r3iso"]
+[ext_resource type="Texture2D" uid="uid://b06gwyt0rxbr4" path="res://Art/Icons/Items/Carrot.png" id="91_6sk1b"]
+[ext_resource type="Texture2D" uid="uid://c8umyyvxt6wvq" path="res://Art/Icons/Items/Cheese.png" id="92_20ox3"]
+[ext_resource type="Texture2D" uid="uid://ch0ew55v0k6kv" path="res://Art/Icons/Items/Corn.png" id="93_6173j"]
+[ext_resource type="Texture2D" uid="uid://cc50pocxyv4i2" path="res://Art/Icons/Items/Crab Meat.png" id="94_66nu0"]
+[ext_resource type="Texture2D" uid="uid://dbpoc2pna7g76" path="res://Art/Icons/Items/Crab Cake.png" id="95_qbhhr"]
+[ext_resource type="Texture2D" uid="uid://dbyowoc6dpnnc" path="res://Art/Icons/Items/Deer Meat.png" id="96_o03vu"]
+[ext_resource type="Texture2D" uid="uid://2vsasmn7k4q" path="res://Art/Icons/Items/Deer Stew.png" id="97_r7al2"]
+[ext_resource type="Texture2D" uid="uid://cu8e6218ycxw0" path="res://Art/Icons/Items/Grilled Deer.png" id="98_fihkr"]
+[ext_resource type="Texture2D" uid="uid://bkwsyh2djaavk" path="res://Art/Icons/Items/Dragon Egg.png" id="99_vojth"]
+[ext_resource type="Texture2D" uid="uid://c2l1187wgw2fj" path="res://Art/Icons/Items/Dragon Meat.png" id="100_jsind"]
+[ext_resource type="Texture2D" uid="uid://cgnb1r53bglnl" path="res://Art/Icons/Items/Dragon Omelet.png" id="101_1lhi3"]
+[ext_resource type="Texture2D" uid="uid://cv8rwtsaa3hki" path="res://Art/Icons/Items/Dragon Steak.png" id="102_h68vi"]
+[ext_resource type="Texture2D" uid="uid://6cmlfndrsn4q" path="res://Art/Icons/Items/Squirrel Meat.png" id="103_ooisb"]
+[ext_resource type="Texture2D" uid="uid://dn8f3kx0b1scl" path="res://Art/Icons/Items/Roasted Squirrel.png" id="104_kym2t"]
+[ext_resource type="Texture2D" uid="uid://bjt6fpmy23e02" path="res://Art/Icons/Items/Squirrel Stew.png" id="105_jlth7"]
+[ext_resource type="Texture2D" uid="uid://c7uylkxjy3udo" path="res://Art/Icons/Items/Tomato.png" id="106_mwfsu"]
+[ext_resource type="Texture2D" uid="uid://chnduapgawoix" path="res://Art/Icons/Items/Potato.png" id="107_my606"]
+[ext_resource type="Texture2D" uid="uid://nw15wb3axekw" path="res://Art/Icons/Items/Pork Meat.png" id="108_fyy8f"]
+[ext_resource type="Texture2D" uid="uid://dn461fnncjqv6" path="res://Art/Icons/Items/Pork Ribs.png" id="109_87oym"]
+[ext_resource type="Texture2D" uid="uid://djha17m6gonvc" path="res://Art/Icons/Items/Pork Roast.png" id="110_mvhqj"]
+[ext_resource type="Texture2D" uid="uid://5x0gw5yt0gsq" path="res://Art/Icons/Items/Raw Beef.png" id="111_wehdd"]
+[ext_resource type="Texture2D" uid="uid://cbuuwhi55pg8c" path="res://Art/Icons/Items/Cooked Beef.png" id="112_7e574"]
+[ext_resource type="Texture2D" uid="uid://bl63pg5nc0tn0" path="res://Art/Icons/Items/Vegetable Soup.png" id="113_t76r4"]
+[ext_resource type="Texture2D" uid="uid://c7mgtm7evwckf" path="res://Art/Icons/Items/Banana.png" id="114_iv7u6"]
+[ext_resource type="Texture2D" uid="uid://byo2obmxwmpr6" path="res://Art/Icons/Items/Mango.png" id="115_wyiyj"]
+[ext_resource type="Texture2D" uid="uid://grq8dhwkuqb" path="res://Art/Icons/Items/Raw Fish.png" id="116_murt2"]
+[ext_resource type="Texture2D" uid="uid://bh6skplircl6m" path="res://Art/Icons/Items/Fried Fish.png" id="117_4qofv"]
+[ext_resource type="Texture2D" uid="uid://bnc7j62d0b48e" path="res://Art/Icons/Items/Raw Chicken.png" id="118_l4whq"]
+[ext_resource type="Texture2D" uid="uid://d08ou8raqagbc" path="res://Art/Icons/Items/Roasted Chicken.png" id="119_gs3oi"]
+[ext_resource type="Texture2D" uid="uid://ywcn0xtn5q8l" path="res://Art/Icons/Items/Pancakes.png" id="120_0mp3h"]
+[ext_resource type="Texture2D" uid="uid://dqn6523idh7vw" path="res://Art/Icons/Items/Burger.png" id="121_mihol"]
+[ext_resource type="Texture2D" uid="uid://dqt2i7nim4b26" path="res://Art/Icons/Items/Wolf Meat.png" id="122_a4te0"]
+[ext_resource type="Texture2D" uid="uid://x0ogmg6mo21o" path="res://Art/Icons/Items/Grilled Wolf.png" id="123_1uivu"]
+[ext_resource type="Texture2D" uid="uid://djhdjoy7lyn1n" path="res://Art/Icons/Items/Dirty Water.png" id="124_f414b"]
+[ext_resource type="Texture2D" uid="uid://qnkrudik0lje" path="res://Art/Icons/Items/Clean Water.png" id="125_l63e7"]
+[ext_resource type="Texture2D" uid="uid://b4kjovq3mtjqb" path="res://Art/Icons/Items/Ale.png" id="126_hcogc"]
+[ext_resource type="Texture2D" uid="uid://dnse4qaxr60ue" path="res://Art/Icons/Items/Apple Juice.png" id="127_d7mwu"]
+[ext_resource type="Texture2D" uid="uid://beo234xlxiwed" path="res://Art/Icons/Items/Bourbon.png" id="128_ay5j0"]
+[ext_resource type="Texture2D" uid="uid://btaok2vyl0v7e" path="res://Art/Icons/Items/Carrot Juice.png" id="129_xgbk8"]
+[ext_resource type="Texture2D" uid="uid://bmy1b1crqriop" path="res://Art/Icons/Items/Dirty Wanderer.png" id="130_56rwn"]
+[ext_resource type="Texture2D" uid="uid://dlrpv1k2kmjdo" path="res://Art/Icons/Items/Milk.png" id="131_37q0m"]
+[ext_resource type="Texture2D" uid="uid://bgv68wt3rsrb6" path="res://Art/Icons/Items/Moonshine.png" id="132_pqppm"]
+[ext_resource type="Texture2D" uid="uid://bufm31k40vt52" path="res://Art/Icons/Items/Stillheart Champagne.png" id="133_5cuy2"]
+[ext_resource type="Texture2D" uid="uid://c5p0q721kmmom" path="res://Art/Icons/Items/Stillheart Port Wine.png" id="134_u6vps"]
+[ext_resource type="Texture2D" uid="uid://cyecbnqs0yi4x" path="res://Art/Icons/Items/Stillheart Wine.png" id="135_7obo8"]
+[ext_resource type="Texture2D" uid="uid://di8hp3nmc7i0d" path="res://Art/Icons/Items/Rum.png" id="136_ciyte"]
+[ext_resource type="Texture2D" uid="uid://b3c0uc85buu8q" path="res://Art/Icons/Items/Tomato Juice.png" id="137_mb025"]
+[ext_resource type="Texture2D" uid="uid://b7iffhjdp467p" path="res://Art/Icons/Items/Vodka.png" id="138_w8mtr"]
+[ext_resource type="Texture2D" uid="uid://cs01r4jvanpot" path="res://Art/Icons/Items/Whiskey.png" id="139_ofwxc"]
+[ext_resource type="Texture2D" uid="uid://c6h4qad30cvi5" path="res://Art/Icons/Items/Wine.png" id="140_duoq2"]
+[ext_resource type="Texture2D" uid="uid://1x1h7pk88eka" path="res://Art/Icons/Items/Brox Weed.png" id="141_8bj4w"]
+[ext_resource type="Texture2D" uid="uid://vhx8xliqb30p" path="res://Art/Icons/Items/Grol Bark.png" id="142_xokdg"]
+[ext_resource type="Texture2D" uid="uid://demattag8jyua" path="res://Art/Icons/Items/Yorin's Root.png" id="143_x4jg7"]
+[ext_resource type="Texture2D" uid="uid://crx7wmhckl6dx" path="res://Art/Icons/Items/Potion of Vitality.png" id="144_774av"]
+[ext_resource type="Texture2D" uid="uid://d4kskjh43op3c" path="res://Art/Icons/Items/Potion of Greater Vitality.png" id="145_2fpm0"]
+[ext_resource type="Texture2D" uid="uid://bvqrbkaksj87l" path="res://Art/Icons/Items/Potion of Fitness.png" id="146_vom7h"]
+[ext_resource type="Texture2D" uid="uid://dckn7ske8hapl" path="res://Art/Icons/Items/Potion of Sharp Mind.png" id="147_o1k14"]
+[ext_resource type="Texture2D" uid="uid://djli2nh6dwcld" path="res://Art/Icons/Items/Potion of Quickened Mind.png" id="148_a5em6"]
+[ext_resource type="Texture2D" uid="uid://c1mn0lvfot4h2" path="res://Art/Icons/Items/Potion of the Eased Mind.png" id="149_dw77w"]
+[ext_resource type="Texture2D" uid="uid://dgdjy01bef38k" path="res://Art/Icons/Items/Potion of the Opened Mind.png" id="150_fb54l"]
+[ext_resource type="Texture2D" uid="uid://tsp88h4fmq1i" path="res://Art/Icons/Items/Potion of Fury.png" id="151_0ro48"]
+[ext_resource type="Texture2D" uid="uid://b0ysldynvgwrh" path="res://Art/Icons/Items/Potion of Charm.png" id="152_owlxb"]
+[ext_resource type="Texture2D" uid="uid://c2r8isb0hhart" path="res://Art/Icons/Items/Potion of Speed.png" id="153_xsqkb"]
+[ext_resource type="Texture2D" uid="uid://dx3eat0556g7b" path="res://Art/Icons/Items/Potion of Greater Speed.png" id="154_hxjad"]
+[ext_resource type="Texture2D" uid="uid://b44or41ggtw3c" path="res://Art/Icons/Items/Potion of Lasting Speed.png" id="155_ln3l1"]
+[ext_resource type="Texture2D" uid="uid://oqmxwsq1dvyo" path="res://Art/Icons/Items/Demon Blood, Raw.png" id="156_gape7"]
+[ext_resource type="Texture2D" uid="uid://crwt86l8p7trg" path="res://Art/Icons/Items/Demon Blood, Distilled.png" id="157_450sh"]
+[ext_resource type="Texture2D" uid="uid://2xwnasbf1bct" path="res://Art/Icons/Items/Potion of Demon Speed.png" id="158_b7vt3"]
+[ext_resource type="Texture2D" uid="uid://dsebs6y3lkdn" path="res://Art/Icons/Items/Potion of Demon Vitality.png" id="159_ffv4o"]
+[ext_resource type="Texture2D" uid="uid://hfdd5versww1" path="res://Art/Icons/Items/Potion of Demon Mind.png" id="160_l4a8e"]
+[ext_resource type="Texture2D" uid="uid://cu2xy6lp27wnv" path="res://Art/Icons/Items/Potion of Invisibility.png" id="161_u6gsx"]
+[ext_resource type="Texture2D" uid="uid://dg7pxt5s52s2x" path="res://Art/Icons/Items/Healing Potion.png" id="162_y6qif"]
+[ext_resource type="Texture2D" uid="uid://ba8v8vfgg6dev" path="res://Art/Icons/Items/Greater Healing Potion.png" id="163_2587t"]
+[ext_resource type="Texture2D" uid="uid://b3pdiva7schis" path="res://Art/Icons/Items/Superior Healing Potion.png" id="164_whjv3"]
+[ext_resource type="Texture2D" uid="uid://ma1e148sh43s" path="res://Art/Icons/Items/The Erudite's Brew.png" id="165_4pc7j"]
+[ext_resource type="Texture2D" uid="uid://c6cm10xvcuhi6" path="res://Art/Icons/Items/Potion of Mana.png" id="166_wjq42"]
+[ext_resource type="Texture2D" uid="uid://4l23bca8tbq6" path="res://Art/Icons/Items/Greater Potion of Mana.png" id="167_7oqhx"]
+[ext_resource type="Texture2D" uid="uid://eojaw7kfpx5j" path="res://Art/Icons/Items/Superior Potion of Mana.png" id="168_hrf3e"]
+[ext_resource type="Texture2D" uid="uid://dipid5lnjh1ii" path="res://Art/Icons/Items/Stunning Poison.png" id="169_hxr7h"]
+[ext_resource type="Texture2D" uid="uid://citmhwwymaobf" path="res://Art/Icons/Items/Persistent Poison.png" id="170_mdubt"]
+[ext_resource type="Texture2D" uid="uid://8ho0hnq33lhx" path="res://Art/Icons/Items/Nightshade Toxin.png" id="171_hx2xa"]
+[ext_resource type="Texture2D" uid="uid://4ak7qujsi1ck" path="res://Art/Icons/Items/Paralytic Venom.png" id="172_ev88r"]
+[ext_resource type="Texture2D" uid="uid://vhfkldt85hdj" path="res://Art/Icons/Items/Blinding Powder.png" id="173_2g3nv"]
+[ext_resource type="Texture2D" uid="uid://ey2qrnhxpphs" path="res://Art/Icons/Items/Corrosive Oil.png" id="174_1hgf7"]
+[ext_resource type="Texture2D" uid="uid://bso4dpfj0a65f" path="res://Art/Icons/Items/Sleeping Draught.png" id="175_yepua"]
+[ext_resource type="Texture2D" uid="uid://dumgo5y0y3ea1" path="res://Art/Icons/Items/Weakness Ichor.png" id="176_s83f6"]
+[ext_resource type="Texture2D" uid="uid://c0y8g0f1y7022" path="res://Art/Icons/Items/Backpack, Large.png" id="177_15g2j"]
+[ext_resource type="Script" uid="uid://c4gxhvc05wosx" path="res://content/codex/items/utility.gd" id="178_3pvq6"]
+[ext_resource type="Texture2D" uid="uid://wd0aw0e8msp5" path="res://Art/Icons/Items/Backpack, Small.png" id="179_x8gh6"]
+[ext_resource type="Texture2D" uid="uid://cuex5hvs48s7d" path="res://Art/Icons/Items/Lockpick.png" id="180_50ywf"]
+[ext_resource type="Texture2D" uid="uid://dlpabebjv0wl3" path="res://Art/Icons/Items/Medical Bag.png" id="181_k0vss"]
+[ext_resource type="Texture2D" uid="uid://cs1g2t6sbov86" path="res://Art/Icons/Items/Bandages.png" id="182_yfshj"]
+[ext_resource type="Texture2D" uid="uid://c5rlwvuwa11f1" path="res://Art/Icons/Items/Lantern.png" id="183_7kswm"]
+[ext_resource type="Texture2D" uid="uid://doaeqoy0l5w7i" path="res://Art/Icons/Items/Lockpick Set.png" id="184_mg5iu"]
+[ext_resource type="Texture2D" uid="uid://cdfue7j1ixol6" path="res://Art/Icons/Items/Torch.png" id="185_vwku1"]
+[ext_resource type="Texture2D" uid="uid://bqbr86h1e0gk6" path="res://Art/Icons/Items/Bedroll.png" id="186_q2it4"]
+[ext_resource type="Texture2D" uid="uid://068f3f1c33c" path="res://Art/Icons/Items/Hunting Trap.png" id="187_4k3on"]
+[ext_resource type="Texture2D" uid="uid://cbu6w3ee3i7am" path="res://Art/Icons/Items/Ink.png" id="188_iq4lq"]
+[ext_resource type="Texture2D" uid="uid://bvnm5x41q3xsc" path="res://Art/Icons/Items/Ink Pen.png" id="189_cvil6"]
+[ext_resource type="Texture2D" uid="uid://cbe7qlovrht0n" path="res://Art/Icons/Items/Paper.png" id="190_q00ni"]
+[ext_resource type="Texture2D" uid="uid://bawbs7k53ri08" path="res://Art/Icons/Items/Manacles.png" id="191_8m8bm"]
+[ext_resource type="Texture2D" uid="uid://061n036o1x1e" path="res://Art/Icons/Items/Oil.png" id="192_7jkkn"]
+[ext_resource type="Texture2D" uid="uid://l6cd62qgt2t0" path="res://Art/Icons/Items/Portable Ram.png" id="193_2itp8"]
+[ext_resource type="Texture2D" uid="uid://b655ssa0ato0t" path="res://Art/Icons/Items/Rope.png" id="194_x5lb5"]
+[ext_resource type="Texture2D" uid="uid://cgoy3sg27eaim" path="res://Art/Icons/Items/Two-Person Tent.png" id="195_lfi60"]
+[ext_resource type="Texture2D" uid="uid://cjgvihew1yt6y" path="res://Art/Icons/Items/One-Person Tent.png" id="196_0sd4d"]
+[ext_resource type="Texture2D" uid="uid://bb5uy3m23p31o" path="res://Art/Icons/Items/Waterskin.png" id="197_gihss"]
+[ext_resource type="Texture2D" uid="uid://b4s5b2gegwikb" path="res://Art/Icons/Items/Bottle.png" id="198_k7b80"]
+[ext_resource type="Texture2D" uid="uid://c0jqdecybj4dw" path="res://Art/Icons/Items/Pouch.png" id="199_1g1sw"]
+[ext_resource type="Texture2D" uid="uid://bsrymie6lqcpd" path="res://Art/Icons/Items/Vial.png" id="200_jsyiq"]
+[ext_resource type="Texture2D" uid="uid://dl4gyd34i1mqb" path="res://Art/Icons/Items/Bit and Bridle.png" id="201_w0qwy"]
+[ext_resource type="Texture2D" uid="uid://bcvd0drs00fqa" path="res://Art/Icons/Items/Smithing Tools.png" id="202_hyeke"]
+[ext_resource type="Texture2D" uid="uid://b2picayeyt1kw" path="res://Art/Icons/Items/Alchemy Kit.png" id="203_wr7c2"]
+[ext_resource type="Texture2D" uid="uid://c1d43qu0b1sv5" path="res://Art/Icons/Items/Bowyer's Tools.png" id="204_p7b16"]
+[ext_resource type="Texture2D" uid="uid://dtdyvshwq03b6" path="res://Art/Icons/Items/Cooking Utensils.png" id="205_ucnl7"]
+[ext_resource type="Texture2D" uid="uid://bymmios01u0rv" path="res://Art/Icons/Items/Tailoring Kit.png" id="206_5bfhu"]
+[ext_resource type="Texture2D" uid="uid://rq0pvbub46py" path="res://Art/Icons/Items/Tanner's Tools.png" id="207_v4i5d"]
+[ext_resource type="Texture2D" uid="uid://ddxb0q32ftc6f" path="res://Art/Icons/Items/Tinkering Kit.png" id="208_e0yti"]
+[ext_resource type="Texture2D" uid="uid://bkeel3c8hb6q8" path="res://Art/Icons/Items/Scribe's Supplies.png" id="209_3aitm"]
+[ext_resource type="Texture2D" uid="uid://bcobktkcdcujk" path="res://Art/Icons/Items/Bagpipes.png" id="210_1xirj"]
+[ext_resource type="Texture2D" uid="uid://ick3xxpfcbmq" path="res://Art/Icons/Items/Banjo.png" id="211_ggni5"]
+[ext_resource type="Texture2D" uid="uid://ds2i07trxgjwq" path="res://Art/Icons/Items/Chácaras.png" id="212_duqae"]
+[ext_resource type="Texture2D" uid="uid://j73hhmx4yciu" path="res://Art/Icons/Items/Drum.png" id="213_2dsoj"]
+[ext_resource type="Texture2D" uid="uid://bgplv2objmfe5" path="res://Art/Icons/Items/Flute.png" id="214_jqqcb"]
+[ext_resource type="Texture2D" uid="uid://dbq2p15hxxu4f" path="res://Art/Icons/Items/Hurdy-gurdy.png" id="215_51aom"]
+[ext_resource type="Texture2D" uid="uid://c2ra0kn4n4otw" path="res://Art/Icons/Items/Lute.png" id="216_xuj1h"]
+[ext_resource type="Texture2D" uid="uid://b0g61pksrxauy" path="res://Art/Icons/Items/Lyre.png" id="217_gbp5j"]
+[ext_resource type="Texture2D" uid="uid://deqa7dhsywsef" path="res://Art/Icons/Items/Pan Flute.png" id="218_4l3q6"]
+[ext_resource type="Texture2D" uid="uid://b1f63qrnckca3" path="res://Art/Icons/Items/Viol.png" id="219_kjwq3"]
+[ext_resource type="Texture2D" uid="uid://brvcnvokneqgd" path="res://Art/Icons/Items/Compass.png" id="220_xthlu"]
+[ext_resource type="Texture2D" uid="uid://bmxuu7oi515b5" path="res://Art/Icons/Items/Shovel.png" id="221_tx6rw"]
+[ext_resource type="Texture2D" uid="uid://kj0h4slw3v0t" path="res://Art/Icons/Items/Spyglass.png" id="222_1515o"]
+[ext_resource type="Texture2D" uid="uid://dfkcevxweu3al" path="res://Art/Icons/Items/Fishing Rod.png" id="223_nhgxq"]
+[ext_resource type="Texture2D" uid="uid://cp7mku0o0048y" path="res://Art/Icons/Items/Chalk.png" id="224_j7nyc"]
+[ext_resource type="Texture2D" uid="uid://cqkpjh14d665l" path="res://Art/Icons/Items/Pickaxe.png" id="225_r6e03"]
+[ext_resource type="Texture2D" uid="uid://dke57lco2vc0y" path="res://Art/Icons/Items/Portable Stove.png" id="226_vgnej"]
+[ext_resource type="Script" uid="uid://dlgprwdoc5clc" path="res://content/codex/NPC/NPC.gd" id="227_g4678"]
+[ext_resource type="Script" uid="uid://dgq7obayulkcx" path="res://content/codex/character_options/race.gd" id="228_40xes"]
+[ext_resource type="Script" uid="uid://dlu627bi036c1" path="res://content/codex/rule/rule.gd" id="229_41nax"]
+[ext_resource type="Script" uid="uid://8ssps16vwf54" path="res://content/codex/character_options/skill.gd" id="230_s18lo"]
+[ext_resource type="Script" uid="uid://dwjlekoudj3on" path="res://content/codex/Codex.gd" id="231_8vqm3"]
+
+[sub_resource type="Resource" id="Resource_gc8h4"]
+script = ExtResource("1_j010n")
+bonus_1_prefix = "Health:"
+bonus_2_prefix = "Vitality:"
+bonus_1_expression = "x + 5"
+bonus_2_expression = "(3 + floor((x - 1) / 3))"
+bonus_1_suffix = "x Level"
+bonus_2_suffix = "x Health"
+_name = "Constitution"
+short_description = "Represents endurance and overall toughness."
+long_description = "Constitution determines a character’s physical resilience and ability to withstand harm, fatigue, and disease. It directly affects maximum health and long-term vitality, influencing how long a character can endure in battle or harsh environments. Those with higher Constitution can take more punishment and recover faster from strain."
+
+[sub_resource type="Resource" id="Resource_75pra"]
+script = ExtResource("1_j010n")
+bonus_1_prefix = "Action Points:"
+bonus_2_prefix = "Deflection:"
+bonus_1_expression = "x + 3"
+bonus_2_expression = "x"
+_name = "Dexterity"
+short_description = "Represents speed, coordination, and reflexes."
+long_description = "Dexterity reflects a character’s agility and precision in both physical and mental actions. It governs how quickly and efficiently a character can move, attack, and react. High Dexterity grants additional action points, allowing more actions per turn, and improves deflection, helping to avoid incoming attacks."
+
+[sub_resource type="Resource" id="Resource_qliu3"]
+script = ExtResource("1_j010n")
+bonus_1_prefix = "Bestiary Progress:"
+bonus_2_prefix = "Buff/Debuff Duration:"
+bonus_1_expression = "(x * 3)"
+bonus_2_expression = "(x * 5)"
+bonus_1_suffix = "%"
+_name = "Intelligence"
+short_description = "Represents reasoning and analytical ability."
+long_description = "Intelligence governs a character’s capacity for logic, learning, and understanding complex systems. It enhances awareness of enemies and the environment, improving bestiary knowledge and analysis. High Intelligence also refines control over magical and tactical effects, increasing the duration of buffs and debuffs applied in combat."
+
+[sub_resource type="Resource" id="Resource_lh87t"]
+script = ExtResource("1_j010n")
+bonus_1_prefix = "Damage & Healing:"
+bonus_2_prefix = "Carry Weight:"
+bonus_1_expression = "(x - 1) * 5"
+bonus_2_expression = "((x - 1) * 5) + 75"
+bonus_1_suffix = "%"
+bonus_2_suffix = "kg"
+_name = "Might"
+short_description = "Represents physical and spiritual strength."
+long_description = "Might measures the character’s raw physical and inner power. It influences both physical and magical damage as well as the effectiveness of healing abilities. Characters with higher Might deal and heal more damage and can carry heavier loads."
+
+[sub_resource type="Resource" id="Resource_rdm6v"]
+script = ExtResource("1_j010n")
+bonus_1_prefix = "Accuracy:"
+bonus_2_prefix = "Critical Damage:"
+bonus_1_expression = "x"
+bonus_2_expression = "((x - 1) * 5) + 50"
+bonus_2_suffix = "%"
+_name = "Perception"
+short_description = "Represents awareness and precision."
+long_description = "Perception measures a character’s ability to notice details, aim accurately, and react swiftly to subtle changes in their surroundings. High Perception increases accuracy with all attacks and improves the likelihood of striking vital points, resulting in more devastating critical hits."
+
+[sub_resource type="Resource" id="Resource_hcsc2"]
+script = ExtResource("1_j010n")
+bonus_1_prefix = "Concentration:"
+bonus_2_prefix = "Debuff Resistance:"
+bonus_1_expression = "x"
+bonus_2_expression = "x * 5"
+_name = "Resolve"
+short_description = "Represents mental fortitude and determination."
+long_description = "Resolve reflects a character’s strength of will, focus, and emotional stability under pressure. It determines how well a character maintains concentration during combat and how resistant they are to negative mental or magical effects. Characters with high Resolve can shrug off debilitating conditions and remain steadfast in challenging situations."
+
+[sub_resource type="Resource" id="Resource_nt1kf"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Blessed Guidance"
+short_description = "Faith strengthens your wisdom and healing."
+long_description = "Once per day, you can reduce the difficulty of a Lore or Medicine test by 1 when invoking your faith."
+
+[sub_resource type="Resource" id="Resource_fc41f"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_nt1kf")
+_name = "Acolyte"
+short_description = "Devout follower with religious training."
+long_description = "You are a kith of faith. An acolyte's life is spent learning about modesty and a deeper understanding of your religion. Skills: Discipline, Arcana, Lore, Speech or Medicine. Equipment: Priest's Garments."
+
+[sub_resource type="Resource" id="Resource_i1k48"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Masterwork"
+short_description = "Your creations carry exceptional quality."
+long_description = "Once per session, you may treat a crafted item as if its rarity were 1 higher when using it in a skill test."
+
+[sub_resource type="Resource" id="Resource_b85g7"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_i1k48")
+_name = "Artisan"
+short_description = "Craftsman devoted to honing a trade."
+long_description = "You are an artisan spending most of your life honing your craft. You might spend life becoming the best in one field or you might want to learn the basics of several. Skills: Society, Discipline, Sleight of Hand, Melee Weapons or Ranged Weapons. Equipment: Outfit of your choice and Crafting Tools of your choice."
+
+[sub_resource type="Resource" id="Resource_tcolt"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Beast Affinity"
+short_description = "Deep bond with animals you care for."
+long_description = "Gain Tag Animal Handling and one Animal Handling Perk."
+
+[sub_resource type="Resource" id="Resource_27l80"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_tcolt")
+_name = "Beast Tamer"
+short_description = "Handler skilled at taming and caring for animals."
+long_description = "As a Beast Tamer you have had the responsibility of taming and keeping the animals of the tribe. Skills: Survival, Athletics, Acrobatics, Medicine or Insight."
+
+[sub_resource type="Resource" id="Resource_57ogm"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Underworld Connections"
+short_description = "Ties to the criminal world give access to shady goods."
+long_description = "When in a settlement, you can always find illicit goods or services if they exist."
+
+[sub_resource type="Resource" id="Resource_8p24d"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_57ogm")
+_name = "Criminal"
+short_description = "Streetwise rogue from a life outside the law."
+long_description = "You have led a criminal life learning to talk your way out of sticky situations, sneaking in the dark and living life among the less honored. Skills: Speech, Stealth, Investigation, Sleight of Hand or Insight. Equipment: Bandits Outfit and Lockpick Set. Language: Thieves' Cant."
+
+[sub_resource type="Resource" id="Resource_4iukm"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Trained to Kill"
+short_description = "Dragons are your sworn enemy."
+long_description = "Reduce the Difficulty of Survival tests when tracking Dragons by 1. Re-roll 1d20 on every damaging attack against a Dragon. After killing a Dragon local villages will celebrate you as a hero, this means you sleep, drink and eat for free for the next 3 days."
+
+[sub_resource type="Resource" id="Resource_pli3l"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_4iukm")
+_name = "Dragon Knight"
+short_description = "Elite warrior raised by the Dragon Knight Order."
+long_description = "As a Dragon Knight you were brought up at one of the holds of the Dragon Knight Order. This could be because one or both your parents are a part of the order, because you lost your parents to a dragon attack at a young age or something else. Skills: Melee Weapons, Ranged Weapons, Lore, Acrobatics, Parry, Warfare or Medicine. Equipment: A set of Leather Armor or Scale Armor."
+
+[sub_resource type="Resource" id="Resource_s6je5"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Wise Counsel"
+short_description = "Your advice strengthens allies."
+long_description = "Once per session, grant an ally advantage (roll 1d20 twice, take the better) on a Lore or Insight test."
+
+[sub_resource type="Resource" id="Resource_hfcry"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_s6je5")
+_name = "Elder"
+short_description = "Wise figure recognized for knowledge and counsel."
+long_description = "As an Elder of the tribe you possess more knowledge than most and can offer wisdom to those who need it. Elder is merely a title and does not reflect age, one is named Elder when one shows an aptitude for learning and is proven to be wise. Skills: Medicine, Lore, Survival, Animal Handling, Insight or Speech."
+
+[sub_resource type="Resource" id="Resource_wya6k"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Captivating Performance"
+short_description = "Your art captivates crowds."
+long_description = "You may re-roll 1d20 on any Speech or Society test made to entertain or persuade a crowd."
+
+[sub_resource type="Resource" id="Resource_b4tb4"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_wya6k")
+_name = "Entertainer"
+short_description = "Performer who thrives in social settings."
+long_description = "You are an entertainer traveling around, meeting people and enjoying the social aspects of life. Skills: Speech, Society, Insight, Acrobatics, Parry or Linguistics. Equipment: Performer's Outfit and an Instrument of Choice."
+
+[sub_resource type="Resource" id="Resource_jbm2q"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "One of the People"
+short_description = "Trusted by common folk."
+long_description = "Reduce Society tests when dealing with commoners by 1."
+
+[sub_resource type="Resource" id="Resource_5l5oh"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_jbm2q")
+_name = "Farmer"
+short_description = "Humble worker living off the land."
+long_description = "You are a simple farmer, such a life teaches one how to interact with animals, living off the land, crafting what you need and humble understanding of people. Skills: Animal Handling, Insight, Survival, Craft or Athletics. Equipment: A weapon of Rarity 0."
+
+[sub_resource type="Resource" id="Resource_iefut"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Crowd's Favor"
+short_description = "Fight harder with an audience."
+long_description = "When fighting before spectators, once per combat you may add +2 to an attack or parry roll."
+
+[sub_resource type="Resource" id="Resource_xryke"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_iefut")
+_name = "Gladiator"
+short_description = "Arena warrior trained for brutal combat."
+long_description = "As a Gladiator you are familiar with combat and taking care of yourself. Skills: Warfare, Parry, Resistance or Athletics. Equipment: Tribal Outfit and a Weapon of Rarity 2 or lower."
+
+[sub_resource type="Resource" id="Resource_1lxa4"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Secluded"
+short_description = "Withdrawn life grants quiet insight."
+long_description = "After character creation, gain a Perk in each of your Tag skills, but CHA tests suffer a permanent increase in difficulty by 2."
+
+[sub_resource type="Resource" id="Resource_nuu4u"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_1lxa4")
+_name = "Hermit"
+short_description = "Solitary wanderer who chose a life apart."
+long_description = "As a Hermit you have cast aside the stressful life among society for the preferable life of solitude. Skills: Survival, Lore, Arcana, Medicine or Discipline."
+
+[sub_resource type="Resource" id="Resource_81d5q"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Marksman's Patience"
+short_description = "Patience rewards your aim."
+long_description = "If you spend one turn aiming, your next Ranged attack deals +2 damage."
+
+[sub_resource type="Resource" id="Resource_aujvq"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_81d5q")
+_name = "Hunter"
+short_description = "Tracker and forager skilled in the wild."
+long_description = "As a Hunter you are adept at tracking animals or gathering fruits and berries. Skills: Animal Handling, Discipline, Ranged Weapons or Melee Weapons. Equipment: Ranger's Outfit."
+
+[sub_resource type="Resource" id="Resource_04uxq"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Veteran's Instinct"
+short_description = "Years of combat sharpen survival."
+long_description = "Gain +2 to Resistance tests when facing ambushes or sudden danger."
+
+[sub_resource type="Resource" id="Resource_6wuus"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_04uxq")
+_name = "Mercenary"
+short_description = "Seasoned fighter accustomed to hard travel."
+long_description = "As a Mercenary you are familiar with combat, traveling and taking care of yourself. Skills: Acrobatics, Melee Weapons, Ranged Weapons, Survival, Medicine, Parry or Resistance. Equipment: Wanderer's Leather Clothing and a Weapon of Rarity 2 or lower."
+
+[sub_resource type="Resource" id="Resource_rbhi6"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Of the same Cloth"
+short_description = "Well-connected among nobles."
+long_description = "Reduce Difficulty when Carousing with Nobles by 1."
+
+[sub_resource type="Resource" id="Resource_qodtf"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_rbhi6")
+_name = "Noble"
+short_description = "High-born individual with social standing."
+long_description = "You are part of a Nobel family or have spent a significant portion of your life becoming one. A Nobel life comes with great social standing, understanding of money and perhaps even leadership skills. Skills: Discipline, Society, Command, Linguistics or Lore. Equipment: Nobels Attire and 100 Gold."
+
+[sub_resource type="Resource" id="Resource_32jlc"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Trailblazer"
+short_description = "Guide others safely through the wild."
+long_description = "Your party ignores the first hour of travel penalties (fatigue, hunger, or navigation difficulty) each day."
+
+[sub_resource type="Resource" id="Resource_w7bxc"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_32jlc")
+_name = "Pathfinder"
+short_description = "Move faster on map."
+long_description = "Travel time reduced in wilderness exploration."
+
+[sub_resource type="Resource" id="Resource_fal6a"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Home at Sea"
+short_description = "At ease with ship life and navigation."
+long_description = "You can re-roll 1d20 on Navigation tests while at sea. You also always gain Well-Rested when sleeping on a ship."
+
+[sub_resource type="Resource" id="Resource_uilkj"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_fal6a")
+_name = "Pirate"
+short_description = "Seafarer hardened by life on the waves."
+long_description = "You have led a pirate's life learning to talk your way out of sticky situations, sailing on the open sea and living life among the less honored. Skills: Speech, Stealth, Sleight of Hand, Insight or Navigation. Equipment: Pirate's Attire."
+
+[sub_resource type="Resource" id="Resource_tmls4"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Educated"
+short_description = "Advanced scholarly training."
+long_description = "Tag Skills increases a Skill by 3 rather than 2."
+
+[sub_resource type="Resource" id="Resource_ba8v5"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_tmls4")
+_name = "Sage"
+short_description = "Scholar steeped in knowledge and study."
+long_description = "You are a kith of books and study. You possess a vast amount of knowledge on several subjects or perhaps specialized in a few. Skills: Lore, Medicine, Arcana, Investigation or Navigation. Equipment: Scribe's Robe."
+
+[sub_resource type="Resource" id="Resource_ociry"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Battle-Hardened"
+short_description = "Military training keeps you effective in combat."
+long_description = "Once per scene, re-roll a failed Melee or Ranged attack test."
+
+[sub_resource type="Resource" id="Resource_f3hmf"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_ociry")
+_name = "Soldier"
+short_description = "Disciplined fighter with military training."
+long_description = "You have served with the Military and gained adequate military training as well as a proper education. After your service you get to keep your gear as reward for your service. However you are expected to report in at your nearest military post should get the call for duty. Skills: Discipline, Command, Melee Weapons, Ranged Weapons, Lore or Warfare. Equipment: Full set of Chain Mail or Leather Armor."
+
+[sub_resource type="Resource" id="Resource_b7hbs"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Master of Disguise"
+short_description = "Expert at hiding your true identity."
+long_description = "Gain +2 to Stealth or Society tests when attempting to conceal your identity."
+
+[sub_resource type="Resource" id="Resource_33nch"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_b7hbs")
+_name = "Spy"
+short_description = "Skilled infiltrator trained in intrigue."
+long_description = "Employed by the Nation or a business, you've led a life of infiltration and intrigue, learning how to sneak around, read people and fit in. Skills: Stealth, Speech, Insight, Investigation, Acrobatics or Society. Equipment: An Outfit of your choice."
+
+[sub_resource type="Resource" id="Resource_ym2ql"]
+script = ExtResource("3_vnboh")
+category = "Background"
+_name = "Haggle for a Living"
+short_description = "A lifetime of trading hones your bargaining."
+long_description = "You can re-roll 1d20 when browsing, and always gain a 10% discount."
+
+[sub_resource type="Resource" id="Resource_dtq0b"]
+script = ExtResource("2_iojns")
+perk = SubResource("Resource_ym2ql")
+_name = "Trader"
+short_description = "Wanderer of roads and markets, skilled at bargaining."
+long_description = "As a Trader you are familiar with the life on the road or sea as well as you are socially adept. You might have traveled across the border into neighboring nations. Skills: Speech, Survival, Navigation or Insight."
+
+[sub_resource type="Resource" id="Resource_83tca"]
+script = ExtResource("5_qh5qs")
+attribute1 = SubResource("Resource_75pra")
+_name = "Deflection"
+
+[sub_resource type="Resource" id="Resource_8rm43"]
+script = ExtResource("5_qh5qs")
+attribute1 = SubResource("Resource_lh87t")
+attribute2 = SubResource("Resource_gc8h4")
+_name = "Endurance"
+
+[sub_resource type="Resource" id="Resource_yyca6"]
+script = ExtResource("5_qh5qs")
+attribute1 = SubResource("Resource_qliu3")
+attribute2 = SubResource("Resource_hcsc2")
+_name = "Mind"
+
+[sub_resource type="Resource" id="Resource_8opiu"]
+script = ExtResource("5_qh5qs")
+attribute1 = SubResource("Resource_75pra")
+attribute2 = SubResource("Resource_rdm6v")
+_name = "Reflex"
+
+[sub_resource type="Resource" id="Resource_smyrt"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "Survivor"
+short_description = "Hardened against toxins and hazards."
+long_description = "Due to your upbringing in a hazardous land, you have learned to survive toxic and dangerous areas. When taking Hazard damage, you only take half."
+
+[sub_resource type="Resource" id="Resource_gpy4b"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_smyrt")
+_name = "Aratori Dominion"
+short_description = "Toxic, hazardous land where only hardened survivors thrive."
+long_description = "Due to your upbringing in a hazardous land, you have learned to survive toxic and dangerous areas. When taking Hazard damage, you only take half."
+
+[sub_resource type="Resource" id="Resource_44npp"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "Animal Friend"
+short_description = "Peaceful bond with beasts."
+long_description = "When you encounter a creature with the Beast Keyword, it will never attack you on sight. Also gain 1 re-roll on all Animal Handling tests."
+
+[sub_resource type="Resource" id="Resource_sr757"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_44npp")
+_name = "Asharati Forest"
+short_description = "Deep, mystical woods where harmony with beasts is sacred."
+long_description = "When you encounter a creature with the Beast Keyword, it will never attack you on sight. Also gain 1 re-roll on all Animal Handling tests."
+
+[sub_resource type="Resource" id="Resource_hfu8n"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "Looter"
+short_description = "Skilled at finding extra valuables."
+long_description = "Whenever you successfully salvage an area, you also gain a free roll on the Oddities and Valuables table."
+
+[sub_resource type="Resource" id="Resource_hmpq7"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_hfu8n")
+_name = "Calatherian Principality"
+short_description = "Seafaring principality where piracy and trade intermingle."
+long_description = "Whenever you successfully salvage an area, you also gain a free roll on the Oddities and Valuables table."
+
+[sub_resource type="Resource" id="Resource_yj421"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "No Perk"
+short_description = "No homeland perk, instead gain one from background."
+long_description = "When you choose to not have a homeland, you choose to belong to a different entity. Thus you will instead gain a Perk from Background."
+
+[sub_resource type="Resource" id="Resource_2h0lt"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_yj421")
+_name = "No Homeland"
+short_description = "Rootless wanderers who belong to no land or kingdom."
+long_description = "When you choose to not have a homeland, you choose to belong to a different entity. Thus you will instead gain a Perk from Background."
+
+[sub_resource type="Resource" id="Resource_vfnxm"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "Frostborn"
+short_description = "Adapted to endure freezing climates."
+long_description = "You can increase your survival rating by 1.5 when it comes to exposure to cold weather. Also, you can reduce Freeze Effects on you by 1."
+
+[sub_resource type="Resource" id="Resource_meh1b"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_vfnxm")
+_name = "The Frostheim Kingdom"
+short_description = "Frozen lands where endurance against the cold is a way of life."
+long_description = "You can increase your survival rating by 1.5 when it comes to exposure to cold weather. Also, you can reduce Freeze Effects on you by 1."
+
+[sub_resource type="Resource" id="Resource_hvctk"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "Heat Resistant"
+short_description = "Resilient to extreme desert heat."
+long_description = "You can survive in hot weather without any penalty, and extreme hot weather is treated as hot weather."
+
+[sub_resource type="Resource" id="Resource_7ycrq"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_hvctk")
+_name = "The Obsidian Desert"
+short_description = "Scorching desert where resilience to heat is vital."
+long_description = "You can survive in hot weather without any penalty, and extreme hot weather is treated as hot weather."
+
+[sub_resource type="Resource" id="Resource_y3rwi"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "Elven Education"
+short_description = "Scholarly upbringing with extra skill and language."
+long_description = "You can choose one additional Tag skill among the following: Society, Warfare or Discipline. Also gain a language of your choice."
+
+[sub_resource type="Resource" id="Resource_2cut7"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_y3rwi")
+_name = "The Orotari Kingdom"
+short_description = "A refined kingdom where education and knowledge flourish."
+long_description = "You can choose one additional Tag skill among the following: Society, Warfare or Discipline. Also gain a language of your choice."
+
+[sub_resource type="Resource" id="Resource_o7737"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "Desert Adventurer"
+short_description = "Adapted to endure scorching desert climates."
+long_description = "You can increase your survival rating by 1.5 when it comes to exposure to hot weather. You can go an hour longer for every stage of Thirst and hot weather does not halve it."
+
+[sub_resource type="Resource" id="Resource_ilrw3"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_o7737")
+_name = "The Quasarian Empire"
+short_description = "Harsh desert empire where heat and thirst shape daily survival."
+long_description = "You can increase your survival rating by 1.5 when it comes to exposure to hot weather. You can go an hour longer for every stage of Thirst and hot weather does not halve it."
+
+[sub_resource type="Resource" id="Resource_he835"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "Adaptable"
+short_description = "Flexible social skills from varied cultures."
+long_description = "Due to the many different cities in the Untamed Highlands, you've learned to adapt to different societies. During carousing you can re-roll 1d20 on your Society test."
+
+[sub_resource type="Resource" id="Resource_aanx7"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_he835")
+_name = "The Untamed Highlands"
+short_description = "A patchwork of wild cities where adaptability is essential."
+long_description = "Due to the many different cities in the Untamed Highlands, you've learned to adapt to different societies. During carousing you can re-roll 1d20 on your Society test."
+
+[sub_resource type="Resource" id="Resource_6a210"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "The Way of the Jungle"
+short_description = "Gain survival-oriented skills from the jungle."
+long_description = "You can choose one additional Tag skill among the following: Animal Handling, Survival or Medicine."
+
+[sub_resource type="Resource" id="Resource_7cl4w"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_6a210")
+_name = "The Ur'Holdum Jungle"
+short_description = "Dense, perilous jungle where survival skills are second nature."
+long_description = "You can choose one additional Tag skill among the following: Animal Handling, Survival or Medicine."
+
+[sub_resource type="Resource" id="Resource_5pv4y"]
+script = ExtResource("3_vnboh")
+category = "Homeland"
+_name = "Born to Fight"
+short_description = "Innate battle instinct, able to shrug off danger."
+long_description = "Once per scene, you can completely ignore one attack that targets you."
+
+[sub_resource type="Resource" id="Resource_0jpg7"]
+script = ExtResource("6_xa2d3")
+perk = SubResource("Resource_5pv4y")
+_name = "Torgana Canyons"
+short_description = "Harsh canyon homeland where only the strongest prevail."
+long_description = "Once per scene, you can completely ignore one attack that targets you."
+
+[sub_resource type="Resource" id="Resource_eqlcg"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 1.0
+value = 20
+icon = ExtResource("68_7xvql")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Alchemist's Attire"
+
+[sub_resource type="Resource" id="Resource_q63j6"]
+script = ExtResource("178_3pvq6")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 4.0
+value = 125
+icon = ExtResource("203_wr7c2")
+allowed_slots = Array[int]([6])
+_name = "Alchemy Kit"
+
+[sub_resource type="Resource" id="Resource_7kqqq"]
+script = ExtResource("86_uetr4")
+effect = "Alcoholic"
+weight = 0.2
+value = 5
+icon = ExtResource("126_hcogc")
+allowed_slots = Array[int]([6])
+_name = "Ale"
+
+[sub_resource type="Resource" id="Resource_bbvro"]
+script = ExtResource("86_uetr4")
+healing = 2
+weight = 0.1
+value = 8
+icon = ExtResource("85_4xnyi")
+allowed_slots = Array[int]([6])
+_name = "Apple"
+
+[sub_resource type="Resource" id="Resource_hhsvi"]
+script = ExtResource("86_uetr4")
+healing = 3
+effect = "Immediately gain +2 IP"
+weight = 0.2
+value = 18
+icon = ExtResource("127_d7mwu")
+allowed_slots = Array[int]([6])
+_name = "Apple Juice"
+
+[sub_resource type="Resource" id="Resource_knkd0"]
+script = ExtResource("9_g8f55")
+damage = 2.5
+speed = 10
+qualities = Array[String](["Accurate"])
+size = 1
+weaponRange = 3
+weight = 4.0
+value = 42
+icon = ExtResource("49_7n24t")
+allowed_slots = Array[int]([7])
+_name = "Arbalest"
+
+[sub_resource type="Resource" id="Resource_dhdmn"]
+script = ExtResource("178_3pvq6")
+effect = "Wearer adds 5 × STR to maximum Carry Weight."
+weight = 2.0
+value = 60
+icon = ExtResource("177_15g2j")
+allowed_slots = Array[int]([6])
+_name = "Backpack, Large"
+
+[sub_resource type="Resource" id="Resource_lxumn"]
+script = ExtResource("178_3pvq6")
+effect = "Wearer adds 3 × STR to maximum Carry Weight."
+weight = 1.0
+value = 30
+icon = ExtResource("179_x8gh6")
+allowed_slots = Array[int]([6])
+_name = "Backpack, Small"
+
+[sub_resource type="Resource" id="Resource_wmw2b"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 3.0
+value = 28
+icon = ExtResource("210_1xirj")
+allowed_slots = Array[int]([6])
+_name = "Bagpipes"
+
+[sub_resource type="Resource" id="Resource_oj8b4"]
+script = ExtResource("86_uetr4")
+healing = 3
+weight = 0.1
+value = 7
+icon = ExtResource("114_iv7u6")
+allowed_slots = Array[int]([6])
+_name = "Banana"
+
+[sub_resource type="Resource" id="Resource_yjqir"]
+script = ExtResource("178_3pvq6")
+effect = "Heal +1 on First Aid. Stops bleeding effects."
+weight = 0.1
+value = 1
+icon = ExtResource("182_yfshj")
+allowed_slots = Array[int]([6])
+_name = "Bandages"
+
+[sub_resource type="Resource" id="Resource_tvakw"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 1.0
+value = 10
+icon = ExtResource("71_vk617")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Bandit's Outfit"
+
+[sub_resource type="Resource" id="Resource_0frkd"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 5.0
+value = 26
+icon = ExtResource("211_ggni5")
+allowed_slots = Array[int]([6])
+_name = "Banjo"
+
+[sub_resource type="Resource" id="Resource_vrrrn"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+qualities = Array[String](["Versatile", " Brutal"])
+size = 1
+weight = 4.0
+value = 31
+icon = ExtResource("20_7cl47")
+allowed_slots = Array[int]([7])
+_name = "Battle Axe"
+
+[sub_resource type="Resource" id="Resource_luj0k"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+qualities = Array[String](["Brutal"])
+weight = 1.0
+value = 30
+icon = ExtResource("10_4fatp")
+allowed_slots = Array[int]([7])
+_name = "Bear Claws"
+
+[sub_resource type="Resource" id="Resource_u3bqb"]
+script = ExtResource("86_uetr4")
+healing = 9
+weight = 0.5
+value = 85
+icon = ExtResource("87_sks1i")
+allowed_slots = Array[int]([6])
+_name = "Bear Meat"
+
+[sub_resource type="Resource" id="Resource_fay8m"]
+script = ExtResource("86_uetr4")
+healing = 13
+effect = "+2 Physical damage resistance until end of next scene"
+weight = 0.5
+value = 90
+icon = ExtResource("88_sxcco")
+allowed_slots = Array[int]([6])
+_name = "Bear Ribs"
+
+[sub_resource type="Resource" id="Resource_1ggpp"]
+script = ExtResource("86_uetr4")
+healing = 14
+effect = "+2 CD to melee attacks until end of next scene"
+weight = 0.5
+value = 110
+icon = ExtResource("89_wag4i")
+allowed_slots = Array[int]([6])
+_name = "Bear Roast"
+
+[sub_resource type="Resource" id="Resource_502kf"]
+script = ExtResource("178_3pvq6")
+effect = "Allows a character to become rested outdoors."
+weight = 4.0
+value = 35
+icon = ExtResource("186_q2it4")
+allowed_slots = Array[int]([6])
+_name = "Bedroll"
+
+[sub_resource type="Resource" id="Resource_eijmd"]
+script = ExtResource("178_3pvq6")
+effect = "Standard gear to direct a mount."
+weight = 1.0
+value = 20
+icon = ExtResource("201_w0qwy")
+allowed_slots = Array[int]([6])
+_name = "Bit and Bridle"
+
+[sub_resource type="Resource" id="Resource_i7q8i"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 1.0
+value = 10
+icon = ExtResource("70_s4cww")
+allowed_slots = Array[int]([5, 4, 3])
+_name = "Blacksmith's Outfit"
+
+[sub_resource type="Resource" id="Resource_hfid0"]
+script = ExtResource("86_uetr4")
+effect = "On hit: Blind until end of target’s next turn"
+weight = 0.5
+value = 20
+icon = ExtResource("173_2g3nv")
+allowed_slots = Array[int]([6])
+_name = "Blinding Powder"
+
+[sub_resource type="Resource" id="Resource_0tl8k"]
+script = ExtResource("9_g8f55")
+damage = 2.5
+speed = 10
+qualities = Array[String](["Brutal", " Close Quarters"])
+weaponRange = 1
+weight = 2.0
+value = 40
+icon = ExtResource("40_c86jw")
+allowed_slots = Array[int]([7])
+_name = "Blunderbuss"
+
+[sub_resource type="Resource" id="Resource_h7bmi"]
+script = ExtResource("178_3pvq6")
+effect = "Holds 1 liter of liquid."
+weight = 0.3
+value = 22
+icon = ExtResource("198_k7b80")
+allowed_slots = Array[int]([6])
+_name = "Bottle"
+
+[sub_resource type="Resource" id="Resource_0w6pt"]
+script = ExtResource("86_uetr4")
+effect = "Alcoholic, Reroll 1d20 on END tests"
+weight = 0.2
+value = 12
+icon = ExtResource("128_ay5j0")
+allowed_slots = Array[int]([6])
+_name = "Bourbon"
+
+[sub_resource type="Resource" id="Resource_xmq52"]
+script = ExtResource("178_3pvq6")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 4.0
+value = 68
+icon = ExtResource("204_p7b16")
+allowed_slots = Array[int]([6])
+_name = "Bowyer's Tools"
+
+[sub_resource type="Resource" id="Resource_apf30"]
+script = ExtResource("86_uetr4")
+healing = 5
+weight = 0.4
+value = 12
+icon = ExtResource("90_r3iso")
+allowed_slots = Array[int]([6])
+_name = "Bread"
+
+[sub_resource type="Resource" id="Resource_pns7h"]
+script = ExtResource("55_ebkcq")
+weight = 4.0
+value = 60
+icon = ExtResource("57_63wmv")
+_name = "Brigandines Arm"
+
+[sub_resource type="Resource" id="Resource_i0xau"]
+script = ExtResource("55_ebkcq")
+physicalDT = 8
+magicalDT = 10
+necroticDT = 2
+weight = 3.0
+value = 58
+icon = ExtResource("66_52uai")
+allowed_slots = Array[int]([0])
+_name = "Brigandines Head"
+
+[sub_resource type="Resource" id="Resource_ucg3s"]
+script = ExtResource("55_ebkcq")
+weight = 4.0
+value = 62
+icon = ExtResource("57_63wmv")
+_name = "Brigandines Leg"
+
+[sub_resource type="Resource" id="Resource_fmyfn"]
+script = ExtResource("55_ebkcq")
+physicalDT = 8
+magicalDT = 10
+necroticDT = 4
+weight = 6.0
+value = 68
+icon = ExtResource("67_nmflc")
+allowed_slots = Array[int]([3])
+_name = "Brigandines Torso"
+
+[sub_resource type="Resource" id="Resource_gmfid"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+qualities = Array[String](["Parry", " Versatile"])
+size = 1
+weight = 3.5
+value = 32
+icon = ExtResource("26_8mh2x")
+allowed_slots = Array[int]([7])
+_name = "Broad Sword"
+
+[sub_resource type="Resource" id="Resource_341p2"]
+script = ExtResource("86_uetr4")
+addiction = 2
+effect = "Reduce the difficulty of PER tests by 2 (min 0); Aim lets you re-roll one additional d20"
+weight = 0.1
+value = 60
+icon = ExtResource("141_8bj4w")
+allowed_slots = Array[int]([6])
+_name = "Brox Weed"
+
+[sub_resource type="Resource" id="Resource_cfdop"]
+script = ExtResource("9_g8f55")
+damage = 1.0
+speed = 20
+qualities = Array[String](["Parry", " +1 Defense", " Accurate"])
+weight = 2.0
+value = 25
+icon = ExtResource("51_a6pdv")
+allowed_slots = Array[int]([7])
+_name = "Buckler"
+
+[sub_resource type="Resource" id="Resource_hof4j"]
+script = ExtResource("86_uetr4")
+healing = 9
+weight = 0.3
+value = 22
+icon = ExtResource("121_mihol")
+allowed_slots = Array[int]([6])
+_name = "Burger"
+
+[sub_resource type="Resource" id="Resource_e00m7"]
+script = ExtResource("86_uetr4")
+healing = 2
+weight = 0.1
+value = 6
+icon = ExtResource("91_6sk1b")
+allowed_slots = Array[int]([6])
+_name = "Carrot"
+
+[sub_resource type="Resource" id="Resource_a0vxb"]
+script = ExtResource("86_uetr4")
+healing = 3
+effect = "Reroll 1d20 on all AGI tests"
+weight = 0.2
+value = 9
+icon = ExtResource("129_xgbk8")
+allowed_slots = Array[int]([6])
+_name = "Carrot Juice"
+
+[sub_resource type="Resource" id="Resource_f4cws"]
+script = ExtResource("55_ebkcq")
+weight = 3.0
+value = 38
+icon = ExtResource("57_63wmv")
+_name = "Chain Mail Arm"
+
+[sub_resource type="Resource" id="Resource_moneo"]
+script = ExtResource("55_ebkcq")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
+weight = 2.0
+value = 35
+icon = ExtResource("60_6lmnf")
+allowed_slots = Array[int]([0])
+_name = "Chain Mail Head"
+
+[sub_resource type="Resource" id="Resource_wxmqx"]
+script = ExtResource("55_ebkcq")
+weight = 3.0
+value = 40
+icon = ExtResource("57_63wmv")
+_name = "Chain Mail Leg"
+
+[sub_resource type="Resource" id="Resource_n8dmd"]
+script = ExtResource("55_ebkcq")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 2
+weight = 4.0
+value = 45
+icon = ExtResource("61_57gyt")
+allowed_slots = Array[int]([3])
+_name = "Chain Mail Torso"
+
+[sub_resource type="Resource" id="Resource_ebqk1"]
+script = ExtResource("178_3pvq6")
+effect = "Mark surfaces or leave trails; fades with weather."
+weight = 0.1
+value = 2
+icon = ExtResource("224_j7nyc")
+allowed_slots = Array[int]([6])
+_name = "Chalk"
+
+[sub_resource type="Resource" id="Resource_v2x6q"]
+script = ExtResource("86_uetr4")
+healing = 6
+weight = 0.4
+value = 25
+icon = ExtResource("92_20ox3")
+allowed_slots = Array[int]([6])
+_name = "Cheese"
+
+[sub_resource type="Resource" id="Resource_ew7sc"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 0.1
+value = 3
+icon = ExtResource("212_duqae")
+allowed_slots = Array[int]([6])
+_name = "Chácaras"
+
+[sub_resource type="Resource" id="Resource_42rww"]
+script = ExtResource("86_uetr4")
+healing = 3
+weight = 0.2
+value = 10
+icon = ExtResource("125_l63e7")
+allowed_slots = Array[int]([6])
+_name = "Clean Water"
+
+[sub_resource type="Resource" id="Resource_uhyns"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+weight = 1.5
+value = 20
+icon = ExtResource("17_vqtfl")
+allowed_slots = Array[int]([7])
+_name = "Club"
+
+[sub_resource type="Resource" id="Resource_almbk"]
+script = ExtResource("69_60u4c")
+effect = "Clothing"
+weight = 1.0
+value = 10
+icon = ExtResource("82_n773f")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Commoner's Clothing"
+
+[sub_resource type="Resource" id="Resource_4mu1l"]
+script = ExtResource("178_3pvq6")
+effect = "Gives advantage on Navigation/Survival checks."
+weight = 0.2
+value = 25
+icon = ExtResource("220_xthlu")
+allowed_slots = Array[int]([6])
+_name = "Compass"
+
+[sub_resource type="Resource" id="Resource_xapbb"]
+script = ExtResource("86_uetr4")
+healing = 10
+weight = 0.5
+value = 40
+icon = ExtResource("112_7e574")
+allowed_slots = Array[int]([6])
+_name = "Cooked Beef"
+
+[sub_resource type="Resource" id="Resource_g80yu"]
+script = ExtResource("178_3pvq6")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 4.0
+value = 30
+icon = ExtResource("205_ucnl7")
+allowed_slots = Array[int]([6])
+_name = "Cooking Utensils"
+
+[sub_resource type="Resource" id="Resource_bblfm"]
+script = ExtResource("86_uetr4")
+healing = 2
+weight = 0.1
+value = 6
+icon = ExtResource("93_6173j")
+allowed_slots = Array[int]([6])
+_name = "Corn"
+
+[sub_resource type="Resource" id="Resource_ebs4b"]
+script = ExtResource("86_uetr4")
+effect = "On hit: +2 CD damage and reduce target armor DT by 1 (stacking, scene)"
+weight = 0.5
+value = 35
+icon = ExtResource("174_1hgf7")
+allowed_slots = Array[int]([6])
+_name = "Corrosive Oil"
+
+[sub_resource type="Resource" id="Resource_1kjhs"]
+script = ExtResource("86_uetr4")
+healing = 13
+effect = "Underwater breathing until next scene"
+weight = 0.3
+value = 35
+icon = ExtResource("95_qbhhr")
+allowed_slots = Array[int]([6])
+_name = "Crab Cake"
+
+[sub_resource type="Resource" id="Resource_kjeif"]
+script = ExtResource("86_uetr4")
+healing = 9
+effect = "Gain +1 IP at start of next scene"
+weight = 0.3
+value = 18
+icon = ExtResource("94_66nu0")
+allowed_slots = Array[int]([6])
+_name = "Crab Meat"
+
+[sub_resource type="Resource" id="Resource_dbpce"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 10
+qualities = Array[String](["Accurate"])
+size = 1
+weaponRange = 2
+weight = 3.0
+value = 34
+icon = ExtResource("48_6ukck")
+allowed_slots = Array[int]([7])
+_name = "Crossbow"
+
+[sub_resource type="Resource" id="Resource_qddaj"]
+script = ExtResource("9_g8f55")
+damage = 1.0
+speed = 20
+qualities = Array[String](["Accurate", " Concealed", " Thrown (M)"])
+weight = 0.5
+value = 19
+icon = ExtResource("13_xeion")
+allowed_slots = Array[int]([7])
+_name = "Dagger"
+
+[sub_resource type="Resource" id="Resource_m3758"]
+script = ExtResource("86_uetr4")
+healing = 8
+weight = 0.5
+value = 50
+icon = ExtResource("96_o03vu")
+allowed_slots = Array[int]([6])
+_name = "Deer Meat"
+
+[sub_resource type="Resource" id="Resource_6f3qc"]
+script = ExtResource("86_uetr4")
+healing = 12
+effect = "+3 Magic damage resistance until end of next scene"
+weight = 0.5
+value = 60
+icon = ExtResource("97_r7al2")
+allowed_slots = Array[int]([6])
+_name = "Deer Stew"
+
+[sub_resource type="Resource" id="Resource_1o27v"]
+script = ExtResource("86_uetr4")
+addiction = 2
+effect = "+2 CD damage to all attacks; +3 Physical damage resistance"
+weight = 0.2
+value = 50
+icon = ExtResource("157_450sh")
+allowed_slots = Array[int]([6])
+_name = "Demon Blood, Distilled"
+
+[sub_resource type="Resource" id="Resource_o33xa"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "+3 CD damage to all attacks; May re-roll up to 3 CD per damage roll"
+weight = 0.2
+value = 55
+icon = ExtResource("156_gape7")
+allowed_slots = Array[int]([6])
+_name = "Demon Blood, Raw"
+
+[sub_resource type="Resource" id="Resource_s0g00"]
+script = ExtResource("69_60u4c")
+effect = "Clothing"
+weight = 0.5
+value = 20
+icon = ExtResource("83_4v080")
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+_name = "Desert Clothing"
+
+[sub_resource type="Resource" id="Resource_tj7q0"]
+script = ExtResource("86_uetr4")
+effect = "Alcoholic, -1 difficulty to STR tests, +2 difficulty to INT tests"
+weight = 0.2
+value = 14
+icon = ExtResource("130_56rwn")
+allowed_slots = Array[int]([6])
+_name = "Dirty Wanderer"
+
+[sub_resource type="Resource" id="Resource_0uney"]
+script = ExtResource("86_uetr4")
+healing = 2
+weight = 0.2
+value = 3
+icon = ExtResource("124_f414b")
+allowed_slots = Array[int]([6])
+_name = "Dirty Water"
+
+[sub_resource type="Resource" id="Resource_n2ij5"]
+script = ExtResource("86_uetr4")
+healing = 7
+weight = 0.3
+value = 72
+icon = ExtResource("99_vojth")
+allowed_slots = Array[int]([6])
+_name = "Dragon Egg"
+
+[sub_resource type="Resource" id="Resource_ovsx5"]
+script = ExtResource("86_uetr4")
+healing = 9
+weight = 0.5
+value = 110
+icon = ExtResource("100_jsind")
+allowed_slots = Array[int]([6])
+_name = "Dragon Meat"
+
+[sub_resource type="Resource" id="Resource_feem5"]
+script = ExtResource("86_uetr4")
+healing = 11
+effect = "If next scene is combat, regain 1 HP at the start of each turn"
+weight = 0.3
+value = 90
+icon = ExtResource("101_1lhi3")
+allowed_slots = Array[int]([6])
+_name = "Dragon Omelet"
+
+[sub_resource type="Resource" id="Resource_jn3cx"]
+script = ExtResource("86_uetr4")
+healing = 14
+effect = "May re-roll 1d20 on all STR tests until end of next scene"
+weight = 0.5
+value = 130
+icon = ExtResource("102_h68vi")
+allowed_slots = Array[int]([6])
+_name = "Dragon Steak"
+
+[sub_resource type="Resource" id="Resource_k1lil"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 1.5
+value = 12
+icon = ExtResource("213_2dsoj")
+allowed_slots = Array[int]([6])
+_name = "Drum"
+
+[sub_resource type="Resource" id="Resource_msscr"]
+script = ExtResource("178_3pvq6")
+effect = "Lets you attempt fishing tests to gather food."
+weight = 1.0
+value = 20
+icon = ExtResource("223_nhgxq")
+allowed_slots = Array[int]([6])
+_name = "Fishing Rod"
+
+[sub_resource type="Resource" id="Resource_163wh"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+weight = 2.0
+value = 34
+icon = ExtResource("34_efr8p")
+allowed_slots = Array[int]([7])
+_name = "Flail"
+
+[sub_resource type="Resource" id="Resource_nsigr"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 0.5
+value = 6
+icon = ExtResource("214_jqqcb")
+allowed_slots = Array[int]([6])
+_name = "Flute"
+
+[sub_resource type="Resource" id="Resource_p7018"]
+script = ExtResource("86_uetr4")
+healing = 7
+weight = 0.4
+value = 15
+icon = ExtResource("117_4qofv")
+allowed_slots = Array[int]([6])
+_name = "Fried Fish"
+
+[sub_resource type="Resource" id="Resource_r7vl3"]
+script = ExtResource("69_60u4c")
+effect = "Clothing"
+weight = 2.0
+value = 20
+icon = ExtResource("84_8asyo")
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+_name = "Fur Clothing"
+
+[sub_resource type="Resource" id="Resource_sueu2"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 50
+qualities = Array[String](["Brutal"])
+size = 1
+weight = 5.5
+value = 45
+icon = ExtResource("21_gw1i1")
+allowed_slots = Array[int]([7])
+_name = "Great Axe"
+
+[sub_resource type="Resource" id="Resource_51sc5"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 50
+size = 1
+weight = 5.5
+value = 44
+icon = ExtResource("24_ck0fb")
+allowed_slots = Array[int]([7])
+_name = "Great Hammer"
+
+[sub_resource type="Resource" id="Resource_jnab2"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 50
+qualities = Array[String](["Parry"])
+size = 1
+weight = 5.5
+value = 46
+icon = ExtResource("27_83kd0")
+allowed_slots = Array[int]([7])
+_name = "Great Sword"
+
+[sub_resource type="Resource" id="Resource_wxrak"]
+script = ExtResource("86_uetr4")
+effect = "Heals 4 HP"
+weight = 0.2
+value = 50
+icon = ExtResource("163_2587t")
+allowed_slots = Array[int]([6])
+_name = "Greater Healing Potion"
+
+[sub_resource type="Resource" id="Resource_6nq8v"]
+script = ExtResource("86_uetr4")
+addiction = 2
+effect = "Gain 4 Mana"
+weight = 0.2
+value = 53
+icon = ExtResource("167_7oqhx")
+allowed_slots = Array[int]([6])
+_name = "Greater Potion of Mana"
+
+[sub_resource type="Resource" id="Resource_wb3sf"]
+script = ExtResource("86_uetr4")
+healing = 11
+effect = "Carry weight +25 until end of next scene"
+weight = 0.5
+value = 60
+icon = ExtResource("98_fihkr")
+allowed_slots = Array[int]([6])
+_name = "Grilled Deer"
+
+[sub_resource type="Resource" id="Resource_60r1v"]
+script = ExtResource("86_uetr4")
+healing = 7
+weight = 0.4
+value = 16
+icon = ExtResource("123_1uivu")
+allowed_slots = Array[int]([6])
+_name = "Grilled Wolf"
+
+[sub_resource type="Resource" id="Resource_r14u6"]
+script = ExtResource("86_uetr4")
+addiction = 2
+effect = "+3 Physical damage resistance"
+weight = 0.1
+value = 50
+icon = ExtResource("142_xokdg")
+allowed_slots = Array[int]([6])
+_name = "Grol Bark"
+
+[sub_resource type="Resource" id="Resource_aogj7"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 50
+qualities = Array[String](["Reach"])
+size = 1
+weight = 5.0
+value = 48
+icon = ExtResource("39_e3xnd")
+allowed_slots = Array[int]([7])
+_name = "Halberd"
+
+[sub_resource type="Resource" id="Resource_v4vb8"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+weight = 2.0
+value = 21
+icon = ExtResource("22_tdv0i")
+allowed_slots = Array[int]([7])
+_name = "Hammer"
+
+[sub_resource type="Resource" id="Resource_yipwl"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+qualities = Array[String](["Brutal"])
+weight = 2.0
+value = 23
+icon = ExtResource("19_6x1ku")
+allowed_slots = Array[int]([7])
+_name = "Hand Axe"
+
+[sub_resource type="Resource" id="Resource_w1my2"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 10
+qualities = Array[String](["Accurate", " Close Quarters"])
+weaponRange = 1
+weight = 2.0
+value = 28
+icon = ExtResource("47_3i1it")
+allowed_slots = Array[int]([7])
+_name = "Hand Crossbow"
+
+[sub_resource type="Resource" id="Resource_xktc4"]
+script = ExtResource("86_uetr4")
+effect = "Heals 2 HP"
+weight = 0.2
+value = 30
+icon = ExtResource("162_y6qif")
+allowed_slots = Array[int]([6])
+_name = "Healing Potion"
+
+[sub_resource type="Resource" id="Resource_j1b41"]
+script = ExtResource("55_ebkcq")
+weight = 1.0
+value = 15
+icon = ExtResource("57_63wmv")
+_name = "Hide Arm"
+
+[sub_resource type="Resource" id="Resource_qpr5u"]
+script = ExtResource("55_ebkcq")
+physicalDT = 2
+magicalDT = 1
+weight = 0.5
+value = 15
+icon = ExtResource("54_kl4hb")
+allowed_slots = Array[int]([0])
+_name = "Hide Head"
+
+[sub_resource type="Resource" id="Resource_q56u8"]
+script = ExtResource("55_ebkcq")
+weight = 1.0
+value = 18
+icon = ExtResource("57_63wmv")
+_name = "Hide Leg"
+
+[sub_resource type="Resource" id="Resource_ijsse"]
+script = ExtResource("55_ebkcq")
+physicalDT = 2
+magicalDT = 1
+necroticDT = 1
+weight = 1.5
+value = 20
+icon = ExtResource("56_lok8m")
+allowed_slots = Array[int]([3])
+_name = "Hide Torso"
+
+[sub_resource type="Resource" id="Resource_08h5q"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+size = 1
+weaponRange = 2
+weight = 1.0
+value = 25
+icon = ExtResource("44_6076c")
+allowed_slots = Array[int]([7])
+_name = "Hunting Bow"
+
+[sub_resource type="Resource" id="Resource_5o5qp"]
+script = ExtResource("178_3pvq6")
+effect = "Hidden trap, PER+Investigation to detect. On trigger: 4 CD damage + Intense, Grappling, Vicious 1, Breaking."
+weight = 10.0
+value = 50
+icon = ExtResource("187_4k3on")
+allowed_slots = Array[int]([6])
+_name = "Hunting Trap"
+
+[sub_resource type="Resource" id="Resource_y3gvk"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 3.0
+value = 50
+icon = ExtResource("215_51aom")
+allowed_slots = Array[int]([6])
+_name = "Hurdy-gurdy"
+
+[sub_resource type="Resource" id="Resource_juil0"]
+script = ExtResource("178_3pvq6")
+effect = "Used for writing. Empty after 30 uses."
+weight = 0.4
+value = 5
+icon = ExtResource("188_iq4lq")
+allowed_slots = Array[int]([6])
+_name = "Ink"
+
+[sub_resource type="Resource" id="Resource_srhp4"]
+script = ExtResource("178_3pvq6")
+effect = "Used for writing. May break on complication."
+weight = 0.1
+value = 3
+icon = ExtResource("189_cvil6")
+allowed_slots = Array[int]([6])
+_name = "Ink Pen"
+
+[sub_resource type="Resource" id="Resource_oifho"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+qualities = Array[String](["Thrown (M)"])
+weight = 1.0
+value = 26
+icon = ExtResource("28_twuj3")
+allowed_slots = Array[int]([7])
+_name = "Javelin"
+
+[sub_resource type="Resource" id="Resource_47km3"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+qualities = Array[String](["Versatile"])
+size = 1
+weight = 4.0
+value = 31
+icon = ExtResource("32_u0l7g")
+allowed_slots = Array[int]([7])
+_name = "Katana"
+
+[sub_resource type="Resource" id="Resource_vbvq4"]
+script = ExtResource("9_g8f55")
+damage = 1.0
+speed = 20
+qualities = Array[String](["Concealed", " Thrown (M)"])
+weight = 0.5
+value = 18
+icon = ExtResource("12_4v3u0")
+allowed_slots = Array[int]([7])
+_name = "Knife"
+
+[sub_resource type="Resource" id="Resource_rcdoa"]
+script = ExtResource("178_3pvq6")
+effect = "Generates bright light within Close range, dim light within Medium."
+weight = 1.0
+value = 15
+icon = ExtResource("183_7kswm")
+allowed_slots = Array[int]([6])
+_name = "Lantern"
+
+[sub_resource type="Resource" id="Resource_j3vtj"]
+script = ExtResource("55_ebkcq")
+weight = 1.0
+value = 18
+icon = ExtResource("57_63wmv")
+_name = "Leather Arm"
+
+[sub_resource type="Resource" id="Resource_x3dph"]
+script = ExtResource("55_ebkcq")
+physicalDT = 1
+magicalDT = 2
+weight = 0.5
+value = 18
+icon = ExtResource("58_p1n2g")
+allowed_slots = Array[int]([0])
+_name = "Leather Head"
+
+[sub_resource type="Resource" id="Resource_44ncy"]
+script = ExtResource("55_ebkcq")
+weight = 1.0
+value = 20
+icon = ExtResource("57_63wmv")
+_name = "Leather Leg"
+
+[sub_resource type="Resource" id="Resource_6dg3v"]
+script = ExtResource("55_ebkcq")
+physicalDT = 1
+magicalDT = 2
+necroticDT = 1
+weight = 1.5
+value = 22
+icon = ExtResource("59_t720k")
+allowed_slots = Array[int]([3])
+_name = "Leather Torso"
+
+[sub_resource type="Resource" id="Resource_phv2n"]
+script = ExtResource("178_3pvq6")
+effect = "Reduces difficulty of Lockpick tests by 1 (min 1). One bobby pin breaks per complication."
+weight = 0.1
+value = 1
+icon = ExtResource("180_50ywf")
+allowed_slots = Array[int]([6])
+_name = "Lockpick"
+
+[sub_resource type="Resource" id="Resource_v7le2"]
+script = ExtResource("178_3pvq6")
+effect = "Reduces difficulty of Lockpick tests by 1 (min 0). Breaks after 3 complications."
+weight = 1.0
+value = 150
+icon = ExtResource("184_mg5iu")
+allowed_slots = Array[int]([6])
+_name = "Lockpick Set"
+
+[sub_resource type="Resource" id="Resource_37q01"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 50
+size = 1
+weaponRange = 3
+weight = 2.0
+value = 40
+icon = ExtResource("46_qvmhy")
+allowed_slots = Array[int]([7])
+_name = "Long Bow"
+
+[sub_resource type="Resource" id="Resource_unqil"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 0.5
+value = 22
+icon = ExtResource("216_xuj1h")
+allowed_slots = Array[int]([6])
+_name = "Lute"
+
+[sub_resource type="Resource" id="Resource_54ga7"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 0.5
+value = 17
+icon = ExtResource("217_gbp5j")
+allowed_slots = Array[int]([6])
+_name = "Lyre"
+
+[sub_resource type="Resource" id="Resource_65w0g"]
+script = ExtResource("178_3pvq6")
+effect = "Restrains limbs. Can be broken with STR+Athletics (diff 4) or unlocked with Sleight of Hand (diff 2)."
+weight = 1.0
+value = 28
+icon = ExtResource("191_8m8bm")
+allowed_slots = Array[int]([6])
+_name = "Manacles"
+
+[sub_resource type="Resource" id="Resource_axshy"]
+script = ExtResource("86_uetr4")
+healing = 3
+weight = 0.1
+value = 9
+icon = ExtResource("115_wyiyj")
+allowed_slots = Array[int]([6])
+_name = "Mango"
+
+[sub_resource type="Resource" id="Resource_sm6u4"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 50
+size = 1
+weight = 5.5
+value = 39
+icon = ExtResource("18_r1jli")
+allowed_slots = Array[int]([7])
+_name = "Maul"
+
+[sub_resource type="Resource" id="Resource_bo83y"]
+script = ExtResource("178_3pvq6")
+effect = "Reduce difficulty of Medicine tests by 1. Allows care of 2 extra patients."
+weight = 5.0
+value = 300
+icon = ExtResource("181_k0vss")
+allowed_slots = Array[int]([6])
+_name = "Medical Bag"
+
+[sub_resource type="Resource" id="Resource_42ala"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 3.0
+value = 40
+icon = ExtResource("72_1g6x7")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Mercenary's Outfit"
+
+[sub_resource type="Resource" id="Resource_ml0w0"]
+script = ExtResource("86_uetr4")
+healing = 1
+effect = "Heals 2 Necrotic damage"
+weight = 0.2
+value = 17
+icon = ExtResource("131_37q0m")
+allowed_slots = Array[int]([6])
+_name = "Milk"
+
+[sub_resource type="Resource" id="Resource_nof8o"]
+script = ExtResource("86_uetr4")
+effect = "Alcoholic, +2 Max HP"
+weight = 0.2
+value = 13
+icon = ExtResource("132_pqppm")
+allowed_slots = Array[int]([6])
+_name = "Moonshine"
+
+[sub_resource type="Resource" id="Resource_nhouk"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+qualities = Array[String](["Versatile"])
+size = 1
+weight = 4.0
+value = 45
+icon = ExtResource("35_m7e5y")
+allowed_slots = Array[int]([7])
+_name = "Morning Star"
+
+[sub_resource type="Resource" id="Resource_ggkkx"]
+script = ExtResource("9_g8f55")
+damage = 2.5
+speed = 10
+qualities = Array[String](["Brutal"])
+size = 1
+weaponRange = 3
+weight = 5.0
+value = 50
+icon = ExtResource("42_ge1i1")
+allowed_slots = Array[int]([7])
+_name = "Musket"
+
+[sub_resource type="Resource" id="Resource_os3cj"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 1.0
+value = 20
+icon = ExtResource("73_26n6u")
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+_name = "Nature's Gown"
+
+[sub_resource type="Resource" id="Resource_4t7vj"]
+script = ExtResource("86_uetr4")
+effect = "On hit: Persistent(Poison) 2 and -1 difficulty to target STR tests until end of scene"
+weight = 0.5
+value = 32
+icon = ExtResource("171_hx2xa")
+allowed_slots = Array[int]([6])
+_name = "Nightshade Toxin"
+
+[sub_resource type="Resource" id="Resource_0s1lm"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 1.0
+value = 40
+icon = ExtResource("74_ip4qo")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Noble's Attire"
+
+[sub_resource type="Resource" id="Resource_0j31r"]
+script = ExtResource("178_3pvq6")
+effect = "Flammable. Once ignited, cannot be cleared with Clear Minor action."
+weight = 0.5
+value = 19
+icon = ExtResource("192_7jkkn")
+allowed_slots = Array[int]([6])
+_name = "Oil"
+
+[sub_resource type="Resource" id="Resource_0l2jc"]
+script = ExtResource("178_3pvq6")
+effect = "Allows 1 character to rest outdoors."
+weight = 7.0
+value = 65
+icon = ExtResource("196_0sd4d")
+allowed_slots = Array[int]([6])
+_name = "One-Person Tent"
+
+[sub_resource type="Resource" id="Resource_ig4ln"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 1.0
+value = 12
+icon = ExtResource("218_4l3q6")
+allowed_slots = Array[int]([6])
+_name = "Pan Flute"
+
+[sub_resource type="Resource" id="Resource_xhcyf"]
+script = ExtResource("86_uetr4")
+healing = 8
+weight = 0.5
+value = 18
+icon = ExtResource("120_0mp3h")
+allowed_slots = Array[int]([6])
+_name = "Pancakes"
+
+[sub_resource type="Resource" id="Resource_utgke"]
+script = ExtResource("178_3pvq6")
+effect = "Used for writing. Bought in stacks of 30."
+weight = 0.1
+value = 7
+icon = ExtResource("190_q00ni")
+allowed_slots = Array[int]([6])
+_name = "Paper"
+
+[sub_resource type="Resource" id="Resource_dx27n"]
+script = ExtResource("86_uetr4")
+effect = "On hit: target is Slowed; if they fail a save, also Staggered for 1 round"
+weight = 0.5
+value = 30
+icon = ExtResource("172_ev88r")
+allowed_slots = Array[int]([6])
+_name = "Paralytic Venom"
+
+[sub_resource type="Resource" id="Resource_gojo8"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 1.0
+value = 20
+icon = ExtResource("75_21n5t")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Performer's Outfit"
+
+[sub_resource type="Resource" id="Resource_1b371"]
+script = ExtResource("86_uetr4")
+effect = "Grants the Persistent(Poison) effect when applied to a weapon (on hit)"
+weight = 0.5
+value = 25
+icon = ExtResource("170_mdubt")
+allowed_slots = Array[int]([6])
+_name = "Persistent Poison"
+
+[sub_resource type="Resource" id="Resource_tyj04"]
+script = ExtResource("178_3pvq6")
+effect = "Used for mining or breaking hard surfaces."
+weight = 3.0
+value = 28
+icon = ExtResource("225_r6e03")
+allowed_slots = Array[int]([6])
+_name = "Pickaxe"
+
+[sub_resource type="Resource" id="Resource_h38k1"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+qualities = Array[String](["Reach"])
+size = 1
+weight = 4.0
+value = 34
+icon = ExtResource("30_m7esd")
+allowed_slots = Array[int]([7])
+_name = "Pike"
+
+[sub_resource type="Resource" id="Resource_a5lq6"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 1.0
+value = 30
+icon = ExtResource("76_0c02c")
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+_name = "Pirate's Attire"
+
+[sub_resource type="Resource" id="Resource_cn4i6"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 10
+qualities = Array[String](["Brutal", " Close Quarters"])
+weaponRange = 2
+weight = 2.0
+value = 35
+icon = ExtResource("41_y1o4w")
+allowed_slots = Array[int]([7])
+_name = "Pistol"
+
+[sub_resource type="Resource" id="Resource_nrnkh"]
+script = ExtResource("55_ebkcq")
+weight = 4.0
+value = 60
+icon = ExtResource("57_63wmv")
+_name = "Plate Armor Arm"
+
+[sub_resource type="Resource" id="Resource_gqq2p"]
+script = ExtResource("55_ebkcq")
+physicalDT = 10
+magicalDT = 8
+necroticDT = 2
+weight = 3.0
+value = 55
+icon = ExtResource("64_yrod8")
+allowed_slots = Array[int]([0])
+_name = "Plate Armor Head"
+
+[sub_resource type="Resource" id="Resource_yubi2"]
+script = ExtResource("55_ebkcq")
+weight = 4.0
+value = 62
+icon = ExtResource("57_63wmv")
+_name = "Plate Armor Leg"
+
+[sub_resource type="Resource" id="Resource_7o2mf"]
+script = ExtResource("55_ebkcq")
+physicalDT = 10
+magicalDT = 8
+necroticDT = 4
+weight = 6.0
+value = 70
+icon = ExtResource("65_6ye7e")
+allowed_slots = Array[int]([3])
+_name = "Plate Armor Torso"
+
+[sub_resource type="Resource" id="Resource_dkjni"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 50
+qualities = Array[String](["Reach"])
+size = 1
+weight = 4.0
+value = 47
+icon = ExtResource("38_fgm8a")
+allowed_slots = Array[int]([7])
+_name = "Polearm"
+
+[sub_resource type="Resource" id="Resource_r264s"]
+script = ExtResource("86_uetr4")
+healing = 4
+weight = 0.5
+value = 12
+icon = ExtResource("108_fyy8f")
+allowed_slots = Array[int]([6])
+_name = "Pork Meat"
+
+[sub_resource type="Resource" id="Resource_rwjqw"]
+script = ExtResource("86_uetr4")
+healing = 7
+weight = 0.5
+value = 15
+icon = ExtResource("109_87oym")
+allowed_slots = Array[int]([6])
+_name = "Pork Ribs"
+
+[sub_resource type="Resource" id="Resource_5402a"]
+script = ExtResource("86_uetr4")
+healing = 9
+weight = 0.5
+value = 17
+icon = ExtResource("110_mvhqj")
+allowed_slots = Array[int]([6])
+_name = "Pork Roast"
+
+[sub_resource type="Resource" id="Resource_0ewof"]
+script = ExtResource("178_3pvq6")
+effect = "Two-handed. Deals 3 CD to structures with Vicious 4."
+weight = 18.0
+value = 125
+icon = ExtResource("193_2itp8")
+allowed_slots = Array[int]([6])
+_name = "Portable Ram"
+
+[sub_resource type="Resource" id="Resource_2lvry"]
+script = ExtResource("178_3pvq6")
+effect = "Lets you cook outdoors without a campfire."
+weight = 6.0
+value = 90
+icon = ExtResource("226_vgnej")
+allowed_slots = Array[int]([6])
+_name = "Portable Stove"
+
+[sub_resource type="Resource" id="Resource_mvuu7"]
+script = ExtResource("86_uetr4")
+healing = 3
+weight = 0.1
+value = 6
+icon = ExtResource("107_my606")
+allowed_slots = Array[int]([6])
+_name = "Potato"
+
+[sub_resource type="Resource" id="Resource_fpcs0"]
+script = ExtResource("86_uetr4")
+addiction = 2
+effect = "Reduce difficulty of CHA tests by 2 (min 0); Re-roll 1d20 on Society tests"
+weight = 0.2
+value = 60
+icon = ExtResource("152_owlxb")
+allowed_slots = Array[int]([6])
+_name = "Potion of Charm"
+
+[sub_resource type="Resource" id="Resource_k7c0x"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "+2 CD to all attacks; +2 Physical DR; Reduce difficulty of PER by 1 (min 0)"
+weight = 0.2
+value = 70
+icon = ExtResource("160_l4a8e")
+allowed_slots = Array[int]([6])
+_name = "Potion of Demon Mind"
+
+[sub_resource type="Resource" id="Resource_lgfja"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "+2 CD to all attacks; +4 Physical DR; Gain 4 IP immediately (lost if not spent)"
+weight = 0.2
+value = 70
+icon = ExtResource("158_b7vt3")
+allowed_slots = Array[int]([6])
+_name = "Potion of Demon Speed"
+
+[sub_resource type="Resource" id="Resource_o0w78"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "+2 CD to all attacks; +4 Max HP; Reduce difficulty of STR & END by 1 (min 0)"
+weight = 0.2
+value = 70
+icon = ExtResource("159_ffv4o")
+allowed_slots = Array[int]([6])
+_name = "Potion of Demon Vitality"
+
+[sub_resource type="Resource" id="Resource_bvsfr"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "Reduce difficulty of STR & END by 1 (min 0); +4 Max HP; Gain 3 IP immediately; Extra actions cost 1 less IP"
+weight = 0.2
+value = 75
+icon = ExtResource("146_vom7h")
+allowed_slots = Array[int]([6])
+_name = "Potion of Fitness"
+
+[sub_resource type="Resource" id="Resource_lxuir"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "+3 Physical DR; +3 CD to melee damage; +2 difficulty to all PER tests"
+weight = 0.2
+value = 30
+icon = ExtResource("151_0ro48")
+allowed_slots = Array[int]([6])
+_name = "Potion of Fury"
+
+[sub_resource type="Resource" id="Resource_rs256"]
+script = ExtResource("86_uetr4")
+addiction = 3
+effect = "Gain 6 AP immediately (lost if not spent); Extra actions cost 1 less IP"
+weight = 0.2
+value = 67
+icon = ExtResource("154_hxjad")
+allowed_slots = Array[int]([6])
+_name = "Potion of Greater Speed"
+
+[sub_resource type="Resource" id="Resource_ubkis"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "Reduce difficulty of STR, PER, END tests by 1 (min 0); +4 Max HP"
+weight = 0.2
+value = 75
+icon = ExtResource("145_2fpm0")
+allowed_slots = Array[int]([6])
+_name = "Potion of Greater Vitality"
+
+[sub_resource type="Resource" id="Resource_flbxy"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "Enemies +2 difficulty to spot you; +2 Defense even if detected"
+weight = 0.2
+value = 100
+icon = ExtResource("161_u6gsx")
+allowed_slots = Array[int]([6])
+_name = "Potion of Invisibility"
+
+[sub_resource type="Resource" id="Resource_ex6qy"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "Gain 1 free IP at the start of each turn"
+weight = 0.2
+value = 60
+icon = ExtResource("155_ln3l1")
+allowed_slots = Array[int]([6])
+_name = "Potion of Lasting Speed"
+
+[sub_resource type="Resource" id="Resource_5aodx"]
+script = ExtResource("86_uetr4")
+addiction = 3
+effect = "Gain 2 Mana"
+weight = 0.2
+value = 32
+icon = ExtResource("166_wjq42")
+allowed_slots = Array[int]([6])
+_name = "Potion of Mana"
+
+[sub_resource type="Resource" id="Resource_onyms"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "Reduce difficulty of PER & INT by 1 (min 0); +1 difficulty to CHA tests"
+weight = 0.2
+value = 50
+icon = ExtResource("148_a5em6")
+allowed_slots = Array[int]([6])
+_name = "Potion of Quickened Mind"
+
+[sub_resource type="Resource" id="Resource_5jvse"]
+script = ExtResource("86_uetr4")
+addiction = 3
+effect = "Re-roll 1d20 on PER and INT tests"
+weight = 0.2
+value = 50
+icon = ExtResource("147_o1k14")
+allowed_slots = Array[int]([6])
+_name = "Potion of Sharp Mind"
+
+[sub_resource type="Resource" id="Resource_uy7l0"]
+script = ExtResource("86_uetr4")
+addiction = 2
+effect = "Extra actions cost 1 less IP"
+weight = 0.2
+value = 50
+icon = ExtResource("153_xsqkb")
+allowed_slots = Array[int]([6])
+_name = "Potion of Speed"
+
+[sub_resource type="Resource" id="Resource_ji1mv"]
+script = ExtResource("86_uetr4")
+addiction = 2
+effect = "Re-roll 1d20 on STR and END tests; +3 Max HP"
+weight = 0.2
+value = 45
+icon = ExtResource("144_774av")
+allowed_slots = Array[int]([6])
+_name = "Potion of Vitality"
+
+[sub_resource type="Resource" id="Resource_unt3k"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "Reduce difficulty of CHA & RES by 1 (min 0); +1 difficulty to STR"
+weight = 0.2
+value = 40
+icon = ExtResource("149_dw77w")
+allowed_slots = Array[int]([6])
+_name = "Potion of the Eased Mind"
+
+[sub_resource type="Resource" id="Resource_yks8r"]
+script = ExtResource("86_uetr4")
+addiction = 2
+effect = "Reduce the difficulty of INT tests by 2 (min 0)"
+weight = 0.2
+value = 60
+icon = ExtResource("150_fb54l")
+allowed_slots = Array[int]([6])
+_name = "Potion of the Opened Mind"
+
+[sub_resource type="Resource" id="Resource_2kn15"]
+script = ExtResource("178_3pvq6")
+effect = "Holds smaller items (chems, bullets, coins)."
+weight = 0.2
+value = 18
+icon = ExtResource("199_1g1sw")
+allowed_slots = Array[int]([6])
+_name = "Pouch"
+
+[sub_resource type="Resource" id="Resource_70pft"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 0.5
+value = 30
+icon = ExtResource("77_jusn3")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Priest's Garments"
+
+[sub_resource type="Resource" id="Resource_ssggw"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 1.0
+value = 20
+icon = ExtResource("79_o7st5")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Ranger's Outfit"
+
+[sub_resource type="Resource" id="Resource_gmdnr"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+qualities = Array[String](["Accurate"])
+weight = 2.0
+value = 26
+icon = ExtResource("37_ebhi1")
+allowed_slots = Array[int]([7])
+_name = "Rapier"
+
+[sub_resource type="Resource" id="Resource_8sm4f"]
+script = ExtResource("86_uetr4")
+healing = 3
+weight = 0.5
+value = 28
+icon = ExtResource("111_wehdd")
+allowed_slots = Array[int]([6])
+_name = "Raw Beef"
+
+[sub_resource type="Resource" id="Resource_pgb6e"]
+script = ExtResource("86_uetr4")
+healing = 4
+weight = 2.5
+value = 20
+icon = ExtResource("118_l4whq")
+allowed_slots = Array[int]([6])
+_name = "Raw Chicken"
+
+[sub_resource type="Resource" id="Resource_8dsvh"]
+script = ExtResource("86_uetr4")
+healing = 3
+weight = 0.4
+value = 8
+icon = ExtResource("116_murt2")
+allowed_slots = Array[int]([6])
+_name = "Raw Fish"
+
+[sub_resource type="Resource" id="Resource_5arug"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+size = 1
+weight = 4.0
+value = 34
+icon = ExtResource("15_0gh3k")
+allowed_slots = Array[int]([7])
+_name = "Reaper"
+
+[sub_resource type="Resource" id="Resource_t48ek"]
+script = ExtResource("86_uetr4")
+healing = 8
+weight = 2.5
+value = 28
+icon = ExtResource("119_gs3oi")
+allowed_slots = Array[int]([6])
+_name = "Roasted Chicken"
+
+[sub_resource type="Resource" id="Resource_1uebl"]
+script = ExtResource("86_uetr4")
+healing = 6
+weight = 0.4
+value = 15
+icon = ExtResource("104_kym2t")
+allowed_slots = Array[int]([6])
+_name = "Roasted Squirrel"
+
+[sub_resource type="Resource" id="Resource_cv58u"]
+script = ExtResource("178_3pvq6")
+effect = "15 meter hemp rope."
+weight = 5.0
+value = 11
+icon = ExtResource("194_x5lb5")
+allowed_slots = Array[int]([6])
+_name = "Rope"
+
+[sub_resource type="Resource" id="Resource_5bf6h"]
+script = ExtResource("86_uetr4")
+effect = "Alcoholic, Reroll 1d20 on AGI tests"
+weight = 0.2
+value = 15
+icon = ExtResource("136_ciyte")
+allowed_slots = Array[int]([6])
+_name = "Rum"
+
+[sub_resource type="Resource" id="Resource_vx7a8"]
+script = ExtResource("55_ebkcq")
+weight = 3.0
+value = 35
+icon = ExtResource("57_63wmv")
+_name = "Scale Armor Arm"
+
+[sub_resource type="Resource" id="Resource_un6un"]
+script = ExtResource("55_ebkcq")
+physicalDT = 4
+magicalDT = 6
+necroticDT = 1
+weight = 2.0
+value = 32
+icon = ExtResource("62_wvmao")
+allowed_slots = Array[int]([0])
+_name = "Scale Armor Head"
+
+[sub_resource type="Resource" id="Resource_lw4p6"]
+script = ExtResource("55_ebkcq")
+weight = 3.0
+value = 38
+icon = ExtResource("57_63wmv")
+_name = "Scale Armor Leg"
+
+[sub_resource type="Resource" id="Resource_ap7w3"]
+script = ExtResource("55_ebkcq")
+physicalDT = 4
+magicalDT = 6
+necroticDT = 2
+weight = 4.0
+value = 42
+icon = ExtResource("63_bvqnd")
+allowed_slots = Array[int]([3])
+_name = "Scale Armor Torso"
+
+[sub_resource type="Resource" id="Resource_10caw"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+weight = 2.0
+value = 26
+icon = ExtResource("36_5embg")
+allowed_slots = Array[int]([7])
+_name = "Scimitar"
+
+[sub_resource type="Resource" id="Resource_sq6fc"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 0.5
+value = 30
+icon = ExtResource("78_dd1ts")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Scribe's Robe"
+
+[sub_resource type="Resource" id="Resource_dvuba"]
+script = ExtResource("178_3pvq6")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 2.5
+value = 60
+icon = ExtResource("209_3aitm")
+allowed_slots = Array[int]([6])
+_name = "Scribe's Supplies"
+
+[sub_resource type="Resource" id="Resource_jbxg1"]
+script = ExtResource("9_g8f55")
+damage = 0.7
+speed = 25
+qualities = Array[String](["Parry", " +2 Defense"])
+weight = 4.0
+value = 40
+icon = ExtResource("52_wwi67")
+allowed_slots = Array[int]([7])
+_name = "Shield"
+
+[sub_resource type="Resource" id="Resource_dh4at"]
+script = ExtResource("9_g8f55")
+damage = 1.0
+speed = 20
+size = 1
+weaponRange = 1
+weight = 1.0
+value = 20
+icon = ExtResource("43_klcv5")
+allowed_slots = Array[int]([7])
+_name = "Short Bow"
+
+[sub_resource type="Resource" id="Resource_fumye"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+qualities = Array[String](["Parry"])
+weight = 2.0
+value = 22
+icon = ExtResource("25_roorf")
+allowed_slots = Array[int]([7])
+_name = "Short Sword"
+
+[sub_resource type="Resource" id="Resource_jgonc"]
+script = ExtResource("178_3pvq6")
+effect = "Used for digging or burying items; can be an improvised weapon."
+weight = 2.5
+value = 15
+icon = ExtResource("221_tx6rw")
+allowed_slots = Array[int]([6])
+_name = "Shovel"
+
+[sub_resource type="Resource" id="Resource_rxi1o"]
+script = ExtResource("86_uetr4")
+effect = "On hit: target must save or fall Asleep (ends on damage or end of scene)"
+weight = 0.5
+value = 28
+icon = ExtResource("175_yepua")
+allowed_slots = Array[int]([6])
+_name = "Sleeping Draught"
+
+[sub_resource type="Resource" id="Resource_5svdx"]
+script = ExtResource("178_3pvq6")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 4.0
+value = 100
+icon = ExtResource("202_hyeke")
+allowed_slots = Array[int]([6])
+_name = "Smithing Tools"
+
+[sub_resource type="Resource" id="Resource_0qhi0"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+qualities = Array[String](["Accurate", " Reach"])
+weight = 2.0
+value = 22
+icon = ExtResource("29_dqr4r")
+allowed_slots = Array[int]([7])
+_name = "Spear"
+
+[sub_resource type="Resource" id="Resource_cllmj"]
+script = ExtResource("178_3pvq6")
+effect = "Allows spotting at Long range without penalty."
+weight = 0.5
+value = 75
+icon = ExtResource("222_1515o")
+allowed_slots = Array[int]([6])
+_name = "Spyglass"
+
+[sub_resource type="Resource" id="Resource_x7kna"]
+script = ExtResource("86_uetr4")
+healing = 4
+weight = 0.4
+value = 4
+icon = ExtResource("103_ooisb")
+allowed_slots = Array[int]([6])
+_name = "Squirrel Meat"
+
+[sub_resource type="Resource" id="Resource_0pw8d"]
+script = ExtResource("86_uetr4")
+healing = 10
+weight = 0.4
+value = 24
+icon = ExtResource("105_jlth7")
+allowed_slots = Array[int]([6])
+_name = "Squirrel Stew"
+
+[sub_resource type="Resource" id="Resource_3f440"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+size = 1
+weight = 1.5
+value = 20
+icon = ExtResource("16_31f75")
+allowed_slots = Array[int]([7])
+_name = "Staff"
+
+[sub_resource type="Resource" id="Resource_8v6ul"]
+script = ExtResource("9_g8f55")
+damage = 1.0
+speed = 20
+qualities = Array[String](["Concealed", " Brutal", " Thrown (C)"])
+weight = 0.5
+value = 20
+icon = ExtResource("14_irq6k")
+allowed_slots = Array[int]([7])
+_name = "Stiletto"
+
+[sub_resource type="Resource" id="Resource_pbo44"]
+script = ExtResource("86_uetr4")
+healing = 10
+effect = "Alcoholic, Group IP pool +1 capacity"
+weight = 0.2
+value = 40
+icon = ExtResource("133_5cuy2")
+allowed_slots = Array[int]([6])
+_name = "Stillheart Champagne"
+
+[sub_resource type="Resource" id="Resource_gp33q"]
+script = ExtResource("86_uetr4")
+healing = 3
+effect = "Alcoholic, Reroll 1d20 on AGI tests"
+weight = 0.2
+value = 34
+icon = ExtResource("134_u6vps")
+allowed_slots = Array[int]([6])
+_name = "Stillheart Port Wine"
+
+[sub_resource type="Resource" id="Resource_4eb28"]
+script = ExtResource("86_uetr4")
+healing = 2
+effect = "Alcoholic, Heal 1 HP at the start of each turn"
+weight = 0.2
+value = 20
+icon = ExtResource("135_7obo8")
+allowed_slots = Array[int]([6])
+_name = "Stillheart Wine"
+
+[sub_resource type="Resource" id="Resource_hs1g6"]
+script = ExtResource("86_uetr4")
+effect = "Grants the Stun effect when applied to a weapon (on hit)"
+weight = 0.5
+value = 25
+icon = ExtResource("169_hxr7h")
+allowed_slots = Array[int]([6])
+_name = "Stunning Poison"
+
+[sub_resource type="Resource" id="Resource_dqocc"]
+script = ExtResource("86_uetr4")
+effect = "Heals 8 HP"
+weight = 0.2
+value = 90
+icon = ExtResource("164_whjv3")
+allowed_slots = Array[int]([6])
+_name = "Superior Healing Potion"
+
+[sub_resource type="Resource" id="Resource_i1id1"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "Gain 8 Mana"
+weight = 0.2
+value = 110
+icon = ExtResource("168_hrf3e")
+allowed_slots = Array[int]([6])
+_name = "Superior Potion of Mana"
+
+[sub_resource type="Resource" id="Resource_rjdvq"]
+script = ExtResource("178_3pvq6")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 2.5
+value = 50
+icon = ExtResource("206_5bfhu")
+allowed_slots = Array[int]([6])
+_name = "Tailoring Kit"
+
+[sub_resource type="Resource" id="Resource_qqckq"]
+script = ExtResource("178_3pvq6")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 2.5
+value = 84
+icon = ExtResource("207_v4i5d")
+allowed_slots = Array[int]([6])
+_name = "Tanner's Tools"
+
+[sub_resource type="Resource" id="Resource_ekd1d"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "First d20 bought on all tests is free"
+weight = 0.2
+value = 60
+icon = ExtResource("165_4pc7j")
+allowed_slots = Array[int]([6])
+_name = "The Erudite's Brew"
+
+[sub_resource type="Resource" id="Resource_1pg1f"]
+script = ExtResource("178_3pvq6")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 5.0
+value = 145
+icon = ExtResource("208_e0yti")
+allowed_slots = Array[int]([6])
+_name = "Tinkering Kit"
+
+[sub_resource type="Resource" id="Resource_lf5y8"]
+script = ExtResource("86_uetr4")
+healing = 3
+weight = 0.1
+value = 6
+icon = ExtResource("106_mwfsu")
+allowed_slots = Array[int]([6])
+_name = "Tomato"
+
+[sub_resource type="Resource" id="Resource_w45pm"]
+script = ExtResource("86_uetr4")
+healing = 3
+effect = "Immediately gain +1 IP"
+weight = 0.2
+value = 10
+icon = ExtResource("137_mb025")
+allowed_slots = Array[int]([6])
+_name = "Tomato Juice"
+
+[sub_resource type="Resource" id="Resource_5gbhn"]
+script = ExtResource("178_3pvq6")
+effect = "Bright light within Close until end of scene. Requires INT+Survival to light."
+weight = 1.0
+value = 10
+icon = ExtResource("185_vwku1")
+allowed_slots = Array[int]([6])
+_name = "Torch"
+
+[sub_resource type="Resource" id="Resource_vwm5u"]
+script = ExtResource("9_g8f55")
+damage = 0.3
+speed = 33
+qualities = Array[String](["Parry", " +3 Defense", " Heavy", " Cover"])
+size = 1
+weight = 7.0
+value = 60
+icon = ExtResource("53_tg4wd")
+allowed_slots = Array[int]([7])
+_name = "Tower Shield"
+
+[sub_resource type="Resource" id="Resource_1bqgd"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 0.5
+value = 30
+icon = ExtResource("80_0c1d7")
+allowed_slots = Array[int]([2, 1, 5, 4])
+_name = "Tribal Outfit"
+
+[sub_resource type="Resource" id="Resource_8yx7x"]
+script = ExtResource("178_3pvq6")
+effect = "Allows 2 characters to rest outdoors."
+weight = 10.0
+value = 84
+icon = ExtResource("195_lfi60")
+allowed_slots = Array[int]([6])
+_name = "Two-Person Tent"
+
+[sub_resource type="Resource" id="Resource_pvnnb"]
+script = ExtResource("9_g8f55")
+damage = 1.0
+speed = 20
+icon = ExtResource("8_k5s5j")
+allowed_slots = Array[int]([7])
+_name = "Unarmed"
+
+[sub_resource type="Resource" id="Resource_gnkoa"]
+script = ExtResource("86_uetr4")
+healing = 7
+effect = "+2 Necrotic damage resistance until end of next scene"
+weight = 0.5
+value = 13
+icon = ExtResource("113_t76r4")
+allowed_slots = Array[int]([6])
+_name = "Vegetable Soup"
+
+[sub_resource type="Resource" id="Resource_y7a43"]
+script = ExtResource("178_3pvq6")
+effect = "Holds 0.5 liters of liquid."
+weight = 0.1
+value = 35
+icon = ExtResource("200_jsyiq")
+allowed_slots = Array[int]([6])
+_name = "Vial"
+
+[sub_resource type="Resource" id="Resource_sfmjy"]
+script = ExtResource("178_3pvq6")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 0.5
+value = 24
+icon = ExtResource("219_kjwq3")
+allowed_slots = Array[int]([6])
+_name = "Viol"
+
+[sub_resource type="Resource" id="Resource_2p0b5"]
+script = ExtResource("86_uetr4")
+healing = 2
+effect = "Alcoholic"
+weight = 0.2
+value = 32
+icon = ExtResource("138_w8mtr")
+allowed_slots = Array[int]([6])
+_name = "Vodka"
+
+[sub_resource type="Resource" id="Resource_gqe8o"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+weight = 2.0
+value = 28
+icon = ExtResource("31_0ewdf")
+allowed_slots = Array[int]([7])
+_name = "Wakizashi"
+
+[sub_resource type="Resource" id="Resource_la887"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 20
+qualities = Array[String](["Accurate", " Close Quarters"])
+weaponRange = 2
+weight = 0.5
+value = 35
+icon = ExtResource("50_4rtfr")
+allowed_slots = Array[int]([7])
+_name = "Wand"
+
+[sub_resource type="Resource" id="Resource_8e2xh"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+size = 1
+weaponRange = 2
+weight = 2.0
+value = 32
+icon = ExtResource("45_1aou7")
+allowed_slots = Array[int]([7])
+_name = "War Bow"
+
+[sub_resource type="Resource" id="Resource_n3dac"]
+script = ExtResource("9_g8f55")
+damage = 1.6
+speed = 33
+qualities = Array[String](["Versatile"])
+size = 1
+weight = 4.0
+value = 45
+icon = ExtResource("23_uh3vk")
+allowed_slots = Array[int]([7])
+_name = "Warhammer"
+
+[sub_resource type="Resource" id="Resource_eqshn"]
+script = ExtResource("178_3pvq6")
+effect = "Holds 2 liters of liquid."
+weight = 0.5
+value = 16
+icon = ExtResource("197_gihss")
+allowed_slots = Array[int]([6])
+_name = "Waterskin"
+
+[sub_resource type="Resource" id="Resource_1t600"]
+script = ExtResource("86_uetr4")
+effect = "On hit: -1 to Physical DR and -1 difficulty to attacker’s STR tests vs target this scene"
+weight = 0.5
+value = 26
+icon = ExtResource("176_s83f6")
+allowed_slots = Array[int]([6])
+_name = "Weakness Ichor"
+
+[sub_resource type="Resource" id="Resource_io4al"]
+script = ExtResource("9_g8f55")
+damage = 1.3
+speed = 25
+qualities = Array[String](["Grappling", " Reach"])
+weight = 1.5
+value = 22
+icon = ExtResource("11_in67y")
+allowed_slots = Array[int]([7])
+_name = "Whip"
+
+[sub_resource type="Resource" id="Resource_0eugb"]
+script = ExtResource("86_uetr4")
+effect = "Alcoholic, Reroll up to two d20 on STR tests (total)"
+weight = 0.2
+value = 27
+icon = ExtResource("139_ofwxc")
+allowed_slots = Array[int]([6])
+_name = "Whiskey"
+
+[sub_resource type="Resource" id="Resource_1vqab"]
+script = ExtResource("86_uetr4")
+effect = "Alcoholic, Immediately gain +1 IP"
+weight = 0.2
+value = 15
+icon = ExtResource("140_duoq2")
+allowed_slots = Array[int]([6])
+_name = "Wine"
+
+[sub_resource type="Resource" id="Resource_vqitj"]
+script = ExtResource("69_60u4c")
+effect = "Outfit"
+weight = 0.5
+value = 30
+icon = ExtResource("81_pm88h")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Wizard's Robe"
+
+[sub_resource type="Resource" id="Resource_3j617"]
+script = ExtResource("86_uetr4")
+healing = 4
+weight = 0.4
+value = 10
+icon = ExtResource("122_a4te0")
+allowed_slots = Array[int]([6])
+_name = "Wolf Meat"
+
+[sub_resource type="Resource" id="Resource_p7jqs"]
+script = ExtResource("86_uetr4")
+addiction = 1
+effect = "Re-roll 1d20 on PER and AGI tests; +2 CD to sneak attack damage"
+weight = 0.1
+value = 100
+icon = ExtResource("143_x4jg7")
+allowed_slots = Array[int]([6])
+_name = "Yorin's Root"
+
+[sub_resource type="Resource" id="Resource_65uwo"]
+script = ExtResource("9_g8f55")
+damage = 2.0
+speed = 50
+size = 1
+weight = 5.5
+value = 46
+icon = ExtResource("33_8w6aq")
+allowed_slots = Array[int]([7])
+_name = "Ōdachi"
+
+[sub_resource type="Resource" id="Resource_oo3ok"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Academic Diligence"
+short_description = "Faster research."
+long_description = "Complete study or lore research more efficiently."
+
+[sub_resource type="Resource" id="Resource_y8fhh"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Alpha Presence"
+short_description = "Intimidate lesser beasts."
+long_description = "Your commanding aura deters smaller or weaker animals from attacking."
+
+[sub_resource type="Resource" id="Resource_d3jce"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Ambusher"
+short_description = "Damage bonus from stealth."
+long_description = "Deal extra damage on attacks from hiding."
+
+[sub_resource type="Resource" id="Resource_m2r2f"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Analyst"
+short_description = "Solve puzzles faster."
+long_description = "Speed up deduction-based tasks and research."
+
+[sub_resource type="Resource" id="Resource_4t583"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Anatomist"
+short_description = "Exploit anatomy."
+long_description = "Deal extra damage to organic foes through precision."
+
+[sub_resource type="Resource" id="Resource_qmtpb"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Ancestral Guardian"
+short_description = "Summon ancestral protection."
+long_description = "Call upon ancient spirits to shield allies from harm."
+
+[sub_resource type="Resource" id="Resource_5506y"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Animal Bond"
+short_description = "Share endurance with beasts."
+long_description = "Your connection to animals grants them a portion of your vitality."
+
+[sub_resource type="Resource" id="Resource_4t5w3"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Antidote Expert"
+short_description = "Resist toxins."
+long_description = "Reduce poison and disease effects on yourself."
+
+[sub_resource type="Resource" id="Resource_v61j0"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Apprentice Mentor"
+short_description = "Train companions to craft."
+long_description = "Teaching others grants you bonus crafting efficiency."
+
+[sub_resource type="Resource" id="Resource_dlwbo"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Arcane Channeling"
+short_description = "Attacks recharge spells."
+long_description = "Basic attacks generate arcane energy to empower future casts."
+
+[sub_resource type="Resource" id="Resource_5fhgy"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Arcane Linguist"
+short_description = "Read magical texts."
+long_description = "Understand and use arcane runes and inscriptions."
+
+[sub_resource type="Resource" id="Resource_lmy3f"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Arcane Ward"
+short_description = "Absorb spell damage."
+long_description = "A magical barrier lessens the impact of incoming spells."
+
+[sub_resource type="Resource" id="Resource_uf0cm"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Archivist"
+short_description = "Identify ancient relics."
+long_description = "Comprehend forgotten languages and symbols."
+
+[sub_resource type="Resource" id="Resource_fnrlv"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Bardic Flourish"
+short_description = "Influence crowds."
+long_description = "Performances improve group opinion and mood."
+
+[sub_resource type="Resource" id="Resource_gn4ci"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Battle Instinct"
+short_description = "Counterattack after a block or dodge."
+long_description = "React swiftly in combat, automatically striking after a successful block or evasion."
+
+[sub_resource type="Resource" id="Resource_2mgs4"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Battle Orders"
+short_description = "Command allies to attack."
+long_description = "Issue commands that increase ally aggression and precision."
+
+[sub_resource type="Resource" id="Resource_lfg32"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Beast Empathy"
+short_description = "Calm hostile animals."
+long_description = "Soothe or befriend aggressive creatures through tone and body language."
+
+[sub_resource type="Resource" id="Resource_8jxvl"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Beast Trap"
+short_description = "Craft animal snares."
+long_description = "Create traps to capture or damage wild beasts."
+
+[sub_resource type="Resource" id="Resource_7bnxo"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Beast Whisper"
+short_description = "Tame animals mid-battle."
+long_description = "Attempt to pacify or charm wild creatures during combat."
+
+[sub_resource type="Resource" id="Resource_kr4gh"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Beast Whisperer"
+short_description = "Charm animals temporarily."
+long_description = "Turn beasts into allies by speaking their primal language."
+
+[sub_resource type="Resource" id="Resource_0f5uf"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Braced Impact"
+short_description = "Reduce fall damage."
+long_description = "Absorb shock from falls, minimizing injuries."
+
+[sub_resource type="Resource" id="Resource_qbygm"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Camouflage"
+short_description = "Conceal in nature."
+long_description = "Gain stealth bonuses in forests and fields."
+
+[sub_resource type="Resource" id="Resource_sg6cp"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Camp Master"
+short_description = "Better resting bonuses."
+long_description = "Resting recovers more health and stamina."
+
+[sub_resource type="Resource" id="Resource_a5t4n"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Charm Offensive"
+short_description = "Buffs after success."
+long_description = "Persuasive successes temporarily raise ally morale."
+
+[sub_resource type="Resource" id="Resource_hcuyw"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Clear Mind"
+short_description = "Resist confusion."
+long_description = "Your clarity resists illusions and mind-altering effects."
+
+[sub_resource type="Resource" id="Resource_n5p4t"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Climber’s Grip"
+short_description = "Climb faster and longer."
+long_description = "You can scale difficult surfaces with less effort."
+
+[sub_resource type="Resource" id="Resource_dx7a8"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Combat Surgeon"
+short_description = "Heal in combat."
+long_description = "Perform surgical aid during battle more effectively."
+
+[sub_resource type="Resource" id="Resource_ndy2x"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Commanding Presence"
+short_description = "Boost ally morale."
+long_description = "Nearby allies gain courage when you speak."
+
+[sub_resource type="Resource" id="Resource_hd2kq"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Conviction"
+short_description = "Resist fear and charm."
+long_description = "Unshakeable faith grants immunity to fear and control effects."
+
+[sub_resource type="Resource" id="Resource_bllsf"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Coordinated Strike"
+short_description = "Team up for more damage."
+long_description = "Allies focus attacks on a single target for increased impact."
+
+[sub_resource type="Resource" id="Resource_jklda"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Crime Scene Reconstruction"
+short_description = "Visualize the past."
+long_description = "Recreate crime scenes mentally to reveal details."
+
+[sub_resource type="Resource" id="Resource_36m11"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Cultural Adaptation"
+short_description = "Fit in abroad."
+long_description = "Blend seamlessly into foreign societies."
+
+[sub_resource type="Resource" id="Resource_72rcu"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Cultural Expert"
+short_description = "Avoid cultural blunders."
+long_description = "Your cultural awareness improves social success abroad."
+
+[sub_resource type="Resource" id="Resource_pi51i"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Deductive Leap"
+short_description = "Connect related clues."
+long_description = "Automatically infer missing links between findings."
+
+[sub_resource type="Resource" id="Resource_5e4dq"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Defensive Footwork"
+short_description = "Dodges restore stamina."
+long_description = "Perfect evasions regenerate a small portion of stamina."
+
+[sub_resource type="Resource" id="Resource_ljbmy"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Detect Lies"
+short_description = "Expose deception."
+long_description = "Notice verbal and physical cues of lying characters."
+
+[sub_resource type="Resource" id="Resource_saiwl"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Diplomat"
+short_description = "Win favor among nobles."
+long_description = "Speak with authority to gain favor in upper circles."
+
+[sub_resource type="Resource" id="Resource_xx3o2"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Disruptive Casting"
+short_description = "Interrupt enemies."
+long_description = "Casting offensive spells can break enemy concentration."
+
+[sub_resource type="Resource" id="Resource_mnjmj"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Distraction Artist"
+short_description = "Create diversions."
+long_description = "Perform quick distractions when stealing or fleeing."
+
+[sub_resource type="Resource" id="Resource_t7d2g"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Divine Shield"
+short_description = "Summon a protective barrier."
+long_description = "Manifest divine light that absorbs incoming damage."
+
+[sub_resource type="Resource" id="Resource_3utbi"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Eagle Eye"
+short_description = "Spot hidden details."
+long_description = "Identify clues, tracks, or secrets others miss."
+
+[sub_resource type="Resource" id="Resource_816nx"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Earthen Armor"
+short_description = "Harden your skin like stone."
+long_description = "Enhance physical resistance by drawing on the power of the earth."
+
+[sub_resource type="Resource" id="Resource_q8qmh"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Efficient Command"
+short_description = "Lower command cost."
+long_description = "Reduce focus or resource cost of issuing tactical commands."
+
+[sub_resource type="Resource" id="Resource_jyth5"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Efficient Smith"
+short_description = "Reduce crafting costs."
+long_description = "Use fewer materials and waste less when crafting."
+
+[sub_resource type="Resource" id="Resource_ucg4n"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Elder Scholar"
+short_description = "Reduce ancient spell cost."
+long_description = "Casting ancient or forgotten magic consumes less energy."
+
+[sub_resource type="Resource" id="Resource_776iu"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Elemental Mastery"
+short_description = "Enhance chosen element."
+long_description = "Select an element to specialize in for amplified damage."
+
+[sub_resource type="Resource" id="Resource_2hcej"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Emergency Aid"
+short_description = "Revive allies swiftly."
+long_description = "Restore fallen allies to consciousness once per rest."
+
+[sub_resource type="Resource" id="Resource_h5xcs"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Empathic Reading"
+short_description = "Sense emotions."
+long_description = "Understand emotional states to defuse tense situations."
+
+[sub_resource type="Resource" id="Resource_4d11p"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Enduring Stride"
+short_description = "Reduce stamina drain."
+long_description = "Run, climb, or swim for longer periods before tiring."
+
+[sub_resource type="Resource" id="Resource_uglvn"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Etiquette"
+short_description = "Avoid offense."
+long_description = "Navigate complex social customs smoothly."
+
+[sub_resource type="Resource" id="Resource_bngq3"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Faith Beyond Death"
+short_description = "Survive mortal wounds."
+long_description = "Once per rest, your faith prevents death for a brief moment."
+
+[sub_resource type="Resource" id="Resource_id8th"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Faithful Surge"
+short_description = "Heal to empower yourself."
+long_description = "Casting healing or support abilities briefly amplifies your damage output."
+
+[sub_resource type="Resource" id="Resource_axcef"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Fast Talker"
+short_description = "Avoid some combat."
+long_description = "Talk your way out of minor hostile encounters."
+
+[sub_resource type="Resource" id="Resource_dlhl0"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Fearless Orator"
+short_description = "Ignore fear penalties."
+long_description = "Speak confidently even under duress."
+
+[sub_resource type="Resource" id="Resource_ermne"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Feedback Loop"
+short_description = "Gain mana when resisted."
+long_description = "Regain energy when an enemy resists or avoids your magic."
+
+[sub_resource type="Resource" id="Resource_c6p1a"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Field Medic"
+short_description = "Heal bleeding quickly."
+long_description = "Treat bleeding or poison rapidly in battle."
+
+[sub_resource type="Resource" id="Resource_xqje1"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Field Repairs"
+short_description = "Repair gear in the field."
+long_description = "Fix broken weapons or armor outside of a forge."
+
+[sub_resource type="Resource" id="Resource_ae8js"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Firekeeper"
+short_description = "Campfire buff bonuses."
+long_description = "Resting near fire grants temporary combat buffs."
+
+[sub_resource type="Resource" id="Resource_gdxne"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Forager"
+short_description = "Gather more resources."
+long_description = "Find additional herbs, food, and crafting materials."
+
+[sub_resource type="Resource" id="Resource_ywsrj"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Forensic Insight"
+short_description = "Analyze remains."
+long_description = "Determine cause of death or origin from physical evidence."
+
+[sub_resource type="Resource" id="Resource_6ldh0"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Foresight"
+short_description = "Act early in battle."
+long_description = "Gain initiative advantage at the start of encounters."
+
+[sub_resource type="Resource" id="Resource_ipy2j"]
+script = ExtResource("3_vnboh")
+category = "Race"
+_name = "Forest Child"
+short_description = "Plant-based diet grants immunity to disease and better nourishment."
+long_description = "Living in harmony with nature, your diet is strictly herbivorous. This bond with the forest grants you immunity to disease and enhanced nourishment from plant-based foods. You can't eat meat, if you do you Max Health is reduced by 25% until a you've had a full nights rest. You are also immune to diseases and all other food gives you double benefit."
+
+[sub_resource type="Resource" id="Resource_4m6gs"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Formation Discipline"
+short_description = "Defensive group bonus."
+long_description = "Allies in formation gain improved defense and coordination."
+
+[sub_resource type="Resource" id="Resource_owwpf"]
+script = ExtResource("3_vnboh")
+category = "Race"
+_name = "From Fire and Flame"
+short_description = "Obsidian patches grant immunity to damage in one chosen spot."
+long_description = "Forged in the heart of a volcano, your body is adorned with obsidian patches that render you impervious to harm, a testament to your fiery origin. Your body grows magical Obsidian patches around your body, choose one location where they have converged making you entirely immune to damage."
+
+[sub_resource type="Resource" id="Resource_6ovx5"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Ghost Step"
+short_description = "Temporary invisibility."
+long_description = "Rolls or dodges briefly make you unseen."
+
+[sub_resource type="Resource" id="Resource_h7bi3"]
+script = ExtResource("3_vnboh")
+category = "Race"
+_name = "Good Natured"
+short_description = "Share your full expertise when aiding allies, gaining the same rewards."
+long_description = "Your kind-hearted and altruistic nature inspires and empowers your companions, allowing you to lend your full expertise to support them in their endeavors. When aiding another character you add your entire skill bonus rather than half. Any IP generated from that test you also gain."
+
+[sub_resource type="Resource" id="Resource_00ldp"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Guild Connections"
+short_description = "Gain faction perks."
+long_description = "Receive discounts and quests from guild allies."
+
+[sub_resource type="Resource" id="Resource_4ox86"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Hardened Skin"
+short_description = "Resist nature damage."
+long_description = "Reduce damage from natural sources and hazards."
+
+[sub_resource type="Resource" id="Resource_qcxfk"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Heightened Awareness"
+short_description = "Detect traps easily."
+long_description = "Spot traps and ambushes earlier than others."
+
+[sub_resource type="Resource" id="Resource_d17dr"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Hidden Draw"
+short_description = "Conceal weapon draws."
+long_description = "Draw weapons stealthily without alerting enemies."
+
+[sub_resource type="Resource" id="Resource_v3q6a"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Hidden Path"
+short_description = "Reveal secret routes."
+long_description = "Discover hidden passages and shortcuts."
+
+[sub_resource type="Resource" id="Resource_pvmrr"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Highborn Bearing"
+short_description = "Command respect."
+long_description = "Gain Charisma bonuses among elite audiences."
+
+[sub_resource type="Resource" id="Resource_m3k2i"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Historical Insight"
+short_description = "Weaken mythic foes."
+long_description = "Deal extra damage to enemies of historical renown."
+
+[sub_resource type="Resource" id="Resource_yk7v2"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Host’s Grace"
+short_description = "Impress guests."
+long_description = "Boost reputation when hosting events."
+
+[sub_resource type="Resource" id="Resource_ee8n5"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Hunter’s Instinct"
+short_description = "Track wildlife easily."
+long_description = "You can sense nearby animals and follow their tracks with ease."
+
+[sub_resource type="Resource" id="Resource_3fq3y"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Illusionist’s Touch"
+short_description = "Blend illusion and stealth."
+long_description = "Minor illusion accompanies sleight actions to mask them."
+
+[sub_resource type="Resource" id="Resource_5d85s"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Improvised Tools"
+short_description = "Use found tools."
+long_description = "Unlock devices with improvised picks or wires."
+
+[sub_resource type="Resource" id="Resource_73at8"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Inquisitor’s Wrath"
+short_description = "Punish enemies of your faith."
+long_description = "Deal extra damage to those who oppose your divine beliefs."
+
+[sub_resource type="Resource" id="Resource_j62pr"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Inspiring Hymn"
+short_description = "Bolster nearby allies."
+long_description = "Chant hymns to increase recovery and morale among your party."
+
+[sub_resource type="Resource" id="Resource_lqpxk"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Inspiring Leadership"
+short_description = "Boost ally accuracy."
+long_description = "Allies under your presence strike with increased precision."
+
+[sub_resource type="Resource" id="Resource_tslo7"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Intimidator"
+short_description = "Scare weaker foes."
+long_description = "Your tone and presence unsettle lesser enemies."
+
+[sub_resource type="Resource" id="Resource_i2oo3"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Iron Body"
+short_description = "Increase physical resistance."
+long_description = "Your hardened physique resists blunt trauma and pain."
+
+[sub_resource type="Resource" id="Resource_fxynx"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Keen Observer"
+short_description = "Increase perception radius."
+long_description = "Spot hidden objects or traps from a greater distance."
+
+[sub_resource type="Resource" id="Resource_di6bg"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Last Stand"
+short_description = "Become stronger near death."
+long_description = "When close to defeat, gain a massive boost to both damage and defense."
+
+[sub_resource type="Resource" id="Resource_lpfy6"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Lightfoot"
+short_description = "Reduce movement noise."
+long_description = "Run quietly to avoid enemy detection."
+
+[sub_resource type="Resource" id="Resource_bkcyo"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Logical Clarity"
+short_description = "Resist confusion."
+long_description = "Stay rational under pressure, avoiding mental penalties."
+
+[sub_resource type="Resource" id="Resource_ivvb6"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Lorekeeper’s Guidance"
+short_description = "Share wisdom."
+long_description = "Allies gain bonus experience through your teaching."
+
+[sub_resource type="Resource" id="Resource_rihat"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Magpie Instinct"
+short_description = "Auto-loot valuables."
+long_description = "Automatically collect nearby small valuables."
+
+[sub_resource type="Resource" id="Resource_8f7cv"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Mana Efficiency"
+short_description = "Reduce mana costs."
+long_description = "All spells cost slightly less to cast, conserving magical resources."
+
+[sub_resource type="Resource" id="Resource_72wui"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Manipulator"
+short_description = "Alter relationships."
+long_description = "Subtly sway NPC relationships through dialogue."
+
+[sub_resource type="Resource" id="Resource_koib3"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Marathoner"
+short_description = "Recover stamina faster."
+long_description = "Regain endurance at an accelerated rate during rest or motion."
+
+[sub_resource type="Resource" id="Resource_kesi7"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Martyr’s Will"
+short_description = "Sacrifice health for allies."
+long_description = "Trade your vitality to empower allies’ attacks."
+
+[sub_resource type="Resource" id="Resource_f0b5x"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Master Artisan"
+short_description = "Craft higher-quality gear."
+long_description = "Items you make start with superior base stats."
+
+[sub_resource type="Resource" id="Resource_yhnw5"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Mediator"
+short_description = "Resolve disputes peacefully."
+long_description = "Calm heated arguments and prevent violence."
+
+[sub_resource type="Resource" id="Resource_inm2g"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Meditative Focus"
+short_description = "Regain mana while idle."
+long_description = "Resting briefly restores magical or focus energy."
+
+[sub_resource type="Resource" id="Resource_pihp5"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Merchant’s Eye"
+short_description = "Negotiate better prices."
+long_description = "Gain improved buying and selling rates."
+
+[sub_resource type="Resource" id="Resource_ofj7w"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Mind Mirror"
+short_description = "Reflect mental effects."
+long_description = "Once per rest, reflect a mental spell back at the caster."
+
+[sub_resource type="Resource" id="Resource_ox4nu"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Mind’s Eye"
+short_description = "See enemy intent."
+long_description = "Perceive the next actions of nearby foes for a moment."
+
+[sub_resource type="Resource" id="Resource_cftay"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Mocking Rebuke"
+short_description = "Taunt enemies."
+long_description = "Verbal taunts provoke attacks toward you."
+
+[sub_resource type="Resource" id="Resource_jqgng"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Momentum"
+short_description = "Build speed with consecutive hits."
+long_description = "Each successful attack increases attack speed until the chain is broken."
+
+[sub_resource type="Resource" id="Resource_tl5lw"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Momentum Boost"
+short_description = "More damage while sprinting."
+long_description = "Attacks after running gain temporary damage bonuses."
+
+[sub_resource type="Resource" id="Resource_dieq3"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Negotiator"
+short_description = "Gain extra rewards."
+long_description = "Securing deals yields improved compensation."
+
+[sub_resource type="Resource" id="Resource_eunuy"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Night Prowler"
+short_description = "Excel in darkness."
+long_description = "Stealth performance greatly improves in low light."
+
+[sub_resource type="Resource" id="Resource_rrmgq"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Obscured Form"
+short_description = "Evade targeting."
+long_description = "Small chance to avoid spells targeting you."
+
+[sub_resource type="Resource" id="Resource_qt25v"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Overpower"
+short_description = "Extra damage vs staggered foes."
+long_description = "Deliver devastating strikes against staggered or prone enemies."
+
+[sub_resource type="Resource" id="Resource_e526r"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Pack Leader"
+short_description = "Allied beasts fight harder."
+long_description = "Beasts under your command deal increased damage in combat."
+
+[sub_resource type="Resource" id="Resource_vd2it"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Pack Tactics"
+short_description = "Damage bonus with ally beasts."
+long_description = "Deal bonus damage when flanking an enemy with a beast companion."
+
+[sub_resource type="Resource" id="Resource_o4ea0"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Pathfinder"
+short_description = "Move faster on map."
+long_description = "Travel time reduced in wilderness exploration."
+
+[sub_resource type="Resource" id="Resource_m5hxq"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Pattern Recognition"
+short_description = "Uncover hidden links."
+long_description = "Recognize recurring patterns in investigations."
+
+[sub_resource type="Resource" id="Resource_1s3qt"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Perfect Timing"
+short_description = "Guarantee next success."
+long_description = "After a failed attempt, the next lockpick succeeds."
+
+[sub_resource type="Resource" id="Resource_3h4ky"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Pickpocket Master"
+short_description = "Steal with ease."
+long_description = "Higher success when pickpocketing NPCs."
+
+[sub_resource type="Resource" id="Resource_4vjgs"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Political Sense"
+short_description = "Predict power shifts."
+long_description = "Anticipate social and political outcomes."
+
+[sub_resource type="Resource" id="Resource_q12ar"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Potion Brewer"
+short_description = "Enhance healing potions."
+long_description = "Concoct stronger restorative brews."
+
+[sub_resource type="Resource" id="Resource_a5yjt"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Power Jump"
+short_description = "Leap higher and farther."
+long_description = "Your explosive strength allows incredible jumping distances."
+
+[sub_resource type="Resource" id="Resource_apd6q"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Predictive Reading"
+short_description = "Anticipate attacks."
+long_description = "Intuition grants a small evasion bonus in combat."
+
+[sub_resource type="Resource" id="Resource_lqp4p"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Pressure Point"
+short_description = "Disable with precision."
+long_description = "Briefly disable an enemy through subtle strikes."
+
+[sub_resource type="Resource" id="Resource_hbmal"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Preventive Care"
+short_description = "Grant vitality buffs."
+long_description = "Healing allies also grants them temporary vitality."
+
+[sub_resource type="Resource" id="Resource_gyjfr"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Quick Command"
+short_description = "Issue faster pet orders."
+long_description = "Companions respond instantly to your Animal Handling commands."
+
+[sub_resource type="Resource" id="Resource_qbwr3"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Quick Fingers"
+short_description = "Pick locks faster."
+long_description = "Disarm traps and locks swiftly and silently."
+
+[sub_resource type="Resource" id="Resource_fst3k"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Quick Forge"
+short_description = "Reduce crafting time."
+long_description = "Complete crafting tasks significantly faster."
+
+[sub_resource type="Resource" id="Resource_ltyuw"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Quick Patch"
+short_description = "Use healing faster."
+long_description = "Apply bandages or tonics more quickly."
+
+[sub_resource type="Resource" id="Resource_mg5pu"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Rally Cry"
+short_description = "Restore ally morale."
+long_description = "Shout encouragement that replenishes stamina or morale."
+
+[sub_resource type="Resource" id="Resource_88ksy"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Rapid Assessment"
+short_description = "Quickly evaluate value."
+long_description = "Instantly estimate worth of items or traps."
+
+[sub_resource type="Resource" id="Resource_nbvy8"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Reality Tear"
+short_description = "Bend space-time."
+long_description = "Tear through the veil to teleport or create explosive energy."
+
+[sub_resource type="Resource" id="Resource_ra4kh"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Reinforce Line"
+short_description = "Increase ally armor."
+long_description = "Grant temporary armor bonuses to nearby allies."
+
+[sub_resource type="Resource" id="Resource_akr0u"]
+script = ExtResource("3_vnboh")
+category = "Race"
+_name = "Resilient Frame"
+short_description = "Sturdy bones give you an edge against injuries."
+long_description = "Your bones are exceptionally sturdy, providing a robust defense against injuries that would cripple others. When making a Fortitude test to resist injury, gain +5 for that test."
+
+[sub_resource type="Resource" id="Resource_hmu4o"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Resourceful"
+short_description = "Chance to save materials."
+long_description = "Crafting sometimes doesn’t consume ingredients."
+
+[sub_resource type="Resource" id="Resource_wdki3"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Resuscitate"
+short_description = "Stabilize critical allies."
+long_description = "Prevent an ally from dying at zero health."
+
+[sub_resource type="Resource" id="Resource_ofn1w"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Retaliate Order"
+short_description = "Encourage counterattacks."
+long_description = "Allies counterattack after taking damage."
+
+[sub_resource type="Resource" id="Resource_otqjx"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Righteous Zeal"
+short_description = "Defeats restore mana."
+long_description = "Killing enemies renews a portion of your faith-based energy."
+
+[sub_resource type="Resource" id="Resource_svu3d"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Root Snare"
+short_description = "Immobilize enemies with roots."
+long_description = "Entangle foes with vines that hold them in place."
+
+[sub_resource type="Resource" id="Resource_6tdnd"]
+script = ExtResource("3_vnboh")
+category = "Race"
+_name = "Runic Destiny"
+short_description = "Each rune grants unique powers of luck, magic, or craft."
+long_description = "From the moment of birth, every Dwarf bears a unique rune etched into their body, signifying their clan and heritage. These mystical runes are not just marks of identity; they bestow powerful benefits that shape the destiny of each Dwarf.\\n\\nExplorer's Rune\\nMarked by the Explorer's Rune, your fate is intertwined with fortune and discovery. The rune guides your hand, ensuring you find the best rewards on your journeys. Every time you roll on a loot table, roll twice and choose the outcome.\\n\\nMagister's Rune\\nThe Magister's Rune bestows upon you an innate mastery of mystical arts. This rune amplifies your connection to the magical realms, enhancing your spellcasting and mystical insights. You gain an extra Tag in either Arcana, Shamanism or Zeal.\\n\\nArtisan's Rune\\nBearing the Artisan's Rune, your hands are gifted with extraordinary skill. This rune enhances your craftsmanship, making anything you create a testament to your exceptional talent. You gain Tag in Craft and a +2 for any skill test where you are using something you made your self."
+
+[sub_resource type="Resource" id="Resource_g8q07"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Runic Etching"
+short_description = "Add extra enchantments."
+long_description = "Imbue crafted weapons or armor with an additional magical slot."
+
+[sub_resource type="Resource" id="Resource_0voc4"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Runic Focus"
+short_description = "Stationary casting boosts power."
+long_description = "Spells cast while standing still gain bonus potency."
+
+[sub_resource type="Resource" id="Resource_fgm8b"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Runic Memory"
+short_description = "Preserve spell effects."
+long_description = "Extend the duration of magical scrolls you use."
+
+[sub_resource type="Resource" id="Resource_2rjtd"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Sacred Vow"
+short_description = "Faith empowers allies."
+long_description = "Channel devotion to bless allies and weaken unholy enemies."
+
+[sub_resource type="Resource" id="Resource_ybrjv"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Sage’s Recall"
+short_description = "Remember vital lore."
+long_description = "Occasionally recall hidden facts about the world."
+
+[sub_resource type="Resource" id="Resource_5gcju"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Salvager"
+short_description = "Recover more materials."
+long_description = "Dismantling equipment yields additional crafting resources."
+
+[sub_resource type="Resource" id="Resource_40104"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Scholar of the Old Ways"
+short_description = "Recall ancient wisdom."
+long_description = "Unlock special dialogue or insights tied to history."
+
+[sub_resource type="Resource" id="Resource_bxjpb"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Second Wind"
+short_description = "Recover stamina after a kill."
+long_description = "Defeating an enemy restores a portion of your stamina or health."
+
+[sub_resource type="Resource" id="Resource_wpnnq"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Shadowmeld"
+short_description = "Hide better in darkness."
+long_description = "Blend into shadows to become nearly invisible."
+
+[sub_resource type="Resource" id="Resource_wsnxa"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Shield Wall"
+short_description = "Defensive stance boosts resistance."
+long_description = "Form an impenetrable guard that reduces ranged damage taken."
+
+[sub_resource type="Resource" id="Resource_ntul0"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Silent Steps"
+short_description = "Move quietly."
+long_description = "Reduce sound generated by movement."
+
+[sub_resource type="Resource" id="Resource_a062h"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Silent Takedown"
+short_description = "Eliminate silently."
+long_description = "Perform stealth kills without alerting others."
+
+[sub_resource type="Resource" id="Resource_krow8"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Silver Tongue"
+short_description = "Improve persuasion."
+long_description = "Charm, negotiate, and convince more effectively."
+
+[sub_resource type="Resource" id="Resource_f3jx2"]
+script = ExtResource("3_vnboh")
+category = "Race"
+_name = "Small Frame"
+short_description = "Agile and charming, but physically weaker."
+long_description = "Your slight build grants you unparalleled agility and an appealing presence, yet it limits your physical strength and stamina. Agility and Charisma increases by 2 and their max is now 12. However Strength and Endurance can't be higher than 6."
+
+[sub_resource type="Resource" id="Resource_8cp71"]
+script = ExtResource("3_vnboh")
+category = "Zealous"
+_name = "Smite the Unholy"
+short_description = "Deal bonus holy damage."
+long_description = "Your attacks deal additional holy damage to corrupted or undead targets."
+
+[sub_resource type="Resource" id="Resource_labk4"]
+script = ExtResource("3_vnboh")
+category = "Race"
+_name = "Social Beings"
+short_description = "Naturally persuasive, gaining a boost in conversations."
+long_description = "With an innate charm and eloquence, High Elves effortlessly navigate social landscapes, bending conversations to their will with ease and finesse. High Elves have a knack for getting what they want in conversations, gain a +2 Social Modifier."
+
+[sub_resource type="Resource" id="Resource_oeqnw"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Social Network"
+short_description = "Access connections."
+long_description = "Expand access to contacts and favors."
+
+[sub_resource type="Resource" id="Resource_8cgvh"]
+script = ExtResource("3_vnboh")
+category = "Race"
+_name = "Soulless"
+short_description = "Necrotic damage heals you instead of harming you."
+long_description = "Devoid of a soul, the forces of necrosis that would harm others instead rejuvenate you, turning death itself into a source of strength. You are immune to necrotic damage. In fact, you’re healed by it, you regain half of the necrotic damage inflicted upon you."
+
+[sub_resource type="Resource" id="Resource_83dat"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Spell Echo"
+short_description = "Chance to repeat spells."
+long_description = "Spells occasionally replicate themselves at reduced power."
+
+[sub_resource type="Resource" id="Resource_4a0oh"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Spirit Bond"
+short_description = "Gain a spirit companion."
+long_description = "Form a bond with a guiding spirit that provides passive bonuses."
+
+[sub_resource type="Resource" id="Resource_fv8l1"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Spirit Echo"
+short_description = "Absorb fallen spirits."
+long_description = "Collect echoes of fallen allies to regain energy or health."
+
+[sub_resource type="Resource" id="Resource_k1ht4"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Sprinter’s Focus"
+short_description = "Gain speed burst after dodge."
+long_description = "Performing evasive moves increases your running speed briefly."
+
+[sub_resource type="Resource" id="Resource_ltjbh"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Stormcaller"
+short_description = "Summon lightning and thunder."
+long_description = "Call down storms to strike enemies with elemental fury."
+
+[sub_resource type="Resource" id="Resource_7lxha"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Strategist’s Eye"
+short_description = "Spot enemy weaknesses."
+long_description = "Identify vulnerable enemies and expose them to allies."
+
+[sub_resource type="Resource" id="Resource_b58qr"]
+script = ExtResource("3_vnboh")
+category = "Race"
+_name = "Survival of the Fittest"
+short_description = "Strong and enduring, but limited agility and charm."
+long_description = "Hardened by the trials of a ruthless environment, your physical prowess has been honed to perfection, though at the expense of social grace and nimbleness. Strength and Endurance increases by 2 and their max is now 12. However Agility and Charisma can't be higher than 6."
+
+[sub_resource type="Resource" id="Resource_halph"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Survivor’s Luck"
+short_description = "Avoid lethal nature damage."
+long_description = "Once per rest, survive a fatal natural hazard."
+
+[sub_resource type="Resource" id="Resource_vcfg8"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Tactical Advance"
+short_description = "Gain defense while advancing."
+long_description = "Moving toward an enemy increases your defensive resistance temporarily."
+
+[sub_resource type="Resource" id="Resource_s3b77"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Tactical Withdrawal"
+short_description = "Safer retreats."
+long_description = "Allies move faster and take less damage while disengaging."
+
+[sub_resource type="Resource" id="Resource_bpl8h"]
+script = ExtResource("3_vnboh")
+category = "Arcane"
+_name = "Temporal Distortion"
+short_description = "Slow time briefly."
+long_description = "Manipulate time’s flow to gain reaction advantage."
+
+[sub_resource type="Resource" id="Resource_b84b5"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Tinker’s Touch"
+short_description = "Create gadgets and traps."
+long_description = "Craft mechanical tools or temporary battlefield devices."
+
+[sub_resource type="Resource" id="Resource_dnimo"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Titan Grip"
+short_description = "Wield heavy weapons easily."
+long_description = "Ignore penalties when using oversized or dual heavy weapons."
+
+[sub_resource type="Resource" id="Resource_tte7f"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Tome Collector"
+short_description = "Benefit from rare books."
+long_description = "Gaining tomes grants permanent knowledge bonuses."
+
+[sub_resource type="Resource" id="Resource_gwjva"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Totemic Strength"
+short_description = "Place totems for buffs."
+long_description = "Totems radiate energy, strengthening allies nearby."
+
+[sub_resource type="Resource" id="Resource_a643q"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Tracker"
+short_description = "Identify tracks easily."
+long_description = "Recognize the species and direction of tracks."
+
+[sub_resource type="Resource" id="Resource_khhac"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Trained Mounts"
+short_description = "Improve mount performance."
+long_description = "Your mounts gain improved stamina and movement speed."
+
+[sub_resource type="Resource" id="Resource_h4f56"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Truth Seeker"
+short_description = "Reveal hidden motives."
+long_description = "Discern deception and true emotions during interactions."
+
+[sub_resource type="Resource" id="Resource_cme0w"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Unseen Exit"
+short_description = "Hide after combat."
+long_description = "Enter stealth automatically after battle ends."
+
+[sub_resource type="Resource" id="Resource_cg06w"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Unyielding"
+short_description = "Reduce knockback."
+long_description = "Become harder to stagger or push back from hits."
+
+[sub_resource type="Resource" id="Resource_x3t5t"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Verdant Renewal"
+short_description = "Regenerate in natural terrain."
+long_description = "Heal faster while standing on soil, grass, or natural ground."
+
+[sub_resource type="Resource" id="Resource_dlxd5"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Veterinarian"
+short_description = "Heal animals efficiently."
+long_description = "Treat wounded beasts more effectively, restoring greater health."
+
+[sub_resource type="Resource" id="Resource_jqwmf"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Vital Pulse"
+short_description = "Heal over time."
+long_description = "Your healing effects gradually restore health."
+
+[sub_resource type="Resource" id="Resource_hnfou"]
+script = ExtResource("3_vnboh")
+category = "Nature"
+_name = "Warden’s Step"
+short_description = "Move swiftly through terrain."
+long_description = "Travel faster and evade better when surrounded by nature."
+
+[sub_resource type="Resource" id="Resource_o5ubc"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Warlord’s Command"
+short_description = "Buff nearby allies."
+long_description = "Your shouts inspire allies, granting them small attack bonuses."
+
+[sub_resource type="Resource" id="Resource_e1ikc"]
+script = ExtResource("3_vnboh")
+category = "Martial"
+_name = "Weapon Mastery"
+short_description = "Increase proficiency with chosen weapon type."
+long_description = "Gain improved control and critical chance with a selected weapon class."
+
+[sub_resource type="Resource" id="Resource_p100b"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Weathered"
+short_description = "Resist harsh climates."
+long_description = "Gain protection against environmental effects."
+
+[sub_resource type="Resource" id="Resource_tvmtw"]
+script = ExtResource("3_vnboh")
+category = "Skills"
+_name = "Wild Instinct"
+short_description = "Enhanced detection."
+long_description = "Detect threats and prey earlier outdoors."
+
+[sub_resource type="Resource" id="Resource_tptkm"]
+script = ExtResource("228_40xes")
+perk = SubResource("Resource_owwpf")
+_name = "Ashborne"
+short_description = "Volcanic-born beings clad in obsidian."
+long_description = "Born of fire and forged in volcanic heartlands, Ashborne carry patches of living obsidian across their bodies. These hardened markings shield them from harm, embodying both their fiery origins and their resilience. Mysterious and formidable, they straddle the line between elemental power and mortal kin."
+
+[sub_resource type="Resource" id="Resource_84yvr"]
+script = ExtResource("228_40xes")
+perk = SubResource("Resource_6tdnd")
+_name = "Dwarf"
+short_description = "Stout folk guided by ancient runes."
+long_description = "Every dwarf bears a rune that marks their destiny, weaving clan heritage with mystical power. Whether explorers driven by discovery, magisters deepened in arcane mastery, or artisans blessed with unmatched craft, dwarves live lives shaped by tradition and rune-bound fate. Hardy, loyal, and proud, they carry their culture as solidly as their stone-built halls."
+
+[sub_resource type="Resource" id="Resource_ikkiu"]
+script = ExtResource("228_40xes")
+perk = SubResource("Resource_b58qr")
+_name = "Goliath"
+short_description = "Towering survivors shaped by harsh lands."
+long_description = "Goliaths embody raw strength and endurance, honed by unforgiving environments that demand physical superiority. Their imposing presence and resilience make them formidable in battle, but this focus comes at a cost—their agility and social grace often lag behind. Survival defines their culture, and strength is their creed."
+
+[sub_resource type="Resource" id="Resource_ipkv0"]
+script = ExtResource("228_40xes")
+perk = SubResource("Resource_f3jx2")
+_name = "Halfling"
+short_description = "Nimble and charming, but physically small."
+long_description = "Halflings are quick-footed and warm-spirited, their small stature giving them an agility that belies their size. Loved for their charisma and adaptability, they thrive in both bustling towns and quiet villages. Yet their light build limits their strength and endurance, pushing them toward cleverness and community over brute force."
+
+[sub_resource type="Resource" id="Resource_jgaft"]
+script = ExtResource("228_40xes")
+perk = SubResource("Resource_labk4")
+_name = "High Elves"
+short_description = "Charismatic masters of social influence."
+long_description = "High Elves wield charm and eloquence as deftly as any weapon. Their natural poise and sophistication grant them an edge in diplomacy, persuasion, and subtle manipulation. While sometimes seen as proud or aloof, they navigate social structures with unmatched finesse, often bending situations to their favor."
+
+[sub_resource type="Resource" id="Resource_0n28a"]
+script = ExtResource("228_40xes")
+perk = SubResource("Resource_h7bi3")
+_name = "Human"
+short_description = "Adaptable and altruistic, humans excel at lifting others up."
+long_description = "Humans are known for their good-natured spirit and cooperative drive. Their generosity inspires trust and camaraderie, and their versatility allows them to thrive in nearly any role. While they may lack the extremes of other races, their strength lies in supporting allies and amplifying group success."
+
+[sub_resource type="Resource" id="Resource_rkwb4"]
+script = ExtResource("228_40xes")
+perk = SubResource("Resource_8cgvh")
+_name = "Husk-Folk"
+short_description = "Soul-deprived beings sustained by death’s touch."
+long_description = "The Husk-Folk are eerie figures, hollowed of soul yet animated by a strange vitality. Where necrotic forces drain others, these beings draw strength, healing in the presence of decay. Neither fully dead nor alive, they stand apart from mortal kin, unsettling yet undeniably powerful in their bond to the energies of death."
+
+[sub_resource type="Resource" id="Resource_flre5"]
+script = ExtResource("228_40xes")
+perk = SubResource("Resource_akr0u")
+_name = "Orc"
+short_description = "Hardy warriors with unyielding frames."
+long_description = "Orcs are defined by resilience, their bodies forged with dense bones and iron will. Injury that would break others often spurs them onward, granting them fearsome reputations as warriors and survivors. Their culture prizes toughness and determination, values reflected in their enduring presence on battlefield and frontier alike."
+
+[sub_resource type="Resource" id="Resource_70wvd"]
+script = ExtResource("228_40xes")
+perk = SubResource("Resource_ipy2j")
+_name = "Wood Elf"
+short_description = "Children of the forest bound to nature."
+long_description = "Wood Elves live in deep harmony with the natural world, their lives tied to the rhythm of the forest. Their herbivorous way of life strengthens their bond to the land, granting them resistance to disease and vitality from plant-based sustenance. Though gentle in outlook, their resilience comes from centuries of coexistence with wild and untamed realms."
+
+[sub_resource type="Resource" id="Resource_ff1nv"]
+script = ExtResource("229_41nax")
+expression = "min(player_level + 2, 10)"
+_name = "Skill Cap"
+
+[sub_resource type="Resource" id="Resource_y05eo"]
+script = ExtResource("229_41nax")
+expression = "rollDice(1, difficulty) <= skill"
+_name = "Skill Check"
+
+[sub_resource type="Resource" id="Resource_ii1qu"]
+script = ExtResource("230_s18lo")
+_name = "Animal Handling"
+short_description = "The bond between mortal and beast."
+long_description = "Animal handling is the art of trust and instinct, guiding creatures through patience rather than force. It is the steady hand that calms a frightened steed, the subtle command that turns a hound against its quarry, and the quiet respect that earns loyalty from claw and fang alike."
+
+[sub_resource type="Resource" id="Resource_snqkb"]
+script = ExtResource("230_s18lo")
+_name = "Athletics"
+short_description = "The measure of strength, speed, and stamina in motion."
+long_description = "Athletics is the discipline of the body pushed to its limits — running, climbing, leaping, and enduring trials that test both muscle and breath. It is the difference between faltering on the field and pressing forward with unyielding vigor."
+
+[sub_resource type="Resource" id="Resource_jifn7"]
+script = ExtResource("230_s18lo")
+_name = "Command"
+short_description = "The voice that moves others to act."
+long_description = "Command is the force of presence that rallies companions and bends wills to a common cause. It is found in the calm orders given in battle, the unshakable confidence that inspires courage, and the steady gaze that compels obedience without question."
+
+[sub_resource type="Resource" id="Resource_i8sxw"]
+script = ExtResource("230_s18lo")
+_name = "Craft"
+short_description = "The shaping of raw material into lasting form."
+long_description = "Craft is the skill of hands guided by knowledge, turning wood, stone, or steel into tools, weapons, and works of art. It is patience, precision, and creativity bound together, leaving behind works that endure beyond their maker’s lifetime."
+
+[sub_resource type="Resource" id="Resource_3w5vi"]
+script = ExtResource("230_s18lo")
+_name = "Insight"
+short_description = "The ability to read truth in others."
+long_description = "Insight is the quiet observation of subtle gestures, unspoken words, and hidden motives. It is the wisdom to look beyond appearances, discerning intent from shadow and sincerity from deceit."
+
+[sub_resource type="Resource" id="Resource_7hjog"]
+script = ExtResource("230_s18lo")
+_name = "Investigation"
+short_description = "The pursuit of hidden answers through reason."
+long_description = "Investigation is the patient unraveling of mystery — studying clues, tracing patterns, and connecting fragments until the truth emerges. It is the art of the inquisitive mind, leaving no stone unturned and no secret concealed for long."
+
+[sub_resource type="Resource" id="Resource_sqkjj"]
+script = ExtResource("230_s18lo")
+_name = "Lore"
+short_description = "The memory of stories, histories, and knowledge."
+long_description = "Lore is the collection of all that has been learned and passed down: myths and histories, secrets of the land, and wisdom preserved through generations. Those versed in lore hold the keys to understanding both the past and the present."
+
+[sub_resource type="Resource" id="Resource_slfqm"]
+script = ExtResource("230_s18lo")
+_name = "Medicine"
+short_description = "The art of healing and preserving life."
+long_description = "Medicine is the knowledge of flesh and spirit, of how wounds may be closed and ailments eased. It is the healer’s craft, restoring strength where it has faltered and warding off the grasp of death itself."
+
+[sub_resource type="Resource" id="Resource_jc307"]
+script = ExtResource("230_s18lo")
+_name = "Sleight of Hand"
+short_description = "The art of swift, subtle fingers."
+long_description = "Sleight of hand is dexterity made invisible — a coin vanished, a purse lifted, a dagger drawn before the eye can follow. It is trickery and finesse, both performance and deception."
+
+[sub_resource type="Resource" id="Resource_mir78"]
+script = ExtResource("230_s18lo")
+_name = "Society"
+short_description = "The understanding of order, law, and custom."
+long_description = "Society is the study of how people live together: their structures of power, their traditions, their spoken and unspoken rules. One skilled in society can navigate courts and markets alike, finding their place among folk of every station."
+
+[sub_resource type="Resource" id="Resource_e6do7"]
+script = ExtResource("230_s18lo")
+_name = "Speech"
+short_description = "The art of words given power."
+long_description = "Speech is the craft of persuasion, the ability to sway hearts and shape minds with voice alone. From rousing orations to whispered bargains, it is the force that builds alliances and bends destiny."
+
+[sub_resource type="Resource" id="Resource_to4bm"]
+script = ExtResource("230_s18lo")
+_name = "Stealth"
+short_description = "The shadow’s embrace, unseen and unheard."
+long_description = "Stealth is the skill of moving in silence, slipping past notice, and striking unseen. It is patience, precision, and the discipline to become part of the darkness itself."
+
+[sub_resource type="Resource" id="Resource_wepn8"]
+script = ExtResource("230_s18lo")
+_name = "Survival"
+short_description = "The knowledge to endure the wilds."
+long_description = "Survival is the understanding of nature’s dangers and gifts — how to find water, build shelter, track game, and weather storm or famine. It is the art of living where the land itself may seek to claim you."
+
+[resource]
+script = ExtResource("231_8vqm3")
+Races = Dictionary[String, ExtResource("228_40xes")]({
+"Ashborne": SubResource("Resource_tptkm"),
+"Dwarf": SubResource("Resource_84yvr"),
+"Goliath": SubResource("Resource_ikkiu"),
+"Halfling": SubResource("Resource_ipkv0"),
+"High Elves": SubResource("Resource_jgaft"),
+"Human": SubResource("Resource_0n28a"),
+"Husk-Folk": SubResource("Resource_rkwb4"),
+"Orc": SubResource("Resource_flre5"),
+"Wood Elf": SubResource("Resource_70wvd")
+})
+Backgrounds = Dictionary[String, ExtResource("2_iojns")]({
+"Acolyte": SubResource("Resource_fc41f"),
+"Artisan": SubResource("Resource_b85g7"),
+"Beast Tamer": SubResource("Resource_27l80"),
+"Criminal": SubResource("Resource_8p24d"),
+"Dragon Knight": SubResource("Resource_pli3l"),
+"Elder": SubResource("Resource_hfcry"),
+"Entertainer": SubResource("Resource_b4tb4"),
+"Farmer": SubResource("Resource_5l5oh"),
+"Gladiator": SubResource("Resource_xryke"),
+"Hermit": SubResource("Resource_nuu4u"),
+"Hunter": SubResource("Resource_aujvq"),
+"Mercenary": SubResource("Resource_6wuus"),
+"Noble": SubResource("Resource_qodtf"),
+"Pathfinder": SubResource("Resource_w7bxc"),
+"Pirate": SubResource("Resource_uilkj"),
+"Sage": SubResource("Resource_ba8v5"),
+"Soldier": SubResource("Resource_f3hmf"),
+"Spy": SubResource("Resource_33nch"),
+"Trader": SubResource("Resource_dtq0b")
+})
+Homelands = Dictionary[String, ExtResource("6_xa2d3")]({
+"Aratori Dominion": SubResource("Resource_gpy4b"),
+"Asharati Forest": SubResource("Resource_sr757"),
+"Calatherian Principality": SubResource("Resource_hmpq7"),
+"No Homeland": SubResource("Resource_2h0lt"),
+"The Frostheim Kingdom": SubResource("Resource_meh1b"),
+"The Obsidian Desert": SubResource("Resource_7ycrq"),
+"The Orotari Kingdom": SubResource("Resource_2cut7"),
+"The Quasarian Empire": SubResource("Resource_ilrw3"),
+"The Untamed Highlands": SubResource("Resource_aanx7"),
+"The Ur'Holdum Jungle": SubResource("Resource_7cl4w"),
+"Torgana Canyons": SubResource("Resource_0jpg7")
+})
+Attributes = Dictionary[String, ExtResource("1_j010n")]({
+"Constitution": SubResource("Resource_gc8h4"),
+"Dexterity": SubResource("Resource_75pra"),
+"Intelligence": SubResource("Resource_qliu3"),
+"Might": SubResource("Resource_lh87t"),
+"Perception": SubResource("Resource_rdm6v"),
+"Resolve": SubResource("Resource_hcsc2")
+})
+Skills = Dictionary[String, ExtResource("230_s18lo")]({
+"Animal Handling": SubResource("Resource_ii1qu"),
+"Athletics": SubResource("Resource_snqkb"),
+"Command": SubResource("Resource_jifn7"),
+"Craft": SubResource("Resource_i8sxw"),
+"Insight": SubResource("Resource_3w5vi"),
+"Investigation": SubResource("Resource_7hjog"),
+"Lore": SubResource("Resource_sqkjj"),
+"Medicine": SubResource("Resource_slfqm"),
+"Sleight of Hand": SubResource("Resource_jc307"),
+"Society": SubResource("Resource_mir78"),
+"Speech": SubResource("Resource_e6do7"),
+"Stealth": SubResource("Resource_to4bm"),
+"Survival": SubResource("Resource_wepn8")
+})
+Defences = Dictionary[String, ExtResource("5_qh5qs")]({
+"Deflection": SubResource("Resource_83tca"),
+"Endurance": SubResource("Resource_8rm43"),
+"Mind": SubResource("Resource_yyca6"),
+"Reflex": SubResource("Resource_8opiu")
+})
+Perks = Dictionary[String, ExtResource("3_vnboh")]({
+"Academic Diligence": SubResource("Resource_oo3ok"),
+"Adaptable": SubResource("Resource_he835"),
+"Alpha Presence": SubResource("Resource_y8fhh"),
+"Ambusher": SubResource("Resource_d3jce"),
+"Analyst": SubResource("Resource_m2r2f"),
+"Anatomist": SubResource("Resource_4t583"),
+"Ancestral Guardian": SubResource("Resource_qmtpb"),
+"Animal Bond": SubResource("Resource_5506y"),
+"Animal Friend": SubResource("Resource_44npp"),
+"Antidote Expert": SubResource("Resource_4t5w3"),
+"Apprentice Mentor": SubResource("Resource_v61j0"),
+"Arcane Channeling": SubResource("Resource_dlwbo"),
+"Arcane Linguist": SubResource("Resource_5fhgy"),
+"Arcane Ward": SubResource("Resource_lmy3f"),
+"Archivist": SubResource("Resource_uf0cm"),
+"Bardic Flourish": SubResource("Resource_fnrlv"),
+"Battle Instinct": SubResource("Resource_gn4ci"),
+"Battle Orders": SubResource("Resource_2mgs4"),
+"Battle-Hardened": SubResource("Resource_ociry"),
+"Beast Affinity": SubResource("Resource_tcolt"),
+"Beast Empathy": SubResource("Resource_lfg32"),
+"Beast Trap": SubResource("Resource_8jxvl"),
+"Beast Whisper": SubResource("Resource_7bnxo"),
+"Beast Whisperer": SubResource("Resource_kr4gh"),
+"Blessed Guidance": SubResource("Resource_nt1kf"),
+"Born to Fight": SubResource("Resource_5pv4y"),
+"Braced Impact": SubResource("Resource_0f5uf"),
+"Camouflage": SubResource("Resource_qbygm"),
+"Camp Master": SubResource("Resource_sg6cp"),
+"Captivating Performance": SubResource("Resource_wya6k"),
+"Charm Offensive": SubResource("Resource_a5t4n"),
+"Clear Mind": SubResource("Resource_hcuyw"),
+"Climber’s Grip": SubResource("Resource_n5p4t"),
+"Combat Surgeon": SubResource("Resource_dx7a8"),
+"Commanding Presence": SubResource("Resource_ndy2x"),
+"Conviction": SubResource("Resource_hd2kq"),
+"Coordinated Strike": SubResource("Resource_bllsf"),
+"Crime Scene Reconstruction": SubResource("Resource_jklda"),
+"Crowd's Favor": SubResource("Resource_iefut"),
+"Cultural Adaptation": SubResource("Resource_36m11"),
+"Cultural Expert": SubResource("Resource_72rcu"),
+"Deductive Leap": SubResource("Resource_pi51i"),
+"Defensive Footwork": SubResource("Resource_5e4dq"),
+"Desert Adventurer": SubResource("Resource_o7737"),
+"Detect Lies": SubResource("Resource_ljbmy"),
+"Diplomat": SubResource("Resource_saiwl"),
+"Disruptive Casting": SubResource("Resource_xx3o2"),
+"Distraction Artist": SubResource("Resource_mnjmj"),
+"Divine Shield": SubResource("Resource_t7d2g"),
+"Eagle Eye": SubResource("Resource_3utbi"),
+"Earthen Armor": SubResource("Resource_816nx"),
+"Educated": SubResource("Resource_tmls4"),
+"Efficient Command": SubResource("Resource_q8qmh"),
+"Efficient Smith": SubResource("Resource_jyth5"),
+"Elder Scholar": SubResource("Resource_ucg4n"),
+"Elemental Mastery": SubResource("Resource_776iu"),
+"Elven Education": SubResource("Resource_y3rwi"),
+"Emergency Aid": SubResource("Resource_2hcej"),
+"Empathic Reading": SubResource("Resource_h5xcs"),
+"Enduring Stride": SubResource("Resource_4d11p"),
+"Etiquette": SubResource("Resource_uglvn"),
+"Faith Beyond Death": SubResource("Resource_bngq3"),
+"Faithful Surge": SubResource("Resource_id8th"),
+"Fast Talker": SubResource("Resource_axcef"),
+"Fearless Orator": SubResource("Resource_dlhl0"),
+"Feedback Loop": SubResource("Resource_ermne"),
+"Field Medic": SubResource("Resource_c6p1a"),
+"Field Repairs": SubResource("Resource_xqje1"),
+"Firekeeper": SubResource("Resource_ae8js"),
+"Forager": SubResource("Resource_gdxne"),
+"Forensic Insight": SubResource("Resource_ywsrj"),
+"Foresight": SubResource("Resource_6ldh0"),
+"Forest Child": SubResource("Resource_ipy2j"),
+"Formation Discipline": SubResource("Resource_4m6gs"),
+"From Fire and Flame": SubResource("Resource_owwpf"),
+"Frostborn": SubResource("Resource_vfnxm"),
+"Ghost Step": SubResource("Resource_6ovx5"),
+"Good Natured": SubResource("Resource_h7bi3"),
+"Guild Connections": SubResource("Resource_00ldp"),
+"Haggle for a Living": SubResource("Resource_ym2ql"),
+"Hardened Skin": SubResource("Resource_4ox86"),
+"Heat Resistant": SubResource("Resource_hvctk"),
+"Heightened Awareness": SubResource("Resource_qcxfk"),
+"Hidden Draw": SubResource("Resource_d17dr"),
+"Hidden Path": SubResource("Resource_v3q6a"),
+"Highborn Bearing": SubResource("Resource_pvmrr"),
+"Historical Insight": SubResource("Resource_m3k2i"),
+"Home at Sea": SubResource("Resource_fal6a"),
+"Host’s Grace": SubResource("Resource_yk7v2"),
+"Hunter’s Instinct": SubResource("Resource_ee8n5"),
+"Illusionist’s Touch": SubResource("Resource_3fq3y"),
+"Improvised Tools": SubResource("Resource_5d85s"),
+"Inquisitor’s Wrath": SubResource("Resource_73at8"),
+"Inspiring Hymn": SubResource("Resource_j62pr"),
+"Inspiring Leadership": SubResource("Resource_lqpxk"),
+"Intimidator": SubResource("Resource_tslo7"),
+"Iron Body": SubResource("Resource_i2oo3"),
+"Keen Observer": SubResource("Resource_fxynx"),
+"Last Stand": SubResource("Resource_di6bg"),
+"Lightfoot": SubResource("Resource_lpfy6"),
+"Logical Clarity": SubResource("Resource_bkcyo"),
+"Looter": SubResource("Resource_hfu8n"),
+"Lorekeeper’s Guidance": SubResource("Resource_ivvb6"),
+"Magpie Instinct": SubResource("Resource_rihat"),
+"Mana Efficiency": SubResource("Resource_8f7cv"),
+"Manipulator": SubResource("Resource_72wui"),
+"Marathoner": SubResource("Resource_koib3"),
+"Marksman's Patience": SubResource("Resource_81d5q"),
+"Martyr’s Will": SubResource("Resource_kesi7"),
+"Master Artisan": SubResource("Resource_f0b5x"),
+"Master of Disguise": SubResource("Resource_b7hbs"),
+"Masterwork": SubResource("Resource_i1k48"),
+"Mediator": SubResource("Resource_yhnw5"),
+"Meditative Focus": SubResource("Resource_inm2g"),
+"Merchant’s Eye": SubResource("Resource_pihp5"),
+"Mind Mirror": SubResource("Resource_ofj7w"),
+"Mind’s Eye": SubResource("Resource_ox4nu"),
+"Mocking Rebuke": SubResource("Resource_cftay"),
+"Momentum": SubResource("Resource_jqgng"),
+"Momentum Boost": SubResource("Resource_tl5lw"),
+"Negotiator": SubResource("Resource_dieq3"),
+"Night Prowler": SubResource("Resource_eunuy"),
+"No Perk": SubResource("Resource_yj421"),
+"Obscured Form": SubResource("Resource_rrmgq"),
+"Of the same Cloth": SubResource("Resource_rbhi6"),
+"One of the People": SubResource("Resource_jbm2q"),
+"Overpower": SubResource("Resource_qt25v"),
+"Pack Leader": SubResource("Resource_e526r"),
+"Pack Tactics": SubResource("Resource_vd2it"),
+"Pathfinder": SubResource("Resource_o4ea0"),
+"Pattern Recognition": SubResource("Resource_m5hxq"),
+"Perfect Timing": SubResource("Resource_1s3qt"),
+"Pickpocket Master": SubResource("Resource_3h4ky"),
+"Political Sense": SubResource("Resource_4vjgs"),
+"Potion Brewer": SubResource("Resource_q12ar"),
+"Power Jump": SubResource("Resource_a5yjt"),
+"Predictive Reading": SubResource("Resource_apd6q"),
+"Pressure Point": SubResource("Resource_lqp4p"),
+"Preventive Care": SubResource("Resource_hbmal"),
+"Quick Command": SubResource("Resource_gyjfr"),
+"Quick Fingers": SubResource("Resource_qbwr3"),
+"Quick Forge": SubResource("Resource_fst3k"),
+"Quick Patch": SubResource("Resource_ltyuw"),
+"Rally Cry": SubResource("Resource_mg5pu"),
+"Rapid Assessment": SubResource("Resource_88ksy"),
+"Reality Tear": SubResource("Resource_nbvy8"),
+"Reinforce Line": SubResource("Resource_ra4kh"),
+"Resilient Frame": SubResource("Resource_akr0u"),
+"Resourceful": SubResource("Resource_hmu4o"),
+"Resuscitate": SubResource("Resource_wdki3"),
+"Retaliate Order": SubResource("Resource_ofn1w"),
+"Righteous Zeal": SubResource("Resource_otqjx"),
+"Root Snare": SubResource("Resource_svu3d"),
+"Runic Destiny": SubResource("Resource_6tdnd"),
+"Runic Etching": SubResource("Resource_g8q07"),
+"Runic Focus": SubResource("Resource_0voc4"),
+"Runic Memory": SubResource("Resource_fgm8b"),
+"Sacred Vow": SubResource("Resource_2rjtd"),
+"Sage’s Recall": SubResource("Resource_ybrjv"),
+"Salvager": SubResource("Resource_5gcju"),
+"Scholar of the Old Ways": SubResource("Resource_40104"),
+"Secluded": SubResource("Resource_1lxa4"),
+"Second Wind": SubResource("Resource_bxjpb"),
+"Shadowmeld": SubResource("Resource_wpnnq"),
+"Shield Wall": SubResource("Resource_wsnxa"),
+"Silent Steps": SubResource("Resource_ntul0"),
+"Silent Takedown": SubResource("Resource_a062h"),
+"Silver Tongue": SubResource("Resource_krow8"),
+"Small Frame": SubResource("Resource_f3jx2"),
+"Smite the Unholy": SubResource("Resource_8cp71"),
+"Social Beings": SubResource("Resource_labk4"),
+"Social Network": SubResource("Resource_oeqnw"),
+"Soulless": SubResource("Resource_8cgvh"),
+"Spell Echo": SubResource("Resource_83dat"),
+"Spirit Bond": SubResource("Resource_4a0oh"),
+"Spirit Echo": SubResource("Resource_fv8l1"),
+"Sprinter’s Focus": SubResource("Resource_k1ht4"),
+"Stormcaller": SubResource("Resource_ltjbh"),
+"Strategist’s Eye": SubResource("Resource_7lxha"),
+"Survival of the Fittest": SubResource("Resource_b58qr"),
+"Survivor": SubResource("Resource_smyrt"),
+"Survivor’s Luck": SubResource("Resource_halph"),
+"Tactical Advance": SubResource("Resource_vcfg8"),
+"Tactical Withdrawal": SubResource("Resource_s3b77"),
+"Temporal Distortion": SubResource("Resource_bpl8h"),
+"The Way of the Jungle": SubResource("Resource_6a210"),
+"Tinker’s Touch": SubResource("Resource_b84b5"),
+"Titan Grip": SubResource("Resource_dnimo"),
+"Tome Collector": SubResource("Resource_tte7f"),
+"Totemic Strength": SubResource("Resource_gwjva"),
+"Tracker": SubResource("Resource_a643q"),
+"Trailblazer": SubResource("Resource_32jlc"),
+"Trained Mounts": SubResource("Resource_khhac"),
+"Trained to Kill": SubResource("Resource_4iukm"),
+"Truth Seeker": SubResource("Resource_h4f56"),
+"Underworld Connections": SubResource("Resource_57ogm"),
+"Unseen Exit": SubResource("Resource_cme0w"),
+"Unyielding": SubResource("Resource_cg06w"),
+"Verdant Renewal": SubResource("Resource_x3t5t"),
+"Veteran's Instinct": SubResource("Resource_04uxq"),
+"Veterinarian": SubResource("Resource_dlxd5"),
+"Vital Pulse": SubResource("Resource_jqwmf"),
+"Warden’s Step": SubResource("Resource_hnfou"),
+"Warlord’s Command": SubResource("Resource_o5ubc"),
+"Weapon Mastery": SubResource("Resource_e1ikc"),
+"Weathered": SubResource("Resource_p100b"),
+"Wild Instinct": SubResource("Resource_tvmtw"),
+"Wise Counsel": SubResource("Resource_s6je5")
+})
+Rules = Dictionary[String, ExtResource("229_41nax")]({
+"Skill Cap": SubResource("Resource_ff1nv"),
+"Skill Check": SubResource("Resource_y05eo")
+})
+Items = Dictionary[String, ExtResource("7_gv0fg")]({
+"Alchemist's Attire": SubResource("Resource_eqlcg"),
+"Alchemy Kit": SubResource("Resource_q63j6"),
+"Ale": SubResource("Resource_7kqqq"),
+"Apple": SubResource("Resource_bbvro"),
+"Apple Juice": SubResource("Resource_hhsvi"),
+"Arbalest": SubResource("Resource_knkd0"),
+"Backpack, Large": SubResource("Resource_dhdmn"),
+"Backpack, Small": SubResource("Resource_lxumn"),
+"Bagpipes": SubResource("Resource_wmw2b"),
+"Banana": SubResource("Resource_oj8b4"),
+"Bandages": SubResource("Resource_yjqir"),
+"Bandit's Outfit": SubResource("Resource_tvakw"),
+"Banjo": SubResource("Resource_0frkd"),
+"Battle Axe": SubResource("Resource_vrrrn"),
+"Bear Claws": SubResource("Resource_luj0k"),
+"Bear Meat": SubResource("Resource_u3bqb"),
+"Bear Ribs": SubResource("Resource_fay8m"),
+"Bear Roast": SubResource("Resource_1ggpp"),
+"Bedroll": SubResource("Resource_502kf"),
+"Bit and Bridle": SubResource("Resource_eijmd"),
+"Blacksmith's Outfit": SubResource("Resource_i7q8i"),
+"Blinding Powder": SubResource("Resource_hfid0"),
+"Blunderbuss": SubResource("Resource_0tl8k"),
+"Bottle": SubResource("Resource_h7bmi"),
+"Bourbon": SubResource("Resource_0w6pt"),
+"Bowyer's Tools": SubResource("Resource_xmq52"),
+"Bread": SubResource("Resource_apf30"),
+"Brigandines Arm": SubResource("Resource_pns7h"),
+"Brigandines Head": SubResource("Resource_i0xau"),
+"Brigandines Leg": SubResource("Resource_ucg3s"),
+"Brigandines Torso": SubResource("Resource_fmyfn"),
+"Broad Sword": SubResource("Resource_gmfid"),
+"Brox Weed": SubResource("Resource_341p2"),
+"Buckler": SubResource("Resource_cfdop"),
+"Burger": SubResource("Resource_hof4j"),
+"Carrot": SubResource("Resource_e00m7"),
+"Carrot Juice": SubResource("Resource_a0vxb"),
+"Chain Mail Arm": SubResource("Resource_f4cws"),
+"Chain Mail Head": SubResource("Resource_moneo"),
+"Chain Mail Leg": SubResource("Resource_wxmqx"),
+"Chain Mail Torso": SubResource("Resource_n8dmd"),
+"Chalk": SubResource("Resource_ebqk1"),
+"Cheese": SubResource("Resource_v2x6q"),
+"Chácaras": SubResource("Resource_ew7sc"),
+"Clean Water": SubResource("Resource_42rww"),
+"Club": SubResource("Resource_uhyns"),
+"Commoner's Clothing": SubResource("Resource_almbk"),
+"Compass": SubResource("Resource_4mu1l"),
+"Cooked Beef": SubResource("Resource_xapbb"),
+"Cooking Utensils": SubResource("Resource_g80yu"),
+"Corn": SubResource("Resource_bblfm"),
+"Corrosive Oil": SubResource("Resource_ebs4b"),
+"Crab Cake": SubResource("Resource_1kjhs"),
+"Crab Meat": SubResource("Resource_kjeif"),
+"Crossbow": SubResource("Resource_dbpce"),
+"Dagger": SubResource("Resource_qddaj"),
+"Deer Meat": SubResource("Resource_m3758"),
+"Deer Stew": SubResource("Resource_6f3qc"),
+"Demon Blood, Distilled": SubResource("Resource_1o27v"),
+"Demon Blood, Raw": SubResource("Resource_o33xa"),
+"Desert Clothing": SubResource("Resource_s0g00"),
+"Dirty Wanderer": SubResource("Resource_tj7q0"),
+"Dirty Water": SubResource("Resource_0uney"),
+"Dragon Egg": SubResource("Resource_n2ij5"),
+"Dragon Meat": SubResource("Resource_ovsx5"),
+"Dragon Omelet": SubResource("Resource_feem5"),
+"Dragon Steak": SubResource("Resource_jn3cx"),
+"Drum": SubResource("Resource_k1lil"),
+"Fishing Rod": SubResource("Resource_msscr"),
+"Flail": SubResource("Resource_163wh"),
+"Flute": SubResource("Resource_nsigr"),
+"Fried Fish": SubResource("Resource_p7018"),
+"Fur Clothing": SubResource("Resource_r7vl3"),
+"Great Axe": SubResource("Resource_sueu2"),
+"Great Hammer": SubResource("Resource_51sc5"),
+"Great Sword": SubResource("Resource_jnab2"),
+"Greater Healing Potion": SubResource("Resource_wxrak"),
+"Greater Potion of Mana": SubResource("Resource_6nq8v"),
+"Grilled Deer": SubResource("Resource_wb3sf"),
+"Grilled Wolf": SubResource("Resource_60r1v"),
+"Grol Bark": SubResource("Resource_r14u6"),
+"Halberd": SubResource("Resource_aogj7"),
+"Hammer": SubResource("Resource_v4vb8"),
+"Hand Axe": SubResource("Resource_yipwl"),
+"Hand Crossbow": SubResource("Resource_w1my2"),
+"Healing Potion": SubResource("Resource_xktc4"),
+"Hide Arm": SubResource("Resource_j1b41"),
+"Hide Head": SubResource("Resource_qpr5u"),
+"Hide Leg": SubResource("Resource_q56u8"),
+"Hide Torso": SubResource("Resource_ijsse"),
+"Hunting Bow": SubResource("Resource_08h5q"),
+"Hunting Trap": SubResource("Resource_5o5qp"),
+"Hurdy-gurdy": SubResource("Resource_y3gvk"),
+"Ink": SubResource("Resource_juil0"),
+"Ink Pen": SubResource("Resource_srhp4"),
+"Javelin": SubResource("Resource_oifho"),
+"Katana": SubResource("Resource_47km3"),
+"Knife": SubResource("Resource_vbvq4"),
+"Lantern": SubResource("Resource_rcdoa"),
+"Leather Arm": SubResource("Resource_j3vtj"),
+"Leather Head": SubResource("Resource_x3dph"),
+"Leather Leg": SubResource("Resource_44ncy"),
+"Leather Torso": SubResource("Resource_6dg3v"),
+"Lockpick": SubResource("Resource_phv2n"),
+"Lockpick Set": SubResource("Resource_v7le2"),
+"Long Bow": SubResource("Resource_37q01"),
+"Lute": SubResource("Resource_unqil"),
+"Lyre": SubResource("Resource_54ga7"),
+"Manacles": SubResource("Resource_65w0g"),
+"Mango": SubResource("Resource_axshy"),
+"Maul": SubResource("Resource_sm6u4"),
+"Medical Bag": SubResource("Resource_bo83y"),
+"Mercenary's Outfit": SubResource("Resource_42ala"),
+"Milk": SubResource("Resource_ml0w0"),
+"Moonshine": SubResource("Resource_nof8o"),
+"Morning Star": SubResource("Resource_nhouk"),
+"Musket": SubResource("Resource_ggkkx"),
+"Nature's Gown": SubResource("Resource_os3cj"),
+"Nightshade Toxin": SubResource("Resource_4t7vj"),
+"Noble's Attire": SubResource("Resource_0s1lm"),
+"Oil": SubResource("Resource_0j31r"),
+"One-Person Tent": SubResource("Resource_0l2jc"),
+"Pan Flute": SubResource("Resource_ig4ln"),
+"Pancakes": SubResource("Resource_xhcyf"),
+"Paper": SubResource("Resource_utgke"),
+"Paralytic Venom": SubResource("Resource_dx27n"),
+"Performer's Outfit": SubResource("Resource_gojo8"),
+"Persistent Poison": SubResource("Resource_1b371"),
+"Pickaxe": SubResource("Resource_tyj04"),
+"Pike": SubResource("Resource_h38k1"),
+"Pirate's Attire": SubResource("Resource_a5lq6"),
+"Pistol": SubResource("Resource_cn4i6"),
+"Plate Armor Arm": SubResource("Resource_nrnkh"),
+"Plate Armor Head": SubResource("Resource_gqq2p"),
+"Plate Armor Leg": SubResource("Resource_yubi2"),
+"Plate Armor Torso": SubResource("Resource_7o2mf"),
+"Polearm": SubResource("Resource_dkjni"),
+"Pork Meat": SubResource("Resource_r264s"),
+"Pork Ribs": SubResource("Resource_rwjqw"),
+"Pork Roast": SubResource("Resource_5402a"),
+"Portable Ram": SubResource("Resource_0ewof"),
+"Portable Stove": SubResource("Resource_2lvry"),
+"Potato": SubResource("Resource_mvuu7"),
+"Potion of Charm": SubResource("Resource_fpcs0"),
+"Potion of Demon Mind": SubResource("Resource_k7c0x"),
+"Potion of Demon Speed": SubResource("Resource_lgfja"),
+"Potion of Demon Vitality": SubResource("Resource_o0w78"),
+"Potion of Fitness": SubResource("Resource_bvsfr"),
+"Potion of Fury": SubResource("Resource_lxuir"),
+"Potion of Greater Speed": SubResource("Resource_rs256"),
+"Potion of Greater Vitality": SubResource("Resource_ubkis"),
+"Potion of Invisibility": SubResource("Resource_flbxy"),
+"Potion of Lasting Speed": SubResource("Resource_ex6qy"),
+"Potion of Mana": SubResource("Resource_5aodx"),
+"Potion of Quickened Mind": SubResource("Resource_onyms"),
+"Potion of Sharp Mind": SubResource("Resource_5jvse"),
+"Potion of Speed": SubResource("Resource_uy7l0"),
+"Potion of Vitality": SubResource("Resource_ji1mv"),
+"Potion of the Eased Mind": SubResource("Resource_unt3k"),
+"Potion of the Opened Mind": SubResource("Resource_yks8r"),
+"Pouch": SubResource("Resource_2kn15"),
+"Priest's Garments": SubResource("Resource_70pft"),
+"Ranger's Outfit": SubResource("Resource_ssggw"),
+"Rapier": SubResource("Resource_gmdnr"),
+"Raw Beef": SubResource("Resource_8sm4f"),
+"Raw Chicken": SubResource("Resource_pgb6e"),
+"Raw Fish": SubResource("Resource_8dsvh"),
+"Reaper": SubResource("Resource_5arug"),
+"Roasted Chicken": SubResource("Resource_t48ek"),
+"Roasted Squirrel": SubResource("Resource_1uebl"),
+"Rope": SubResource("Resource_cv58u"),
+"Rum": SubResource("Resource_5bf6h"),
+"Scale Armor Arm": SubResource("Resource_vx7a8"),
+"Scale Armor Head": SubResource("Resource_un6un"),
+"Scale Armor Leg": SubResource("Resource_lw4p6"),
+"Scale Armor Torso": SubResource("Resource_ap7w3"),
+"Scimitar": SubResource("Resource_10caw"),
+"Scribe's Robe": SubResource("Resource_sq6fc"),
+"Scribe's Supplies": SubResource("Resource_dvuba"),
+"Shield": SubResource("Resource_jbxg1"),
+"Short Bow": SubResource("Resource_dh4at"),
+"Short Sword": SubResource("Resource_fumye"),
+"Shovel": SubResource("Resource_jgonc"),
+"Sleeping Draught": SubResource("Resource_rxi1o"),
+"Smithing Tools": SubResource("Resource_5svdx"),
+"Spear": SubResource("Resource_0qhi0"),
+"Spyglass": SubResource("Resource_cllmj"),
+"Squirrel Meat": SubResource("Resource_x7kna"),
+"Squirrel Stew": SubResource("Resource_0pw8d"),
+"Staff": SubResource("Resource_3f440"),
+"Stiletto": SubResource("Resource_8v6ul"),
+"Stillheart Champagne": SubResource("Resource_pbo44"),
+"Stillheart Port Wine": SubResource("Resource_gp33q"),
+"Stillheart Wine": SubResource("Resource_4eb28"),
+"Stunning Poison": SubResource("Resource_hs1g6"),
+"Superior Healing Potion": SubResource("Resource_dqocc"),
+"Superior Potion of Mana": SubResource("Resource_i1id1"),
+"Tailoring Kit": SubResource("Resource_rjdvq"),
+"Tanner's Tools": SubResource("Resource_qqckq"),
+"The Erudite's Brew": SubResource("Resource_ekd1d"),
+"Tinkering Kit": SubResource("Resource_1pg1f"),
+"Tomato": SubResource("Resource_lf5y8"),
+"Tomato Juice": SubResource("Resource_w45pm"),
+"Torch": SubResource("Resource_5gbhn"),
+"Tower Shield": SubResource("Resource_vwm5u"),
+"Tribal Outfit": SubResource("Resource_1bqgd"),
+"Two-Person Tent": SubResource("Resource_8yx7x"),
+"Unarmed": SubResource("Resource_pvnnb"),
+"Vegetable Soup": SubResource("Resource_gnkoa"),
+"Vial": SubResource("Resource_y7a43"),
+"Viol": SubResource("Resource_sfmjy"),
+"Vodka": SubResource("Resource_2p0b5"),
+"Wakizashi": SubResource("Resource_gqe8o"),
+"Wand": SubResource("Resource_la887"),
+"War Bow": SubResource("Resource_8e2xh"),
+"Warhammer": SubResource("Resource_n3dac"),
+"Waterskin": SubResource("Resource_eqshn"),
+"Weakness Ichor": SubResource("Resource_1t600"),
+"Whip": SubResource("Resource_io4al"),
+"Whiskey": SubResource("Resource_0eugb"),
+"Wine": SubResource("Resource_1vqab"),
+"Wizard's Robe": SubResource("Resource_vqitj"),
+"Wolf Meat": SubResource("Resource_3j617"),
+"Yorin's Root": SubResource("Resource_p7jqs"),
+"Ōdachi": SubResource("Resource_65uwo")
+})

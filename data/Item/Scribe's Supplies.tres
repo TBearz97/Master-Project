@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Scribe's Supplies.png" id="1_5vp7y"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="2_2ymn2"]
+
+[resource]
+script = ExtResource("2_2ymn2")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 2.5
+value = 60
+icon = ExtResource("1_5vp7y")
+allowed_slots = Array[int]([6])
+_name = "Scribe's Supplies"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/default.png" id="1_1jsoq"]
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="2_emg3x"]
+
+[resource]
+script = ExtResource("2_emg3x")
+weight = 3.0
+value = 38
+icon = ExtResource("1_1jsoq")
+_name = "Scale Armor Leg"
