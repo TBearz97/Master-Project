@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_87tqe"]
+
+[resource]
+script = ExtResource("1_87tqe")
+category = "Skills"
+_name = "Logical Clarity"
+short_description = "Resist confusion."
+long_description = "Stay rational under pressure, avoiding mental penalties."

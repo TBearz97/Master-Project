@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_krg1e"]
+
+[resource]
+script = ExtResource("1_krg1e")
+category = "Skills"
+_name = "Lightfoot"
+short_description = "Reduce movement noise."
+long_description = "Run quietly to avoid enemy detection."

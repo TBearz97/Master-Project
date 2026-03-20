@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_7k5tv"]
+
+[resource]
+script = ExtResource("1_7k5tv")
+category = "Skills"
+_name = "Distraction Artist"
+short_description = "Create diversions."
+long_description = "Perform quick distractions when stealing or fleeing."

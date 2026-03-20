@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/default.png" id="1_etyks"]
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="2_3u4p4"]
+
+[resource]
+script = ExtResource("2_3u4p4")
+weight = 1.0
+value = 20
+icon = ExtResource("1_etyks")
+_name = "Leather Leg"

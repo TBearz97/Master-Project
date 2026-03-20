@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_5jtsk"]
+
+[resource]
+script = ExtResource("1_5jtsk")
+category = "Skills"
+_name = "Mocking Rebuke"
+short_description = "Taunt enemies."
+long_description = "Verbal taunts provoke attacks toward you."

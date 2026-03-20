@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_erany"]
+
+[resource]
+script = ExtResource("1_erany")
+category = "Skills"
+_name = "Mediator"
+short_description = "Resolve disputes peacefully."
+long_description = "Calm heated arguments and prevent violence."

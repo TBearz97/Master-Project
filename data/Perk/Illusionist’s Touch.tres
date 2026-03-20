@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_lf25c"]
+
+[resource]
+script = ExtResource("1_lf25c")
+category = "Skills"
+_name = "Illusionist’s Touch"
+short_description = "Blend illusion and stealth."
+long_description = "Minor illusion accompanies sleight actions to mask them."

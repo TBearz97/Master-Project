@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_whe2w"]
+
+[resource]
+script = ExtResource("1_whe2w")
+category = "Martial"
+_name = "Shield Wall"
+short_description = "Defensive stance boosts resistance."
+long_description = "Form an impenetrable guard that reduces ranged damage taken."

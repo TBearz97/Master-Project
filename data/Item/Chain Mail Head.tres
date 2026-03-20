@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Chain Mail Head.png" id="1_nee1f"]
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="2_wj42f"]
+
+[resource]
+script = ExtResource("2_wj42f")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
+weight = 2.0
+value = 35
+icon = ExtResource("1_nee1f")
+allowed_slots = Array[int]([0])
+_name = "Chain Mail Head"

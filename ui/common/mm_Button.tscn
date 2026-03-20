@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bc2ayb5gcytyd"]
+
+[ext_resource type="Script" uid="uid://1427xv4vuto" path="res://ui/common/scripts/main_menu.gd" id="1_hhvqa"]
+
+[node name="mm_Button" type="Button" node_paths=PackedStringArray("confirm_dialog")]
+text = "Main Menu"
+script = ExtResource("1_hhvqa")
+confirm_dialog = NodePath("ConfirmationDialog")
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]

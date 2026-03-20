@@ -30,11 +30,11 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-PlayerVariables="*res://Global Scripts/player_variables.gd"
-Expressions="*res://Global Scripts/expressions.gd"
-SignalBus="*res://Scripts/signalBus.gd"
-SteamManager="*res://Scripts/Multiplayer/Steam/steam_manager.gd"
-CampaignVariables="*res://Global Scripts/campaign_variables.gd"
+PlayerVariables="*res://autoload/player_variables.gd"
+Expressions="*res://autoload/expressions.gd"
+SignalBus="*res://autoload/signalBus.gd"
+SteamManager="*res://autoload/steam_manager.gd"
+CampaignVariables="*res://autoload/campaign_variables.gd"
 
 [display]
 

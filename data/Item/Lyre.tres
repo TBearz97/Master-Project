@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Lyre.png" id="1_wiyuv"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="2_87fv7"]
+
+[resource]
+script = ExtResource("2_87fv7")
+effect = "Used to perform music (soothe, inspire, rally)."
+weight = 0.5
+value = 17
+icon = ExtResource("1_wiyuv")
+allowed_slots = Array[int]([6])
+_name = "Lyre"

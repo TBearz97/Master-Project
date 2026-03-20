@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://d1hjcr78y7rkk"]
 
-[ext_resource type="Script" uid="uid://03uionys5gkq" path="res://Scripts/Multiplayer/campaign_manager.gd" id="1_x03r7"]
-[ext_resource type="Script" uid="uid://lykqrclch1h1" path="res://Scripts/Multiplayer/Networks/network_manager.gd" id="2_xmlr4"]
+[ext_resource type="Script" uid="uid://03uionys5gkq" path="res://systems/multiplayer/campaign_manager.gd" id="1_x03r7"]
+[ext_resource type="Script" uid="uid://lykqrclch1h1" path="res://systems/multiplayer/networks/network_manager.gd" id="2_xmlr4"]
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_x03r7"]
 

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_8ruki"]
+
+[resource]
+script = ExtResource("1_8ruki")
+category = "Homeland"
+_name = "Survivor"
+short_description = "Hardened against toxins and hazards."
+long_description = "Due to your upbringing in a hazardous land, you have learned to survive toxic and dangerous areas. When taking Hazard damage, you only take half."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_s7la7"]
+
+[resource]
+script = ExtResource("1_s7la7")
+category = "Skills"
+_name = "Preventive Care"
+short_description = "Grant vitality buffs."
+long_description = "Healing allies also grants them temporary vitality."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_a5vdc"]
+
+[resource]
+script = ExtResource("1_a5vdc")
+category = "Skills"
+_name = "Pack Tactics"
+short_description = "Damage bonus with ally beasts."
+long_description = "Deal bonus damage when flanking an enemy with a beast companion."

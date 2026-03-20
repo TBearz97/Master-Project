@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dsabk6r4o5dca"]
 
 [ext_resource type="Script" uid="uid://bwb1up53j7jn4" path="res://Scenes/Campaign Sheet/campaign_sheet.gd" id="1_x8waw"]
-[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="2_l1fye"]
+[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://ui/common/header.tscn" id="2_l1fye"]
 [ext_resource type="PackedScene" uid="uid://d1hjcr78y7rkk" path="res://Scenes/Networks/CampaignManager.tscn" id="3_oi6iy"]
 
 [node name="Sheet" type="Control"]

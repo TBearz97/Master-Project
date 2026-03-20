@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_2l52h"]
+
+[resource]
+script = ExtResource("1_2l52h")
+category = "Skills"
+_name = "Sage’s Recall"
+short_description = "Remember vital lore."
+long_description = "Occasionally recall hidden facts about the world."

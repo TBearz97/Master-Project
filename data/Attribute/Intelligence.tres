@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attribute" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/attribute.gd" id="1_ki36m"]
+
+[resource]
+script = ExtResource("1_ki36m")
+bonus_1_prefix = "Bestiary Progress:"
+bonus_2_prefix = "Buff/Debuff Duration:"
+bonus_1_expression = "(x * 3)"
+bonus_2_expression = "(x * 5)"
+bonus_1_suffix = "%"
+_name = "Intelligence"
+short_description = "Represents reasoning and analytical ability."
+long_description = "Intelligence governs a character’s capacity for logic, learning, and understanding complex systems. It enhances awareness of enemies and the environment, improving bestiary knowledge and analysis. High Intelligence also refines control over magical and tactical effects, increasing the duration of buffs and debuffs applied in combat."

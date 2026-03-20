@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_574po"]
+
+[resource]
+script = ExtResource("1_574po")
+category = "Arcane"
+_name = "Disruptive Casting"
+short_description = "Interrupt enemies."
+long_description = "Casting offensive spells can break enemy concentration."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_qtjfl"]
+
+[resource]
+script = ExtResource("1_qtjfl")
+category = "Homeland"
+_name = "Adaptable"
+short_description = "Flexible social skills from varied cultures."
+long_description = "Due to the many different cities in the Untamed Highlands, you've learned to adapt to different societies. During carousing you can re-roll 1d20 on your Society test."

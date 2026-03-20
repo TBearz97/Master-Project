@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_frx4k"]
+
+[resource]
+script = ExtResource("1_frx4k")
+category = "Nature"
+_name = "Earthen Armor"
+short_description = "Harden your skin like stone."
+long_description = "Enhance physical resistance by drawing on the power of the earth."

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Smithing Tools.png" id="1_1cjvd"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="2_dfu8j"]
+
+[resource]
+script = ExtResource("2_dfu8j")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 4.0
+value = 100
+icon = ExtResource("1_1cjvd")
+allowed_slots = Array[int]([6])
+_name = "Smithing Tools"

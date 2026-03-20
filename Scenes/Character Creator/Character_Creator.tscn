@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dt7qowykvunv" path="res://Scenes/Character Creator/Perks/perks.tscn" id="5_eyo8t"]
 [ext_resource type="PackedScene" uid="uid://cfa4auer58ypw" path="res://Scenes/Character Creator/Items/items.tscn" id="6_oy3el"]
 [ext_resource type="Script" uid="uid://bcj2u8v5drjil" path="res://Scenes/Character Creator/finished.gd" id="6_smni3"]
-[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="18_sohxo"]
+[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://ui/common/header.tscn" id="18_sohxo"]
 
 [node name="Character_Creator" type="Control"]
 layout_mode = 3

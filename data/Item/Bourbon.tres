@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Bourbon.png" id="1_8w8km"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_0k1nc"]
+
+[resource]
+script = ExtResource("2_0k1nc")
+effect = "Alcoholic, Reroll 1d20 on END tests"
+weight = 0.2
+value = 12
+icon = ExtResource("1_8w8km")
+allowed_slots = Array[int]([6])
+_name = "Bourbon"

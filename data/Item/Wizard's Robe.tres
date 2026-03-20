@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Wizard's Robe.png" id="1_bgbsp"]
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="2_o4tdp"]
+
+[resource]
+script = ExtResource("2_o4tdp")
+effect = "Outfit"
+weight = 0.5
+value = 30
+icon = ExtResource("1_bgbsp")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Wizard's Robe"

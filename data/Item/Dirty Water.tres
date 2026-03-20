@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Dirty Water.png" id="1_tjg5m"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_wnpmk"]
+
+[resource]
+script = ExtResource("2_wnpmk")
+healing = 2
+weight = 0.2
+value = 3
+icon = ExtResource("1_tjg5m")
+allowed_slots = Array[int]([6])
+_name = "Dirty Water"

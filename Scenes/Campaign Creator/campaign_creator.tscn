@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://fax4nyykpuue"]
 
-[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://Common_UI/header.tscn" id="1_ppr08"]
+[ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://ui/common/header.tscn" id="1_ppr08"]
 [ext_resource type="Script" uid="uid://dewgk6va0h60o" path="res://Scenes/Campaign Creator/campaign_info.gd" id="2_ppr08"]
 
 [node name="Campaign Creator" type="Control"]

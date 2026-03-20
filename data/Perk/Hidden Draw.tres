@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_6pk6r"]
+
+[resource]
+script = ExtResource("1_6pk6r")
+category = "Skills"
+_name = "Hidden Draw"
+short_description = "Conceal weapon draws."
+long_description = "Draw weapons stealthily without alerting enemies."

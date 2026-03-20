@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_xsu8b"]
+
+[resource]
+script = ExtResource("1_xsu8b")
+category = "Skills"
+_name = "Tactical Withdrawal"
+short_description = "Safer retreats."
+long_description = "Allies move faster and take less damage while disengaging."

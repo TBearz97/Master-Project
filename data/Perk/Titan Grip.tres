@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_naxgx"]
+
+[resource]
+script = ExtResource("1_naxgx")
+category = "Skills"
+_name = "Titan Grip"
+short_description = "Wield heavy weapons easily."
+long_description = "Ignore penalties when using oversized or dual heavy weapons."

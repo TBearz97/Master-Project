@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Katana.png" id="1_ud5k0"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_ykmly"]
+
+[resource]
+script = ExtResource("2_ykmly")
+damage = 1.6
+speed = 33
+qualities = Array[String](["Versatile"])
+size = 1
+weight = 4.0
+value = 31
+icon = ExtResource("1_ud5k0")
+allowed_slots = Array[int]([7])
+_name = "Katana"

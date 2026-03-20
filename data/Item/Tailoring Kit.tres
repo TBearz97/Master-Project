@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Tailoring Kit.png" id="1_eb2gc"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="2_lb641"]
+
+[resource]
+script = ExtResource("2_lb641")
+effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
+weight = 2.5
+value = 50
+icon = ExtResource("1_eb2gc")
+allowed_slots = Array[int]([6])
+_name = "Tailoring Kit"

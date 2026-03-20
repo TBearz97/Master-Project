@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_cbfdm"]
+
+[resource]
+script = ExtResource("1_cbfdm")
+category = "Homeland"
+_name = "Desert Adventurer"
+short_description = "Adapted to endure scorching desert climates."
+long_description = "You can increase your survival rating by 1.5 when it comes to exposure to hot weather. You can go an hour longer for every stage of Thirst and hot weather does not halve it."

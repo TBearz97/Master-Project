@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_rohd2"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_713xt"]
+
+[sub_resource type="Resource" id="Resource_f3jx2"]
+script = ExtResource("1_rohd2")
+category = "Race"
+_name = "Small Frame"
+short_description = "Agile and charming, but physically weaker."
+long_description = "Your slight build grants you unparalleled agility and an appealing presence, yet it limits your physical strength and stamina. Agility and Charisma increases by 2 and their max is now 12. However Strength and Endurance can't be higher than 6."
+
+[resource]
+script = ExtResource("2_713xt")
+perk = SubResource("Resource_f3jx2")
+_name = "Halfling"
+short_description = "Nimble and charming, but physically small."
+long_description = "Halflings are quick-footed and warm-spirited, their small stature giving them an agility that belies their size. Loved for their charisma and adaptability, they thrive in both bustling towns and quiet villages. Yet their light build limits their strength and endurance, pushing them toward cleverness and community over brute force."

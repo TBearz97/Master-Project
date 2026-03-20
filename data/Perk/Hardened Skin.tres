@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_k3q0o"]
+
+[resource]
+script = ExtResource("1_k3q0o")
+category = "Skills"
+_name = "Hardened Skin"
+short_description = "Resist nature damage."
+long_description = "Reduce damage from natural sources and hazards."

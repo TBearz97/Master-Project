@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Short Bow.png" id="1_wtxdv"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_nlmqa"]
+
+[resource]
+script = ExtResource("2_nlmqa")
+damage = 1.0
+speed = 20
+size = 1
+weaponRange = 1
+weight = 1.0
+value = 20
+icon = ExtResource("1_wtxdv")
+allowed_slots = Array[int]([7])
+_name = "Short Bow"

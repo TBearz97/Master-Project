@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_kcwvi"]
+
+[resource]
+script = ExtResource("1_kcwvi")
+category = "Background"
+_name = "Secluded"
+short_description = "Withdrawn life grants quiet insight."
+long_description = "After character creation, gain a Perk in each of your Tag skills, but CHA tests suffer a permanent increase in difficulty by 2."

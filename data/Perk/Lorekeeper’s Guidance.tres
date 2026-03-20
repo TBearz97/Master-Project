@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_j54bx"]
+
+[resource]
+script = ExtResource("1_j54bx")
+category = "Skills"
+_name = "Lorekeeper’s Guidance"
+short_description = "Share wisdom."
+long_description = "Allies gain bonus experience through your teaching."

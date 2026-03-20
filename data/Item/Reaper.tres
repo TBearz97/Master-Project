@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Reaper.png" id="1_3h2ij"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_wdlh7"]
+
+[resource]
+script = ExtResource("2_wdlh7")
+damage = 1.6
+speed = 33
+size = 1
+weight = 4.0
+value = 34
+icon = ExtResource("1_3h2ij")
+allowed_slots = Array[int]([7])
+_name = "Reaper"

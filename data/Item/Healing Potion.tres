@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Healing Potion.png" id="1_tomac"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_7jt5a"]
+
+[resource]
+script = ExtResource("2_7jt5a")
+effect = "Heals 2 HP"
+weight = 0.2
+value = 30
+icon = ExtResource("1_tomac")
+allowed_slots = Array[int]([6])
+_name = "Healing Potion"

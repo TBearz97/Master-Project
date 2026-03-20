@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_n8nd1"]
+
+[resource]
+script = ExtResource("1_n8nd1")
+category = "Background"
+_name = "Blessed Guidance"
+short_description = "Faith strengthens your wisdom and healing."
+long_description = "Once per day, you can reduce the difficulty of a Lore or Medicine test by 1 when invoking your faith."

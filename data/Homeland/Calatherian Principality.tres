@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ktihv"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_imbv4"]
+
+[sub_resource type="Resource" id="Resource_hfu8n"]
+script = ExtResource("1_ktihv")
+category = "Homeland"
+_name = "Looter"
+short_description = "Skilled at finding extra valuables."
+long_description = "Whenever you successfully salvage an area, you also gain a free roll on the Oddities and Valuables table."
+
+[resource]
+script = ExtResource("2_imbv4")
+perk = SubResource("Resource_hfu8n")
+_name = "Calatherian Principality"
+short_description = "Seafaring principality where piracy and trade intermingle."
+long_description = "Whenever you successfully salvage an area, you also gain a free roll on the Oddities and Valuables table."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_750pp"]
+
+[resource]
+script = ExtResource("1_750pp")
+category = "Race"
+_name = "Soulless"
+short_description = "Necrotic damage heals you instead of harming you."
+long_description = "Devoid of a soul, the forces of necrosis that would harm others instead rejuvenate you, turning death itself into a source of strength. You are immune to necrotic damage. In fact, you’re healed by it, you regain half of the necrotic damage inflicted upon you."

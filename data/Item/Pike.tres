@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Pike.png" id="1_3j86e"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_v60mt"]
+
+[resource]
+script = ExtResource("2_v60mt")
+damage = 1.6
+speed = 33
+qualities = Array[String](["Reach"])
+size = 1
+weight = 4.0
+value = 34
+icon = ExtResource("1_3j86e")
+allowed_slots = Array[int]([7])
+_name = "Pike"
