@@ -1,13 +1,18 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Unarmed.png" id="1_jakd3"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_qy2b2"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_qy2b2"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Unarmed.png" id="2_4grux"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_a1v8r"]
 
-[resource]
-script = ExtResource("2_qy2b2")
+[sub_resource type="Resource" id="Resource_llvs5"]
+script = ExtResource("1_qy2b2")
 damage_die = 4
 crit_die = 12
+
+[resource]
+script = ExtResource("3_a1v8r")
+damage_profile = SubResource("Resource_llvs5")
 speed = 20
-icon = ExtResource("1_jakd3")
+icon = ExtResource("2_4grux")
 allowed_slots = Array[int]([7])
 _name = "Unarmed"

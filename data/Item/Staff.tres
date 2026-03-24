@@ -1,16 +1,21 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Staff.png" id="1_48fqy"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_fm0mn"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_fm0mn"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Staff.png" id="2_7chnf"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_r7a7m"]
 
-[resource]
-script = ExtResource("2_fm0mn")
+[sub_resource type="Resource" id="Resource_jqb34"]
+script = ExtResource("1_fm0mn")
 damage_die = 6
 crit_die = 6
+
+[resource]
+script = ExtResource("3_r7a7m")
+damage_profile = SubResource("Resource_jqb34")
 speed = 25
 size = 1
 weight = 1.5
 value = 20
-icon = ExtResource("1_48fqy")
+icon = ExtResource("2_7chnf")
 allowed_slots = Array[int]([7])
 _name = "Staff"

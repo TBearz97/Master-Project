@@ -1,17 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Katana.png" id="1_ud5k0"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_ykmly"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_ykmly"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Katana.png" id="2_oxoby"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_5xj3v"]
 
-[resource]
-script = ExtResource("2_ykmly")
+[sub_resource type="Resource" id="Resource_4h43c"]
+script = ExtResource("1_ykmly")
 damage_die = 8
 crit_die = 6
+
+[resource]
+script = ExtResource("3_5xj3v")
+damage_profile = SubResource("Resource_4h43c")
 speed = 33
 qualities = Array[String](["Versatile"])
 size = 1
 weight = 4.0
 value = 31
-icon = ExtResource("1_ud5k0")
+icon = ExtResource("2_oxoby")
 allowed_slots = Array[int]([7])
 _name = "Katana"

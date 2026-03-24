@@ -1,16 +1,21 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Javelin.png" id="1_gb2h2"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_m2mo0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_m2mo0"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Javelin.png" id="2_2txmw"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_tufoi"]
 
-[resource]
-script = ExtResource("2_m2mo0")
+[sub_resource type="Resource" id="Resource_qdivo"]
+script = ExtResource("1_m2mo0")
 damage_die = 6
 crit_die = 6
+
+[resource]
+script = ExtResource("3_tufoi")
+damage_profile = SubResource("Resource_qdivo")
 speed = 25
 qualities = Array[String](["Thrown (M)"])
 weight = 1.0
 value = 26
-icon = ExtResource("1_gb2h2")
+icon = ExtResource("2_2txmw")
 allowed_slots = Array[int]([7])
 _name = "Javelin"

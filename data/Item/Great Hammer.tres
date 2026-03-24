@@ -1,16 +1,21 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Hammer.png" id="1_3odnj"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_jy6qw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_jy6qw"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Hammer.png" id="2_65xlk"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_e1vm2"]
 
-[resource]
-script = ExtResource("2_jy6qw")
+[sub_resource type="Resource" id="Resource_d6s2k"]
+script = ExtResource("1_jy6qw")
 damage_die = 10
 crit_die = 4
+
+[resource]
+script = ExtResource("3_e1vm2")
+damage_profile = SubResource("Resource_d6s2k")
 speed = 50
 size = 1
 weight = 5.5
 value = 44
-icon = ExtResource("1_3odnj")
+icon = ExtResource("2_65xlk")
 allowed_slots = Array[int]([7])
 _name = "Great Hammer"

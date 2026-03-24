@@ -1,16 +1,21 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Stiletto.png" id="1_tpqv6"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_xttps"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_xttps"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Stiletto.png" id="2_qv45q"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_vfnhb"]
 
-[resource]
-script = ExtResource("2_xttps")
+[sub_resource type="Resource" id="Resource_kpatq"]
+script = ExtResource("1_xttps")
 damage_die = 4
 crit_die = 12
+
+[resource]
+script = ExtResource("3_vfnhb")
+damage_profile = SubResource("Resource_kpatq")
 speed = 20
 qualities = Array[String](["Concealed", " Brutal", " Thrown (C)"])
 weight = 0.5
 value = 20
-icon = ExtResource("1_tpqv6")
+icon = ExtResource("2_qv45q")
 allowed_slots = Array[int]([7])
 _name = "Stiletto"

@@ -1,18 +1,23 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Musket.png" id="1_5f67u"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_nxy0l"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_nxy0l"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Musket.png" id="2_v826b"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_6r6cn"]
 
-[resource]
-script = ExtResource("2_nxy0l")
+[sub_resource type="Resource" id="Resource_uvs73"]
+script = ExtResource("1_nxy0l")
 damage_die = 10
 crit_die = 4
+
+[resource]
+script = ExtResource("3_6r6cn")
+damage_profile = SubResource("Resource_uvs73")
 speed = 10
 qualities = Array[String](["Brutal"])
 size = 1
 weaponRange = 3
 weight = 5.0
 value = 50
-icon = ExtResource("1_5f67u")
+icon = ExtResource("2_v826b")
 allowed_slots = Array[int]([7])
 _name = "Musket"

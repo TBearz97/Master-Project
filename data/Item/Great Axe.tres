@@ -1,17 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Axe.png" id="1_er16q"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_i6c7y"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_i6c7y"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Axe.png" id="2_316ge"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_d2tmx"]
 
-[resource]
-script = ExtResource("2_i6c7y")
+[sub_resource type="Resource" id="Resource_rsdr8"]
+script = ExtResource("1_i6c7y")
 damage_die = 10
 crit_die = 4
+
+[resource]
+script = ExtResource("3_d2tmx")
+damage_profile = SubResource("Resource_rsdr8")
 speed = 50
 qualities = Array[String](["Brutal"])
 size = 1
 weight = 5.5
 value = 45
-icon = ExtResource("1_er16q")
+icon = ExtResource("2_316ge")
 allowed_slots = Array[int]([7])
 _name = "Great Axe"

@@ -1,16 +1,21 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Shield.png" id="1_ran8s"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_pv4f3"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_pv4f3"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Shield.png" id="2_08q03"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_ew58i"]
 
-[resource]
-script = ExtResource("2_pv4f3")
+[sub_resource type="Resource" id="Resource_1g7rd"]
+script = ExtResource("1_pv4f3")
 damage_die = 6
 crit_die = 6
+
+[resource]
+script = ExtResource("3_ew58i")
+damage_profile = SubResource("Resource_1g7rd")
 speed = 25
 qualities = Array[String](["Parry", " +2 Defense"])
 weight = 4.0
 value = 40
-icon = ExtResource("1_ran8s")
+icon = ExtResource("2_08q03")
 allowed_slots = Array[int]([7])
 _name = "Shield"

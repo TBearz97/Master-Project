@@ -1,17 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Halberd.png" id="1_yup04"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_604t8"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_604t8"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Halberd.png" id="2_gvobl"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_rkegv"]
 
-[resource]
-script = ExtResource("2_604t8")
+[sub_resource type="Resource" id="Resource_u0hyn"]
+script = ExtResource("1_604t8")
 damage_die = 10
 crit_die = 4
+
+[resource]
+script = ExtResource("3_rkegv")
+damage_profile = SubResource("Resource_u0hyn")
 speed = 50
 qualities = Array[String](["Reach"])
 size = 1
 weight = 5.0
 value = 48
-icon = ExtResource("1_yup04")
+icon = ExtResource("2_gvobl")
 allowed_slots = Array[int]([7])
 _name = "Halberd"

@@ -4,8 +4,7 @@ class_name Weapon
 enum WeaponSize { ONE_HANDED, TWO_HANDED }
 enum WeaponRange { MELEE, CLOSE, MEDIUM, LONG }
 
-@export var damage_die: int
-@export var crit_die: int
+@export var damage_profile: DamageProfile
 @export var speed: int
 @export var qualities: Array[String]
 @export var size: WeaponSize
@@ -14,8 +13,7 @@ enum WeaponRange { MELEE, CLOSE, MEDIUM, LONG }
 func _init(itemName: String = "", shortDescription: String = "", longDescription: String = "", itemWeight: float = 0, itemValue: int = 0, itemDamageDie: int = 0, itemCritDie: int = 0, itemSpeed: int = 0, itemQualities: String = "", itemSize: String = "", itemRange: String = "") -> void:
 	super(itemName, shortDescription, longDescription, itemWeight, itemValue)
 	allowed_slots = [ItemSlots.WeaponSlot]
-	damage_die = itemDamageDie
-	crit_die = itemCritDie
+	damage_profile = DamageProfile.new(0, itemDamageDie, itemCritDie)
 	speed = itemSpeed
 	qualities = []
 	qualities.assign(itemQualities.split(","))
@@ -43,8 +41,7 @@ func _init(itemName: String = "", shortDescription: String = "", longDescription
 func _print() -> String:
 	return (
 		super() +
-		"Damage: d" + str(damage_die) + "\n" +
-		"Crit: d" + str(crit_die) + "\n" +
+		"Damage: " + damage_profile.describe() + "\n" +
 		"Speed: " + str(speed) + "\n" +
 		"Qualities: " + str(qualities) + "\n" +
 		"Size: " + str(size) + "\n" +

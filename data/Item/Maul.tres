@@ -1,16 +1,21 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Maul.png" id="1_p7u12"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_wyxgt"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_wyxgt"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Maul.png" id="2_smcpw"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_p67gh"]
 
-[resource]
-script = ExtResource("2_wyxgt")
+[sub_resource type="Resource" id="Resource_7k55b"]
+script = ExtResource("1_wyxgt")
 damage_die = 10
 crit_die = 4
+
+[resource]
+script = ExtResource("3_p67gh")
+damage_profile = SubResource("Resource_7k55b")
 speed = 50
 size = 1
 weight = 5.5
 value = 39
-icon = ExtResource("1_p7u12")
+icon = ExtResource("2_smcpw")
 allowed_slots = Array[int]([7])
 _name = "Maul"

@@ -1,17 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Warhammer.png" id="1_486n4"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_vuub0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_vuub0"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Warhammer.png" id="2_y0n2u"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_j4g2m"]
 
-[resource]
-script = ExtResource("2_vuub0")
+[sub_resource type="Resource" id="Resource_2kblo"]
+script = ExtResource("1_vuub0")
 damage_die = 8
 crit_die = 6
+
+[resource]
+script = ExtResource("3_j4g2m")
+damage_profile = SubResource("Resource_2kblo")
 speed = 33
 qualities = Array[String](["Versatile"])
 size = 1
 weight = 4.0
 value = 45
-icon = ExtResource("1_486n4")
+icon = ExtResource("2_y0n2u")
 allowed_slots = Array[int]([7])
 _name = "Warhammer"

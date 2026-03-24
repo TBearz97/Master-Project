@@ -1,17 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Wand.png" id="1_kwsb5"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_mbddw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_mbddw"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Wand.png" id="2_joxqi"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_bos14"]
 
-[resource]
-script = ExtResource("2_mbddw")
+[sub_resource type="Resource" id="Resource_ygmwh"]
+script = ExtResource("1_mbddw")
 damage_die = 6
 crit_die = 6
+
+[resource]
+script = ExtResource("3_bos14")
+damage_profile = SubResource("Resource_ygmwh")
 speed = 20
 qualities = Array[String](["Accurate", " Close Quarters"])
 weaponRange = 2
 weight = 0.5
 value = 35
-icon = ExtResource("1_kwsb5")
+icon = ExtResource("2_joxqi")
 allowed_slots = Array[int]([7])
 _name = "Wand"

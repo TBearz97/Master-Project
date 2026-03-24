@@ -1,15 +1,20 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Flail.png" id="1_yxldr"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_bpcfs"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_bpcfs"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Flail.png" id="2_hchiv"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_acyfe"]
 
-[resource]
-script = ExtResource("2_bpcfs")
+[sub_resource type="Resource" id="Resource_tvoa2"]
+script = ExtResource("1_bpcfs")
 damage_die = 8
 crit_die = 6
+
+[resource]
+script = ExtResource("3_acyfe")
+damage_profile = SubResource("Resource_tvoa2")
 speed = 33
 weight = 2.0
 value = 34
-icon = ExtResource("1_yxldr")
+icon = ExtResource("2_hchiv")
 allowed_slots = Array[int]([7])
 _name = "Flail"

@@ -1,17 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Tower Shield.png" id="1_8jd7b"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_g1ks5"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_g1ks5"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Tower Shield.png" id="2_rarmk"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_lwpmi"]
 
-[resource]
-script = ExtResource("2_g1ks5")
+[sub_resource type="Resource" id="Resource_tu31i"]
+script = ExtResource("1_g1ks5")
 damage_die = 6
 crit_die = 6
+
+[resource]
+script = ExtResource("3_lwpmi")
+damage_profile = SubResource("Resource_tu31i")
 speed = 33
 qualities = Array[String](["Parry", " +3 Defense", " Heavy", " Cover"])
 size = 1
 weight = 7.0
 value = 60
-icon = ExtResource("1_8jd7b")
+icon = ExtResource("2_rarmk")
 allowed_slots = Array[int]([7])
 _name = "Tower Shield"

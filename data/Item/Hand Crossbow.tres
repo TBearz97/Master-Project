@@ -1,17 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Hand Crossbow.png" id="1_j35uh"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_vesns"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_vesns"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Hand Crossbow.png" id="2_maiew"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_drgww"]
 
-[resource]
-script = ExtResource("2_vesns")
+[sub_resource type="Resource" id="Resource_xsvmp"]
+script = ExtResource("1_vesns")
 damage_die = 6
 crit_die = 10
+
+[resource]
+script = ExtResource("3_drgww")
+damage_profile = SubResource("Resource_xsvmp")
 speed = 10
 qualities = Array[String](["Accurate", " Close Quarters"])
 weaponRange = 1
 weight = 2.0
 value = 28
-icon = ExtResource("1_j35uh")
+icon = ExtResource("2_maiew")
 allowed_slots = Array[int]([7])
 _name = "Hand Crossbow"

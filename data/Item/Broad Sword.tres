@@ -1,17 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Broad Sword.png" id="1_3t83w"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_xkyc0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_xkyc0"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Broad Sword.png" id="2_5uqn5"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_dsp4t"]
 
-[resource]
-script = ExtResource("2_xkyc0")
+[sub_resource type="Resource" id="Resource_y02bk"]
+script = ExtResource("1_xkyc0")
 damage_die = 8
 crit_die = 6
+
+[resource]
+script = ExtResource("3_dsp4t")
+damage_profile = SubResource("Resource_y02bk")
 speed = 33
 qualities = Array[String](["Parry", " Versatile"])
 size = 1
 weight = 3.5
 value = 32
-icon = ExtResource("1_3t83w")
+icon = ExtResource("2_5uqn5")
 allowed_slots = Array[int]([7])
 _name = "Broad Sword"

@@ -331,8 +331,7 @@ func _make_item_resource(item_name: String, item_type: String, item_row: Diction
 			var extra: Dictionary = weapon_rows.get(item_name, {})
 			_apply_item_metadata(weapon, item_name, item_row, keywords)
 			weapon.allowed_slots = [Item.ItemSlots.WeaponSlot]
-			weapon.damage_die = _int(extra, "damage_die")
-			weapon.crit_die = _int(extra, "crit_die")
+			weapon.damage_profile = DamageProfile.new(0, _int(extra, "damage_die"), _int(extra, "crit_die"))
 			weapon.speed = _int(extra, "base_speed")
 			weapon.qualities = []
 			var qualities := _text(extra, "qualities")

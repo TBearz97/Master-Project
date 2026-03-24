@@ -1,17 +1,22 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Sword.png" id="1_42km6"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_tm2is"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_tm2is"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Sword.png" id="2_o7h3y"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_vcwxg"]
 
-[resource]
-script = ExtResource("2_tm2is")
+[sub_resource type="Resource" id="Resource_5k72k"]
+script = ExtResource("1_tm2is")
 damage_die = 10
 crit_die = 4
+
+[resource]
+script = ExtResource("3_vcwxg")
+damage_profile = SubResource("Resource_5k72k")
 speed = 50
 qualities = Array[String](["Parry"])
 size = 1
 weight = 5.5
 value = 46
-icon = ExtResource("1_42km6")
+icon = ExtResource("2_o7h3y")
 allowed_slots = Array[int]([7])
 _name = "Great Sword"

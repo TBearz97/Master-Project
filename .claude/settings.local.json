@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/torb1/Documents/GitHub/Master-Project -type f \\\\\\(-name *combat* -o -name *Combat* -o -name *action* -o -name *Action* \\\\\\))"
+    ]
+  }
+}

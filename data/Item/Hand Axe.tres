@@ -1,16 +1,21 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Hand Axe.png" id="1_stkfa"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_8c22m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_8c22m"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Hand Axe.png" id="2_g2es0"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_28cdd"]
 
-[resource]
-script = ExtResource("2_8c22m")
+[sub_resource type="Resource" id="Resource_62o4v"]
+script = ExtResource("1_8c22m")
 damage_die = 6
 crit_die = 6
+
+[resource]
+script = ExtResource("3_28cdd")
+damage_profile = SubResource("Resource_62o4v")
 speed = 25
 qualities = Array[String](["Brutal"])
 weight = 2.0
 value = 23
-icon = ExtResource("1_stkfa")
+icon = ExtResource("2_g2es0")
 allowed_slots = Array[int]([7])
 _name = "Hand Axe"
