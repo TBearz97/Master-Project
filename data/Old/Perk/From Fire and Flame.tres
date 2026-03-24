@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_dko08"]
+
+[resource]
+script = ExtResource("1_dko08")
+category = "Race"
+_name = "From Fire and Flame"
+short_description = "Obsidian patches grant immunity to damage in one chosen spot."
+long_description = "Forged in the heart of a volcano, your body is adorned with obsidian patches that render you impervious to harm, a testament to your fiery origin. Your body grows magical Obsidian patches around your body, choose one location where they have converged making you entirely immune to damage."

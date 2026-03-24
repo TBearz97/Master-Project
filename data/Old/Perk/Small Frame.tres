@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_3atr4"]
+
+[resource]
+script = ExtResource("1_3atr4")
+category = "Race"
+_name = "Small Frame"
+short_description = "Agile and charming, but physically weaker."
+long_description = "Your slight build grants you unparalleled agility and an appealing presence, yet it limits your physical strength and stamina. Agility and Charisma increases by 2 and their max is now 12. However Strength and Endurance can't be higher than 6."

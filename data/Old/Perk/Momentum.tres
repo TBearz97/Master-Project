@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_tyrvx"]
+
+[resource]
+script = ExtResource("1_tyrvx")
+category = "Martial"
+_name = "Momentum"
+short_description = "Build speed with consecutive hits."
+long_description = "Each successful attack increases attack speed until the chain is broken."

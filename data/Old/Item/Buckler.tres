@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Buckler.png" id="1_wpx4h"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_uikdy"]
+
+[resource]
+script = ExtResource("2_uikdy")
+damage = 1.0
+speed = 20
+qualities = Array[String](["Parry", " +1 Defense", " Accurate"])
+weight = 2.0
+value = 25
+icon = ExtResource("1_wpx4h")
+allowed_slots = Array[int]([7])
+_name = "Buckler"

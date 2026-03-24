@@ -5,7 +5,8 @@
 
 [resource]
 script = ExtResource("2_glbkm")
-damage = 1.3
+damage_die = 6
+crit_die = 6
 speed = 25
 size = 1
 weaponRange = 2

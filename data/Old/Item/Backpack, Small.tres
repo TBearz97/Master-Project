@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Backpack, Small.png" id="1_kdip1"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="2_8y4q5"]
+
+[resource]
+script = ExtResource("2_8y4q5")
+effect = "Wearer adds 3 × STR to maximum Carry Weight."
+weight = 1.0
+value = 30
+icon = ExtResource("1_kdip1")
+allowed_slots = Array[int]([6])
+_name = "Backpack, Small"

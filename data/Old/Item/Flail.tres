@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Flail.png" id="1_yxldr"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_bpcfs"]
+
+[resource]
+script = ExtResource("2_bpcfs")
+damage = 1.6
+speed = 33
+weight = 2.0
+value = 34
+icon = ExtResource("1_yxldr")
+allowed_slots = Array[int]([7])
+_name = "Flail"

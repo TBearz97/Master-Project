@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_lsoem"]
+
+[resource]
+script = ExtResource("1_lsoem")
+category = "Skills"
+_name = "Quick Command"
+short_description = "Issue faster pet orders."
+long_description = "Companions respond instantly to your Animal Handling commands."

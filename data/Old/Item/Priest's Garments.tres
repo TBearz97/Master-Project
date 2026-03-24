@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Priest's Garments.png" id="1_ky88b"]
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="2_8ctba"]
+
+[resource]
+script = ExtResource("2_8ctba")
+effect = "Outfit"
+weight = 0.5
+value = 30
+icon = ExtResource("1_ky88b")
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+_name = "Priest's Garments"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_su5w5"]
+
+[resource]
+script = ExtResource("1_su5w5")
+category = "Zealous"
+_name = "Divine Shield"
+short_description = "Summon a protective barrier."
+long_description = "Manifest divine light that absorbs incoming damage."

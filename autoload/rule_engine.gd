@@ -28,3 +28,11 @@ func rollDice(num: int, sides: int) -> int:
 		diceArray.append(res)
 	diceRolled.emit(diceArray)
 	return total
+
+
+func dealDamage(target : CreatureData) -> void:
+	print(target._name + " Took 5 damage")
+	
+func applyCondition(target : CreatureData, condition_name : String) -> void:
+	var condition = CampaignVariables.codex.Conditions.get(condition_name)
+	print(target._name + " received " + condition._name)

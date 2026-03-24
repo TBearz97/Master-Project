@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_wp5an"]
+
+[resource]
+script = ExtResource("1_wp5an")
+category = "Nature"
+_name = "Totemic Strength"
+short_description = "Place totems for buffs."
+long_description = "Totems radiate energy, strengthening allies nearby."

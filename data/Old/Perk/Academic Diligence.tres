@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_8kb0s"]
+
+[resource]
+script = ExtResource("1_8kb0s")
+category = "Skills"
+_name = "Academic Diligence"
+short_description = "Faster research."
+long_description = "Complete study or lore research more efficiently."

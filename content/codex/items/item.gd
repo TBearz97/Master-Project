@@ -16,9 +16,6 @@ func _init(__name: String = "", shortDescription: String = "", longDescription: 
 
 	if _name != "":
 		_load_icon_from_name()
-		var error := ResourceSaver.save(self, "res://data/Item/" + _name + ".res")
-		if error != OK:
-			push_error("Item save failed for %s: %s" % [_name, error])
 
 func _print() -> String:
 	return (

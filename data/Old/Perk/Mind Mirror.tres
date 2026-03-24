@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_f6wau"]
+
+[resource]
+script = ExtResource("1_f6wau")
+category = "Skills"
+_name = "Mind Mirror"
+short_description = "Reflect mental effects."
+long_description = "Once per rest, reflect a mental spell back at the caster."

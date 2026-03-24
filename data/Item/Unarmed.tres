@@ -5,7 +5,8 @@
 
 [resource]
 script = ExtResource("2_qy2b2")
-damage = 1.0
+damage_die = 4
+crit_die = 12
 speed = 20
 icon = ExtResource("1_jakd3")
 allowed_slots = Array[int]([7])

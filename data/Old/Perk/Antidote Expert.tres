@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_yapij"]
+
+[resource]
+script = ExtResource("1_yapij")
+category = "Skills"
+_name = "Antidote Expert"
+short_description = "Resist toxins."
+long_description = "Reduce poison and disease effects on yourself."

@@ -1,14 +1,14 @@
 {
   "main": {
-    "id": "4d6bc5ea01e44b28",
+    "id": "9cb1827229e9c9d5",
     "type": "split",
     "children": [
       {
-        "id": "df9a3536f8835161",
+        "id": "029b26ce70ab25b4",
         "type": "tabs",
         "children": [
           {
-            "id": "15ac67378275d01b",
+            "id": "cf46ab6030a61899",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -20,95 +20,22 @@
               "icon": "lucide-file",
               "title": "2.2 Damage, Effects and Qualities"
             }
-          },
-          {
-            "id": "0086cafaf4f17f0e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-                "file": "8. Character Creation/8.4 Choosing your Background.md",
-=======
-                "file": "8. Character Creation/8.2 Choosing your Race.md",
->>>>>>> Stashed changes
-=======
-                "file": "8. Character Creation/8.2 Choosing your Race.md",
->>>>>>> Stashed changes
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-              "title": "8.4 Choosing your Background"
-            }
-          },
-          {
-            "id": "def3ed2a848faf88",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "8. Character Creation/8.5 Distributing Attributes.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "8.5 Distributing Attributes"
-            }
-          },
-          {
-            "id": "1110e7cb1e4ea578",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "8. Character Creation/8.5 Distributing Attributes.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "8.5 Distributing Attributes"
-=======
-              "title": "8.2 Choosing your Race"
->>>>>>> Stashed changes
-=======
-              "title": "8.2 Choosing your Race"
->>>>>>> Stashed changes
-            }
-          },
-          {
-            "id": "3aac7516176ddc0f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "5. Equipment/5.2 Melee Weapons.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "5.2 Melee Weapons"
-            }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "d9ce1d9d8b4122c9",
+    "id": "baa327c65c866d70",
     "type": "split",
     "children": [
       {
-        "id": "500fecbc86bfba9e",
+        "id": "1ad4e199590e2498",
         "type": "tabs",
         "children": [
           {
-            "id": "971d0702351c0050",
+            "id": "3d4678c21c571801",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -121,7 +48,7 @@
             }
           },
           {
-            "id": "251a81bbb66beedf",
+            "id": "161f015358d19b43",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -138,7 +65,7 @@
             }
           },
           {
-            "id": "1df6952442d6f4f8",
+            "id": "47a27344ebba9760",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -151,23 +78,23 @@
       }
     ],
     "direction": "horizontal",
-    "width": 297.5
+    "width": 300
   },
   "right": {
-    "id": "fd8db77bda6f2898",
+    "id": "2d8b8f48d9f98aec",
     "type": "split",
     "children": [
       {
-        "id": "445e3868b3303929",
+        "id": "8f159e50e164b0de",
         "type": "tabs",
         "children": [
           {
-            "id": "facb641905389d0f",
+            "id": "c24b0a5d2aa4bc24",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Work in Progress/Skills and Attributes.md",
+                "file": "2. Combat/2.2 Damage, Effects and Qualities.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -177,44 +104,65 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Skills and Attributes"
+              "title": "Backlinks for 2.2 Damage, Effects and Qualities"
             }
           },
           {
-            "id": "5b651f1c0776c662",
+            "id": "1e62b2ac1c1773c1",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Work in Progress/Skills and Attributes.md",
+                "file": "2. Combat/2.2 Damage, Effects and Qualities.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Skills and Attributes"
+              "title": "Outgoing links from 2.2 Damage, Effects and Qualities"
             }
           },
           {
-            "id": "2a6424b5c6264beb",
+            "id": "46c98ebe469f44e2",
             "type": "leaf",
             "state": {
               "type": "tag",
               "state": {
                 "sortOrder": "frequency",
-                "useHierarchy": true
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-tags",
               "title": "Tags"
             }
           },
           {
-            "id": "488d63ebc48fd8c7",
+            "id": "f5742002a1634c72",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "e3ce2cb3f02ceb27",
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {},
+              "state": {
+                "file": "2. Combat/2.2 Damage, Effects and Qualities.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of 2.2 Damage, Effects and Qualities"
             }
           }
         ]
@@ -226,74 +174,42 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
+      "bases:Create new base": false,
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "1110e7cb1e4ea578",
+  "active": "cf46ab6030a61899",
   "lastOpenFiles": [
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    "5. Equipment/5.7 Tools and Utility.md",
-    "5. Equipment/5.8 Services.md",
-    "5. Equipment/5.6 Consumables.md",
-    "5. Equipment/5.5 Armor.md",
-    "5. Equipment/5.4 Clothing and Outfits.md",
-    "5. Equipment/5.3 Ranged Weapons.md",
-    "5. Equipment/5.2 Melee Weapons.md",
-    "8. Character Creation/8.6 Distributing Skills.md",
-    "8. Character Creation/8.5 Distributing Attributes.md",
-    "8. Character Creation/8.3 Choosing your Homeland.md",
-    "8. Character Creation/8.2 Choosing your Race.md",
-=======
-    "8. Character Creation/8.12 Perks.md",
->>>>>>> Stashed changes
-=======
-    "8. Character Creation/8.12 Perks.md",
->>>>>>> Stashed changes
-    "7. A Guide to Al'otoro/High Elves.md",
-    "5. Equipment/5.3 Ranged Weapons.md",
-    "Untitled 1.canvas",
-    "Untitled.md",
-    "2. Combat/2.1 Combat Encounters.md",
-    "2. Combat/2.2 Damage, Effects and Qualities.md",
-    "2. Combat/2.4 The Environment.md",
-    "5. Equipment/5.1 Equipment.md",
-    "Work in Progress/Skills and Attributes.md",
-    "3. Social/3.2 Downtime - Incomplete.md",
-    "1. Core Rules/1.3 Inspiration Points & Luck.md",
-    "1. Core Rules/1.2 Skill Tests.md",
-    "4. Exploration/4.2 Traveling.md",
-    "4. Exploration/4.5 Bestiary.md",
-    "4. Exploration/4.4 Scavenging - Incomplete.md",
     "4. Exploration/4.3 Random Map Maker.md",
+    "4. Exploration/4.2 Traveling.md",
     "4. Exploration/4.1 Staying Alive.md",
-<<<<<<< Updated upstream
-=======
-    "3. Social/3.1 Social Encounters.md",
-    "3. Social/3.3 Crafting - Incomplete.md",
+    "5. Equipment/5.1 Equipment.md",
+    "Work in Progress/Backgrounds Count.md",
+    "Work in Progress/Character Creation Old.md",
+    "Work in Progress/Combat.md",
+    "Work in Progress/Hex Grid Ranges.md",
+    "Work in Progress/Skills and Attributes.md",
+    "Work in Progress/Upgrades.md",
+    "Exported image 20241105151642-0.png",
     "TODO.md",
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+    "Untitled.md",
     "Untitled.canvas",
-    "Work in Progress",
-    "3. Social",
-    "Magic v2",
-    "Magic v1",
-    "9. Gamemastering",
-    "6. Magic",
-    "4. Exploration",
-    "5. Equipment",
-    "10. Creatures and Characters",
-    "1. Core Rules",
-    "Exported image 20241105151642-0.png"
+    "Untitled 1.canvas",
+    "8. Character Creation/8.5 Distributing Attributes.md",
+    "Work in Progress/Humanoid Origins.md",
+    "Work in Progress/Mana Magic.md",
+    "Work in Progress/Melee Weapon.md",
+    "Work in Progress/Notable Historic Names.md",
+    "Work in Progress/Origin.md",
+    "Work in Progress/Perks and Spells.md",
+    "5. Equipment/5.2 Melee Weapons.md",
+    "2. Combat/2.2 Damage, Effects and Qualities.md",
+    "5. Equipment/5.3 Ranged Weapons.md"
   ]
 }

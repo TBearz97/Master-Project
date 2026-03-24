@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Potion of Speed.png" id="1_qmuqk"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_f2d3d"]
+
+[resource]
+script = ExtResource("2_f2d3d")
+addiction = 2
+effect = "Extra actions cost 1 less IP"
+weight = 0.2
+value = 50
+icon = ExtResource("1_qmuqk")
+allowed_slots = Array[int]([6])
+_name = "Potion of Speed"

@@ -8,8 +8,3 @@ func _init(__name: String = "", shortDescription: String = "", longDescription: 
 	super(__name, shortDescription, longDescription)
 	attribute1 = att1
 	attribute2 = att2
-
-	if _name != "":
-		var error := ResourceSaver.save(self, "res://data/Defence/" + _name + ".res")
-		if error != OK:
-			push_error("Defence save failed for %s: %s" % [_name, error])

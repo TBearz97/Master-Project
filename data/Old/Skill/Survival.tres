@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="1_l0hip"]
+
+[resource]
+script = ExtResource("1_l0hip")
+_name = "Survival"
+short_description = "The knowledge to endure the wilds."
+long_description = "Survival is the understanding of nature’s dangers and gifts — how to find water, build shelter, track game, and weather storm or famine. It is the art of living where the land itself may seek to claim you."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Yorin's Root.png" id="1_hsupp"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_qrhfs"]
+
+[resource]
+script = ExtResource("2_qrhfs")
+addiction = 1
+effect = "Re-roll 1d20 on PER and AGI tests; +2 CD to sneak attack damage"
+weight = 0.1
+value = 100
+icon = ExtResource("1_hsupp")
+allowed_slots = Array[int]([6])
+_name = "Yorin's Root"

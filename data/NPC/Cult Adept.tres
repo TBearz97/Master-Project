@@ -1,0 +1,195 @@
+[gd_resource type="Resource" script_class="NPC" load_steps=43 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_vglna"]
+[ext_resource type="Script" path="res://content/codex/character_options/attribute.gd" id="2_q2mue"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="3_rab0c"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="4_vyreb"]
+[ext_resource type="Script" path="res://content/codex/gameplay/condition.gd" id="5_dwy8r"]
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="6_82q10"]
+[ext_resource type="Script" path="res://content/codex/items/item.gd" id="7_tntrb"]
+[ext_resource type="Script" path="res://content/codex/items/equipment.gd" id="8_fafka"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="9_5hnjj"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="10_txd2r"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="11_ktqj2"]
+[ext_resource type="Script" path="res://content/actor_data/HumanoidData.gd" id="12_n0rb5"]
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="13_popr1"]
+[ext_resource type="Script" path="res://content/codex/NPC/NPC.gd" id="14_evyte"]
+
+[sub_resource type="Resource" id="Resource_g7a3f"]
+script = ExtResource("2_q2mue")
+value = 1
+bonus_1_prefix = "Damage & Healing:"
+bonus_2_prefix = "Carry Weight:"
+bonus_1_expression = "(x - 1) * 5"
+bonus_2_expression = "((x - 1) * 5) + 75"
+bonus_1_suffix = "%"
+bonus_2_suffix = "kg"
+_name = "Might"
+short_description = "Represents physical and spiritual strength."
+long_description = "Might measures the character’s raw physical and inner power. It influences both physical and magical damage as well as the effectiveness of healing abilities. Characters with higher Might deal and heal more damage and can carry heavier loads."
+
+[sub_resource type="Resource" id="Resource_tin0y"]
+script = ExtResource("2_q2mue")
+value = 1
+bonus_1_prefix = "Action Points:"
+bonus_2_prefix = "Deflection:"
+bonus_1_expression = "x + 3"
+bonus_2_expression = "x"
+_name = "Dexterity"
+short_description = "Represents speed, coordination, and reflexes."
+long_description = "Dexterity reflects a character’s agility and precision in both physical and mental actions. It governs how quickly and efficiently a character can move, attack, and react. High Dexterity grants additional action points, allowing more actions per turn, and improves deflection, helping to avoid incoming attacks."
+
+[sub_resource type="Resource" id="Resource_ewpa7"]
+script = ExtResource("2_q2mue")
+value = 1
+bonus_1_prefix = "Health:"
+bonus_2_prefix = "Vitality:"
+bonus_1_expression = "x + 5"
+bonus_2_expression = "(3 + floor((x - 1) / 3))"
+bonus_1_suffix = "x Level"
+bonus_2_suffix = "x Health"
+_name = "Constitution"
+short_description = "Represents endurance and overall toughness."
+long_description = "Constitution determines a character’s physical resilience and ability to withstand harm, fatigue, and disease. It directly affects maximum health and long-term vitality, influencing how long a character can endure in battle or harsh environments. Those with higher Constitution can take more punishment and recover faster from strain."
+
+[sub_resource type="Resource" id="Resource_afiqi"]
+script = ExtResource("2_q2mue")
+value = 1
+bonus_1_prefix = "Accuracy:"
+bonus_2_prefix = "Critical Damage:"
+bonus_1_expression = "x"
+bonus_2_expression = "((x - 1) * 5) + 50"
+bonus_2_suffix = "%"
+_name = "Perception"
+short_description = "Represents awareness and precision."
+long_description = "Perception measures a character’s ability to notice details, aim accurately, and react swiftly to subtle changes in their surroundings. High Perception increases accuracy with all attacks and improves the likelihood of striking vital points, resulting in more devastating critical hits."
+
+[sub_resource type="Resource" id="Resource_tf6i3"]
+script = ExtResource("2_q2mue")
+value = 1
+bonus_1_prefix = "Bestiary Progress:"
+bonus_2_prefix = "Buff/Debuff Duration:"
+bonus_1_expression = "(x * 3)"
+bonus_2_expression = "(x * 5)"
+bonus_1_suffix = "%"
+_name = "Intelligence"
+short_description = "Represents reasoning and analytical ability."
+long_description = "Intelligence governs a character’s capacity for logic, learning, and understanding complex systems. It enhances awareness of enemies and the environment, improving bestiary knowledge and analysis. High Intelligence also refines control over magical and tactical effects, increasing the duration of buffs and debuffs applied in combat."
+
+[sub_resource type="Resource" id="Resource_wiqmu"]
+script = ExtResource("2_q2mue")
+value = 1
+bonus_1_prefix = "Concentration:"
+bonus_2_prefix = "Debuff Resistance:"
+bonus_1_expression = "x"
+bonus_2_expression = "x * 5"
+_name = "Resolve"
+short_description = "Represents mental fortitude and determination."
+long_description = "Resolve reflects a character’s strength of will, focus, and emotional stability under pressure. It determines how well a character maintains concentration during combat and how resistant they are to negative mental or magical effects. Characters with high Resolve can shrug off debilitating conditions and remain steadfast in challenging situations."
+
+[sub_resource type="Resource" id="Resource_mjhn8"]
+script = ExtResource("3_rab0c")
+
+[sub_resource type="Resource" id="Resource_6skl4"]
+script = ExtResource("4_vyreb")
+perk = SubResource("Resource_mjhn8")
+
+[sub_resource type="Resource" id="Resource_13hy2"]
+script = ExtResource("6_82q10")
+
+[sub_resource type="Resource" id="Resource_054j4"]
+script = ExtResource("6_82q10")
+
+[sub_resource type="Resource" id="Resource_2yksd"]
+script = ExtResource("6_82q10")
+
+[sub_resource type="Resource" id="Resource_e63xr"]
+script = ExtResource("7_tntrb")
+
+[sub_resource type="Resource" id="Resource_iid0r"]
+script = ExtResource("7_tntrb")
+
+[sub_resource type="Resource" id="Resource_ncq0e"]
+script = ExtResource("7_tntrb")
+
+[sub_resource type="Resource" id="Resource_mg8xg"]
+script = ExtResource("7_tntrb")
+
+[sub_resource type="Resource" id="Resource_6wv75"]
+script = ExtResource("6_82q10")
+
+[sub_resource type="Resource" id="Resource_hhrm7"]
+script = ExtResource("6_82q10")
+
+[sub_resource type="Resource" id="Resource_sqcf4"]
+script = ExtResource("6_82q10")
+
+[sub_resource type="Resource" id="Resource_y3hlx"]
+script = ExtResource("9_5hnjj")
+qualities = Array[String]([""])
+allowed_slots = Array[int]([7])
+
+[sub_resource type="Resource" id="Resource_qh36t"]
+script = ExtResource("9_5hnjj")
+qualities = Array[String]([""])
+allowed_slots = Array[int]([7])
+
+[sub_resource type="Resource" id="Resource_8njbi"]
+script = ExtResource("9_5hnjj")
+qualities = Array[String]([""])
+allowed_slots = Array[int]([7])
+
+[sub_resource type="Resource" id="Resource_xa5vn"]
+script = ExtResource("9_5hnjj")
+qualities = Array[String]([""])
+allowed_slots = Array[int]([7])
+
+[sub_resource type="Resource" id="Resource_iiy2t"]
+script = ExtResource("8_fafka")
+head = SubResource("Resource_13hy2")
+torso = SubResource("Resource_sqcf4")
+leftArm = SubResource("Resource_054j4")
+rightArm = SubResource("Resource_6wv75")
+leftLeg = SubResource("Resource_2yksd")
+rightLeg = SubResource("Resource_hhrm7")
+weapon1Left = SubResource("Resource_y3hlx")
+weapon1Right = SubResource("Resource_qh36t")
+weapon2Left = SubResource("Resource_8njbi")
+weapon2Right = SubResource("Resource_xa5vn")
+quickItem1 = SubResource("Resource_e63xr")
+quickItem2 = SubResource("Resource_iid0r")
+quickItem3 = SubResource("Resource_ncq0e")
+quickItem4 = SubResource("Resource_mg8xg")
+
+[sub_resource type="Resource" id="Resource_bevlx"]
+script = ExtResource("3_rab0c")
+
+[sub_resource type="Resource" id="Resource_7d34k"]
+script = ExtResource("10_txd2r")
+perk = SubResource("Resource_bevlx")
+
+[sub_resource type="Resource" id="Resource_qjmfy"]
+script = ExtResource("3_rab0c")
+
+[sub_resource type="Resource" id="Resource_1yun8"]
+script = ExtResource("11_ktqj2")
+perk = SubResource("Resource_qjmfy")
+
+[sub_resource type="Resource" id="Resource_acxoc"]
+script = ExtResource("12_n0rb5")
+equipment = SubResource("Resource_iiy2t")
+race = SubResource("Resource_1yun8")
+homeland = SubResource("Resource_7d34k")
+background = SubResource("Resource_6skl4")
+_name = "Cult Adept"
+attributes = Array[ExtResource("2_q2mue")]([SubResource("Resource_g7a3f"), SubResource("Resource_tin0y"), SubResource("Resource_ewpa7"), SubResource("Resource_afiqi"), SubResource("Resource_tf6i3"), SubResource("Resource_wiqmu")])
+maxHP = 10
+currentHP = 10
+level = 1
+
+[resource]
+script = ExtResource("14_evyte")
+data = SubResource("Resource_acxoc")
+_name = "Cult Adept"
+short_description = "A dangerous occult practitioner."
+long_description = "A sinister humanoid who combines ritual knowledge, fanatic resolve, and unsettling magical talent."

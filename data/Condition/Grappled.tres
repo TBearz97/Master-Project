@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Condition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/condition.gd" id="1_psnfi"]
+
+[resource]
+script = ExtResource("1_psnfi")
+_name = "Grappled"
+short_description = "Pinned or held in place."
+long_description = "The creature is physically restrained and cannot move freely until it escapes."

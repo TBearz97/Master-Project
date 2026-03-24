@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Potion of Greater Vitality.png" id="1_br8lx"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_fxl28"]
+
+[resource]
+script = ExtResource("2_fxl28")
+addiction = 1
+effect = "Reduce difficulty of STR, PER, END tests by 1 (min 0); +4 Max HP"
+weight = 0.2
+value = 75
+icon = ExtResource("1_br8lx")
+allowed_slots = Array[int]([6])
+_name = "Potion of Greater Vitality"

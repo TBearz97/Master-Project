@@ -5,7 +5,8 @@
 
 [resource]
 script = ExtResource("2_nlmqa")
-damage = 1.0
+damage_die = 4
+crit_die = 12
 speed = 20
 size = 1
 weaponRange = 1

@@ -5,7 +5,8 @@
 
 [resource]
 script = ExtResource("2_t03ol")
-damage = 2.0
+damage_die = 10
+crit_die = 4
 speed = 50
 size = 1
 weight = 5.5

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Tower Shield.png" id="1_8jd7b"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_g1ks5"]
+
+[resource]
+script = ExtResource("2_g1ks5")
+damage = 0.3
+speed = 33
+qualities = Array[String](["Parry", " +3 Defense", " Heavy", " Cover"])
+size = 1
+weight = 7.0
+value = 60
+icon = ExtResource("1_8jd7b")
+allowed_slots = Array[int]([7])
+_name = "Tower Shield"

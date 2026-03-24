@@ -5,7 +5,8 @@
 
 [resource]
 script = ExtResource("2_vesns")
-damage = 1.6
+damage_die = 6
+crit_die = 10
 speed = 10
 qualities = Array[String](["Accurate", " Close Quarters"])
 weaponRange = 1

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Pouch.png" id="1_mqwq0"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="2_573tk"]
+
+[resource]
+script = ExtResource("2_573tk")
+effect = "Holds smaller items (chems, bullets, coins)."
+weight = 0.2
+value = 18
+icon = ExtResource("1_mqwq0")
+allowed_slots = Array[int]([6])
+_name = "Pouch"

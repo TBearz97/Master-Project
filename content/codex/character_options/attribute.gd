@@ -29,8 +29,3 @@ func _init(
 	bonus_2_expression = bonus_2_expressionDB
 	bonus_1_suffix = bonus_1_suffixDB
 	bonus_2_suffix = bonus_2_suffixDB
-
-	if _name != "":
-		var error := ResourceSaver.save(self, "res://data/Attribute/" + _name + ".res")
-		if error != OK:
-			push_error("Attribute save failed for %s: %s" % [_name, error])

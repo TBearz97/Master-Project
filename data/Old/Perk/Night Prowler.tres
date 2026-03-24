@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_j46js"]
+
+[resource]
+script = ExtResource("1_j46js")
+category = "Skills"
+_name = "Night Prowler"
+short_description = "Excel in darkness."
+long_description = "Stealth performance greatly improves in low light."

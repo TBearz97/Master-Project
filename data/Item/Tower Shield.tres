@@ -5,7 +5,8 @@
 
 [resource]
 script = ExtResource("2_g1ks5")
-damage = 0.3
+damage_die = 6
+crit_die = 6
 speed = 33
 qualities = Array[String](["Parry", " +3 Defense", " Heavy", " Cover"])
 size = 1

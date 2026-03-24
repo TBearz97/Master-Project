@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Whip.png" id="1_34ans"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_bv8ld"]
+
+[resource]
+script = ExtResource("2_bv8ld")
+damage = 1.3
+speed = 25
+qualities = Array[String](["Grappling", " Reach"])
+weight = 1.5
+value = 22
+icon = ExtResource("1_34ans")
+allowed_slots = Array[int]([7])
+_name = "Whip"

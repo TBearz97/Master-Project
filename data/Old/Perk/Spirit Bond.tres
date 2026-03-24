@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_lpu8o"]
+
+[resource]
+script = ExtResource("1_lpu8o")
+category = "Nature"
+_name = "Spirit Bond"
+short_description = "Gain a spirit companion."
+long_description = "Form a bond with a guiding spirit that provides passive bonuses."

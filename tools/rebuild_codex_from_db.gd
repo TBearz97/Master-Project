@@ -7,9 +7,11 @@ const CODEX_SCRIPT := preload("res://content/codex/Codex.gd")
 const OUTPUT_FOLDERS := {
 	"Attribute": "Attribute",
 	"Background": "Background",
+	"Condition": "Condition",
 	"Defence": "Defence",
 	"Homeland": "Homeland",
 	"Item": "Item",
+	"NPC": "NPC",
 	"Perk": "Perk",
 	"Race": "Race",
 	"Rule": "Rule",
@@ -47,12 +49,14 @@ func rebuild_from_database() -> bool:
 	var skills := _build_skills(db, keywords)
 	var rules := _build_rules(db, keywords)
 	var backgrounds := _build_backgrounds(db, keywords, perks)
+	var conditions := _build_conditions(db)
 	var homelands := _build_homelands(db, keywords, perks)
 	var races := _build_races(db, keywords, perks)
 	var defences := _build_defences(db, keywords, attributes)
 	var items := _build_items(db, keywords)
+	var npcs := _build_npcs(db, attributes)
 
-	_build_codex_tres(races, backgrounds, homelands, attributes, skills, defences, perks, rules, items)
+	_build_codex_tres(races, backgrounds, homelands, attributes, skills, defences, perks, conditions, rules, items, npcs)
 
 	if log_progress:
 		print("Finished rebuilding codex .tres files from SQL.")
@@ -139,6 +143,17 @@ func _build_rules(db: SQLite, keywords: Dictionary) -> Dictionary[String, Rule]:
 		result[rule._name] = rule
 	return result
 
+func _build_conditions(db: SQLite) -> Dictionary[String, Condition]:
+	var result: Dictionary[String, Condition] = {}
+	for row in _query(db, "SELECT name, short_description, long_description FROM Condition ORDER BY ID"):
+		var condition := Condition.new()
+		condition._name = _text(row, "name")
+		condition.short_description = _text(row, "short_description")
+		condition.long_description = _text(row, "long_description")
+		_save_tres(condition, "Condition", condition._name)
+		result[condition._name] = condition
+	return result
+
 func _build_backgrounds(db: SQLite, keywords: Dictionary, perks: Dictionary[String, Perk]) -> Dictionary[String, Background]:
 	var result: Dictionary[String, Background] = {}
 	for row in _query(db, "SELECT name, short_description, long_description, perk FROM Background ORDER BY ID"):
@@ -194,7 +209,7 @@ func _build_items(db: SQLite, keywords: Dictionary) -> Dictionary[String, Item]:
 	var clothing_rows := _rows_by_key(_query(db, "SELECT item, locations_covered, type FROM Clothing"), "item")
 	var consumable_rows := _rows_by_key(_query(db, "SELECT item, hp_healed, effect, addiction_threshold FROM Consumable"), "item")
 	var utility_rows := _rows_by_key(_query(db, "SELECT item, effect FROM Utility"), "item")
-	var weapon_rows := _rows_by_key(_query(db, "SELECT item, damage_multiplier, base_speed, qualities, size, range FROM Weapon"), "item")
+	var weapon_rows := _rows_by_key(_query(db, "SELECT item, damage_die, crit_die, base_speed, qualities, size, range FROM Weapon"), "item")
 
 	for row in _query(db, "SELECT name, weight, cost, type FROM Item ORDER BY ID"):
 		var item_name := _text(row, "name")
@@ -205,9 +220,20 @@ func _build_items(db: SQLite, keywords: Dictionary) -> Dictionary[String, Item]:
 			result[item._name] = item
 	return result
 
-func _build_codex_tres(races: Dictionary[String, Race], backgrounds: Dictionary[String, Background], homelands: Dictionary[String, Homeland], attributes: Dictionary[String, Attribute], skills: Dictionary[String, Skill], defences: Dictionary[String, Defence], perks: Dictionary[String, Perk], rules: Dictionary[String, Rule], items: Dictionary[String, Item]) -> void:
-	var conditions: Dictionary[String, Condition] = {}
-	var npcs: Dictionary[String, NPC] = {}
+func _build_npcs(db: SQLite, attributes: Dictionary[String, Attribute]) -> Dictionary[String, NPC]:
+	var result: Dictionary[String, NPC] = {}
+	for row in _query(db, "SELECT name, short_description, long_description, creature_type, max_hp, level, attributes FROM NPC ORDER BY ID"):
+		var creature_data := _make_npc_creature_data(row, attributes)
+		var npc := NPC.new()
+		npc._name = _text(row, "name")
+		npc.short_description = _text(row, "short_description")
+		npc.long_description = _text(row, "long_description")
+		npc.data = creature_data
+		_save_tres(npc, "NPC", npc._name)
+		result[npc._name] = npc
+	return result
+
+func _build_codex_tres(races: Dictionary[String, Race], backgrounds: Dictionary[String, Background], homelands: Dictionary[String, Homeland], attributes: Dictionary[String, Attribute], skills: Dictionary[String, Skill], defences: Dictionary[String, Defence], perks: Dictionary[String, Perk], conditions: Dictionary[String, Condition], rules: Dictionary[String, Rule], items: Dictionary[String, Item], npcs: Dictionary[String, NPC]) -> void:
 	var codex := Resource.new()
 	codex.set_script(CODEX_SCRIPT)
 	codex.Races = races
@@ -227,6 +253,39 @@ func _build_codex_tres(races: Dictionary[String, Race], backgrounds: Dictionary[
 		push_error("Failed saving res://data/baseRules.tres (error %s)" % error)
 	elif log_progress:
 		print("Saved res://data/baseRules.tres")
+
+func _make_npc_creature_data(row: Dictionary, attribute_templates: Dictionary[String, Attribute]) -> CreatureData:
+	var creature_type := _text(row, "creature_type")
+	var creature_data: CreatureData
+	match creature_type:
+		"HumanoidData":
+			creature_data = HumanoidData.new()
+		"UndeadData":
+			creature_data = UndeadData.new()
+		"BeastData":
+			creature_data = BeastData.new()
+		_:
+			creature_data = CreatureData.new()
+
+	creature_data._name = _text(row, "name")
+	creature_data.maxHP = _int(row, "max_hp")
+	creature_data.currentHP = creature_data.maxHP
+	creature_data.level = _int(row, "level")
+	creature_data.attributes = _build_npc_attributes(_text(row, "attributes"), attribute_templates)
+	return creature_data
+
+func _build_npc_attributes(attributes_json: String, attribute_templates: Dictionary[String, Attribute]) -> Array[Attribute]:
+	var parsed: Variant = JSON.parse_string(attributes_json)
+	var result: Array[Attribute] = []
+	if parsed is Dictionary:
+		for attribute_name in parsed.keys():
+			var template: Attribute = attribute_templates.get(str(attribute_name), null)
+			if template == null:
+				continue
+			var attribute := template.duplicate(true) as Attribute
+			attribute.value = int(parsed[attribute_name])
+			result.append(attribute)
+	return result
 
 func _make_item_resource(item_name: String, item_type: String, item_row: Dictionary, keywords: Dictionary, armor_rows: Dictionary, clothing_rows: Dictionary, consumable_rows: Dictionary, utility_rows: Dictionary, weapon_rows: Dictionary) -> Item:
 	var item: Item = null
@@ -272,7 +331,8 @@ func _make_item_resource(item_name: String, item_type: String, item_row: Diction
 			var extra: Dictionary = weapon_rows.get(item_name, {})
 			_apply_item_metadata(weapon, item_name, item_row, keywords)
 			weapon.allowed_slots = [Item.ItemSlots.WeaponSlot]
-			weapon.damage = _float(extra, "damage_multiplier")
+			weapon.damage_die = _int(extra, "damage_die")
+			weapon.crit_die = _int(extra, "crit_die")
 			weapon.speed = _int(extra, "base_speed")
 			weapon.qualities = []
 			var qualities := _text(extra, "qualities")

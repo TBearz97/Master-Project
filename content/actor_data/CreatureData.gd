@@ -12,6 +12,7 @@ class_name CreatureData
 @export var conditions: Array[Condition]
 
 # Other
+@export var actions: Array[Action]
 @export var perks: Array[Perk]
 @export var inventory: Dictionary[String, Array]
 @export var money: int
@@ -25,8 +26,9 @@ func _init() -> void:
 	fatigue = 0
 	necroticDamage = 0
 	conditions = []
+	
+	actions = []
 	perks = []
 	inventory = {}
 	money = 0
-
 	level = 1

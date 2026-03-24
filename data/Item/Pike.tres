@@ -5,7 +5,8 @@
 
 [resource]
 script = ExtResource("2_v60mt")
-damage = 1.6
+damage_die = 8
+crit_die = 6
 speed = 33
 qualities = Array[String](["Reach"])
 size = 1

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Potion of Charm.png" id="1_dt7sm"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_2h3hu"]
+
+[resource]
+script = ExtResource("2_2h3hu")
+addiction = 2
+effect = "Reduce difficulty of CHA tests by 2 (min 0); Re-roll 1d20 on Society tests"
+weight = 0.2
+value = 60
+icon = ExtResource("1_dt7sm")
+allowed_slots = Array[int]([6])
+_name = "Potion of Charm"

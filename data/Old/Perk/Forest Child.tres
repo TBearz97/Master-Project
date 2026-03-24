@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_hdf3j"]
+
+[resource]
+script = ExtResource("1_hdf3j")
+category = "Race"
+_name = "Forest Child"
+short_description = "Plant-based diet grants immunity to disease and better nourishment."
+long_description = "Living in harmony with nature, your diet is strictly herbivorous. This bond with the forest grants you immunity to disease and enhanced nourishment from plant-based foods. You can't eat meat, if you do you Max Health is reduced by 25% until a you've had a full nights rest. You are also immune to diseases and all other food gives you double benefit."

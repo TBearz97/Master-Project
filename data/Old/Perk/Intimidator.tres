@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_xp2hx"]
+
+[resource]
+script = ExtResource("1_xp2hx")
+category = "Skills"
+_name = "Intimidator"
+short_description = "Scare weaker foes."
+long_description = "Your tone and presence unsettle lesser enemies."
