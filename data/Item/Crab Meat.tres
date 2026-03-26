@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_6vksy")
 healing = 9
+consumable_type = "Food"
+category = "Consumable"
 effect = "Gain +1 IP at start of next scene"
 weight = 0.3
 value = 18
 icon = ExtResource("1_yaib4")
 allowed_slots = Array[int]([6])
 _name = "Crab Meat"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 9 HP. Effect: Gain +1 IP at start of next scene."

@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_573tk")
+category = "Utility"
 effect = "Holds smaller items (chems, bullets, coins)."
 weight = 0.2
 value = 18
 icon = ExtResource("1_mqwq0")
 allowed_slots = Array[int]([6])
 _name = "Pouch"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Holds smaller items (chems, bullets, coins).."

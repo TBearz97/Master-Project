@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_cxe25")
+category = "Utility"
 effect = "Used for writing. Bought in stacks of 30."
 weight = 0.1
 value = 7
 icon = ExtResource("1_0hmle")
 allowed_slots = Array[int]([6])
 _name = "Paper"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Used for writing. Bought in stacks of 30.."

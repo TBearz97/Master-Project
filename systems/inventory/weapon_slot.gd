@@ -56,3 +56,4 @@ func set_item(item: Item, recursion: bool = false) -> void:
 						if slt.equipped.size == Weapon.WeaponSize.ONE_HANDED:
 							inventory._add_item(slt.equipped)
 					slt.set_item(item, true)
+	PlayerVariables.notify_combat_loadout_changed()

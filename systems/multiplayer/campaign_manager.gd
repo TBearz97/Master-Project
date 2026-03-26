@@ -1,9 +1,14 @@
 extends FoldableContainer
 
+signal encounter_state_changed(started: bool)
+signal authority_role_changed(is_host: bool)
+
 @onready var member_list: VBoxContainer = %Members
 
 var membersByPeerId: Dictionary = {}
 var membersCharacters: Dictionary = {}
+var encounter_started: bool = false
+var is_host_role: bool = false
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -24,6 +29,8 @@ func use_steam() -> void:
 	%Lobby.show()
 
 func become_host() -> void:
+	is_host_role = true
+	authority_role_changed.emit(is_host_role)
 	%NetworkManager.become_host()
 
 	%JoinCampaign.hide()
@@ -34,6 +41,8 @@ func become_host() -> void:
 	_broadcast_member_list()
 
 func become_client() -> void:
+	is_host_role = false
+	authority_role_changed.emit(is_host_role)
 	%NetworkManager.join_as_client(%CampaignCodeInput.text)
 
 	%JoinCampaign.hide()
@@ -97,6 +106,10 @@ func _disconnected() -> void:
 
 	membersByPeerId.clear()
 	membersCharacters.clear()
+	encounter_started = false
+	is_host_role = false
+	encounter_state_changed.emit(encounter_started)
+	authority_role_changed.emit(is_host_role)
 
 	%JoinCampaign.show()
 	%LeaveCampaign.hide()
@@ -176,6 +189,87 @@ func _add_combat_log(combat_line: String) -> void:
 	else:
 		rpc_id(1, "_server_receive_combat", combat_line)
 
+func broadcast_combatant_spawn(combatant_payload: Dictionary) -> void:
+	if not multiplayer.is_server():
+		return
+	rpc("client_spawn_combatant", combatant_payload)
+
+func submit_local_player_combatant_update(combatant_payload: Dictionary) -> void:
+	if multiplayer.is_server():
+		broadcast_combatant_update(combatant_payload)
+	else:
+		# Clients never write combatant state directly; they ask the host to vet and
+		# rebroadcast the update.
+		rpc_id(1, "server_update_player_combatant", combatant_payload)
+
+func broadcast_combatant_update(combatant_payload: Dictionary) -> void:
+	if not multiplayer.is_server():
+		return
+	rpc("client_update_combatant", combatant_payload)
+
+func broadcast_combat_reset() -> void:
+	if not multiplayer.is_server():
+		return
+	rpc("client_set_encounter_started", false)
+	rpc("client_reset_combat_session")
+
+func broadcast_encounter_started(started: bool) -> void:
+	if not multiplayer.is_server():
+		return
+	rpc("client_set_encounter_started", started)
+
+func has_started_encounter() -> bool:
+	return encounter_started
+
+func is_host_authority() -> bool:
+	return is_host_role
+
+@rpc("authority", "call_local", "reliable")
+func client_set_encounter_started(started: bool) -> void:
+	encounter_started = started
+	encounter_state_changed.emit(encounter_started)
+
+@rpc("authority", "call_local", "reliable")
+func client_spawn_combatant(combatant_payload: Dictionary) -> void:
+	var combat_session := _find_node_by_name(get_tree().root, "CombatSession")
+	if combat_session == null:
+		push_error("Could not find CombatSession to spawn combatant.")
+		return
+	combat_session.spawn_combatant_locally(combatant_payload)
+
+@rpc("any_peer", "reliable")
+func server_update_player_combatant(combatant_payload: Dictionary) -> void:
+	if not multiplayer.is_server():
+		return
+
+	var sender_peer_id := multiplayer.get_remote_sender_id()
+	if sender_peer_id == 0:
+		sender_peer_id = multiplayer.get_unique_id()
+
+	if int(combatant_payload.get("controller_peer_id", -1)) != sender_peer_id:
+		push_error("Rejected combatant update for mismatched peer %s" % sender_peer_id)
+		return
+
+	# Once validated, the host treats this like any other authoritative combatant
+	# payload update and pushes it back out to every peer.
+	broadcast_combatant_update(combatant_payload)
+
+@rpc("authority", "call_local", "reliable")
+func client_update_combatant(combatant_payload: Dictionary) -> void:
+	var combat_session := _find_node_by_name(get_tree().root, "CombatSession")
+	if combat_session == null:
+		push_error("Could not find CombatSession to update combatant.")
+		return
+	combat_session.update_combatant_locally(combatant_payload)
+
+@rpc("authority", "call_local", "reliable")
+func client_reset_combat_session() -> void:
+	var combat_session := _find_node_by_name(get_tree().root, "CombatSession")
+	if combat_session == null:
+		push_error("Could not find CombatSession to reset combatants.")
+		return
+	combat_session.reset_combat_session_locally()
+
 @rpc("any_peer", "reliable")
 func _server_receive_combat(combat_line: String) -> void:
 	if not multiplayer.is_server():
@@ -210,3 +304,14 @@ func broadcast_dice(diceRolled: Array) -> void:
 	for dice in diceRolled:
 		message += "\nRolled a: " + str(dice)
 	_add_combat_log(message)
+
+func _find_node_by_name(node: Node, target_name: String) -> Node:
+	if node.name == target_name:
+		return node
+
+	for child in node.get_children():
+		var result := _find_node_by_name(child, target_name)
+		if result != null:
+			return result
+
+	return null

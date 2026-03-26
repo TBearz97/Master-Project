@@ -14,6 +14,8 @@ class_name Codex
 
 @export var Rules: Dictionary[String, Rule] = {}
 
+@export var Actions: Dictionary[String, Action] = {}
+
 @export var Items: Dictionary[String, Item] = {}
 
 @export var NPCs: Dictionary[String, NPC] = {}
@@ -31,6 +33,7 @@ func _init(
 	default_perks: Dictionary[String, Perk] = {},
 	default_conditions: Dictionary[String, Condition] = {},
 	default_rules: Dictionary[String, Rule] = {},
+	default_actions: Dictionary[String, Action] = {},
 	default_items: Dictionary[String, Item] = {},
 	default_npcs: Dictionary[String, NPC] = {}
 ) -> void:
@@ -46,6 +49,7 @@ func _init(
 	Conditions = default_conditions
 
 	Rules = default_rules
+	Actions = default_actions
 	Items = default_items
 	NPCs = default_npcs
 
@@ -58,7 +62,7 @@ func createKeywords() -> void:
 	else:
 		Keywords.clear()
 
-	for d in [Races, Backgrounds, Homelands, Attributes, Skills, Defences, Perks, Conditions, Rules, Items, NPCs]:
+	for d in [Races, Backgrounds, Homelands, Attributes, Skills, Defences, Perks, Conditions, Rules, Actions, Items, NPCs]:
 		Keywords.merge(d)
 	orderedKeywords = Keywords.keys()
 	orderedKeywords.sort_custom(func(a, b): return a.length() > b.length())

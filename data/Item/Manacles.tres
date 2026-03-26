@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_eonkb")
+category = "Utility"
 effect = "Restrains limbs. Can be broken with STR+Athletics (diff 4) or unlocked with Sleight of Hand (diff 2)."
 weight = 1.0
 value = 28
 icon = ExtResource("1_kq0so")
 allowed_slots = Array[int]([6])
 _name = "Manacles"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Restrains limbs. Can be broken with STR+Athletics (diff 4) or unlocked with Sleight of Hand (diff 2).."

@@ -1,0 +1,158 @@
+[gd_scene load_steps=2 format=3 uid="uid://bot2agb1y18ax"]
+
+[ext_resource type="Script" uid="uid://bnbair3100yl1" path="res://Scenes/Combat Session/combat_session.gd" id="1_wqdn2"]
+
+[node name="CombatSession" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wqdn2")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Header" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="AddPlayers" type="Button" parent="Panel/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add Players"
+
+[node name="AddNPCs" type="Button" parent="Panel/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Add NPCs"
+
+[node name="StartEncounter" type="Button" parent="Panel/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Start Encounter"
+
+[node name="EndEncounter" type="Button" parent="Panel/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "End Encounter"
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 37.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Combatants" type="VBoxContainer" parent="Panel/HSplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="Panel/HSplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="InspectorContent" type="VBoxContainer" parent="Panel/HSplitContainer/Panel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InspectorTitle" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Combatant Inspector"
+
+[node name="InspectorType" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Type:"
+
+[node name="InspectorHP" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "HP:"
+
+[node name="InspectorLevel" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Level:"
+
+[node name="InspectorDetails" type="RichTextLabel" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="InspectorActionsTitle" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Available Actions"
+
+[node name="InspectorLoadout" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Loadout: 1"
+
+[node name="InspectorSwapLoadout" type="Button" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Swap Loadout"
+
+[node name="InspectorActionsList" type="VBoxContainer" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerActionsContent" type="VBoxContainer" parent="Panel/HSplitContainer/Panel"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PlayerActionsTitle" type="Label" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Available Actions"
+
+[node name="PlayerCombatantName" type="Label" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "No combatant selected."
+
+[node name="PlayerLoadout" type="Label" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Loadout: 1"
+
+[node name="PlayerSwapLoadout" type="Button" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Swap Loadout"
+
+[node name="PlayerActionsList" type="VBoxContainer" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="PlayerActionsHint" type="Label" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "You are not currently in this encounter."

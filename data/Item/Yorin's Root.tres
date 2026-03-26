@@ -6,9 +6,14 @@
 [resource]
 script = ExtResource("2_qrhfs")
 addiction = 1
+consumable_type = "Herb"
+duration = "Lasting"
+category = "Consumable"
 effect = "Re-roll 1d20 on PER and AGI tests; +2 CD to sneak attack damage"
 weight = 0.1
 value = 100
 icon = ExtResource("1_hsupp")
 allowed_slots = Array[int]([6])
 _name = "Yorin's Root"
+short_description = "Herb consumable."
+long_description = "Type: Herb. Effect: Re-roll 1d20 on PER and AGI tests; +2 CD to sneak attack damage. Duration: Lasting. Addiction threshold: 1."

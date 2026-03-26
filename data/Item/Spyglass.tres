@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_b555g")
+category = "Utility"
 effect = "Allows spotting at Long range without penalty."
 weight = 0.5
 value = 75
 icon = ExtResource("1_2xytk")
 allowed_slots = Array[int]([6])
 _name = "Spyglass"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Allows spotting at Long range without penalty.."

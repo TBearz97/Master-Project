@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_f1ojg")
 healing = 3
+consumable_type = "Beverage"
+category = "Consumable"
 effect = "Reroll 1d20 on all AGI tests"
 weight = 0.2
 value = 9
 icon = ExtResource("1_j18w8")
 allowed_slots = Array[int]([6])
 _name = "Carrot Juice"
+short_description = "Beverage consumable."
+long_description = "Type: Beverage. Restores 3 HP. Effect: Reroll 1d20 on all AGI tests."

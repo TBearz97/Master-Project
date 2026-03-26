@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_2v2ry")
 healing = 1
+consumable_type = "Beverage"
+category = "Consumable"
 effect = "Heals 2 Necrotic damage"
 weight = 0.2
 value = 17
 icon = ExtResource("1_afyre")
 allowed_slots = Array[int]([6])
 _name = "Milk"
+short_description = "Beverage consumable."
+long_description = "Type: Beverage. Restores 1 HP. Effect: Heals 2 Necrotic damage."

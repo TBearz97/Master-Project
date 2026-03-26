@@ -1,21 +1,39 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_rxcjg"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Short Sword.png" id="2_enlr4"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_yxorq"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_enlr4"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_yxorq"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Short Sword.png" id="3_pm44e"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_85e2p"]
 
-[sub_resource type="Resource" id="Resource_pm44e"]
-script = ExtResource("1_rxcjg")
+[sub_resource type="Resource" id="Resource_cxayk"]
+script = ExtResource("1_enlr4")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Slash"
+short_description = "A broad cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_tf4da"]
+script = ExtResource("1_enlr4")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Thrust"
+short_description = "A precise piercing attack."
+long_description = "A focused lunge driving the point into the target."
+
+[sub_resource type="Resource" id="Resource_rvte3"]
+script = ExtResource("2_yxorq")
 damage_die = 6
 crit_die = 6
 
 [resource]
-script = ExtResource("3_yxorq")
-damage_profile = SubResource("Resource_pm44e")
+script = ExtResource("4_85e2p")
+damage_profile = SubResource("Resource_rvte3")
 speed = 25
 qualities = Array[String](["Parry"])
+actions = Array[ExtResource("1_enlr4")]([SubResource("Resource_cxayk"), SubResource("Resource_tf4da")])
 weight = 2.0
 value = 22
-icon = ExtResource("2_enlr4")
+icon = ExtResource("3_pm44e")
 allowed_slots = Array[int]([7])
 _name = "Short Sword"
+short_description = "A weapon used in combat."
+long_description = "Deals d6, crit d6 damage at speed 25. Qualities: Parry."

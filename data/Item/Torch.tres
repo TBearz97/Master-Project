@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_dcivg")
+category = "Utility"
 effect = "Bright light within Close until end of scene. Requires INT+Survival to light."
 weight = 1.0
 value = 10
 icon = ExtResource("1_0masg")
 allowed_slots = Array[int]([6])
 _name = "Torch"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Bright light within Close until end of scene. Requires INT+Survival to light.."

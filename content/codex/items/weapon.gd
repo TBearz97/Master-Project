@@ -9,6 +9,7 @@ enum WeaponRange { MELEE, CLOSE, MEDIUM, LONG }
 @export var qualities: Array[String]
 @export var size: WeaponSize
 @export var weaponRange: WeaponRange
+@export var actions: Array[Action]
 
 func _init(itemName: String = "", shortDescription: String = "", longDescription: String = "", itemWeight: float = 0, itemValue: int = 0, itemDamageDie: int = 0, itemCritDie: int = 0, itemSpeed: int = 0, itemQualities: String = "", itemSize: String = "", itemRange: String = "") -> void:
 	super(itemName, shortDescription, longDescription, itemWeight, itemValue)
@@ -17,6 +18,7 @@ func _init(itemName: String = "", shortDescription: String = "", longDescription
 	speed = itemSpeed
 	qualities = []
 	qualities.assign(itemQualities.split(","))
+	actions = []
 
 	match itemSize:
 		"1H":

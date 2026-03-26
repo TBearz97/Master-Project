@@ -4,7 +4,10 @@ const DB_PATH := "res://data/Codex.db"
 const DATA_ROOT := "res://data"
 const CODEX_SCRIPT := preload("res://content/codex/Codex.gd")
 
+const ARMOR_SIDE_SUFFIXES := [" Left", " Right"]
+
 const OUTPUT_FOLDERS := {
+	"Action": "Action",
 	"Attribute": "Attribute",
 	"Background": "Background",
 	"Condition": "Condition",
@@ -53,10 +56,11 @@ func rebuild_from_database() -> bool:
 	var homelands := _build_homelands(db, keywords, perks)
 	var races := _build_races(db, keywords, perks)
 	var defences := _build_defences(db, keywords, attributes)
-	var items := _build_items(db, keywords)
+	var actions := _build_actions(db)
+	var items := _build_items(db, keywords, actions)
 	var npcs := _build_npcs(db, attributes)
 
-	_build_codex_tres(races, backgrounds, homelands, attributes, skills, defences, perks, conditions, rules, items, npcs)
+	_build_codex_tres(races, backgrounds, homelands, attributes, skills, defences, perks, conditions, rules, actions, items, npcs)
 
 	if log_progress:
 		print("Finished rebuilding codex .tres files from SQL.")
@@ -203,18 +207,37 @@ func _build_defences(db: SQLite, keywords: Dictionary, attributes: Dictionary[St
 		result[defence._name] = defence
 	return result
 
-func _build_items(db: SQLite, keywords: Dictionary) -> Dictionary[String, Item]:
+func _build_actions(db: SQLite) -> Dictionary[String, Action]:
+	var result: Dictionary[String, Action] = {}
+	for row in _query(db, "SELECT name, short_description, long_description, expressions FROM Action ORDER BY ID"):
+		var action_name := _text(row, "name")
+		if result.has(action_name):
+			continue
+		var action := Action.new()
+		action._name = action_name
+		action.short_description = _text(row, "short_description")
+		action.long_description = _text(row, "long_description")
+		var expressions_json := _text(row, "expressions")
+		if not expressions_json.is_empty():
+			var parsed: Variant = JSON.parse_string(expressions_json)
+			if parsed is Array:
+				action.expressions.assign(parsed)
+		_save_tres(action, "Action", action._name)
+		result[action._name] = action
+	return result
+
+func _build_items(db: SQLite, keywords: Dictionary, actions: Dictionary[String, Action]) -> Dictionary[String, Item]:
 	var result: Dictionary[String, Item] = {}
-	var armor_rows := _rows_by_key(_query(db, "SELECT item, armor_slot, physical_dt, magical_dt, necrotic_dt FROM Armor"), "item")
+	var armor_rows := _query(db, "SELECT item, armor_slot, physical_dt, magical_dt, necrotic_dt FROM Armor")
 	var clothing_rows := _rows_by_key(_query(db, "SELECT item, locations_covered, type FROM Clothing"), "item")
-	var consumable_rows := _rows_by_key(_query(db, "SELECT item, hp_healed, effect, addiction_threshold FROM Consumable"), "item")
-	var utility_rows := _rows_by_key(_query(db, "SELECT item, effect FROM Utility"), "item")
-	var weapon_rows := _rows_by_key(_query(db, "SELECT item, damage_die, crit_die, base_speed, qualities, size, range FROM Weapon"), "item")
+	var consumable_rows := _rows_by_key(_query(db, "SELECT item, type, hp_healed, effect, duration, addiction_threshold, alcoholic FROM Consumable"), "item")
+	var utility_rows := _rows_by_key(_query(db, "SELECT item, category, effect FROM Utility"), "item")
+	var weapon_rows := _rows_by_key(_query(db, "SELECT item, damage_die, crit_die, base_speed, qualities, size, range, actions FROM Weapon"), "item")
 
 	for row in _query(db, "SELECT name, weight, cost, type FROM Item ORDER BY ID"):
 		var item_name := _text(row, "name")
 		var item_type := _text(row, "type")
-		var item := _make_item_resource(item_name, item_type, row, keywords, armor_rows, clothing_rows, consumable_rows, utility_rows, weapon_rows)
+		var item := _make_item_resource(item_name, item_type, row, keywords, armor_rows, clothing_rows, consumable_rows, utility_rows, weapon_rows, actions)
 		if item != null:
 			_save_tres(item, "Item", item._name)
 			result[item._name] = item
@@ -233,7 +256,7 @@ func _build_npcs(db: SQLite, attributes: Dictionary[String, Attribute]) -> Dicti
 		result[npc._name] = npc
 	return result
 
-func _build_codex_tres(races: Dictionary[String, Race], backgrounds: Dictionary[String, Background], homelands: Dictionary[String, Homeland], attributes: Dictionary[String, Attribute], skills: Dictionary[String, Skill], defences: Dictionary[String, Defence], perks: Dictionary[String, Perk], conditions: Dictionary[String, Condition], rules: Dictionary[String, Rule], items: Dictionary[String, Item], npcs: Dictionary[String, NPC]) -> void:
+func _build_codex_tres(races: Dictionary[String, Race], backgrounds: Dictionary[String, Background], homelands: Dictionary[String, Homeland], attributes: Dictionary[String, Attribute], skills: Dictionary[String, Skill], defences: Dictionary[String, Defence], perks: Dictionary[String, Perk], conditions: Dictionary[String, Condition], rules: Dictionary[String, Rule], actions: Dictionary[String, Action], items: Dictionary[String, Item], npcs: Dictionary[String, NPC]) -> void:
 	var codex := Resource.new()
 	codex.set_script(CODEX_SCRIPT)
 	codex.Races = races
@@ -245,6 +268,7 @@ func _build_codex_tres(races: Dictionary[String, Race], backgrounds: Dictionary[
 	codex.Perks = perks
 	codex.Conditions = conditions
 	codex.Rules = rules
+	codex.Actions = actions
 	codex.Items = items
 	codex.NPCs = npcs
 	codex.createKeywords()
@@ -287,17 +311,14 @@ func _build_npc_attributes(attributes_json: String, attribute_templates: Diction
 			result.append(attribute)
 	return result
 
-func _make_item_resource(item_name: String, item_type: String, item_row: Dictionary, keywords: Dictionary, armor_rows: Dictionary, clothing_rows: Dictionary, consumable_rows: Dictionary, utility_rows: Dictionary, weapon_rows: Dictionary) -> Item:
+func _make_item_resource(item_name: String, item_type: String, item_row: Dictionary, keywords: Dictionary, armor_rows: Array, clothing_rows: Dictionary, consumable_rows: Dictionary, utility_rows: Dictionary, weapon_rows: Dictionary, actions: Dictionary[String, Action]) -> Item:
 	var item: Item = null
 	match item_type:
 		"Armor":
 			var armor := Armor.new()
-			var extra: Dictionary = armor_rows.get(item_name, {})
 			_apply_item_metadata(armor, item_name, item_row, keywords)
-			armor.allowed_slots = _parse_armor_slots(_text(extra, "armor_slot"))
-			armor.physicalDT = _int(extra, "physical_dt")
-			armor.magicalDT = _int(extra, "magical_dt")
-			armor.necroticDT = _int(extra, "necrotic_dt")
+			_apply_armor_metadata(armor, _find_armor_rows(item_name, armor_rows))
+			_ensure_item_descriptions(armor, item_type)
 			armor._load_icon_from_name()
 			item = armor
 		"Clothing":
@@ -306,6 +327,7 @@ func _make_item_resource(item_name: String, item_type: String, item_row: Diction
 			_apply_item_metadata(clothing, item_name, item_row, keywords)
 			clothing.allowed_slots = _parse_armor_slots(_text(extra, "locations_covered"))
 			clothing.effect = _text(extra, "type")
+			_ensure_item_descriptions(clothing, item_type)
 			clothing._load_icon_from_name()
 			item = clothing
 		"Consumable":
@@ -313,9 +335,14 @@ func _make_item_resource(item_name: String, item_type: String, item_row: Diction
 			var extra: Dictionary = consumable_rows.get(item_name, {})
 			_apply_item_metadata(consumable, item_name, item_row, keywords)
 			consumable.allowed_slots = [Item.ItemSlots.QuickItem]
+			consumable.category = "Consumable"
+			consumable.consumable_type = _text(extra, "type")
 			consumable.healing = _int(extra, "hp_healed")
 			consumable.effect = _text(extra, "effect")
+			consumable.duration = _text(extra, "duration")
 			consumable.addiction = _int(extra, "addiction_threshold")
+			consumable.alcoholic = _bool(extra, "alcoholic")
+			_ensure_item_descriptions(consumable, item_type)
 			consumable._load_icon_from_name()
 			item = consumable
 		"Utility":
@@ -323,7 +350,9 @@ func _make_item_resource(item_name: String, item_type: String, item_row: Diction
 			var extra: Dictionary = utility_rows.get(item_name, {})
 			_apply_item_metadata(utility, item_name, item_row, keywords)
 			utility.allowed_slots = [Item.ItemSlots.QuickItem]
+			utility.category = _text(extra, "category")
 			utility.effect = _text(extra, "effect")
+			_ensure_item_descriptions(utility, item_type)
 			utility._load_icon_from_name()
 			item = utility
 		"Weapon":
@@ -336,9 +365,19 @@ func _make_item_resource(item_name: String, item_type: String, item_row: Diction
 			weapon.qualities = []
 			var qualities := _text(extra, "qualities")
 			if not qualities.is_empty():
-				weapon.qualities.assign(qualities.split(",", false))
+				for quality in qualities.split(",", false):
+					var cleaned := quality.strip_edges()
+					if not cleaned.is_empty():
+						weapon.qualities.append(cleaned)
 			weapon.size = _parse_weapon_size(_text(extra, "size"))
 			weapon.weaponRange = _parse_weapon_range(_text(extra, "range"))
+			var action_names := _text(extra, "actions")
+			if not action_names.is_empty():
+				for action_name in action_names.split(",", false):
+					var action: Action = actions.get(action_name.strip_edges(), null)
+					if action != null:
+						weapon.actions.append(action)
+			_ensure_item_descriptions(weapon, item_type)
 			weapon._load_icon_from_name()
 			item = weapon
 	return item
@@ -349,6 +388,135 @@ func _apply_item_metadata(item: Item, item_name: String, item_row: Dictionary, k
 	item.long_description = _meta_text(keywords, item_name, "long_description", "")
 	item.weight = _float(item_row, "weight")
 	item.value = _int(item_row, "cost")
+
+func _apply_armor_metadata(armor: Armor, rows: Array) -> void:
+	var allowed_slots: Array[Item.ItemSlots] = []
+	for row in rows:
+		for slot in _parse_armor_slots(_text(row, "armor_slot")):
+			if not allowed_slots.has(slot):
+				allowed_slots.append(slot)
+		armor.physicalDT = max(armor.physicalDT, _int(row, "physical_dt"))
+		armor.magicalDT = max(armor.magicalDT, _int(row, "magical_dt"))
+		armor.necroticDT = max(armor.necroticDT, _int(row, "necrotic_dt"))
+	armor.allowed_slots = allowed_slots
+
+func _find_armor_rows(item_name: String, armor_rows: Array) -> Array:
+	var result: Array = []
+	for row in armor_rows:
+		if _normalize_armor_item_name(_text(row, "item")) == item_name:
+			result.append(row)
+	return result
+
+func _normalize_armor_item_name(value: String) -> String:
+	for suffix in ARMOR_SIDE_SUFFIXES:
+		if value.ends_with(suffix):
+			return value.left(value.length() - suffix.length())
+	return value
+
+func _ensure_item_descriptions(item: Item, item_type: String) -> void:
+	if item.short_description.is_empty():
+		item.short_description = _build_item_short_description(item, item_type)
+	if item.long_description.is_empty():
+		item.long_description = _build_item_long_description(item, item_type)
+
+func _build_item_short_description(item: Item, item_type: String) -> String:
+	match item_type:
+		"Armor":
+			return "Armor for %s." % _describe_item_slots(item.allowed_slots)
+		"Clothing":
+			return "Clothing for %s." % _describe_item_slots(item.allowed_slots)
+		"Consumable":
+			var consumable := item as Consumable
+			if consumable != null and not consumable.consumable_type.is_empty():
+				return "%s consumable." % consumable.consumable_type
+			return "A consumable item."
+		"Utility":
+			var utility := item as Utility
+			if utility != null and not utility.category.is_empty():
+				return "%s item." % utility.category
+			return "A utility item."
+		"Weapon":
+			return "A weapon used in combat."
+	return "%s item." % item_type
+
+func _build_item_long_description(item: Item, item_type: String) -> String:
+	match item_type:
+		"Armor":
+			var armor := item as Armor
+			if armor == null:
+				return ""
+			return "Provides coverage for %s and grants %s physical DT, %s magical DT, and %s necrotic DT." % [_describe_item_slots(armor.allowed_slots), armor.physicalDT, armor.magicalDT, armor.necroticDT]
+		"Clothing":
+			var clothing := item as Clothing
+			if clothing == null:
+				return ""
+			var clothing_effect := "."
+			if not clothing.effect.is_empty():
+				clothing_effect = " Its style or role is %s." % clothing.effect
+			return "A clothing item worn on %s%s" % [_describe_item_slots(clothing.allowed_slots), clothing_effect]
+		"Consumable":
+			var consumable := item as Consumable
+			if consumable == null:
+				return ""
+			var parts: Array[String] = []
+			if not consumable.consumable_type.is_empty():
+				parts.append("Type: %s." % consumable.consumable_type)
+			if consumable.healing > 0:
+				parts.append("Restores %s HP." % consumable.healing)
+			if not consumable.effect.is_empty():
+				parts.append("Effect: %s." % consumable.effect)
+			if not consumable.duration.is_empty():
+				parts.append("Duration: %s." % consumable.duration)
+			if consumable.addiction > 0:
+				parts.append("Addiction threshold: %s." % consumable.addiction)
+			if consumable.alcoholic:
+				parts.append("This item is alcoholic.")
+			return " ".join(parts)
+		"Utility":
+			var utility := item as Utility
+			if utility == null:
+				return ""
+			var utility_parts: Array[String] = []
+			if not utility.category.is_empty():
+				utility_parts.append("Category: %s." % utility.category)
+			if not utility.effect.is_empty():
+				utility_parts.append("Effect: %s." % utility.effect)
+			return " ".join(utility_parts)
+		"Weapon":
+			var weapon := item as Weapon
+			if weapon == null:
+				return ""
+			var qualities := ""
+			if not weapon.qualities.is_empty():
+				qualities = " Qualities: %s." % ", ".join(weapon.qualities)
+			return "Deals %s damage at speed %s.%s" % [weapon.damage_profile.describe(), weapon.speed, qualities]
+	return ""
+
+func _describe_item_slots(slots: Array[Item.ItemSlots]) -> String:
+	var names: Array[String] = []
+	for slot in slots:
+		match slot:
+			Item.ItemSlots.Head:
+				names.append("the head")
+			Item.ItemSlots.RightArm:
+				names.append("the right arm")
+			Item.ItemSlots.LeftArm:
+				names.append("the left arm")
+			Item.ItemSlots.Torso:
+				names.append("the torso")
+			Item.ItemSlots.RightLeg:
+				names.append("the right leg")
+			Item.ItemSlots.LeftLeg:
+				names.append("the left leg")
+			Item.ItemSlots.QuickItem:
+				names.append("a quick-use slot")
+			Item.ItemSlots.WeaponSlot:
+				names.append("a weapon slot")
+	if names.is_empty():
+		return "no slots"
+	if names.size() == 1:
+		return names[0]
+	return ", ".join(names.slice(0, names.size() - 1)) + " and " + names[names.size() - 1]
 
 func _query(db: SQLite, sql: String) -> Array:
 	if not db.query(sql):
@@ -392,6 +560,11 @@ func _float(row: Dictionary, key: String) -> float:
 	if not row.has(key) or row[key] == null:
 		return 0.0
 	return float(row[key])
+
+func _bool(row: Dictionary, key: String) -> bool:
+	if not row.has(key) or row[key] == null:
+		return false
+	return bool(row[key])
 
 func _parse_armor_slots(value: String) -> Array[Item.ItemSlots]:
 	var slots: Array[Item.ItemSlots] = []

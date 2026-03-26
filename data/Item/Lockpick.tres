@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_628ve")
+category = "Utility"
 effect = "Reduces difficulty of Lockpick tests by 1 (min 1). One bobby pin breaks per complication."
 weight = 0.1
 value = 1
 icon = ExtResource("1_jny24")
 allowed_slots = Array[int]([6])
 _name = "Lockpick"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Reduces difficulty of Lockpick tests by 1 (min 1). One bobby pin breaks per complication.."

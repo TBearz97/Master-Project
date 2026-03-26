@@ -13,3 +13,5 @@ value = 32
 icon = ExtResource("1_2od4d")
 allowed_slots = Array[int]([0])
 _name = "Scale Armor Head"
+short_description = "Armor for the head."
+long_description = "Provides coverage for the head and grants 4 physical DT, 6 magical DT, and 1 necrotic DT."

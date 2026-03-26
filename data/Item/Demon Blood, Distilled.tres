@@ -6,9 +6,14 @@
 [resource]
 script = ExtResource("2_fb56p")
 addiction = 2
+consumable_type = "Potion"
+duration = "Lasting"
+category = "Consumable"
 effect = "+2 CD damage to all attacks; +3 Physical damage resistance"
 weight = 0.2
 value = 50
 icon = ExtResource("1_qydl3")
 allowed_slots = Array[int]([6])
 _name = "Demon Blood, Distilled"
+short_description = "Potion consumable."
+long_description = "Type: Potion. Effect: +2 CD damage to all attacks; +3 Physical damage resistance. Duration: Lasting. Addiction threshold: 2."

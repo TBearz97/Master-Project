@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d20gfc7aqgfj1"]
 
-[ext_resource type="Script" uid="uid://fq71a82h6w56" path="res://tools/rebuild_codex_from_db.gd" id="1_8iimj"]
+[ext_resource type="Script" uid="uid://fq71a82h6w56" path="res://tools/rebuild_codex_from_db.gd" id="1_wqrv5"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -9,4 +9,4 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_8iimj")
+script = ExtResource("1_wqrv5")

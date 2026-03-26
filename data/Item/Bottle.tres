@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_tvn8i")
+category = "Utility"
 effect = "Holds 1 liter of liquid."
 weight = 0.3
 value = 22
 icon = ExtResource("1_tehtm")
 allowed_slots = Array[int]([6])
 _name = "Bottle"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Holds 1 liter of liquid.."

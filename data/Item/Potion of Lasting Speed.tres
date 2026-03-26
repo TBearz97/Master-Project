@@ -6,9 +6,14 @@
 [resource]
 script = ExtResource("2_wj0gb")
 addiction = 1
+consumable_type = "Potion"
+duration = "Lasting"
+category = "Consumable"
 effect = "Gain 1 free IP at the start of each turn"
 weight = 0.2
 value = 60
 icon = ExtResource("1_mnwq1")
 allowed_slots = Array[int]([6])
 _name = "Potion of Lasting Speed"
+short_description = "Potion consumable."
+long_description = "Type: Potion. Effect: Gain 1 free IP at the start of each turn. Duration: Lasting. Addiction threshold: 1."

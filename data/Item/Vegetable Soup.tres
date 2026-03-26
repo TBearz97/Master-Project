@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_3a27b")
 healing = 7
+consumable_type = "Food"
+category = "Consumable"
 effect = "+2 Necrotic damage resistance until end of next scene"
 weight = 0.5
 value = 13
 icon = ExtResource("1_5moow")
 allowed_slots = Array[int]([6])
 _name = "Vegetable Soup"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 7 HP. Effect: +2 Necrotic damage resistance until end of next scene."

@@ -1,22 +1,47 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_ykmly"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Katana.png" id="2_oxoby"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_5xj3v"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_oxoby"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_5xj3v"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Katana.png" id="3_4h43c"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_p2gyr"]
 
-[sub_resource type="Resource" id="Resource_4h43c"]
-script = ExtResource("1_ykmly")
+[sub_resource type="Resource" id="Resource_cxayk"]
+script = ExtResource("1_oxoby")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Slash"
+short_description = "A broad cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_tf4da"]
+script = ExtResource("1_oxoby")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Thrust"
+short_description = "A precise piercing attack."
+long_description = "A focused lunge driving the point into the target."
+
+[sub_resource type="Resource" id="Resource_bsemk"]
+script = ExtResource("1_oxoby")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Sweep"
+short_description = "A wide sweeping attack."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_ww06h"]
+script = ExtResource("2_5xj3v")
 damage_die = 8
 crit_die = 6
 
 [resource]
-script = ExtResource("3_5xj3v")
-damage_profile = SubResource("Resource_4h43c")
+script = ExtResource("4_p2gyr")
+damage_profile = SubResource("Resource_ww06h")
 speed = 33
 qualities = Array[String](["Versatile"])
 size = 1
+actions = Array[ExtResource("1_oxoby")]([SubResource("Resource_cxayk"), SubResource("Resource_tf4da"), SubResource("Resource_bsemk")])
 weight = 4.0
 value = 31
-icon = ExtResource("2_oxoby")
+icon = ExtResource("3_4h43c")
 allowed_slots = Array[int]([7])
 _name = "Katana"
+short_description = "A weapon used in combat."
+long_description = "Deals d8, crit d6 damage at speed 33. Qualities: Versatile."

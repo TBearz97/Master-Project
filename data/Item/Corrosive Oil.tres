@@ -5,9 +5,13 @@
 
 [resource]
 script = ExtResource("2_ye6t4")
+consumable_type = "Poison"
+category = "Consumable"
 effect = "On hit: +2 CD damage and reduce target armor DT by 1 (stacking, scene)"
 weight = 0.5
 value = 35
 icon = ExtResource("1_8wgpd")
 allowed_slots = Array[int]([6])
 _name = "Corrosive Oil"
+short_description = "Poison consumable."
+long_description = "Type: Poison. Effect: On hit: +2 CD damage and reduce target armor DT by 1 (stacking, scene)."

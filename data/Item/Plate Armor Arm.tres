@@ -5,7 +5,13 @@
 
 [resource]
 script = ExtResource("2_25xtm")
+physicalDT = 10
+magicalDT = 8
+necroticDT = 2
 weight = 4.0
 value = 60
 icon = ExtResource("1_1wlpl")
+allowed_slots = Array[int]([2, 1])
 _name = "Plate Armor Arm"
+short_description = "Armor for the left arm and the right arm."
+long_description = "Provides coverage for the left arm and the right arm and grants 10 physical DT, 8 magical DT, and 2 necrotic DT."

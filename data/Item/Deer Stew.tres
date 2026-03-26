@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_nfyqg")
 healing = 12
+consumable_type = "Food"
+category = "Consumable"
 effect = "+3 Magic damage resistance until end of next scene"
 weight = 0.5
 value = 60
 icon = ExtResource("1_6tdrh")
 allowed_slots = Array[int]([6])
 _name = "Deer Stew"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 12 HP. Effect: +3 Magic damage resistance until end of next scene."

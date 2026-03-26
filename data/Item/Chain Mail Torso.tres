@@ -13,3 +13,5 @@ value = 45
 icon = ExtResource("1_q5aqq")
 allowed_slots = Array[int]([3])
 _name = "Chain Mail Torso"
+short_description = "Armor for the torso."
+long_description = "Provides coverage for the torso and grants 6 physical DT, 4 magical DT, and 2 necrotic DT."

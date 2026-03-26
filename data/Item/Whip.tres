@@ -1,21 +1,39 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_bv8ld"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Whip.png" id="2_hro11"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_067tb"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_hro11"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_067tb"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Whip.png" id="3_bb4ml"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_6c4bp"]
 
-[sub_resource type="Resource" id="Resource_bb4ml"]
-script = ExtResource("1_bv8ld")
+[sub_resource type="Resource" id="Resource_cxayk"]
+script = ExtResource("1_hro11")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Slash"
+short_description = "A broad cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_263gc"]
+script = ExtResource("1_hro11")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Crack"
+short_description = "A whip strike."
+long_description = "Snapping the whip at speed to cut or stun."
+
+[sub_resource type="Resource" id="Resource_oun57"]
+script = ExtResource("2_067tb")
 damage_die = 6
 crit_die = 6
 
 [resource]
-script = ExtResource("3_067tb")
-damage_profile = SubResource("Resource_bb4ml")
+script = ExtResource("4_6c4bp")
+damage_profile = SubResource("Resource_oun57")
 speed = 25
-qualities = Array[String](["Grappling", " Reach"])
+qualities = Array[String](["Grappling", "Reach"])
+actions = Array[ExtResource("1_hro11")]([SubResource("Resource_cxayk"), SubResource("Resource_263gc")])
 weight = 1.5
 value = 22
-icon = ExtResource("2_hro11")
+icon = ExtResource("3_bb4ml")
 allowed_slots = Array[int]([7])
 _name = "Whip"
+short_description = "A weapon used in combat."
+long_description = "Deals d6, crit d6 damage at speed 25. Qualities: Grappling, Reach."

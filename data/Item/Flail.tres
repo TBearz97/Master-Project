@@ -1,20 +1,38 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="1_bpcfs"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Flail.png" id="2_hchiv"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="3_acyfe"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_hchiv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_acyfe"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Flail.png" id="3_tvoa2"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_p67cj"]
 
-[sub_resource type="Resource" id="Resource_tvoa2"]
-script = ExtResource("1_bpcfs")
+[sub_resource type="Resource" id="Resource_2wrhj"]
+script = ExtResource("1_hchiv")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Smash"
+short_description = "A crushing blow."
+long_description = "A heavy strike that crushes bone and armour."
+
+[sub_resource type="Resource" id="Resource_24s3x"]
+script = ExtResource("1_hchiv")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Rend"
+short_description = "A tearing attack."
+long_description = "A vicious strike intended to tear and wound."
+
+[sub_resource type="Resource" id="Resource_wy15k"]
+script = ExtResource("2_acyfe")
 damage_die = 8
 crit_die = 6
 
 [resource]
-script = ExtResource("3_acyfe")
-damage_profile = SubResource("Resource_tvoa2")
+script = ExtResource("4_p67cj")
+damage_profile = SubResource("Resource_wy15k")
 speed = 33
+actions = Array[ExtResource("1_hchiv")]([SubResource("Resource_2wrhj"), SubResource("Resource_24s3x")])
 weight = 2.0
 value = 34
-icon = ExtResource("2_hchiv")
+icon = ExtResource("3_tvoa2")
 allowed_slots = Array[int]([7])
 _name = "Flail"
+short_description = "A weapon used in combat."
+long_description = "Deals d8, crit d6 damage at speed 33."

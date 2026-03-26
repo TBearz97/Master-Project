@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_tddhc")
 healing = 11
+consumable_type = "Food"
+category = "Consumable"
 effect = "Carry weight +25 until end of next scene"
 weight = 0.5
 value = 60
 icon = ExtResource("1_af6hb")
 allowed_slots = Array[int]([6])
 _name = "Grilled Deer"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 11 HP. Effect: Carry weight +25 until end of next scene."

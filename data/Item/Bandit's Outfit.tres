@@ -11,3 +11,5 @@ value = 10
 icon = ExtResource("1_x6x5u")
 allowed_slots = Array[int]([2, 1, 5, 4, 3])
 _name = "Bandit's Outfit"
+short_description = "Clothing for the left arm, the right arm, the left leg, the right leg and the torso."
+long_description = "A clothing item worn on the left arm, the right arm, the left leg, the right leg and the torso Its style or role is Outfit."

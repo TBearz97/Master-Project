@@ -6,8 +6,12 @@
 [resource]
 script = ExtResource("2_k6udy")
 healing = 4
+consumable_type = "Food"
+category = "Consumable"
 weight = 0.4
 value = 4
 icon = ExtResource("1_37s1d")
 allowed_slots = Array[int]([6])
 _name = "Squirrel Meat"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 4 HP."

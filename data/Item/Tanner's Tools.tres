@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_b0spj")
+category = "Crafting"
 effect = "Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications."
 weight = 2.5
 value = 84
 icon = ExtResource("1_1w4s5")
 allowed_slots = Array[int]([6])
 _name = "Tanner's Tools"
+short_description = "Crafting item."
+long_description = "Category: Crafting. Effect: Craft/repair gear without workstation (+1 difficulty). Breaks after 3 complications.."

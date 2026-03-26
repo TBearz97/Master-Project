@@ -4,6 +4,7 @@ var data: PlayerData
 var expThreshold: int
 
 signal leveledUp()
+signal combat_loadout_changed()
 
 func _ready() -> void:
 	data = PlayerData.new()
@@ -130,9 +131,15 @@ func addToInventory(value: Item) -> void:
 
 func setEquipment(value: Equipment) -> void:
 	data.equipment = value
+	combat_loadout_changed.emit()
 
 func getEquipment() -> Equipment:
 	return data.equipment
+
+func notify_combat_loadout_changed() -> void:
+	# Inventory/weapon slot scripts call this after mutating equipment in place,
+	# since those edits do not always flow through setEquipment().
+	combat_loadout_changed.emit()
 
 # Money
 func setMoney(value: int) -> void:

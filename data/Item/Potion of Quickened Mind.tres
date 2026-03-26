@@ -6,9 +6,14 @@
 [resource]
 script = ExtResource("2_fueqq")
 addiction = 1
+consumable_type = "Potion"
+duration = "Lasting"
+category = "Consumable"
 effect = "Reduce difficulty of PER & INT by 1 (min 0); +1 difficulty to CHA tests"
 weight = 0.2
 value = 50
 icon = ExtResource("1_4npwa")
 allowed_slots = Array[int]([6])
 _name = "Potion of Quickened Mind"
+short_description = "Potion consumable."
+long_description = "Type: Potion. Effect: Reduce difficulty of PER & INT by 1 (min 0); +1 difficulty to CHA tests. Duration: Lasting. Addiction threshold: 1."

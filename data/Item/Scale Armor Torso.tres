@@ -13,3 +13,5 @@ value = 42
 icon = ExtResource("1_micfo")
 allowed_slots = Array[int]([3])
 _name = "Scale Armor Torso"
+short_description = "Armor for the torso."
+long_description = "Provides coverage for the torso and grants 4 physical DT, 6 magical DT, and 2 necrotic DT."

@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_ns174")
+category = "Utility"
 effect = "Hidden trap, PER+Investigation to detect. On trigger: 4 CD damage + Intense, Grappling, Vicious 1, Breaking."
 weight = 10.0
 value = 50
 icon = ExtResource("1_y1twc")
 allowed_slots = Array[int]([6])
 _name = "Hunting Trap"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Hidden trap, PER+Investigation to detect. On trigger: 4 CD damage + Intense, Grappling, Vicious 1, Breaking.."

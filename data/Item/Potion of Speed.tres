@@ -6,9 +6,14 @@
 [resource]
 script = ExtResource("2_f2d3d")
 addiction = 2
+consumable_type = "Potion"
+duration = "Brief"
+category = "Consumable"
 effect = "Extra actions cost 1 less IP"
 weight = 0.2
 value = 50
 icon = ExtResource("1_qmuqk")
 allowed_slots = Array[int]([6])
 _name = "Potion of Speed"
+short_description = "Potion consumable."
+long_description = "Type: Potion. Effect: Extra actions cost 1 less IP. Duration: Brief. Addiction threshold: 2."

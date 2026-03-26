@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_heoc8")
+category = "Utility"
 effect = "Heal +1 on First Aid. Stops bleeding effects."
 weight = 0.1
 value = 1
 icon = ExtResource("1_vv4ae")
 allowed_slots = Array[int]([6])
 _name = "Bandages"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Heal +1 on First Aid. Stops bleeding effects.."

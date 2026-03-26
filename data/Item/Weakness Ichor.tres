@@ -5,9 +5,13 @@
 
 [resource]
 script = ExtResource("2_eyphj")
+consumable_type = "Poison"
+category = "Consumable"
 effect = "On hit: -1 to Physical DR and -1 difficulty to attacker’s STR tests vs target this scene"
 weight = 0.5
 value = 26
 icon = ExtResource("1_0l7e3")
 allowed_slots = Array[int]([6])
 _name = "Weakness Ichor"
+short_description = "Poison consumable."
+long_description = "Type: Poison. Effect: On hit: -1 to Physical DR and -1 difficulty to attacker’s STR tests vs target this scene."

@@ -1,13 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://088v6uofm1qb"]
+[gd_scene load_steps=3 format=3 uid="uid://088v6uofm1qb"]
 
 [ext_resource type="Script" uid="uid://ccwlvr82x1bb3" path="res://tools/action_test.gd" id="1_5l54w"]
-[ext_resource type="Script" uid="uid://crmttwfuo7ahd" path="res://content/codex/gameplay/Action.gd" id="2_s2eob"]
-
-[sub_resource type="Resource" id="Resource_pq0da"]
-script = ExtResource("2_s2eob")
-_name = "Basic Attack"
-expressions = Array[String](["dealDamage(target)", "applyCondition(target, 'Bleed')"])
-metadata/_custom_type_script = "uid://crmttwfuo7ahd"
+[ext_resource type="Resource" path="res://data/Item/Pike.tres" id="2_s2eob"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -23,4 +17,4 @@ offset_right = 385.0
 offset_bottom = 175.0
 text = "Use Action"
 script = ExtResource("1_5l54w")
-action = SubResource("Resource_pq0da")
+weapon = ExtResource("2_s2eob")
