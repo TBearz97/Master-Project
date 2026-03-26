@@ -45,6 +45,16 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "End Encounter"
 
+[node name="RoundLabel" type="Label" parent="Panel/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Round: 1"
+
+[node name="PhaseLabel" type="Label" parent="Panel/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Phase: Planning"
+
 [node name="HSplitContainer" type="HSplitContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15

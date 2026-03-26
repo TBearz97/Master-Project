@@ -3,6 +3,8 @@ extends Control
 const COMBATANT_ENTRY_SCENE := preload("res://Scenes/Combat Session/combatant_entry.tscn")
 
 @onready var combatantList: VBoxContainer = %Combatants
+@onready var roundLabel: Label = %RoundLabel
+@onready var phaseLabel: Label = %PhaseLabel
 @onready var inspectorContent: VBoxContainer = %InspectorContent
 @onready var inspectorTitle: Label = %InspectorTitle
 @onready var inspectorType: Label = %InspectorType
@@ -30,6 +32,8 @@ var encounter_combatants: Dictionary = {}
 var combatant_entries: Dictionary = {}
 var next_combatant_id: int = 1
 var is_host_role: bool = false
+var round_number: int = 1
+var current_phase: String = GameEvent.PHASE_PLANNING
 
 func _ready() -> void:
 	_setup_npc_picker()
@@ -47,8 +51,13 @@ func _ready() -> void:
 		is_host_role = campaign_manager.is_host_authority()
 	PlayerVariables.combat_loadout_changed.connect(_on_local_combat_loadout_changed)
 	_configure_role_view()
+	_update_round_ui()
 	_apply_encounter_visibility()
 	_refresh_player_actions()
+
+func _update_round_ui() -> void:
+	roundLabel.text = "Round: %s" % round_number
+	phaseLabel.text = "Phase: %s" % current_phase.capitalize()
 
 func _configure_role_view() -> void:
 	inspectorContent.visible = is_host_role
@@ -76,6 +85,9 @@ func _on_authority_role_changed(is_host: bool) -> void:
 func _start_encounter() -> void:
 	if not is_host_role:
 		return
+	round_number = 1
+	current_phase = GameEvent.PHASE_PLANNING
+	_update_round_ui()
 	var campaign_manager := _find_campaign_manager()
 	if campaign_manager == null:
 		push_error("Combat session could not find CampaignManager in the scene tree.")
@@ -182,13 +194,78 @@ func spawn_combatant_locally(combatant_payload: Dictionary) -> void:
 func update_combatant_locally(combatant_payload: Dictionary) -> void:
 	spawn_combatant_locally(combatant_payload)
 
+func apply_game_event(game_event: GameEvent) -> void:
+	if game_event == null:
+		return
+
+	if game_event.round_number > 0:
+		round_number = game_event.round_number
+	if not game_event.phase.is_empty():
+		current_phase = game_event.phase
+
+	for change_variant in game_event.state_changes:
+		if change_variant is Dictionary:
+			_apply_combatant_state_change(change_variant)
+
+	if not game_event.results.is_empty():
+		var campaign_manager := _find_campaign_manager()
+		if campaign_manager != null:
+			for result in game_event.results:
+				campaign_manager._add_combat_log(str(result))
+
+	_refresh_player_actions()
+	_update_round_ui()
+
+func apply_combat_request(combat_request: CombatRequest) -> void:
+	if combat_request == null:
+		return
+
+	match combat_request.request_type:
+		CombatRequest.TYPE_QUEUE_UPDATED, CombatRequest.TYPE_ACTION:
+			_apply_combat_request_preview(combat_request)
+		CombatRequest.TYPE_MOVEMENT:
+			_apply_combat_request_preview(combat_request)
+
+func _apply_combat_request_preview(combat_request: CombatRequest) -> void:
+	var combatant_id := combat_request.combatant_id
+	if combatant_id.is_empty() or not encounter_combatants.has(combatant_id):
+		return
+
+	var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
+	payload["pending_request"] = combat_request.payload.get("preview_text", "")
+	encounter_combatants[combatant_id] = payload
+	if combatant_entries.has(combatant_id):
+		var existing_entry: CombatantEntry = combatant_entries[combatant_id]
+		if is_instance_valid(existing_entry):
+			existing_entry.setup(payload)
+
+	if selected_combatant_id == combatant_id:
+		_show_inspector(payload)
+
+func _apply_combatant_state_change(change: Dictionary) -> void:
+	var combatant_id := str(change.get("combatant_id", ""))
+	if combatant_id.is_empty() or not encounter_combatants.has(combatant_id):
+		return
+
+	var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
+	payload.erase("pending_request")
+	for key in change.keys():
+		if key == "combatant_id":
+			continue
+		payload[key] = change[key]
+
+	update_combatant_locally(payload)
+
 func reset_combat_session_locally() -> void:
 	encounter_combatants.clear()
 	combatant_entries.clear()
 	next_combatant_id = 1
+	round_number = 1
+	current_phase = GameEvent.PHASE_PLANNING
 	_clear_combatants()
 	_clear_inspector()
 	_clear_player_actions()
+	_update_round_ui()
 	selected_combatant_entry = null
 	selected_combatant_id = ""
 	if npc_picker != null:
@@ -214,6 +291,10 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 		"type": "Player",
 		"controller_peer_id": peer_id,
 		"active_loadout": 1,
+		"action_points": 2,
+		"remaining_action_points": 2,
+		"queued_actions": [],
+		"movement_choice": {},
 		"current_hp": player_data.currentHP,
 		"max_hp": player_data.maxHP,
 		"level": player_data.level,
@@ -236,6 +317,10 @@ func _build_npc_payload(npc: NPC) -> Dictionary:
 		"type": "NPC",
 		"controller_peer_id": 0,
 		"active_loadout": 1,
+		"action_points": 2,
+		"remaining_action_points": 2,
+		"queued_actions": [],
+		"movement_choice": {},
 		"current_hp": npc.data.currentHP,
 		"max_hp": npc.data.maxHP,
 		"level": npc.data.level,
@@ -268,7 +353,14 @@ func _show_inspector(combatant_payload: Dictionary) -> void:
 	inspectorHP.text = "HP: %s/%s" % [combatant_payload.get("current_hp", 0), combatant_payload.get("max_hp", 0)]
 	inspectorLevel.text = "Level: %s" % combatant_payload.get("level", 0)
 	inspectorLoadout.text = "Loadout: %s" % combatant_payload.get("active_loadout", 1)
-	inspectorDetails.text = str(combatant_payload.get("details", "No details available."))
+	var details_text := str(combatant_payload.get("details", "No details available."))
+	var queued_actions: Array = combatant_payload.get("queued_actions", [])
+	if not queued_actions.is_empty():
+		details_text += "\nQueued Actions: %s" % ", ".join(queued_actions)
+	var pending_request := str(combatant_payload.get("pending_request", ""))
+	if not pending_request.is_empty():
+		details_text += "\nPending Request: %s" % pending_request
+	inspectorDetails.text = details_text
 	_populate_action_list(inspectorActionsList, combatant_payload.get("actions", []), false)
 
 func _clear_inspector() -> void:
@@ -334,6 +426,14 @@ func _swap_local_player_loadout() -> void:
 	var next_loadout := _get_next_loadout(int(local_payload.get("active_loadout", 1)))
 	local_payload["active_loadout"] = next_loadout
 	encounter_combatants[str(local_payload.get("id", ""))] = local_payload
+	var campaign_manager := _find_campaign_manager()
+	if campaign_manager != null:
+		campaign_manager.broadcast_combat_request(CombatRequest.new(
+			CombatRequest.TYPE_QUEUE_UPDATED,
+			str(local_payload.get("id", "")),
+			"",
+			{"preview_text": "Swap Loadout -> %s" % next_loadout}
+		))
 	_on_local_combat_loadout_changed()
 
 func _find_local_player_combatant(local_peer_id: int) -> Dictionary:

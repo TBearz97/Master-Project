@@ -25,5 +25,10 @@ func _refresh() -> void:
 	if int(data.get("controller_peer_id", 0)) == multiplayer.get_unique_id() and int(data.get("controller_peer_id", 0)) != 0:
 		display_name += " (You)"
 	%Name.text = display_name
-	%Type.text = str(data.get("type", "NA"))
+	var type_text := str(data.get("type", "NA"))
+	var pending_request := str(data.get("pending_request", ""))
+	if not pending_request.is_empty():
+		type_text += " | %s" % pending_request
+	%Type.text = type_text
 	%HP.text = "%s/%s" % [data.get("current_hp", 0), data.get("max_hp", 0)]
+	%AP.text = "AP %s/%s" % [data.get("remaining_action_points", 0), data.get("action_points", 0)]

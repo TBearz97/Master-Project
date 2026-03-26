@@ -205,7 +205,23 @@ func submit_local_player_combatant_update(combatant_payload: Dictionary) -> void
 func broadcast_combatant_update(combatant_payload: Dictionary) -> void:
 	if not multiplayer.is_server():
 		return
-	rpc("client_update_combatant", combatant_payload)
+
+	var combatant_id := str(combatant_payload.get("id", ""))
+	if combatant_id.is_empty():
+		push_error("Cannot broadcast combatant update without an id.")
+		return
+
+	var state_change := combatant_payload.duplicate(true)
+	state_change.erase("id")
+	state_change["combatant_id"] = combatant_id
+
+	var game_event := GameEvent.new(
+		"combatant_updated",
+		GameEvent.CONTEXT_COMBAT,
+		{},
+		[state_change]
+	)
+	broadcast_game_event(game_event)
 
 func broadcast_combat_reset() -> void:
 	if not multiplayer.is_server():
@@ -218,6 +234,62 @@ func broadcast_encounter_started(started: bool) -> void:
 		return
 	rpc("client_set_encounter_started", started)
 
+func broadcast_game_event(game_event: GameEvent) -> void:
+	if not multiplayer.is_server() or game_event == null:
+		return
+
+	CampaignVariables.appendGameEvent(game_event)
+	rpc("client_apply_game_event", game_event.to_dict())
+
+func broadcast_combat_request(combat_request: CombatRequest) -> void:
+	if combat_request == null:
+		return
+	if multiplayer.is_server():
+		rpc("client_apply_combat_request", combat_request.to_dict())
+	else:
+		rpc_id(1, "server_broadcast_combat_request", combat_request.to_dict())
+
+func apply_game_event(game_event: GameEvent) -> void:
+	if game_event == null:
+		return
+
+	match game_event.context:
+		GameEvent.CONTEXT_COMBAT:
+			var combat_session := _find_node_by_name(get_tree().root, "CombatSession")
+			if combat_session == null:
+				push_error("Could not find CombatSession to apply GameEvent.")
+				return
+			if combat_session.has_method("apply_game_event"):
+				combat_session.apply_game_event(game_event)
+		GameEvent.CONTEXT_INVENTORY, GameEvent.CONTEXT_SKILL_CHECK, GameEvent.CONTEXT_STATE:
+			_apply_non_combat_game_event(game_event)
+		_:
+			push_error("Unhandled GameEvent context: %s" % game_event.context)
+
+func _apply_non_combat_game_event(game_event: GameEvent) -> void:
+	# Non-combat contexts will be applied here as the broader event system is implemented.
+	# For now, the authoritative event log is still preserved for review and replay.
+	if game_event.context == GameEvent.CONTEXT_SKILL_CHECK and not game_event.results.is_empty():
+		for result in game_event.results:
+			_add_combat_log(str(result))
+
+func apply_combat_request(combat_request: CombatRequest) -> void:
+	if combat_request == null:
+		return
+
+	var combat_session := _find_node_by_name(get_tree().root, "CombatSession")
+	if combat_session == null:
+		push_error("Could not find CombatSession to apply CombatRequest.")
+		return
+	if combat_session.has_method("apply_combat_request"):
+		combat_session.apply_combat_request(combat_request)
+
+@rpc("any_peer", "reliable")
+func server_broadcast_combat_request(request_data: Dictionary) -> void:
+	if not multiplayer.is_server():
+		return
+	rpc("client_apply_combat_request", request_data)
+
 func has_started_encounter() -> bool:
 	return encounter_started
 
@@ -228,6 +300,16 @@ func is_host_authority() -> bool:
 func client_set_encounter_started(started: bool) -> void:
 	encounter_started = started
 	encounter_state_changed.emit(encounter_started)
+
+@rpc("authority", "call_local", "reliable")
+func client_apply_game_event(event_data: Dictionary) -> void:
+	var game_event := GameEvent.from_dict(event_data)
+	apply_game_event(game_event)
+
+@rpc("authority", "call_local", "reliable")
+func client_apply_combat_request(request_data: Dictionary) -> void:
+	var combat_request := CombatRequest.from_dict(request_data)
+	apply_combat_request(combat_request)
 
 @rpc("authority", "call_local", "reliable")
 func client_spawn_combatant(combatant_payload: Dictionary) -> void:
@@ -253,14 +335,6 @@ func server_update_player_combatant(combatant_payload: Dictionary) -> void:
 	# Once validated, the host treats this like any other authoritative combatant
 	# payload update and pushes it back out to every peer.
 	broadcast_combatant_update(combatant_payload)
-
-@rpc("authority", "call_local", "reliable")
-func client_update_combatant(combatant_payload: Dictionary) -> void:
-	var combat_session := _find_node_by_name(get_tree().root, "CombatSession")
-	if combat_session == null:
-		push_error("Could not find CombatSession to update combatant.")
-		return
-	combat_session.update_combatant_locally(combatant_payload)
 
 @rpc("authority", "call_local", "reliable")
 func client_reset_combat_session() -> void:

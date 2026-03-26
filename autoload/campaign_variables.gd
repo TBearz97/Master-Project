@@ -2,9 +2,13 @@ extends Node
 
 var data: CampaignData
 var codex: Codex
+var snapshot: CampaignData
+var gameEvents: Array[GameEvent]
 
 func _ready() -> void:
 	data = CampaignData.new()
+	snapshot = null
+	gameEvents = []
 	codex = ResourceLoader.load("res://data/baseRules.tres") as Codex
 	if codex == null:
 		push_error("Failed to load res://data/baseRules.tres")
@@ -67,11 +71,26 @@ func load(campaign_name: String) -> void:
 	var resource := ResourceLoader.load(file_path)
 	if resource is CampaignData:
 		data = resource
+		startSession()
 	else:
 		push_error("Save file %s is not a CampaignData resource" % file_path)
 
 func resetCampaign() -> void:
 	data = CampaignData.new()
+	snapshot = null
+	clearGameEvents()
+
+func startSession() -> void:
+	snapshot = data.duplicate(true) as CampaignData
+	clearGameEvents()
+
+func appendGameEvent(event: GameEvent) -> void:
+	if event == null:
+		return
+	gameEvents.append(event)
+
+func clearGameEvents() -> void:
+	gameEvents.clear()
 
 func prepareLabel(label: RichTextLabel, short: bool = true) -> RichTextLabel:
 	label.bbcode_enabled = true
