@@ -194,9 +194,6 @@ func setPerkPoints(value: int) -> void:
 func getPerkPoints() -> int:
 	return data.perk_points
 
-func calucalte_Defence(att1: int, att2: int) -> int:
-	return att1 + att2
-
 func level_Up() -> void:
 	leveledUp.emit()
 	data.levelAvailable = true

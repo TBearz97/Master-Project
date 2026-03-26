@@ -196,13 +196,14 @@ func _build_races(db: SQLite, keywords: Dictionary, perks: Dictionary[String, Pe
 
 func _build_defences(db: SQLite, keywords: Dictionary, attributes: Dictionary[String, Attribute]) -> Dictionary[String, Defence]:
 	var result: Dictionary[String, Defence] = {}
-	for row in _query(db, "SELECT name, attribute1, attribute2 FROM Defence ORDER BY ID"):
+	for row in _query(db, "SELECT name, short_description, long_description, attribute1, attribute2 FROM Defence ORDER BY ID"):
 		var defence := Defence.new()
 		defence._name = _text(row, "name")
-		defence.short_description = _meta_text(keywords, defence._name, "short_description", "")
-		defence.long_description = _meta_text(keywords, defence._name, "long_description", "")
+		defence.short_description = _meta_text(keywords, defence._name, "short_description", _text(row, "short_description"))
+		defence.long_description = _meta_text(keywords, defence._name, "long_description", _text(row, "long_description"))
 		defence.attribute1 = attributes.get(_text(row, "attribute1"), null)
 		defence.attribute2 = attributes.get(_text(row, "attribute2"), null)
+		defence.value = 0
 		_save_tres(defence, "Defence", defence._name)
 		result[defence._name] = defence
 	return result

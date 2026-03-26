@@ -3,6 +3,7 @@ class_name CreatureData
 
 @export var _name: String
 @export var attributes: Array[Attribute]
+@export var defences: Array[Defence]
 
 # Conditions
 @export var maxHP: int
@@ -21,6 +22,7 @@ class_name CreatureData
 func _init() -> void:
 	_name = ""
 	attributes = []
+	defences = []
 	maxHP = 0
 	currentHP = 0
 	fatigue = 0

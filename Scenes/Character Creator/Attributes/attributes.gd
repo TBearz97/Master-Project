@@ -8,7 +8,7 @@ var attributes: Array[Attribute] = PlayerVariables.getAttributes()
 var spinBoxes: Array[SpinBox] = []
 var prev: Dictionary = {}
 
-var defence_rows: Dictionary[String, Defence] = CampaignVariables.codex.Defences
+var defences: Array[Defence] = []
 var defence_labels: Dictionary = {}
 
 func _ready() -> void:
@@ -51,9 +51,12 @@ func setupDefences() -> void:
 	for child in defBox.get_children():
 		child.queue_free()
 
+	defences.clear()
 	defence_labels.clear()
 
-	for row: Defence in defence_rows.values():
+	for defence_template: Defence in CampaignVariables.codex.Defences.values():
+		var row := defence_template.duplicate(true) as Defence
+		defences.append(row)
 		var _name: String = row._name
 
 		var label_name := CampaignVariables.prepareLabel(RichTextLabel.new(), true)
@@ -84,6 +87,7 @@ func _save() -> void:
 			att.value = int(sb.value)
 			attributes.append(att)
 	PlayerVariables.setAttributes(attributes)
+	PlayerVariables.data.defences = _build_preview_defences()
 	PlayerVariables.setAttributePoints(int(points.value))
 
 func _on_value_changed(new_value: int, bonus1: RichTextLabel, bonus2: RichTextLabel, rows: Attribute, sb: SpinBox) -> void:
@@ -107,26 +111,27 @@ func _on_attribute_changed_for_defences(_new_value: int) -> void:
 	_recalculate_defences()
 
 func _recalculate_defences() -> void:
-	for row: Defence in defence_rows.values():
-		var def_name: String = row._name
-		var attr1: String = row.attribute1._name if row.attribute1 != null else ""
-		var attr2: String = row.attribute2._name if row.attribute2 != null else ""
+	for row: Defence in _build_preview_defences():
+		defence_labels[row._name].text = str(row.value)
 
-		var total := 0
+func _build_preview_defences() -> Array[Defence]:
+	var preview_target := CreatureData.new()
+	preview_target.attributes = _build_preview_attributes()
+	var preview_defences: Array[Defence] = []
+	for row: Defence in defences:
+		var preview_defence := row.duplicate(true) as Defence
+		preview_defence.getValue(preview_target)
+		preview_defences.append(preview_defence)
+	return preview_defences
 
-		var sb1 := _find_attribute_spinbox(attr1)
-		if sb1 != null:
-			total += int(sb1.value)
-
-		if attr2 != null and attr2 != "":
-			var sb2 := _find_attribute_spinbox(attr2)
-			if sb2 != null:
-				total += int(sb2.value)
-
-		defence_labels[def_name].text = str(total)
-
-func _find_attribute_spinbox(attr_name: String) -> SpinBox:
+func _build_preview_attributes() -> Array[Attribute]:
+	var preview_attributes: Array[Attribute] = []
 	for sb in spinBoxes:
-		if sb.tooltip_text == attr_name:
-			return sb
-	return null
+		var attribute_name := sb.tooltip_text
+		var source_attribute: Attribute = sb.get_meta(attribute_name.replace(" ", ""))
+		if source_attribute == null:
+			continue
+		var preview_attribute := source_attribute.duplicate(true) as Attribute
+		preview_attribute.value = int(sb.value)
+		preview_attributes.append(preview_attribute)
+	return preview_attributes

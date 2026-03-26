@@ -16,8 +16,7 @@ func _setup() -> void:
 	for defence: Defence in defences.values():
 		var label := CampaignVariables.prepareLabel(RichTextLabel.new())
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		var value := _recalculate_defence(defence.attribute1, defence.attribute2)
-		label.text = CampaignVariables.replaceText(defence._name + ": " + str(value))
+		label.text = CampaignVariables.replaceText(defence._name + ": " + str(defence.getValue(PlayerVariables.data)))
 		defencesHbox.add_child(label)
 	add_child(defencesHbox)
 
@@ -66,15 +65,3 @@ func recalculateDTs() -> void:
 
 		if lbl.text.contains("Necrotic"):
 			lbl.text = "Necrotic DT: " + str(necroticDT)
-
-func _recalculate_defence(attr1: Attribute, attr2: Attribute = null) -> int:
-	var atts: Array[Attribute] = PlayerVariables.getAttributes()
-	var total := 0
-
-	for att in atts:
-		if att._name == attr1._name:
-			total += att.value
-		if attr2 != null and att._name == attr2._name:
-			total += att.value
-
-	return total
