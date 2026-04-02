@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_bkp1b")
+category = "Utility"
 effect = "Two-handed. Deals 3 CD to structures with Vicious 4."
 weight = 18.0
 value = 125
 icon = ExtResource("1_tpghs")
 allowed_slots = Array[int]([6])
 _name = "Portable Ram"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Two-handed. Deals 3 CD to structures with Vicious 4.."

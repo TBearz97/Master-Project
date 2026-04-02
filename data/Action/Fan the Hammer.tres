@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_4l0gb"]
+
+[resource]
+script = ExtResource("1_4l0gb")
+_name = "Fan the Hammer"
+long_description = "Fire in rapid succession before the enemy can react cleanly."

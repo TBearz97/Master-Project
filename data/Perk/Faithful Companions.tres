@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ocny6"]
+
+[resource]
+script = ExtResource("1_ocny6")
+category = "Survival and Field"
+_name = "Faithful Companions"
+long_description = "Requirement: Animal Handling 2\\\\n\\\\nYou gain one animal companion approved by the GM. It is a loyal Beast that is weaker than a player character but useful in travel, scouting, or support."

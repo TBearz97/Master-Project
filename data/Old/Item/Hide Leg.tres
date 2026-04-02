@@ -5,7 +5,13 @@
 
 [resource]
 script = ExtResource("2_13xl6")
+physicalDT = 2
+magicalDT = 1
+necroticDT = 1
 weight = 1.0
 value = 18
 icon = ExtResource("1_1ecm4")
+allowed_slots = Array[int]([5, 4])
 _name = "Hide Leg"
+short_description = "Armor for the left leg and the right leg."
+long_description = "Provides coverage for the left leg and the right leg and grants 2 physical DT, 1 magical DT, and 1 necrotic DT."

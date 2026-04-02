@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_nherf")
 healing = 14
+consumable_type = "Food"
+category = "Consumable"
 effect = "May re-roll 1d20 on all STR tests until end of next scene"
 weight = 0.5
 value = 130
 icon = ExtResource("1_0j5js")
 allowed_slots = Array[int]([6])
 _name = "Dragon Steak"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 14 HP. Effect: May re-roll 1d20 on all STR tests until end of next scene."

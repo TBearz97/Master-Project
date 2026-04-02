@@ -14,5 +14,5 @@ long_description = "Your party ignores the first hour of travel penalties (fatig
 script = ExtResource("2_7amsq")
 perk = SubResource("Resource_32jlc")
 _name = "Pathfinder"
-short_description = "Move faster on map."
-long_description = "Travel time reduced in wilderness exploration."
+short_description = "Guide skilled at navigating the wilds."
+long_description = "As a Pathfinder you have spent your life helping others navigate through landscapes without roads. Skills: Survival, Resistance, Athletics, Investigation or Stealth. Equipment: Ranger's Outfit and a Map of your Homeland."

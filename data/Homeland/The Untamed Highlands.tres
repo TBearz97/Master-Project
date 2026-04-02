@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_he835"]
 script = ExtResource("1_qgyp1")
 category = "Homeland"
-_name = "Adaptable"
-short_description = "Flexible social skills from varied cultures."
-long_description = "Due to the many different cities in the Untamed Highlands, you've learned to adapt to different societies. During carousing you can re-roll 1d20 on your Society test."
+_name = "No Safe Roads"
+long_description = "Travel-related rules will favor your experience once those systems are in place."
 
 [resource]
 script = ExtResource("2_1ang6")

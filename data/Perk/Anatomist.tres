@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_tcnjt")
-category = "Skills"
+category = "Knowledge and Craft"
 _name = "Anatomist"
 short_description = "Exploit anatomy."
 long_description = "Deal extra damage to organic foes through precision."

@@ -3,11 +3,10 @@ class_name Skill
 
 @export var value: int
 
-func _init(
-	__name: String = "",
-	shortDescription: String = "",
-	longDescription: String = "",
-	_value: int = 0
+func _init(idDB: int = -1,
+	_nameDB: String = "",
+	short_descriptionDB: String = "",
+	long_descriptionDB: String = "",
 ) -> void:
-	super(__name, shortDescription, longDescription)
-	value = _value
+	super(idDB, _nameDB, short_descriptionDB, long_descriptionDB)
+	value = 0

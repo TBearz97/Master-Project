@@ -1,15 +1,32 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Buckler.png" id="1_wpx4h"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_uikdy"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_gqd5n"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_1doue"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Buckler.png" id="3_reni2"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_11lqp"]
+
+[sub_resource type="Resource" id="Resource_g23ef"]
+script = ExtResource("1_gqd5n")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Bash"
+short_description = "An impact attack."
+long_description = "Driving the face of a shield or blunt weapon into the target."
+
+[sub_resource type="Resource" id="Resource_jjj8g"]
+script = ExtResource("2_1doue")
+damage_die = 6
+crit_die = 6
 
 [resource]
-script = ExtResource("2_uikdy")
-damage = 1.0
+script = ExtResource("4_11lqp")
+damage_profile = SubResource("Resource_jjj8g")
 speed = 20
-qualities = Array[String](["Parry", " +1 Defense", " Accurate"])
+qualities = Array[String](["Parry", "+1 Defense", "Accurate"])
+actions = Array[ExtResource("1_gqd5n")]([SubResource("Resource_g23ef")])
 weight = 2.0
 value = 25
-icon = ExtResource("1_wpx4h")
+icon = ExtResource("3_reni2")
 allowed_slots = Array[int]([7])
 _name = "Buckler"
+short_description = "A weapon used in combat."
+long_description = "Deals d6, crit d6 damage at speed 20. Qualities: Parry, +1 Defense, Accurate."

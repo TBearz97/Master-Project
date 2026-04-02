@@ -6,9 +6,14 @@
 [resource]
 script = ExtResource("2_2h3hu")
 addiction = 2
+consumable_type = "Potion"
+duration = "Lasting"
+category = "Consumable"
 effect = "Reduce difficulty of CHA tests by 2 (min 0); Re-roll 1d20 on Society tests"
 weight = 0.2
 value = 60
 icon = ExtResource("1_dt7sm")
 allowed_slots = Array[int]([6])
 _name = "Potion of Charm"
+short_description = "Potion consumable."
+long_description = "Type: Potion. Effect: Reduce difficulty of CHA tests by 2 (min 0); Re-roll 1d20 on Society tests. Duration: Lasting. Addiction threshold: 2."

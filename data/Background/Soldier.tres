@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_ociry"]
 script = ExtResource("1_em0t5")
 category = "Background"
-_name = "Battle-Hardened"
-short_description = "Military training keeps you effective in combat."
-long_description = "Once per scene, re-roll a failed Melee or Ranged attack test."
+_name = "Military Training"
+long_description = "During combat, you gain 1 additional AP each turn that can only be spent on movement."
 
 [resource]
 script = ExtResource("2_2w48j")

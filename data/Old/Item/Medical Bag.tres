@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_scwwx")
+category = "Utility"
 effect = "Reduce difficulty of Medicine tests by 1. Allows care of 2 extra patients."
 weight = 5.0
 value = 300
 icon = ExtResource("1_mqbpr")
 allowed_slots = Array[int]([6])
 _name = "Medical Bag"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Reduce difficulty of Medicine tests by 1. Allows care of 2 extra patients.."

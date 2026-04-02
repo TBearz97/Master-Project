@@ -1,15 +1,46 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Knife.png" id="1_7w3k7"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_l6e5e"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_wi32y"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_h4q5k"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Knife.png" id="3_mddqe"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_ru7s0"]
+
+[sub_resource type="Resource" id="Resource_tf4da"]
+script = ExtResource("1_wi32y")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Thrust"
+short_description = "A precise piercing attack."
+long_description = "A focused lunge driving the point into the target."
+
+[sub_resource type="Resource" id="Resource_cxayk"]
+script = ExtResource("1_wi32y")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Slash"
+short_description = "A broad cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_24s3x"]
+script = ExtResource("1_wi32y")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Rend"
+short_description = "A tearing attack."
+long_description = "A vicious strike intended to tear and wound."
+
+[sub_resource type="Resource" id="Resource_csfmg"]
+script = ExtResource("2_h4q5k")
+damage_die = 4
+crit_die = 12
 
 [resource]
-script = ExtResource("2_l6e5e")
-damage = 1.0
+script = ExtResource("4_ru7s0")
+damage_profile = SubResource("Resource_csfmg")
 speed = 20
-qualities = Array[String](["Concealed", " Thrown (M)"])
+qualities = Array[String](["Concealed", "Thrown (M)"])
+actions = Array[ExtResource("1_wi32y")]([SubResource("Resource_tf4da"), SubResource("Resource_cxayk"), SubResource("Resource_24s3x")])
 weight = 0.5
 value = 18
-icon = ExtResource("1_7w3k7")
+icon = ExtResource("3_mddqe")
 allowed_slots = Array[int]([7])
 _name = "Knife"
+short_description = "A weapon used in combat."
+long_description = "Deals d4, crit d12 damage at speed 20. Qualities: Concealed, Thrown (M)."

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_1h6y3"]
+
+[resource]
+script = ExtResource("1_1h6y3")
+category = "Homeland"
+_name = "Wanderer"
+long_description = "You can become Well-Rested even when sleeping in rough conditions that would normally prevent it."

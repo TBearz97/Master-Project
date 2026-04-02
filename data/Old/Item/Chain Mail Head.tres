@@ -13,3 +13,5 @@ value = 35
 icon = ExtResource("1_nee1f")
 allowed_slots = Array[int]([0])
 _name = "Chain Mail Head"
+short_description = "Armor for the head."
+long_description = "Provides coverage for the head and grants 6 physical DT, 4 magical DT, and 1 necrotic DT."

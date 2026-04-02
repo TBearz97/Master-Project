@@ -1,16 +1,40 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Warhammer.png" id="1_486n4"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_vuub0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_y0n2u"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_j4g2m"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Warhammer.png" id="3_2kblo"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_coxqt"]
+
+[sub_resource type="Resource" id="Resource_2wrhj"]
+script = ExtResource("1_y0n2u")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Smash"
+short_description = "A crushing blow."
+long_description = "A heavy strike that crushes bone and armour."
+
+[sub_resource type="Resource" id="Resource_2dnek"]
+script = ExtResource("1_y0n2u")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Strike"
+short_description = "A basic attack."
+long_description = "A direct, unadorned blow."
+
+[sub_resource type="Resource" id="Resource_orwql"]
+script = ExtResource("2_j4g2m")
+damage_die = 8
+crit_die = 6
 
 [resource]
-script = ExtResource("2_vuub0")
-damage = 1.6
+script = ExtResource("4_coxqt")
+damage_profile = SubResource("Resource_orwql")
 speed = 33
 qualities = Array[String](["Versatile"])
 size = 1
+actions = Array[ExtResource("1_y0n2u")]([SubResource("Resource_2wrhj"), SubResource("Resource_2dnek")])
 weight = 4.0
 value = 45
-icon = ExtResource("1_486n4")
+icon = ExtResource("3_2kblo")
 allowed_slots = Array[int]([7])
 _name = "Warhammer"
+short_description = "A weapon used in combat."
+long_description = "Deals d8, crit d6 damage at speed 33. Qualities: Versatile."

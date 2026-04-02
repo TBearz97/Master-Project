@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_q5hii"]
+
+[resource]
+script = ExtResource("1_q5hii")
+category = "Background"
+_name = "Crowd Favorite"
+long_description = "People are more willing to feed, host, or hear you out after a performance."

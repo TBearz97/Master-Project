@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_hoswe"]
+
+[resource]
+script = ExtResource("1_hoswe")
+category = "Weapon"
+_name = "Quick Swap"
+long_description = "Requirement: Weapon Proficiency, Dexterity 6\\\\n\\\\nOnce per round, you may swap loadouts or ready a different weapon as a free action."

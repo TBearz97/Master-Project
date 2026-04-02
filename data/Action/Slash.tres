@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_jmfwk")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
 _name = "Slash"
 short_description = "A broad cutting attack."
 long_description = "A wide swinging cut aimed at exposed flesh."

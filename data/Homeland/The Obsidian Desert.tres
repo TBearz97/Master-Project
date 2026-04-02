@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_hvctk"]
 script = ExtResource("1_dc3a0")
 category = "Homeland"
-_name = "Heat Resistant"
-short_description = "Resilient to extreme desert heat."
-long_description = "You can survive in hot weather without any penalty, and extreme hot weather is treated as hot weather."
+_name = "Scorched Resourcefulness"
+long_description = "Foraging becomes easier anywhere."
 
 [resource]
 script = ExtResource("2_745bl")

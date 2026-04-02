@@ -5,9 +5,14 @@
 
 [resource]
 script = ExtResource("2_awsx0")
+consumable_type = "Beverage"
+alcoholic = true
+category = "Consumable"
 effect = "Alcoholic"
 weight = 0.2
 value = 5
 icon = ExtResource("1_nnase")
 allowed_slots = Array[int]([6])
 _name = "Ale"
+short_description = "Beverage consumable."
+long_description = "Type: Beverage. Effect: Alcoholic. This item is alcoholic."

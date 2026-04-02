@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_x05su"]
+
+[resource]
+script = ExtResource("1_x05su")
+expressions = Array[String](["markDelayedAction(source, 1)"])
+_name = "Wait"
+short_description = "Delay your next action."
+long_description = "You hold back and act later, improving your timing on the next action."

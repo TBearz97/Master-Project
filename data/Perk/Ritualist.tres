@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_xune5"]
+
+[resource]
+script = ExtResource("1_xune5")
+category = "Magic"
+_name = "Ritualist"
+long_description = "Requirement: Resolve 6, Survival 2 or Lore 2\\\\n\\\\nSelect a limited number of Primal spells after performing a ritual, allowing you to change your available spells during a full rest."

@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_r74op")
-category = "Martial"
+category = "Weapon"
 _name = "Weapon Mastery"
 short_description = "Increase proficiency with chosen weapon type."
 long_description = "Gain improved control and critical chance with a selected weapon class."

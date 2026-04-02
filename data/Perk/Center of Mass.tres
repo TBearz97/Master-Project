@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_1sfv7"]
+
+[resource]
+script = ExtResource("1_1sfv7")
+category = "Weapon"
+_name = "Center of Mass"
+long_description = "Requirement: Accurate, Level 4\\\\n\\\\nWhen you make a ranged attack against a creature within the weapon's normal range, gain +1 Accuracy."

@@ -6,9 +6,14 @@
 [resource]
 script = ExtResource("2_aly08")
 addiction = 1
+consumable_type = "Potion"
+duration = "Lasting"
+category = "Consumable"
 effect = "Reduce difficulty of CHA & RES by 1 (min 0); +1 difficulty to STR"
 weight = 0.2
 value = 40
 icon = ExtResource("1_mweuo")
 allowed_slots = Array[int]([6])
 _name = "Potion of the Eased Mind"
+short_description = "Potion consumable."
+long_description = "Type: Potion. Effect: Reduce difficulty of CHA & RES by 1 (min 0); +1 difficulty to STR. Duration: Lasting. Addiction threshold: 1."

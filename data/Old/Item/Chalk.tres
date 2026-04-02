@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_658kk")
+category = "Utility"
 effect = "Mark surfaces or leave trails; fades with weather."
 weight = 0.1
 value = 2
 icon = ExtResource("1_7yjng")
 allowed_slots = Array[int]([6])
 _name = "Chalk"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Mark surfaces or leave trails; fades with weather.."

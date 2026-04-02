@@ -6,8 +6,12 @@
 [resource]
 script = ExtResource("2_vr40n")
 healing = 2
+consumable_type = "Food"
+category = "Consumable"
 weight = 0.1
 value = 6
 icon = ExtResource("1_3ws3i")
 allowed_slots = Array[int]([6])
 _name = "Carrot"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 2 HP."

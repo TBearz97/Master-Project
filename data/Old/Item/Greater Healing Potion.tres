@@ -5,9 +5,14 @@
 
 [resource]
 script = ExtResource("2_8dfoo")
+consumable_type = "Potion"
+duration = "Instant"
+category = "Consumable"
 effect = "Heals 4 HP"
 weight = 0.2
 value = 50
 icon = ExtResource("1_6kkmn")
 allowed_slots = Array[int]([6])
 _name = "Greater Healing Potion"
+short_description = "Potion consumable."
+long_description = "Type: Potion. Effect: Heals 4 HP. Duration: Instant."

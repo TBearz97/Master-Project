@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_1axnw"]
+
+[resource]
+script = ExtResource("1_1axnw")
+category = "Medicine and Stealth"
+_name = "Infiltrator"
+long_description = "Requirement: Stealth 2, Sleight of Hand 2\\\\n\\\\nTests to bypass locks, simple security, or unnoticed entry become easier."

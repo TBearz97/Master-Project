@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_4biqg"]
+
+[resource]
+script = ExtResource("1_4biqg")
+category = "Survival and Field"
+_name = "Evasive"
+long_description = "Requirement: Dexterity 6\\\\n\\\\nWhen you take Guard, gain +1 additional Deflection against the first attack that targets you before your next turn."

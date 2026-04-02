@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_ab2mw")
+category = "Instrument"
 effect = "Used to perform music (soothe, inspire, rally)."
 weight = 1.0
 value = 12
 icon = ExtResource("1_rmili")
 allowed_slots = Array[int]([6])
 _name = "Pan Flute"
+short_description = "Instrument item."
+long_description = "Category: Instrument. Effect: Used to perform music (soothe, inspire, rally).."

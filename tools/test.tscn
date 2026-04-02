@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://088v6uofm1qb"]
 
 [ext_resource type="Script" uid="uid://ccwlvr82x1bb3" path="res://tools/action_test.gd" id="1_5l54w"]
-[ext_resource type="Resource" path="res://data/Item/Pike.tres" id="2_s2eob"]
+[ext_resource type="Resource" uid="uid://bpx7qt3n8dek2" path="res://data/Old/Item/Pike.tres" id="2_s2eob"]
 
 [node name="Control" type="Control"]
 layout_mode = 3

@@ -6,8 +6,12 @@
 [resource]
 script = ExtResource("2_h115x")
 healing = 8
+consumable_type = "Food"
+category = "Consumable"
 weight = 0.5
 value = 50
 icon = ExtResource("1_7p73e")
 allowed_slots = Array[int]([6])
 _name = "Deer Meat"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 8 HP."

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_qwfnw"]
+
+[resource]
+script = ExtResource("1_qwfnw")
+category = "Leadership and Social"
+_name = "Read the Room"
+long_description = "Requirement: Insight 2\\\\n\\\\nWhen you enter a social scene, you may ask the GM for the dominant mood, pressure, or tension in the room."

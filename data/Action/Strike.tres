@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_lkjad")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
 _name = "Strike"
 short_description = "A basic attack."
 long_description = "A direct, unadorned blow."

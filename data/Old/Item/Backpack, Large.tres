@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_v5lpi")
+category = "Utility"
 effect = "Wearer adds 5 × STR to maximum Carry Weight."
 weight = 2.0
 value = 60
 icon = ExtResource("1_8urga")
 allowed_slots = Array[int]([6])
 _name = "Backpack, Large"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Wearer adds 5 × STR to maximum Carry Weight.."

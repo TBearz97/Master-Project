@@ -1,29 +1,31 @@
 extends Resource
 class_name DamageProfile
 
-enum DamageOrigin { PHYSICAL, MAGICAL, NECROTIC }
-
-@export var base_damage: int
 @export var damage_die: int
-@export var crit_die: int
-@export var origin: DamageOrigin
-@export var damage_types: Array[String]
-@export var ignore_dt: bool
+@export var speed: int
+@export var action_range: ActionRange
 
-func _init(_base_damage: int = 0, _damage_die: int = 0, _crit_die: int = 0, _origin: DamageOrigin = DamageOrigin.PHYSICAL, _damage_types: Array[String] = [], _ignore_dt: bool = false) -> void:
-	base_damage = _base_damage
+func _init(_damage_die: int = 0, _speed: int = 0, _action_range: ActionRange = ActionRange.new()) -> void:
 	damage_die = _damage_die
-	crit_die = _crit_die
-	origin = _origin
-	damage_types = _damage_types.duplicate()
-	ignore_dt = _ignore_dt
+	speed = _speed
+	action_range = _action_range
 
 func describe() -> String:
 	var parts: Array[String] = []
-	if base_damage > 0:
-		parts.append(str(base_damage))
+
+	# Damage Die
 	if damage_die > 0:
 		parts.append("d" + str(damage_die))
-	if crit_die > 0:
-		parts.append("crit d" + str(crit_die))
-	return ", ".join(parts)
+
+	# Speed
+	if speed > 0:
+		parts.append(str(speed))
+
+	# Range
+	if action_range != null:
+		if "short_hand" in action_range:
+			parts.append(action_range.short_hand)
+		elif "name" in action_range:
+			parts.append(action_range.name)
+
+	return " | ".join(parts)

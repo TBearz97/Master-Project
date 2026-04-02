@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_i12d3"]
+
+[resource]
+script = ExtResource("1_i12d3")
+category = "Weapon"
+_name = "Hold the Line"
+long_description = "Requirement: Might 6, Constitution 6\\\\n\\\\nCreatures provoke 1 additional AP to move out of your Reach."

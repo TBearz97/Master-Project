@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_6qv5f"]
+
+[resource]
+script = ExtResource("1_6qv5f")
+_name = "Duelist's End"
+long_description = "A refined finishing attack that closes the fight cleanly."

@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_qr31w")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
 _name = "Smash"
 short_description = "A crushing blow."
 long_description = "A heavy strike that crushes bone and armour."

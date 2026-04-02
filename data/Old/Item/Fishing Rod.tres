@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_qn70p")
+category = "Utility"
 effect = "Lets you attempt fishing tests to gather food."
 weight = 1.0
 value = 20
 icon = ExtResource("1_d2x3r")
 allowed_slots = Array[int]([6])
 _name = "Fishing Rod"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Lets you attempt fishing tests to gather food.."

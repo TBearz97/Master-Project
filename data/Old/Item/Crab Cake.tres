@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_jyynv")
 healing = 13
+consumable_type = "Food"
+category = "Consumable"
 effect = "Underwater breathing until next scene"
 weight = 0.3
 value = 35
 icon = ExtResource("1_e2r6m")
 allowed_slots = Array[int]([6])
 _name = "Crab Cake"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 13 HP. Effect: Underwater breathing until next scene."

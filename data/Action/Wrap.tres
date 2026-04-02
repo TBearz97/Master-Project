@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_4sf2d"]
+
+[resource]
+script = ExtResource("1_4sf2d")
+_name = "Wrap"
+long_description = "You curl the attack around the target to interfere with their position."

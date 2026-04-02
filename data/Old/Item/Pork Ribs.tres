@@ -6,8 +6,12 @@
 [resource]
 script = ExtResource("2_6e8bq")
 healing = 7
+consumable_type = "Food"
+category = "Consumable"
 weight = 0.5
 value = 15
 icon = ExtResource("1_cre5c")
 allowed_slots = Array[int]([6])
 _name = "Pork Ribs"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 7 HP."

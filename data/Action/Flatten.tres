@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_bsspt"]
+
+[resource]
+script = ExtResource("1_bsspt")
+_name = "Flatten"
+long_description = "A warhammer strike that turns weight and leverage into domination."

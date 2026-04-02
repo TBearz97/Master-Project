@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_6f3iv"]
+
+[resource]
+script = ExtResource("1_6f3iv")
+_name = "Piercer"
+long_description = "A hard puncturing attack that forces through protection with intent."

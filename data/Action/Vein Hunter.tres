@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_2dcsi"]
+
+[resource]
+script = ExtResource("1_2dcsi")
+_name = "Vein Hunter"
+long_description = "A wickedly placed crossbow shot aimed at the most vulnerable point available."

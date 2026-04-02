@@ -5,9 +5,14 @@
 
 [resource]
 script = ExtResource("2_x1700")
+consumable_type = "Beverage"
+alcoholic = true
+category = "Consumable"
 effect = "Alcoholic, +2 Max HP"
 weight = 0.2
 value = 13
 icon = ExtResource("1_dybx3")
 allowed_slots = Array[int]([6])
 _name = "Moonshine"
+short_description = "Beverage consumable."
+long_description = "Type: Beverage. Effect: Alcoholic, +2 Max HP. This item is alcoholic."

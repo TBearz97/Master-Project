@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_y3rwi"]
 script = ExtResource("1_tpdg6")
 category = "Homeland"
-_name = "Elven Education"
-short_description = "Scholarly upbringing with extra skill and language."
-long_description = "You can choose one additional Tag skill among the following: Society, Warfare or Discipline. Also gain a language of your choice."
+_name = "Proper Bearing"
+long_description = "Your upbringing in a refined kingdom grants you the manners and expectations of civilized life. In formal settings, you are treated with the respect due to proper station unless you give others reason not to."
 
 [resource]
 script = ExtResource("2_l62fk")

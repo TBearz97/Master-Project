@@ -1,39 +1,50 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_2txmw"]
 [ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_tufoi"]
 [ext_resource type="Texture2D" path="res://Art/Icons/Items/Javelin.png" id="3_qdivo"]
 [ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_xn7yn"]
 
-[sub_resource type="Resource" id="Resource_tf4da"]
-script = ExtResource("1_2txmw")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
-_name = "Thrust"
-short_description = "A precise piercing attack."
-long_description = "A focused lunge driving the point into the target."
-
-[sub_resource type="Resource" id="Resource_2dnek"]
-script = ExtResource("1_2txmw")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
-_name = "Strike"
-short_description = "A basic attack."
-long_description = "A direct, unadorned blow."
-
 [sub_resource type="Resource" id="Resource_xdx81"]
+script = ExtResource("1_2txmw")
+_name = "Stab"
+long_description = "A direct forward thrust intended to keep the enemy at reach."
+
+[sub_resource type="Resource" id="Resource_ac6jg"]
+script = ExtResource("1_2txmw")
+_name = "Drive"
+long_description = "You step through the target with force to push them backward."
+
+[sub_resource type="Resource" id="Resource_lg3sx"]
+script = ExtResource("1_2txmw")
+_name = "Skewer"
+long_description = "A long driving thrust meant to pin the target in place."
+
+[sub_resource type="Resource" id="Resource_bem4j"]
+script = ExtResource("1_2txmw")
+_name = "Pinning Rush"
+long_description = "A forward-driving spear technique that keeps the enemy under pressure."
+
+[sub_resource type="Resource" id="Resource_trkp1"]
 script = ExtResource("2_tufoi")
 damage_die = 6
-crit_die = 6
 
 [resource]
 script = ExtResource("4_xn7yn")
-damage_profile = SubResource("Resource_xdx81")
+weapon_class = "Melee"
+damage_profile = SubResource("Resource_trkp1")
+damage_die_text = "d6"
 speed = 25
-qualities = Array[String](["Thrown (M)"])
-actions = Array[ExtResource("1_2txmw")]([SubResource("Resource_tf4da"), SubResource("Resource_2dnek")])
+handedness = "1H"
+basic_attack_id = 117
+proficient_attack_id = 31
+expert_attack_id = 108
+master_attack_id = 85
+actions = Array[ExtResource("1_2txmw")]([SubResource("Resource_xdx81"), SubResource("Resource_ac6jg"), SubResource("Resource_lg3sx"), SubResource("Resource_bem4j")])
 weight = 1.0
 value = 26
 icon = ExtResource("3_qdivo")
 allowed_slots = Array[int]([7])
 _name = "Javelin"
-short_description = "A weapon used in combat."
-long_description = "Deals d6, crit d6 damage at speed 25. Qualities: Thrown (M)."
+short_description = "Melee weapon dealing d6 damage."
+long_description = "Melee weapon with 25 speed, melee range, and 1H handedness."

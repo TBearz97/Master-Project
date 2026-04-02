@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_rbhi6"]
 script = ExtResource("1_35ma6")
 category = "Background"
-_name = "Of the same Cloth"
-short_description = "Well-connected among nobles."
-long_description = "Reduce Difficulty when Carousing with Nobles by 1."
+_name = "Courtly Privilege"
+long_description = "You are accustomed to status, ceremony, and access. In appropriate civilized settings, you can secure basic hospitality or an audience that others might need to work harder to obtain."
 
 [resource]
 script = ExtResource("2_nkp7c")

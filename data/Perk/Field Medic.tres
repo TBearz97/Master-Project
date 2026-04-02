@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_ovi74")
-category = "Skills"
+category = "Medicine and Stealth"
 _name = "Field Medic"
 short_description = "Heal bleeding quickly."
 long_description = "Treat bleeding or poison rapidly in battle."

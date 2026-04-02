@@ -1,15 +1,39 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Stiletto.png" id="1_tpqv6"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_xttps"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_qv45q"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_vfnhb"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Stiletto.png" id="3_kpatq"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_0q0eh"]
+
+[sub_resource type="Resource" id="Resource_tf4da"]
+script = ExtResource("1_qv45q")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Thrust"
+short_description = "A precise piercing attack."
+long_description = "A focused lunge driving the point into the target."
+
+[sub_resource type="Resource" id="Resource_24s3x"]
+script = ExtResource("1_qv45q")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Rend"
+short_description = "A tearing attack."
+long_description = "A vicious strike intended to tear and wound."
+
+[sub_resource type="Resource" id="Resource_fuo2f"]
+script = ExtResource("2_vfnhb")
+damage_die = 4
+crit_die = 12
 
 [resource]
-script = ExtResource("2_xttps")
-damage = 1.0
+script = ExtResource("4_0q0eh")
+damage_profile = SubResource("Resource_fuo2f")
 speed = 20
-qualities = Array[String](["Concealed", " Brutal", " Thrown (C)"])
+qualities = Array[String](["Concealed", "Brutal", "Thrown (C)"])
+actions = Array[ExtResource("1_qv45q")]([SubResource("Resource_tf4da"), SubResource("Resource_24s3x")])
 weight = 0.5
 value = 20
-icon = ExtResource("1_tpqv6")
+icon = ExtResource("3_kpatq")
 allowed_slots = Array[int]([7])
 _name = "Stiletto"
+short_description = "A weapon used in combat."
+long_description = "Deals d4, crit d12 damage at speed 20. Qualities: Concealed, Brutal, Thrown (C)."

@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_4grux"]
 [ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_a1v8r"]
@@ -7,23 +7,42 @@
 
 [sub_resource type="Resource" id="Resource_2dnek"]
 script = ExtResource("1_4grux")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
-_name = "Strike"
-short_description = "A basic attack."
-long_description = "A direct, unadorned blow."
+_name = "Jab"
+long_description = "A quick close strike meant to create an opening."
 
 [sub_resource type="Resource" id="Resource_phgmd"]
+script = ExtResource("1_4grux")
+_name = "Clinch"
+long_description = "You crash in close and control the enemy's space with your body."
+
+[sub_resource type="Resource" id="Resource_73b5f"]
+script = ExtResource("1_4grux")
+_name = "Elbow"
+long_description = "A brutal short-range strike delivered from tight positioning."
+
+[sub_resource type="Resource" id="Resource_wfilc"]
+script = ExtResource("1_4grux")
+_name = "Palm Strike"
+long_description = "A perfectly placed burst of force that stops the target in place."
+
+[sub_resource type="Resource" id="Resource_5jjxw"]
 script = ExtResource("2_a1v8r")
 damage_die = 4
-crit_die = 12
 
 [resource]
 script = ExtResource("4_1ppus")
-damage_profile = SubResource("Resource_phgmd")
+weapon_class = "Melee"
+damage_profile = SubResource("Resource_5jjxw")
+damage_die_text = "d4"
 speed = 20
-actions = Array[ExtResource("1_4grux")]([SubResource("Resource_2dnek")])
+handedness = "1H"
+basic_attack_id = 67
+proficient_attack_id = 20
+expert_attack_id = 34
+master_attack_id = 81
+actions = Array[ExtResource("1_4grux")]([SubResource("Resource_2dnek"), SubResource("Resource_phgmd"), SubResource("Resource_73b5f"), SubResource("Resource_wfilc")])
 icon = ExtResource("3_llvs5")
 allowed_slots = Array[int]([7])
 _name = "Unarmed"
-short_description = "A weapon used in combat."
-long_description = "Deals d4, crit d12 damage at speed 20."
+short_description = "Melee weapon dealing d4 damage."
+long_description = "Melee weapon with 20 speed, melee range, and 1H handedness."

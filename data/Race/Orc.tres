@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_akr0u"]
 script = ExtResource("1_743hq")
 category = "Race"
-_name = "Resilient Frame"
-short_description = "Sturdy bones give you an edge against injuries."
-long_description = "Your bones are exceptionally sturdy, providing a robust defense against injuries that would cripple others. When making a Fortitude test to resist injury, gain +5 for that test."
+_name = "We Endure"
+long_description = "Life is harsh, and your people are shaped by enduring it. During each full rest, you may either heal one additional Injury or reduce the duration of one disease by an additional step."
 
 [resource]
 script = ExtResource("2_q7usk")

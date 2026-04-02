@@ -13,3 +13,5 @@ value = 20
 icon = ExtResource("1_ns4qy")
 allowed_slots = Array[int]([3])
 _name = "Hide Torso"
+short_description = "Armor for the torso."
+long_description = "Provides coverage for the torso and grants 2 physical DT, 1 magical DT, and 1 necrotic DT."

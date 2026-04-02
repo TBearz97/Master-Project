@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_hpa5b"]
+
+[resource]
+script = ExtResource("1_hpa5b")
+category = "Background"
+_name = "Hardened Routine"
+long_description = "During each full rest, you may also remove 1 Fatigue if you have no remaining source causing it."

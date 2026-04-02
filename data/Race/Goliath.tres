@@ -6,9 +6,9 @@
 [sub_resource type="Resource" id="Resource_b58qr"]
 script = ExtResource("1_gixu0")
 category = "Race"
-_name = "Survival of the Fittest"
-short_description = "Strong and enduring, but limited agility and charm."
-long_description = "Hardened by the trials of a ruthless environment, your physical prowess has been honed to perfection, though at the expense of social grace and nimbleness. Strength and Endurance increases by 2 and their max is now 12. However Agility and Charisma can't be higher than 6."
+_name = "Unyielding"
+short_description = "Reduce knockback."
+long_description = "Become harder to stagger or push back from hits."
 
 [resource]
 script = ExtResource("2_k8x3d")

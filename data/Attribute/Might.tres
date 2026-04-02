@@ -4,12 +4,12 @@
 
 [resource]
 script = ExtResource("1_wmulo")
-bonus_1_prefix = "Damage & Healing:"
-bonus_2_prefix = "Carry Weight:"
-bonus_1_expression = "(x - 1) * 5"
-bonus_2_expression = "((x - 1) * 5) + 75"
-bonus_1_suffix = "%"
-bonus_2_suffix = "kg"
+modifier_1_name = "Damage & Healing"
+modifier_1_expression = "(x - 5) * 7"
+modifier_1_suffix = "%"
+modifier_2_name = "Max Carry Weight"
+modifier_2_expression = "(x * 10) + 45"
+modifier_2_suffix = "kg"
 _name = "Might"
 short_description = "Represents physical and spiritual strength."
 long_description = "Might measures the character’s raw physical and inner power. It influences both physical and magical damage as well as the effectiveness of healing abilities. Characters with higher Might deal and heal more damage and can carry heavier loads."

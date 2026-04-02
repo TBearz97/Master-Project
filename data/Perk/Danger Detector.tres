@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_duub3"]
+
+[resource]
+script = ExtResource("1_duub3")
+category = "Survival and Field"
+_name = "Danger Detector"
+long_description = "Requirement: Survival 2 or Insight 2\\\\n\\\\nThe first test you make each scene to detect an ambush, trap, or obvious environmental hazard becomes easier."

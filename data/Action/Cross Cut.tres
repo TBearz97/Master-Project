@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_1nuwt"]
+
+[resource]
+script = ExtResource("1_1nuwt")
+_name = "Cross Cut"
+long_description = "A disciplined follow-up that turns one opening into another."

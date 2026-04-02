@@ -6,8 +6,12 @@
 [resource]
 script = ExtResource("2_5q8fv")
 healing = 3
+consumable_type = "Beverage"
+category = "Consumable"
 weight = 0.2
 value = 10
 icon = ExtResource("1_uru2y")
 allowed_slots = Array[int]([6])
 _name = "Clean Water"
+short_description = "Beverage consumable."
+long_description = "Type: Beverage. Restores 3 HP."

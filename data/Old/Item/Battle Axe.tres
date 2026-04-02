@@ -1,16 +1,47 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Battle Axe.png" id="1_7jftm"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_lb7go"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_mhjba"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_v7mqd"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Battle Axe.png" id="3_bmgo8"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_w8ebb"]
+
+[sub_resource type="Resource" id="Resource_cxayk"]
+script = ExtResource("1_mhjba")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Slash"
+short_description = "A broad cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_24s3x"]
+script = ExtResource("1_mhjba")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Rend"
+short_description = "A tearing attack."
+long_description = "A vicious strike intended to tear and wound."
+
+[sub_resource type="Resource" id="Resource_cq4f0"]
+script = ExtResource("1_mhjba")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Cleave"
+short_description = "A powerful chopping blow."
+long_description = "A downward chop with full force behind it."
+
+[sub_resource type="Resource" id="Resource_xdmgw"]
+script = ExtResource("2_v7mqd")
+damage_die = 8
+crit_die = 6
 
 [resource]
-script = ExtResource("2_lb7go")
-damage = 1.6
+script = ExtResource("4_w8ebb")
+damage_profile = SubResource("Resource_xdmgw")
 speed = 33
-qualities = Array[String](["Versatile", " Brutal"])
+qualities = Array[String](["Versatile", "Brutal"])
 size = 1
+actions = Array[ExtResource("1_mhjba")]([SubResource("Resource_cxayk"), SubResource("Resource_24s3x"), SubResource("Resource_cq4f0")])
 weight = 4.0
 value = 31
-icon = ExtResource("1_7jftm")
+icon = ExtResource("3_bmgo8")
 allowed_slots = Array[int]([7])
 _name = "Battle Axe"
+short_description = "A weapon used in combat."
+long_description = "Deals d8, crit d6 damage at speed 33. Qualities: Versatile, Brutal."

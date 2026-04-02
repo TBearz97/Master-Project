@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ampdd"]
+
+[resource]
+script = ExtResource("1_ampdd")
+category = "Knowledge and Craft"
+_name = "Historian"
+long_description = "Requirement: Lore 2\\\\n\\\\nTests involving major historical events, dynasties, ruins, and old conflicts become easier."

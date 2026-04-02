@@ -6,8 +6,12 @@
 [resource]
 script = ExtResource("2_iltf2")
 healing = 9
+consumable_type = "Food"
+category = "Consumable"
 weight = 0.5
 value = 110
 icon = ExtResource("1_4w43i")
 allowed_slots = Array[int]([6])
 _name = "Dragon Meat"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 9 HP."

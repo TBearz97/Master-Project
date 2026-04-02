@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_87fv7")
+category = "Instrument"
 effect = "Used to perform music (soothe, inspire, rally)."
 weight = 0.5
 value = 17
 icon = ExtResource("1_wiyuv")
 allowed_slots = Array[int]([6])
 _name = "Lyre"
+short_description = "Instrument item."
+long_description = "Category: Instrument. Effect: Used to perform music (soothe, inspire, rally).."

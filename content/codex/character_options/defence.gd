@@ -5,11 +5,10 @@ class_name Defence
 @export var attribute2: Attribute
 @export var value: int
 
-func _init(__name: String = "", shortDescription: String = "", longDescription: String = "", att1: Attribute = Attribute.new(), att2: Attribute = Attribute.new()) -> void:
-	super(__name, shortDescription, longDescription)
-	attribute1 = att1
-	attribute2 = att2
-	value = 0
+func _init(idDB: int = -1, _nameDB: String = "", short_descriptionDB: String = "", long_descriptionDB: String = "", att1DB: Attribute = Attribute.new(), att2DB: Attribute = Attribute.new()) -> void:
+	super(idDB, _nameDB, short_descriptionDB, long_descriptionDB)
+	attribute1 = att1DB
+	attribute2 = att2DB
 
 func getValue(target: CreatureData) -> int:
 	value = 0

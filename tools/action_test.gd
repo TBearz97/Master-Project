@@ -10,6 +10,10 @@ func _ready() -> void:
 
 
 func _useAction() -> void:
-	var result = weapon.actions[1].use(target, CreatureData.new(), weapon.damage_profile)
-	print("Clicked: " + weapon.actions[1]._name)
+	if weapon == null or weapon.actions.is_empty():
+		print("No weapon action available.")
+		return
+	var action: Action = weapon.actions[0]
+	var result = action.use(target, CreatureData.new(), weapon.damage_profile)
+	print("Clicked: " + action._name)
 	print(result)

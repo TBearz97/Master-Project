@@ -5,47 +5,47 @@ enum WeaponSize { ONE_HANDED, TWO_HANDED }
 enum WeaponRange { MELEE, CLOSE, MEDIUM, LONG }
 
 @export var damage_profile: DamageProfile
-@export var speed: int
-@export var qualities: Array[String]
-@export var size: WeaponSize
-@export var weaponRange: WeaponRange
+@export var handedness: WeaponSize
 @export var actions: Array[Action]
 
-func _init(itemName: String = "", shortDescription: String = "", longDescription: String = "", itemWeight: float = 0, itemValue: int = 0, itemDamageDie: int = 0, itemCritDie: int = 0, itemSpeed: int = 0, itemQualities: String = "", itemSize: String = "", itemRange: String = "") -> void:
-	super(itemName, shortDescription, longDescription, itemWeight, itemValue)
+func _init(
+	idDB: int = -1,
+	_nameDB: String = "",
+	short_descriptionDB: String = "",
+	long_descriptionDB: String = "",
+	weightDB: float = 0,
+	valueDB: int = 0,
+	damageDieDB: int = 0,
+	speedDB: int = 0,
+	handednessDB: String = "",
+	action_rangeDB: ActionRange = ActionRange.new()
+) -> void:
+	super(idDB, _nameDB, short_descriptionDB, long_descriptionDB, weightDB, valueDB)
+
 	allowed_slots = [ItemSlots.WeaponSlot]
-	damage_profile = DamageProfile.new(0, itemDamageDie, itemCritDie)
-	speed = itemSpeed
-	qualities = []
-	qualities.assign(itemQualities.split(","))
+	damage_profile = DamageProfile.new(damageDieDB, speedDB, action_rangeDB)
+
+	# Convert string → enum
+	match handednessDB:
+		"1H":
+			handedness = WeaponSize.ONE_HANDED
+		"2H":
+			handedness = WeaponSize.TWO_HANDED
+		_:
+			handedness = WeaponSize.ONE_HANDED  # safe default
+
 	actions = []
 
-	match itemSize:
-		"1H":
-			size = WeaponSize.ONE_HANDED
-		"2H":
-			size = WeaponSize.TWO_HANDED
-		_:
-			size = WeaponSize.ONE_HANDED
-
-	match itemRange:
-		null:
-			weaponRange = WeaponRange.MELEE
-		"C":
-			weaponRange = WeaponRange.CLOSE
-		"M":
-			weaponRange = WeaponRange.MEDIUM
-		"L":
-			weaponRange = WeaponRange.LONG
-		_:
-			weaponRange = WeaponRange.MELEE
-
 func _print() -> String:
+	var handedness_str := ""
+	match handedness:
+		WeaponSize.ONE_HANDED:
+			handedness_str = "1H"
+		WeaponSize.TWO_HANDED:
+			handedness_str = "2H"
+
 	return (
 		super() +
 		"Damage: " + damage_profile.describe() + "\n" +
-		"Speed: " + str(speed) + "\n" +
-		"Qualities: " + str(qualities) + "\n" +
-		"Size: " + str(size) + "\n" +
-		"Range: " + str(weaponRange) + "\n"
+		"Handedness: " + handedness_str + "\n"
 	)

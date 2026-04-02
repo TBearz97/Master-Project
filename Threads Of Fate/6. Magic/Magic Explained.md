@@ -1,74 +1,92 @@
-**RELIGIOUS MAGIC**
- 
-Religious magic is magic that takes form in a prayer to the gods to who then influence the world through you. A practitioner of religious magic can invoke the powers of several gods in order to utilize their power at their will. However a practitioner of religious magic can also take an oath, binding themselves to serve only one god rejecting the help from other gods in order to unlock special ways to bend spell that fits with the god they have chosen.
- 
-**N****ATURE MAGIC**
- 
-Nature magic is magic that is granted to who ever connects with Nature on a spiritual level.
+Magic is one of the great forces of the world. It can shape matter, command minds, call spirits, alter the body, and bend the rules of ordinary life. Though its forms differ, all magic is fueled by Mana and expressed through one of three schools: Theoretical, Zealous, and Primal.
 
-There are three types of magic in this world, they are: Natural, Religious, and Theoretical. A character can either specialize in one of these categories or learn a little of each. Given high enough level a character can eventually master them all. Unless otherwise stated a nature spell uses the skill test Endurance + Arcana, a religious spell uses Charisma + Arcana, and a theoretical spell uses Intelligence + Arcana. A character can only cast one spell during each round.
- 
-Mana is a resource that for the most part of only obtainable through a sense of complete focus during an otherwise stressful situation. With the help of Mana you are able to cast more dangerous spells at a greater risk of complications. Some Perks allow for Mana generation outside of combat.
- 
-Each spell has a Base Cast and Variety Casts. Once you have learned a spell you can use a Major action to cast a spell using the Base Cast and it's difficulty. With Mana generated from a Focus Minor Action you can use Variety casts, these can be combined with each other and is added on top of the Base Cast. Some spells have IP Spends, these are repeatable and can be added after a successful spell cast with IP gained from the cast as well as IP from the group pool.
- 
-When casting a magic spell there is always a risk of something going wrong. Base Casts have the normal Complication range of 20, but casting a spell with a Variety the Complication range is increased for each Variety added.
- 
-The Discipline skill has several perks related to it to improve a casters ability to concentrate on a spell, controlling Magic Complications and Mana generation.
- 
-Some spells requires concentration to keep active. For each spell you concentrate on you need to spend 1 Mana at the start of your turn, if not you must succeed a Concentration test. If you take damage while concentrating on a spell you must succeed Concentration test, Difficulty increases by 1 if the attack inflicted an injury or a different difficulty set by the attackers various perks. A Concentration test is a Resolve + Discipline test with Difficulty equal to spells in concentration, concentration is broken suffer 1 CD or 1 complication for each spell in concentration.
- 
-_Example: A character is concentrating on 3 spells an loses concentration. That character can choose to take 1 CD damage and 2 complications._
- 
-1. A spectral shield hovers near you for the next minute, granting you a +2 bonus to AC and immunity to Magic Missile.
-2. For the next minute, you can see any invisible creature if you have line of sight to it.
-3. You are immune to being intoxicated by alcohol for the next 5d6 days.
-4. A modron chosen and controlled by the DM appears in an unoccupied space within 5 feet of you, then disappears I minute later.
-5. Your hair falls out but grows back within 24 hours.
-6. You cast Fireball as a 3rd-level spell centered on yourself.
-7. For the next minute, any flammable object you touch that isn't being worn or carried by another creature bursts into flame.
-8. You cast Magic Missile as a 5th-level spell.
-9. You regain your lowest-level expended spell slot.
-10. Roll a d10. Your height changes by a number of inches equal to the roll. If the roll is odd, you shrink. If the roll is even, you grow.
-11. For the next minute, you must shout when you speak.
-12. You cast Confusion centered on yourself.
-13. You cast Fog Cloud centered on yourself.
-14. For the next minute, you regain 5 hit points at the start of each of your turns.
-15. Up to three creatures you choose within 30 feet of you take 4d10 lightning damage.
-16. You grow a long beard made of feathers that remains until you sneeze, at which point the feathers explode out from your face.
-17. You are frightened by the nearest creature until the end of your next turn.
-18. You cast Grease centered on yourself.
-19. Your skin turns a vibrant shade of blue. A Remove Curse spell can end this effect.
-20. A random creature within 60 feet of you becomes poisoned for 1d4 hours.
-21. You glow with bright light in a 30-foot radius for the next minute. Any creature that ends its turn within 5 feet of you is blinded until the end of its next turn.
-22. You cast Polymorph on yourself. If you fail the saving throw, you turn into a sheep for the spell's duration.
-23. You teleport up to 60 feet to an unoccupied space of your choice that you can see.
-24. Illusory butterflies and flower petals flutter in the air within 10 feet of you for the next minute.
-25. You are transported to the Astral Plane until the end of your next turn, after which time you return to the space you previously occupied or the nearest unoccupied space if that space is occupied.
-26. Roll a d10. Your age changes by a number of years equal to the roll. If the roll is odd, you get younger (minimum 1 year old). If the roll is even, you get older.
-27. You cast Fly on a random creature within 60 feet of you.
-28. You turn into a potted plant until the start of your next turn. While a plant, you are incapacitated and have vulnerability to all damage. If you drop to 0 hit points, your pot breaks, and your form reverts.
-29. Your size increases by one size category for the next minute.
-30. You cast Levitate on yourself.
-31. A unicorn controlled by the DM appears in a space within 5 feet of you, then disappears 1 minute later.
-32. You are surrounded by faint, ethereal music for the next minute.
+# **Mana**
+Mana is the resource used to fuel spells and other supernatural effects. It is most often associated with magic, but Mana is not only magic in the narrow sense. It represents stored power that can be directed into exceptional acts.
 
-_Magic Complications_  
-_The following are complications that might occur should you roll a complication while casting a spell. Roll 2d20s for one of the complications._
+Resolve passively generates Mana over time, and characters can gain larger amounts of Mana by using Focus when the situation allows it. Some perks and abilities may also change how Mana is gained or used.
 
-|   |   |   |   |   |   |
-|---|---|---|---|---|---|
-|**2D20 Roll**|**Magic Complication**|**2D20 Roll**|**Magic Complication**|**2D20 Roll**|**Magic Complication**|
-|2|You gain 2 Luck Points|15|Each creature within close range of you takes 3 CD damage with Necrotic Effect. You regain hit points equal to the sum of the necrotic damage dealt.|28|For the next minute, you can see any invisible creature if you have line of sight to it.|
-|3|You gain 1 Luck Point|16|Choose the CD outcome for your damaging spells the next 5 rounds.|29|Roll a RES + Discipline test with difficulty 1, difficulty increases by 1 for each time you are forced to make this test until you sleep. On a fail you suffer the Arcane Block disease.|
-|4|The group IP pool is filled|17|If you die within the next 5 rounds, you immediately come back to life with half HP and the other half as necrotic damage.|30|You are stunned until the end of your next turn.|
-|5|You automatically succeed concentration tests the next 5 rounds.|18|You regain all Inspiration points spent this round.|31|You can't speak until the end of the scene.|
-|6|Roll on this table at the start of each of your turns for the next 5 rounds, ignoring this result on subsequent rolls.|19|The spell also targets yourself. If you were the target, then the spell also targets closest creature. If you failed the cast, this still happens but does not hit the intended target.|32|You cast Create Illusion, with Mirror Image variety.|
-|7|4 CD random animals controlled by the GM appear within Medium Range of you.|20|For the next 5 rounds, you must teleport to a hex at Medium Range as a free action on each of your turns.|33|All creatures within Long Range of you heal 4 CD.|
-|8|Divine Smite becomes a Free Action for the next 3 rounds.|21|Roll a RES + Discipline test with difficulty 1, difficulty increases by 1 for each time you are forced to make this test until you sleep. On a fail you suffer the Arcane Block disease.|34|Roll on this table at the start of each of your turns for the next 5 rounds, ignoring this result on subsequent rolls.|
-|9|Divine Light shines down on your intended target for the next 5 rounds. PER tests have a increased difficulty of 1 for the target.|22|You cannot generate Mana for the next 3 rounds.|35|The spell also targets the closest creature to the original target.|
-|10|A Circle with Scale 2 that you are standing in overgrows with plants. The area now counts as difficult terrain 2.|23|Each creature within Medium Range of you becomes invisible for the next 5 rounds. The invisibility ends on a creature when it attacks or casts a spell.|36|Imbue Elements can be cast Free Action once within next 5 rounds and does not require concentration.|
-|11|You take 4 CD damage with Persistent (Fire) Effect.|24|For the next 5 rounds, a  <br>you can cast 2 spells each round and one of them can be cast as a Minor Action.|37|You automatically succeed concentration tests the next 5 rounds.|
-|12|You take half damage for the next 5 rounds.|25|You and all creatures within Close Range of you takes double damage for the next 5 rounds.|38|The group IP pool is filled|
-|13|You are transformed into the last animal you saw for the next 5 rounds.|26|An eye appears on your forehead until the end of the scene. During that time, Perception tests that rely on sight have a reduced difficulty of 1.|39|You gain 1 Luck Point|
-|14|You regain 4 CD hit points.|27|You can take one additional Major Action immediately.|40|You gain 2 Luck Points|
+# **Focus**
+Focus is the deliberate act of gathering power instead of using it immediately. In dangerous situations this often means giving up tempo in order to prepare for something stronger later. Focus is one of the main ways a caster builds enough Mana to use more demanding spells.
+
+# **Concentration**
+Some spells remain active only while the caster maintains Concentration. If a caster loses Concentration, those spells end immediately. Concentration is also what allows a caster to safely sustain ongoing magical effects while under pressure.
+
+# **Channeling**
+Some spells have the Channeling tag. These spells do not resolve immediately. Instead, the caster must spend a number of turns channeling them. If the caster loses Concentration before the spell is completed, the spell fails.
+
+# **The Three Schools**
+There are three schools of magic in this world.
+
+- **Theoretical** magic is studied, understood, and shaped through knowledge, analysis, and discipline.
+- **Zealous** magic is shaped by belief, devotion, conviction, and the powers that answer them.
+- **Primal** magic is drawn from nature, instinct, spirits, and the living forces of the world.
+
+Some characters devote themselves to one school, while others approach magic through a more unusual path.
+
+# **Magical Identities**
+Not all spellcasters relate to magic in the same way. A character's magical identity determines how they learn, prepare, or gain access to spells.
+
+- **Magical Student** learns Theoretical spells through study and observation.
+- **Patronage** grants spells through bargains, sacrifices, or narrative bonds with greater powers.
+- **Conviction** grants a fixed set of Zealous spells shaped by belief or devotion.
+- **Ritualist** prepares a limited set of Primal spells through ritual.
+- **Innate Power** expresses magic through a natural affinity, talent, or defining supernatural theme.
+
+# **Strain**
+Most spellcasting is fueled by Mana. However, a caster may still attempt to cast a spell without sufficient Mana by taking Strain.
+
+For every 2 Mana a caster is missing, roll once on the universal Strain table. Roll 2d20 and add the results together for each Strain roll. Strain represents the danger of forcing power through a spell that the caster is not fully prepared to support. These results are weighted, so harmless outcomes and minor side effects are more common than severe ones.
+
+Strain can create both mechanical and narrative consequences. Some results may do nothing meaningful at all beyond a strange magical flourish, while others may grant a brief advantage, cause backlash, twist the spell, expose the caster, or create a more serious problem.
+
+# **Strain Table**
+The Strain table is universal for all schools of magic. Funny or strange narrative outcomes can count as harmless results if they do not meaningfully help or harm the caster.
+
+| **2d20** | **Strain Result** |
+| --- | --- |
+| 2 | **Perfect Flow:** Gain 2 Mana after the spell resolves. |
+| 3 | **Potent Release:** Increase the spell's Potency by 2. |
+| 4 | **Lingering Charge:** Gain 1 Mana after the spell resolves. |
+| 5 | **Sure Shaping:** Increase the spell's Potency by 1. |
+| 6 | **Quickened Rhythm:** Gain 1 AP after the spell resolves. |
+| 7 | **Echo Cast:** The spell leaves behind a harmless visible afterimage of its effect. |
+| 8 | **No Strain:** Nothing else happens. |
+| 9 | **No Strain:** Nothing else happens. |
+| 10 | **Blue Sparks:** Blue sparks dance across your hands for a moment, but nothing else happens. |
+| 11 | **Whispering Air:** Nearby air whispers your last spoken word, but nothing else happens. |
+| 12 | **No Strain:** Nothing else happens. |
+| 13 | **Scent of Rain:** The air briefly smells of rain or ozone, but nothing else happens. |
+| 14 | **No Strain:** Nothing else happens. |
+| 15 | **Faint Glow:** Your eyes or skin glow faintly until the end of the turn, but nothing else happens. |
+| 16 | **Arcane Trace:** The spell leaves obvious magical signs behind until the end of the scene. |
+| 17 | **Revealed Casting:** You are easier to notice until the end of the scene. |
+| 18 | **Shaken Focus:** Reduce Concentration by 1. |
+| 19 | **Flicker:** Lose 1 AP after the spell resolves. |
+| 20 | **Mana Leak:** Lose 1 additional Mana after the spell resolves. |
+| 21 | **Pain Spike:** Take 1 HP damage. |
+| 22 | **Backlash:** Take 2 HP damage. |
+| 23 | **Jolted Nerves:** Take 2 HP damage and reduce Concentration by 1. |
+| 24 | **Spent Breath:** You cannot gain Mana from Focus until the end of your next turn. |
+| 25 | **Frayed Casting:** Your next spell this scene has +1 Strain roll. |
+| 26 | **Warped Spell:** The GM slightly alters the spell's appearance or exact expression. |
+| 27 | **Loose Targeting:** The GM may shift the spell's target, area, or point of origin slightly. |
+| 28 | **Hostile Echo:** The spell creates a minor harmful side effect in the nearby area. |
+| 29 | **Drain Burn:** Take 3 HP damage and lose 1 additional Mana. |
+| 30 | **Strain Burn:** Take 4 HP damage and reduce Concentration by 2. |
+| 31 | **Broken Focus:** Your current spell resolves, but you cannot Focus until the end of the scene. |
+| 32 | **Violent Miscast:** The GM significantly alters the spell's immediate outcome. |
+| 33 | **Arcane Whiplash:** Take 4 HP damage and lose all remaining AP. |
+| 34 | **Rupture:** Lose all remaining Mana and create an additional harmful magical side effect in the area. |
+| 35 | **Cascading Failure:** Roll on this table again once after resolving this result. |
+| 36 | **Spell Collapse:** The spell partially fails and lashes the caster with magical feedback. Take 5 HP damage. |
+| 37 | **Open Conduit:** The spell tears something open. The GM introduces an immediate dangerous magical phenomenon. |
+| 38 | **Wild Surge:** The spell resolves in a heavily distorted form chosen by the GM. |
+| 39 | **Catastrophic Backlash:** Take 6 HP damage, lose all remaining Mana, and reduce Concentration to 0. |
+| 40 | **Arcane Disaster:** The spell catastrophically collapses. Take 6 HP damage, lose all remaining Mana, become Stunned for the round, and the GM creates a major magical consequence. |
+
+# **Spell Structure**
+Each spell belongs to a school and explains what it does, what it costs, and any options that can change how it behaves. Some spells are simple and immediate, while others can be expanded, sustained, reshaped, or channeled through additional cost and risk.
+
+Spells may also have thematic tags such as Fire, Ice, Necrotic, Illusion, Time, or Undead. These tags help describe what kind of magic the spell is using and allow other rules, perks, and abilities to interact with that magic more easily.
+
+The exact rules for individual spells are explained in the spell lists of each school.

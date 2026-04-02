@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_4edim"]
+
+[resource]
+script = ExtResource("1_4edim")
+_name = "Crescent Arc"
+long_description = "A flowing curved swing meant to catch multiple lines at once."

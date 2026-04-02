@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_rkoj8")
-category = "Skills"
+category = "Race"
 _name = "Unyielding"
 short_description = "Reduce knockback."
 long_description = "Become harder to stagger or push back from hits."

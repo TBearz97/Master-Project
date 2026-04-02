@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_wvinw"]
+
+[resource]
+script = ExtResource("1_wvinw")
+category = "Knowledge and Craft"
+_name = "Cartographer"
+long_description = "Requirement: Navigation 2\\\\n\\\\nWhen mapping a route, charting an area, or returning by a known path, re-roll 1d20 on the test."

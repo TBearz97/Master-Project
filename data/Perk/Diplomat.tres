@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_1dnf8")
-category = "Skills"
+category = "Leadership and Social"
 _name = "Diplomat"
 short_description = "Win favor among nobles."
 long_description = "Speak with authority to gain favor in upper circles."

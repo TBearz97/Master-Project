@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_57ogm"]
 script = ExtResource("1_j6cwl")
 category = "Background"
-_name = "Underworld Connections"
-short_description = "Ties to the criminal world give access to shady goods."
-long_description = "When in a settlement, you can always find illicit goods or services if they exist."
+_name = "Underhanded"
+long_description = "You do not need lockpicks in order to pick a lock."
 
 [resource]
 script = ExtResource("2_bdwef")

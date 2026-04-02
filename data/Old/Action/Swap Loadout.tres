@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_22o1v"]
+
+[resource]
+script = ExtResource("1_22o1v")
+expressions = Array[String](["swapActiveLoadout(source)"])
+_name = "Swap Loadout"
+short_description = "Swap to your other loadout."
+long_description = "You switch to your other prepared loadout."

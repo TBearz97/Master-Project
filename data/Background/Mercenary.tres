@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_04uxq"]
 script = ExtResource("1_q5ikq")
 category = "Background"
-_name = "Veteran's Instinct"
-short_description = "Years of combat sharpen survival."
-long_description = "Gain +2 to Resistance tests when facing ambushes or sudden danger."
+_name = "Hardened Routine"
+long_description = "During each full rest, you may also remove 1 Fatigue if you have no remaining source causing it."
 
 [resource]
 script = ExtResource("2_lpyap")

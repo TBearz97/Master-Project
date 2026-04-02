@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_nft0j"]
+
+[resource]
+script = ExtResource("1_nft0j")
+_name = "Dragon Pin"
+long_description = "The fullest expression of the arbalest: a monstrous bolt placed to stop even the hardest target."

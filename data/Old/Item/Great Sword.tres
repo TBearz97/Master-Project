@@ -1,16 +1,47 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Sword.png" id="1_42km6"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_tm2is"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_o7h3y"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_vcwxg"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Sword.png" id="3_5k72k"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_vfx7g"]
+
+[sub_resource type="Resource" id="Resource_cxayk"]
+script = ExtResource("1_o7h3y")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Slash"
+short_description = "A broad cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_bsemk"]
+script = ExtResource("1_o7h3y")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Sweep"
+short_description = "A wide sweeping attack."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_cq4f0"]
+script = ExtResource("1_o7h3y")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Cleave"
+short_description = "A powerful chopping blow."
+long_description = "A downward chop with full force behind it."
+
+[sub_resource type="Resource" id="Resource_bx0xm"]
+script = ExtResource("2_vcwxg")
+damage_die = 10
+crit_die = 4
 
 [resource]
-script = ExtResource("2_tm2is")
-damage = 2.0
+script = ExtResource("4_vfx7g")
+damage_profile = SubResource("Resource_bx0xm")
 speed = 50
 qualities = Array[String](["Parry"])
 size = 1
+actions = Array[ExtResource("1_o7h3y")]([SubResource("Resource_cxayk"), SubResource("Resource_bsemk"), SubResource("Resource_cq4f0")])
 weight = 5.5
 value = 46
-icon = ExtResource("1_42km6")
+icon = ExtResource("3_5k72k")
 allowed_slots = Array[int]([7])
 _name = "Great Sword"
+short_description = "A weapon used in combat."
+long_description = "Deals d10, crit d4 damage at speed 50. Qualities: Parry."

@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_tcolt"]
 script = ExtResource("1_1twgs")
 category = "Background"
-_name = "Beast Affinity"
-short_description = "Deep bond with animals you care for."
-long_description = "Gain Tag Animal Handling and one Animal Handling Perk."
+_name = "Beast Handler"
+long_description = "You gain an Animal Handling perk."
 
 [resource]
 script = ExtResource("2_h2fss")

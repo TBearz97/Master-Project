@@ -1,17 +1,34 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Arbalest.png" id="1_8vgj4"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_b8x0h"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_26tvo"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_tn5qu"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Arbalest.png" id="3_j70a7"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_r3514"]
+
+[sub_resource type="Resource" id="Resource_s6yan"]
+script = ExtResource("1_26tvo")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Fire"
+short_description = "A ranged attack."
+long_description = "Releasing a projectile at the target."
+
+[sub_resource type="Resource" id="Resource_jyk54"]
+script = ExtResource("2_tn5qu")
+damage_die = 12
+crit_die = 4
 
 [resource]
-script = ExtResource("2_b8x0h")
-damage = 2.5
+script = ExtResource("4_r3514")
+damage_profile = SubResource("Resource_jyk54")
 speed = 10
 qualities = Array[String](["Accurate"])
 size = 1
 weaponRange = 3
+actions = Array[ExtResource("1_26tvo")]([SubResource("Resource_s6yan")])
 weight = 4.0
 value = 42
-icon = ExtResource("1_8vgj4")
+icon = ExtResource("3_j70a7")
 allowed_slots = Array[int]([7])
 _name = "Arbalest"
+short_description = "A weapon used in combat."
+long_description = "Deals d12, crit d4 damage at speed 10. Qualities: Accurate."

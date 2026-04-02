@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_yj421"]
 script = ExtResource("1_f1ner")
 category = "Homeland"
-_name = "No Perk"
-short_description = "No homeland perk, instead gain one from background."
-long_description = "When you choose to not have a homeland, you choose to belong to a different entity. Thus you will instead gain a Perk from Background."
+_name = "Wanderer"
+long_description = "You can become Well-Rested even when sleeping in rough conditions that would normally prevent it."
 
 [resource]
 script = ExtResource("2_ujofl")

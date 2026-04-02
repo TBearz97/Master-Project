@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_6a210"]
 script = ExtResource("1_xexgq")
 category = "Homeland"
-_name = "The Way of the Jungle"
-short_description = "Gain survival-oriented skills from the jungle."
-long_description = "You can choose one additional Tag skill among the following: Animal Handling, Survival or Medicine."
+_name = "Circle of Life"
+long_description = "Nothing Wasted. You know how to make use of what nature gives and what it takes."
 
 [resource]
 script = ExtResource("2_i0jbm")

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_eqrvl"]
+
+[resource]
+script = ExtResource("1_eqrvl")
+_name = "Breach Shot"
+long_description = "A devastating blast intended to tear through protection at close range."

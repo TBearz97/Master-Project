@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_e88sc"]
+
+[resource]
+script = ExtResource("1_e88sc")
+_name = "Hunter's Mark"
+long_description = "A practiced hunting shot that fixes the target and pressures every later attack."

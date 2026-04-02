@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_b7hbs"]
 script = ExtResource("1_x53xg")
 category = "Background"
-_name = "Master of Disguise"
-short_description = "Expert at hiding your true identity."
-long_description = "Gain +2 to Stealth or Society tests when attempting to conceal your identity."
+_name = "Deep Cover"
+long_description = "Your Renown is increased while you are undercover or disguised."
 
 [resource]
 script = ExtResource("2_bdcr8")

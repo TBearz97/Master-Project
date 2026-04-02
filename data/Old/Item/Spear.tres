@@ -1,15 +1,39 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Spear.png" id="1_khhl8"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_e5bka"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_x7ymc"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_tseu2"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Spear.png" id="3_t28kg"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_hll15"]
+
+[sub_resource type="Resource" id="Resource_tf4da"]
+script = ExtResource("1_x7ymc")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Thrust"
+short_description = "A precise piercing attack."
+long_description = "A focused lunge driving the point into the target."
+
+[sub_resource type="Resource" id="Resource_2dnek"]
+script = ExtResource("1_x7ymc")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Strike"
+short_description = "A basic attack."
+long_description = "A direct, unadorned blow."
+
+[sub_resource type="Resource" id="Resource_3dbqe"]
+script = ExtResource("2_tseu2")
+damage_die = 6
+crit_die = 6
 
 [resource]
-script = ExtResource("2_e5bka")
-damage = 1.3
+script = ExtResource("4_hll15")
+damage_profile = SubResource("Resource_3dbqe")
 speed = 25
-qualities = Array[String](["Accurate", " Reach"])
+qualities = Array[String](["Accurate", "Reach"])
+actions = Array[ExtResource("1_x7ymc")]([SubResource("Resource_tf4da"), SubResource("Resource_2dnek")])
 weight = 2.0
 value = 22
-icon = ExtResource("1_khhl8")
+icon = ExtResource("3_t28kg")
 allowed_slots = Array[int]([7])
 _name = "Spear"
+short_description = "A weapon used in combat."
+long_description = "Deals d6, crit d6 damage at speed 25. Qualities: Accurate, Reach."

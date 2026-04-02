@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_krfn8")
+category = "Utility"
 effect = "Holds 0.5 liters of liquid."
 weight = 0.1
 value = 35
 icon = ExtResource("1_xv2ms")
 allowed_slots = Array[int]([6])
 _name = "Vial"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Holds 0.5 liters of liquid.."

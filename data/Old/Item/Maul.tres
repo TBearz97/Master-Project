@@ -1,15 +1,39 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Maul.png" id="1_p7u12"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_wyxgt"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_smcpw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_p67gh"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Maul.png" id="3_7k55b"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_557nd"]
+
+[sub_resource type="Resource" id="Resource_2wrhj"]
+script = ExtResource("1_smcpw")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Smash"
+short_description = "A crushing blow."
+long_description = "A heavy strike that crushes bone and armour."
+
+[sub_resource type="Resource" id="Resource_bsemk"]
+script = ExtResource("1_smcpw")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Sweep"
+short_description = "A wide sweeping attack."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_qgnw3"]
+script = ExtResource("2_p67gh")
+damage_die = 10
+crit_die = 4
 
 [resource]
-script = ExtResource("2_wyxgt")
-damage = 2.0
+script = ExtResource("4_557nd")
+damage_profile = SubResource("Resource_qgnw3")
 speed = 50
 size = 1
+actions = Array[ExtResource("1_smcpw")]([SubResource("Resource_2wrhj"), SubResource("Resource_bsemk")])
 weight = 5.5
 value = 39
-icon = ExtResource("1_p7u12")
+icon = ExtResource("3_7k55b")
 allowed_slots = Array[int]([7])
 _name = "Maul"
+short_description = "A weapon used in combat."
+long_description = "Deals d10, crit d4 damage at speed 50."

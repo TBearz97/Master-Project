@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_wya6k"]
 script = ExtResource("1_r56lh")
 category = "Background"
-_name = "Captivating Performance"
-short_description = "Your art captivates crowds."
-long_description = "You may re-roll 1d20 on any Speech or Society test made to entertain or persuade a crowd."
+_name = "Crowd Favorite"
+long_description = "People are more willing to feed, host, or hear you out after a performance."
 
 [resource]
 script = ExtResource("2_h4a5l")

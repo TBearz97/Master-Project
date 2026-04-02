@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_b3tcs"]
+
+[resource]
+script = ExtResource("1_b3tcs")
+_name = "King's Judgement"
+long_description = "A finishing hammer blow delivered with complete authority."

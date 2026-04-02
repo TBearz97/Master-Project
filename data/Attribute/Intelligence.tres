@@ -4,11 +4,11 @@
 
 [resource]
 script = ExtResource("1_ki36m")
-bonus_1_prefix = "Bestiary Progress:"
-bonus_2_prefix = "Buff/Debuff Duration:"
-bonus_1_expression = "(x * 3)"
-bonus_2_expression = "(x * 5)"
-bonus_1_suffix = "%"
+modifier_1_name = "Potency"
+modifier_1_expression = "x + 2"
+modifier_2_name = "Bestiary Progression"
+modifier_2_expression = "x * 3"
+modifier_2_suffix = "%"
 _name = "Intelligence"
 short_description = "Represents reasoning and analytical ability."
 long_description = "Intelligence governs a character’s capacity for logic, learning, and understanding complex systems. It enhances awareness of enemies and the environment, improving bestiary knowledge and analysis. High Intelligence also refines control over magical and tactical effects, increasing the duration of buffs and debuffs applied in combat."

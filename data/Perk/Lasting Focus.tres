@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_k36f5"]
+
+[resource]
+script = ExtResource("1_k36f5")
+category = "Medicine and Stealth"
+_name = "Lasting Focus"
+long_description = "Requirement: Resolve 4\\\\n\\\\nThe first time each scene you would lose Concentration, reduce that loss by 1."

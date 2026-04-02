@@ -4,10 +4,10 @@
 
 [resource]
 script = ExtResource("1_2xj54")
-bonus_1_prefix = "Action Points:"
-bonus_2_prefix = "Deflection:"
-bonus_1_expression = "x + 3"
-bonus_2_expression = "x"
+modifier_1_name = "Action Points"
+modifier_1_expression = "x + 6 - floor(x / 4)"
+modifier_2_name = "Deflection"
+modifier_2_expression = "x"
 _name = "Dexterity"
 short_description = "Represents speed, coordination, and reflexes."
 long_description = "Dexterity reflects a character’s agility and precision in both physical and mental actions. It governs how quickly and efficiently a character can move, attack, and react. High Dexterity grants additional action points, allowing more actions per turn, and improves deflection, helping to avoid incoming attacks."

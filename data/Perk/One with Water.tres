@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_p5kpj"]
+
+[resource]
+script = ExtResource("1_p5kpj")
+category = "Survival and Field"
+_name = "One with Water"
+long_description = "Requirement: Athletics 2\\\\n\\\\nTests for swimming become easier, and fighting in water hinders you less than normal."

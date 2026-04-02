@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_xwi8j")
-category = "Skills"
+category = "Knowledge and Craft"
 _name = "Resourceful"
 short_description = "Chance to save materials."
 long_description = "Crafting sometimes doesn’t consume ingredients."

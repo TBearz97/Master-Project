@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1_75cp6")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
 _name = "Fire"
 short_description = "A ranged attack."
 long_description = "Releasing a projectile at the target."

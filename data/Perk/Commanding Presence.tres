@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_81u7j")
-category = "Skills"
+category = "Leadership and Social"
 _name = "Commanding Presence"
 short_description = "Boost ally morale."
 long_description = "Nearby allies gain courage when you speak."

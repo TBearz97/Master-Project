@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_cmpmo"]
+
+[resource]
+script = ExtResource("1_cmpmo")
+_name = "Aimed Shot"
+long_description = "Take the extra moment needed to place the attack exactly where you want it."

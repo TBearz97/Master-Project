@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_iws83")
+category = "Utility"
 effect = "Standard gear to direct a mount."
 weight = 1.0
 value = 20
 icon = ExtResource("1_fy2qp")
 allowed_slots = Array[int]([6])
 _name = "Bit and Bridle"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Standard gear to direct a mount.."

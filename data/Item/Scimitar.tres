@@ -1,45 +1,50 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_o3nqk"]
 [ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_r0rrj"]
 [ext_resource type="Texture2D" path="res://Art/Icons/Items/Scimitar.png" id="3_puji3"]
 [ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_lpd7d"]
 
-[sub_resource type="Resource" id="Resource_cxayk"]
+[sub_resource type="Resource" id="Resource_74bim"]
 script = ExtResource("1_o3nqk")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
-_name = "Slash"
-short_description = "A broad cutting attack."
-long_description = "A wide swinging cut aimed at exposed flesh."
+_name = "Quick Slash"
+long_description = "A fast cut that relies on speed over commitment."
 
-[sub_resource type="Resource" id="Resource_tf4da"]
+[sub_resource type="Resource" id="Resource_86tlr"]
 script = ExtResource("1_o3nqk")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
-_name = "Thrust"
-short_description = "A precise piercing attack."
-long_description = "A focused lunge driving the point into the target."
+_name = "Draw Cut"
+long_description = "A cut delivered as the blade moves free in one fluid motion."
 
-[sub_resource type="Resource" id="Resource_bsemk"]
+[sub_resource type="Resource" id="Resource_t7ldr"]
 script = ExtResource("1_o3nqk")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
-_name = "Sweep"
-short_description = "A wide sweeping attack."
-long_description = "A broad arc that can catch multiple foes."
+_name = "Crescent Arc"
+long_description = "A flowing curved swing meant to catch multiple lines at once."
 
 [sub_resource type="Resource" id="Resource_mspcf"]
+script = ExtResource("1_o3nqk")
+_name = "Whirling Step"
+long_description = "A curving moving attack that changes angle mid-assault."
+
+[sub_resource type="Resource" id="Resource_r7fv3"]
 script = ExtResource("2_r0rrj")
 damage_die = 6
-crit_die = 6
 
 [resource]
 script = ExtResource("4_lpd7d")
-damage_profile = SubResource("Resource_mspcf")
+weapon_class = "Melee"
+damage_profile = SubResource("Resource_r7fv3")
+damage_die_text = "d6"
 speed = 25
-actions = Array[ExtResource("1_o3nqk")]([SubResource("Resource_cxayk"), SubResource("Resource_tf4da"), SubResource("Resource_bsemk")])
+handedness = "1H"
+basic_attack_id = 92
+proficient_attack_id = 30
+expert_attack_id = 23
+master_attack_id = 133
+actions = Array[ExtResource("1_o3nqk")]([SubResource("Resource_74bim"), SubResource("Resource_86tlr"), SubResource("Resource_t7ldr"), SubResource("Resource_mspcf")])
 weight = 2.0
 value = 26
 icon = ExtResource("3_puji3")
 allowed_slots = Array[int]([7])
 _name = "Scimitar"
-short_description = "A weapon used in combat."
-long_description = "Deals d6, crit d6 damage at speed 25."
+short_description = "Melee weapon dealing d6 damage."
+long_description = "Melee weapon with 25 speed, melee range, and 1H handedness."

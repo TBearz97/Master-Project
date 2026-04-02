@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_tpcaj")
 healing = 13
+consumable_type = "Food"
+category = "Consumable"
 effect = "+2 Physical damage resistance until end of next scene"
 weight = 0.5
 value = 90
 icon = ExtResource("1_iqfvs")
 allowed_slots = Array[int]([6])
 _name = "Bear Ribs"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 13 HP. Effect: +2 Physical damage resistance until end of next scene."

@@ -6,9 +6,13 @@
 [resource]
 script = ExtResource("2_bnjpg")
 healing = 11
+consumable_type = "Food"
+category = "Consumable"
 effect = "If next scene is combat, regain 1 HP at the start of each turn"
 weight = 0.3
 value = 90
 icon = ExtResource("1_xqm8c")
 allowed_slots = Array[int]([6])
 _name = "Dragon Omelet"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 11 HP. Effect: If next scene is combat, regain 1 HP at the start of each turn."

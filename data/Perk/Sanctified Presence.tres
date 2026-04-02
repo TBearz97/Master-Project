@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_y7qam"]
+
+[resource]
+script = ExtResource("1_y7qam")
+category = "Background"
+_name = "Sanctified Presence"
+long_description = "Followers of your faith tend to treat you as one of their own unless given reason not to."

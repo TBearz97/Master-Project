@@ -3,6 +3,6 @@ class_name Homeland
 
 @export var perk: Perk
 
-func _init(__name: String = "", shortDescription: String = "", longDescription: String = "", _perk: Perk = Perk.new()) -> void:
-	super(__name, shortDescription, longDescription)
-	perk = _perk
+func _init(idDB: int = -1, _nameDB: String = "", short_descriptionDB: String = "", long_descriptionDB: String = "", perkDB : Perk = Perk.new()) -> void:
+	super(idDB, _nameDB, short_descriptionDB, long_descriptionDB)
+	perk = perkDB

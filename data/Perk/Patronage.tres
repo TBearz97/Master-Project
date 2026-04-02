@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_o5f00"]
+
+[resource]
+script = ExtResource("1_o5f00")
+category = "Magic"
+_name = "Patronage"
+long_description = "Requirement: Resolve 6\\\\n\\\\nGain spells from any school through deals, sacrifices, and narrative events, with your power shaped and potentially altered by your patron."

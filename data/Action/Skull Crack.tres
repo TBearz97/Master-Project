@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_kko2w"]
+
+[resource]
+script = ExtResource("1_kko2w")
+_name = "Skull Crack"
+long_description = "A crushing club strike meant to finish with blunt certainty."

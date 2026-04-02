@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_iefut"]
 script = ExtResource("1_xgtbv")
 category = "Background"
-_name = "Crowd's Favor"
-short_description = "Fight harder with an audience."
-long_description = "When fighting before spectators, once per combat you may add +2 to an attack or parry roll."
+_name = "Arena Instinct"
+long_description = "The first time each combat you would become Prone, you may ignore it."
 
 [resource]
 script = ExtResource("2_lyirt")

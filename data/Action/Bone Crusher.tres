@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_ror2d"]
+
+[resource]
+script = ExtResource("1_ror2d")
+_name = "Bone Crusher"
+long_description = "A maul strike delivered with enough force to ruin whatever it lands on."

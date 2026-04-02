@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_wbksq"]
+
+[resource]
+script = ExtResource("1_wbksq")
+_name = "Heaven Split"
+long_description = "A mastery slash delivered with overwhelming reach and precision."

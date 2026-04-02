@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_n35jg")
-category = "Zealous"
+category = "Magic"
 _name = "Conviction"
 short_description = "Resist fear and charm."
 long_description = "Unshakeable faith grants immunity to fear and control effects."

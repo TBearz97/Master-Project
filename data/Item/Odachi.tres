@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_uqmqr"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_td8ni"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/default.png" id="3_4mjvj"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_fif8v"]
+
+[sub_resource type="Resource" id="Resource_86tlr"]
+script = ExtResource("1_uqmqr")
+_name = "Draw Cut"
+long_description = "A cut delivered as the blade moves free in one fluid motion."
+
+[sub_resource type="Resource" id="Resource_t7ldr"]
+script = ExtResource("1_uqmqr")
+_name = "Crescent Arc"
+long_description = "A flowing curved swing meant to catch multiple lines at once."
+
+[sub_resource type="Resource" id="Resource_2qw47"]
+script = ExtResource("1_uqmqr")
+_name = "Rising Edge"
+long_description = "An ascending blade path that turns defense into offense."
+
+[sub_resource type="Resource" id="Resource_28xri"]
+script = ExtResource("2_td8ni")
+damage_die = 10
+
+[resource]
+script = ExtResource("4_fif8v")
+weapon_class = "Melee"
+damage_profile = SubResource("Resource_28xri")
+damage_die_text = "d10"
+speed = 50
+size = 1
+handedness = "2H"
+proficient_attack_id = 30
+expert_attack_id = 23
+master_attack_id = 100
+actions = Array[ExtResource("1_uqmqr")]([SubResource("Resource_86tlr"), SubResource("Resource_t7ldr"), SubResource("Resource_2qw47")])
+weight = 5.5
+value = 46
+icon = ExtResource("3_4mjvj")
+allowed_slots = Array[int]([7])
+_name = "Odachi"
+short_description = "Melee weapon dealing d10 damage."
+long_description = "Melee weapon with 50 speed, melee range, and 2H handedness."

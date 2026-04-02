@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_wy861"]
+
+[resource]
+script = ExtResource("1_wy861")
+_name = "Rain of Thorns"
+long_description = "Layer an area with arrows so movement through it becomes dangerous."

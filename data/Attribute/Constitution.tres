@@ -1,15 +1,9 @@
-[gd_resource type="Resource" script_class="Attribute" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="Attribute" load_steps=2 format=3 uid="uid://buljcoqgy6fq0"]
 
-[ext_resource type="Script" path="res://content/codex/character_options/attribute.gd" id="1_5h1bn"]
+[ext_resource type="Script" uid="uid://cjefm20dfgs57" path="res://content/codex/character_options/attribute.gd" id="1_5h1bn"]
 
 [resource]
 script = ExtResource("1_5h1bn")
-bonus_1_prefix = "Health:"
-bonus_2_prefix = "Vitality:"
-bonus_1_expression = "x + 5"
-bonus_2_expression = "(3 + floor((x - 1) / 3))"
-bonus_1_suffix = "x Level"
-bonus_2_suffix = "x Health"
 _name = "Constitution"
 short_description = "Represents endurance and overall toughness."
 long_description = "Constitution determines a character’s physical resilience and ability to withstand harm, fatigue, and disease. It directly affects maximum health and long-term vitality, influencing how long a character can endure in battle or harsh environments. Those with higher Constitution can take more punishment and recover faster from strain."

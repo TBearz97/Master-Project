@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_8pb05"]
+
+[resource]
+script = ExtResource("1_8pb05")
+category = "Weapon"
+_name = "Giant's Grip"
+long_description = "Requirement: Might 7\\\\n\\\\nYou can wield a two-handed melee weapon in one hand for the purpose of carrying or readying it, but you still need two hands to use its attacks unless another rule says otherwise."

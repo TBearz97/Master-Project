@@ -1,46 +1,53 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_7chnf"]
 [ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_r7a7m"]
 [ext_resource type="Texture2D" path="res://Art/Icons/Items/Staff.png" id="3_jqb34"]
 [ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_gch5f"]
 
-[sub_resource type="Resource" id="Resource_2dnek"]
+[sub_resource type="Resource" id="Resource_2wrhj"]
 script = ExtResource("1_7chnf")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
 _name = "Strike"
 short_description = "A basic attack."
 long_description = "A direct, unadorned blow."
 
-[sub_resource type="Resource" id="Resource_bsemk"]
+[sub_resource type="Resource" id="Resource_6iptd"]
 script = ExtResource("1_7chnf")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Hook"
+long_description = "A hooking motion used to drag, redirect, or unbalance the target."
+
+[sub_resource type="Resource" id="Resource_vob0q"]
+script = ExtResource("1_7chnf")
 _name = "Sweep"
 short_description = "A wide sweeping attack."
 long_description = "A broad arc that can catch multiple foes."
 
-[sub_resource type="Resource" id="Resource_2wrhj"]
+[sub_resource type="Resource" id="Resource_3i83i"]
 script = ExtResource("1_7chnf")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
-_name = "Smash"
-short_description = "A crushing blow."
-long_description = "A heavy strike that crushes bone and armour."
+_name = "Brace"
+long_description = "A planted pike technique that turns the enemy's momentum against them."
 
-[sub_resource type="Resource" id="Resource_6iptd"]
+[sub_resource type="Resource" id="Resource_tr5j5"]
 script = ExtResource("2_r7a7m")
 damage_die = 6
-crit_die = 6
 
 [resource]
 script = ExtResource("4_gch5f")
-damage_profile = SubResource("Resource_6iptd")
+weapon_class = "Melee"
+damage_profile = SubResource("Resource_tr5j5")
+damage_die_text = "d6"
 speed = 25
 size = 1
-actions = Array[ExtResource("1_7chnf")]([SubResource("Resource_2dnek"), SubResource("Resource_bsemk"), SubResource("Resource_2wrhj")])
+handedness = "2H"
+basic_attack_id = 120
+proficient_attack_id = 62
+expert_attack_id = 122
+master_attack_id = 11
+actions = Array[ExtResource("1_7chnf")]([SubResource("Resource_2wrhj"), SubResource("Resource_6iptd"), SubResource("Resource_vob0q"), SubResource("Resource_3i83i")])
 weight = 1.5
 value = 20
 icon = ExtResource("3_jqb34")
 allowed_slots = Array[int]([7])
 _name = "Staff"
-short_description = "A weapon used in combat."
-long_description = "Deals d6, crit d6 damage at speed 25."
+short_description = "Melee weapon dealing d6 damage."
+long_description = "Melee weapon with 25 speed, melee range, and 2H handedness."

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_optgd"]
+
+[resource]
+script = ExtResource("1_optgd")
+category = "Leadership and Social"
+_name = "I Belong Here"
+long_description = "Requirement: Society 2 or Stealth 2\\\\n\\\\nWhen trying to pass as part of a crowd, workplace, or social function, the first test to challenge your presence becomes harder."

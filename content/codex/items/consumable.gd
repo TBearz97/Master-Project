@@ -3,26 +3,22 @@ class_name Consumable
 
 @export var healing: int
 @export var addiction: int
-
-@export var consumable_type: String
-@export var duration: String
 @export var alcoholic: bool
+@export var duration: String
 
-func _init(itemName: String = "", shortDescription: String = "", longDescription: String = "", itemWeight: float = 0, itemHealing: int = 0, itemCategory: String = "", itemEffect: String = "", itemAddiction: int = 0, itemValue: int = 0, itemType: String = "", itemDuration: String = "", itemAlcoholic: bool = false) -> void:
-	super(itemName, shortDescription, longDescription, itemWeight, itemCategory, itemEffect, itemValue)
+func _init(idDB: int = -1, _nameDB: String = "", short_descriptionDB: String = "", long_descriptionDB: String = "", weightDB: float = 0, categoryDB: String = "", effectDB: String = "", valueDB: int = 0, healingDB: int = 0, addictionDB: int = 0, alcoholicDB: bool = false, durationDB: String = "") -> void:
+	super(idDB, _nameDB, short_descriptionDB, long_descriptionDB, weightDB, categoryDB, effectDB, valueDB)
 	allowed_slots = [ItemSlots.QuickItem]
-	healing = itemHealing
-	addiction = itemAddiction
-	consumable_type = itemType
-	duration = itemDuration
-	alcoholic = itemAlcoholic
+	healing = healingDB
+	addiction = addictionDB
+	alcoholic = alcoholicDB
+	duration = durationDB
 
 func _print() -> String:
 	return (
 		super() +
-		"Type: " + consumable_type + "\n" +
-		"Duration: " + duration + "\n" +
-		"Alcoholic: " + str(alcoholic) + "\n" +
 		"Healing: " + str(healing) + "\n" +
-		"Addiction: " + str(addiction) + "\n"
+		"Addiction: " + str(addiction) + "\n" +
+		"Alcoholic: " + str(alcoholic) + "\n" +
+		"Duration: " + duration + "\n"
 	)

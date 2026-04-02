@@ -1,39 +1,52 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_smcpw"]
 [ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_p67gh"]
 [ext_resource type="Texture2D" path="res://Art/Icons/Items/Maul.png" id="3_7k55b"]
 [ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_557nd"]
 
-[sub_resource type="Resource" id="Resource_2wrhj"]
+[sub_resource type="Resource" id="Resource_eq0n4"]
 script = ExtResource("1_smcpw")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
 _name = "Smash"
 short_description = "A crushing blow."
 long_description = "A heavy strike that crushes bone and armour."
 
-[sub_resource type="Resource" id="Resource_bsemk"]
-script = ExtResource("1_smcpw")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
-_name = "Sweep"
-short_description = "A wide sweeping attack."
-long_description = "A broad arc that can catch multiple foes."
-
 [sub_resource type="Resource" id="Resource_qgnw3"]
+script = ExtResource("1_smcpw")
+_name = "Body Blow"
+long_description = "A committed strike to the middle meant to steal breath and stance."
+
+[sub_resource type="Resource" id="Resource_04er8"]
+script = ExtResource("1_smcpw")
+_name = "Kneecapper"
+long_description = "A low crushing attack aimed at breaking stability and movement."
+
+[sub_resource type="Resource" id="Resource_0bilo"]
+script = ExtResource("1_smcpw")
+_name = "Groundbreaker"
+long_description = "A devastating impact that shakes bodies and footing alike."
+
+[sub_resource type="Resource" id="Resource_7dr0f"]
 script = ExtResource("2_p67gh")
 damage_die = 10
-crit_die = 4
 
 [resource]
 script = ExtResource("4_557nd")
-damage_profile = SubResource("Resource_qgnw3")
+weapon_class = "Melee"
+damage_profile = SubResource("Resource_7dr0f")
+damage_die_text = "d10"
 speed = 50
 size = 1
-actions = Array[ExtResource("1_smcpw")]([SubResource("Resource_2wrhj"), SubResource("Resource_bsemk")])
+handedness = "2H"
+basic_attack_id = 111
+proficient_attack_id = 8
+expert_attack_id = 70
+master_attack_id = 49
+actions = Array[ExtResource("1_smcpw")]([SubResource("Resource_eq0n4"), SubResource("Resource_qgnw3"), SubResource("Resource_04er8"), SubResource("Resource_0bilo")])
 weight = 5.5
 value = 39
 icon = ExtResource("3_7k55b")
 allowed_slots = Array[int]([7])
 _name = "Maul"
-short_description = "A weapon used in combat."
-long_description = "Deals d10, crit d4 damage at speed 50."
+short_description = "Melee weapon dealing d10 damage."
+long_description = "A ferocious chain of slashing force that overwhelms the target completely."

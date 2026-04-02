@@ -6,9 +6,8 @@
 [sub_resource type="Resource" id="Resource_jbm2q"]
 script = ExtResource("1_nyu45")
 category = "Background"
-_name = "One of the People"
-short_description = "Trusted by common folk."
-long_description = "Reduce Society tests when dealing with commoners by 1."
+_name = "Simple Living"
+long_description = "Food and shelter you provide can support one additional person."
 
 [resource]
 script = ExtResource("2_h20j7")

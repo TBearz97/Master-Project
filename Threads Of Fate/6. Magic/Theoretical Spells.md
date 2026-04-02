@@ -1,191 +1,190 @@
-**Counter spell**  
-**Keyword:** Instant, Harmless  
-**Difficulty:** Enemy Cast Difficulty + 1  
-**Base Cast:**  
-React to an enemy spell caster to cancel his magic. On success, the spell fades, but the caster still suffers complications. This spell can be cast out of turn, but the results of this spell happens when the caster has ended his turn.  
-**Variety Cast:**
-
-- (3 Mana) Reflect: Reflect the spell back at another target or zone.
-- (4 Mana) Store: Store the spell for later use. This use is a Difficulty 1 and a Major Action. Holding a spell this way requires concentration.
-
-**Conjure Food and Drink**  
-**Keyword:** Instant, Harmless  
-**Base Cast:**  
-The caster can conjure food and drinks out of thin air by reciting selected words.
-
-- Conjure Food: Conjures a selected food item where Difficulty is related to rarity.
-- Conjure Drinks: Conjures a selected drink item where Difficulty is related to rarity.
+**Counter Spell**
+**Tag:** Instant, Harmless, Arcane
+**Base Cast:**
+Use this spell against an ongoing Channeling spell or an active Concentration spell. Roll `d20 + Potency` against `Mana Spent x2`. On a success, the target spell ends or fails, but the original caster still loses the Mana spent.
 
 **Variety Cast:**
+- (3 Mana) Reflect: On a successful counter, redirect the spell toward another valid target or zone.
+- (4 Mana) Store: On a successful counter, hold the spell briefly and release it later as its own action.
 
-- (1 Mana) Food for the People: Conjures X extra of the selected food and/or drink item.
-
-**Conjure Weapon**  
-**Keyword:** Concentration  
-**Base Cast:**  
-You conjure a magical weapon out of thin air. Any attacks made with this weapon can use it's original Attribute + Skill or INT + Arcana, also damage from this weapon is considered magical. Conjuring a weapon has a difficulty equal to it's rarity.  
-**Variety Cast:**
-
-- (2 Mana) Duplicate: Conjure a second weapon of same type.
-- (3 Mana) Deadly Weapon: Gain 1 additional CD for the weapon attack .
-- (4 Mana) Potent: Whenever you attack with the conjured weapon, each Effect now counts as 1 damage + 2 Effects.
-
-**Evoke Flame**  
-**Keyword:** Instant  
-**Difficulty:** Target Defense  
-**Optimal Range:** M  
-**Base Cast:**  
-You conjure flame in your hands to be hurled at a target. This spell deals 4 CD with the Persistent(Fire) Effect.  
-**Variety Cast:**
-
-- (Difficulty 2 ~~Target Defense~~) Flame Wall: Instead of a target, choose a Line across a zone. All who start their turn within reach or enter reach take damage. Requires Concentration.
-- (Difficulty 1 ~~Target Defense~~) Flame Shield: Instead of a target, the flames persist around you dealing damage to all who attempts to attack you. Requires Concentration.
-- (3 Mana) Flame Burst: The attack range is reduced to Reach, but also gains 2 CD and Blast 1 Quality.
-- (5 Mana) Flame Ball: The attack gains 4 CD and Blast 1 Quality.
-
-**Invoke Ice**  
-**Keyword:** Instant  
-**Difficulty:** Target Defense  
-**Optimal Range:** C  
-**Base Cast:**  
-You invoke ice in your hands to be hurled at a target. This spell deals 6 CD with the Freeze Effect.  
-**Variety Cast:**
-
-- (Difficulty 1 ~~Target Defense~~) Ice Wall: Create a wall in a Line with Scale 2 and 20HP. The wall is vulnerable to Fire Damage and requires Concentration to maintain. The spell deals 3 CD, instead of 6, to anyone who gets pushed by the wall.
-- (2 Mana) Ice Shards: The attack gains the Burst Effect.
-- (2 Mana) Ice Spear: The attack gains the Piercing 1 Effect.
-- (2 Mana) Dark Ice: The attack gains the Necrotic Effect.
-- (4 Mana) Frost Nova: The attack range is reduced to Reach, but also Grappling Effect and Blast 1 Quality.
-
-**Levitate**  
-**Keyword:** Concentration, Harmless  
-**Difficulty:** 1  
-**Base Cast:**  
-You gain the ability to levitate of ground and can't move unless you push yourself around. While levitating melee defense increase by 1, unless attacked by a weapon with reach.  
-**Variety Cast:**
-
-- (4 Mana) Fly: Gain control over your movement magically.
-- (2 Mana) Aim Higher: You levitate higher outside reach of melee attackers, weapons with reach can attack you with difficulty increase +1.
-- (2 Mana) Targeted: Cast on another creature within close range instead.
-
-**Teleportation**  
-**Keyword:** Instant, Harmless  
-**Difficulty:** 1  
-**Optimal Range:** M  
-**Base Cast:**  
-You magically teleport to a hex within range you can see.  
-**Variety Cast:**
-
-- (Difficulty Target Defense) Send them away: You don't teleport yourself, but rather another creature within Reach.
-- (2 Mana) Blink: Teleport anywhere within sight. Maximum Long Range.
-- (2 Mana) Travel with Company: Travel with one additional creature that is within Reach.
-- (4 Mana) Mass Teleport: Teleport everyone within a Circle with Scale 1.
-- (8 Mana) Devil's in the Detail: Teleport to a location based on description.
-- (X Mana) Teleportation Circle: After concentrating for 10 minutes teleport up to 8 creatures anywhere within 5*X hexes on the travel map.
-
-**Necrotic Touch**  
-**Keyword:** Instant  
-**Difficulty:** Target Defense  
-**Optimal Range:** Reach  
-**Base Cast:**  
-You channel necrotic energy into your hand. After a successful cast you can touch a creature as a attack dealing 3 CD with the Necrotic Effect.  
-**Variety Cast:**
-
-- (2 Mana) Draining Touch: The touch also gains the Drain Effect.
-- (2 Mana) Turn Undead: The touch also gains the Turn Undead Effect.
-- (3 Mana) Absorb Necrosis: You can target an ally and remove necrotic damage equal to Effects, this does not damage the ally. Each point of Necrotic damage remove is an additional CD for you next attack.
-
-**Temper with Time**  
-**Keyword:** Concentration, Harmless  
-**Difficulty:** 2  
-**Optimal Range:** C  
-**Base Cast:**  
-You temper with time around a creature to speed them up or slow them down.
-
-- Quickened: You increase a creatures speed. For the next 3 round they gain an additional turn with initiative equal to their Agility. But the next turn after they are slowed.
-- Slow: You slow down a creatures speed. For the next 3 rounds they gain only a minor action. (Can still buy 1 additional of each). But the next turn after they are quickened.
+**Conjure Food and Drink**
+**Tag:** Instant, Harmless, Conjuration
+**Base Cast:**
+Conjure a chosen food or drink item. The difficulty is based on the rarity of what you create.
 
 **Variety Cast:**
+- (1 Mana) Food for the People: Conjure additional portions of the chosen food or drink.
 
-- (4 Mana) Full Stop: Instead of slowing them you freeze a creature in time. While frozen the creature stacks up damage and Effects to be applied when the spell ends.
-- (4 Mana) Elegant Speed: A sped up target can now take 3 Major Actions and Minor Actions if they spend the IP for it.
-
-**IP Spend:**
-
-- 2 IP: Increase the number of rounds by 1.
-
-**Create Illusions**  
-**Keyword:** Concentration, Harmless  
-**Difficulty:** 1  
-**Optimal Range:** C  
-**Base Cast:**  
-Create Illusions to fool your adversaries. It's only visual, it has 1HP 0 Defense, with a PER + Investigation test Difficulty 1 a creature can spot it's fake and it's 1 hex.  
-**Variety Cast:**
-
-- (1 Mana) Auditory: Create a sound.
-- (1 Mana) Robust: The illusion can survive one attack without being destroyed or detected.
-- (1 Mana) Grand Illusion: Increase the illusion by 1 hex.
-- (2 Mana) Mirror Illusion: Create 2 duplicates to increase your defense by 2. If this increase causes the attack to miss that illusion, then it's gone, thus you reduce your defense by 1.
-
-**IP Spend:**
-
-- 1 IP: Increase detection Difficulty by 1.
-
-**Raise Dead**  
-**Keyword:** Concentration  
-**Difficulty:** 1  
-**Base Cast:**  
-Raise and Command Undead minions to do your bidding. When you cast this you raise one creature with the Undead Keyword of Normal type at your level or lower. Any Undead raised will remain in your control for a day. After that they need to be laid to rest or they will wander on their own. You can also use the base cast of this spell to add another day to one of your controlled undead. You can only use the base cast of this spell to raise One Undead each scene.  
-**Variety Cast:**
-
-- (Difficulty X) Death Watch: If you have control of more than one Undead, the test to maintain control of them increases by each additional Undead you control.
-- (5 Mana) Competence: The summoned creature is Mighty.
-- (7 Mana) Of Legends: The summoned creature is Legendary.
-- (2 Mana) Treacherous Bones: Gain control of already raised Undead. If another character has control of these it becomes a struggle with you using INT + Arcana, and the character using RES + Discipline.
-- (2 Mana) Release: Have Undead in your control be laid to rest. This can be done at any point.
-
-**Enslave**  
-**Keyword:** Concentration, Harmless  
-**Difficulty:** Struggle  
-**Optimal Range:** C  
-**Base Cast:**  
-Gain control over the mind of others. This spell is always a struggle with you using INT + Arcana, and the target using RES + Discipline. On a successful struggle you can command the target to do any non-harmful and risk free act. The target makes a RES + Discipline test Difficulty 1 at the end of their turn. If successful the caster must make a consentration test, if failed all consentration spells end including this one.  
-**Variety Cast:**
-
-- (2 Mana) Bold Words: Command the target to engage in risky activity.
-- (3 Mana) Blood Soaked Words: Command the target to engage in a violent act.
-- (5 Mana) True Despair: Convince the target to give up completely, having it bring it's own demise upon itself.
-- (2 Mana) Strong Will: Have the target be able to usher your commands to it's minions, these commands can only be of the same risk level you control the main target.
-
-**IP Spend:**
-
-- 2 IP: Increase the Difficulty to break free from the spell.
-
-**Arcane Ward**  
-**Keyword:** Concentration, Harmless  
-**Difficulty:** 1  
-**Base Cast:**  
-You cast a ward over yourself that shields you from damage. While concentrating, at the start of each of your turns you reapply 3 CD temp Health.  
-**Variety Cast:**
-
-- (2 Mana) Mana Shield: While Concentrating, on your turn you can fuel Mana into the ward giving you 1 CD extra temp Health that round per Mana spent. First round gains 2 CD extra.
-- (4 Mana) Breaking: If a melee weapon damages the temp Health, have it roll a complication.
-- (3 Mana) Obscuring: While active, Exploit Actions on you have an increased Difficulty of 1.
-- (5 Mana) Arcane Shell: Create a shell completely surrounding you, while inside you cannot take any Action other than ending the spell. The Shell has 10 CD Health, and a Defense of 1. When the Shell reaches 0 Health you are freed and the spell works as normal.
-
-Chaos Rays
- 
-Unleash 2 rays. One heal 2CD. One deals 3 CD Necrotic damage. Choose a target for each of the rays. Anyone (including the target, excluding you) in between the rays take the effect at the start of their turn. These rays create a line between you and the targets for the next 3 rounds.
-
-**Confusion**  
-**Keyword:** Concentration, Harmless  
-**Difficulty:** Struggle  
-**Base Cast:**  
-You target an enemy's mind causing it to no longer know truths from falsehoods. Make an INT + Arcane against their RES + Discipline. On a success the target suffers a decrease in defense by 1. For each additional success you do not gain IP but rather increased effectiveness.
-
-- +1 success: Target re-roll 1d20 whenever they succeed a test.
-- +2 successes:
+**Conjure Weapon**
+**Tag:** Concentration, Conjuration, Weapon
+**Base Cast:**
+Conjure a weapon from the normal equipment list. The weapon counts as magical, functions like a normal weapon, and begins with access to its Basic attack. The difficulty is based on the rarity of the weapon.
 
 **Variety Cast:**
+- (2 Mana) Duplicate: Conjure a second copy of the same weapon.
+- (2 Mana) Proficiency: Gain access to the weapon's Proficiency attacks.
+- (4 Mana) Expertise: Gain access to the weapon's Expertise attacks.
+- (6 Mana) Mastery: Gain access to the weapon's Mastery attacks.
 
-- (4 Mana) Mass Confusion: Target a Circle of Scale 2. Everyone who fails the struggle suffers from the spell.
+**Evoke Flame**
+**Tag:** Instant, Fire
+**Difficulty:** Target Defense
+**Optimal Range:** M
+**Base Cast:**
+Conjure flame in your hands and hurl it at a target. This spell deals 4 CD and applies Burning.
+
+**Variety Cast:**
+- (2 Mana) Flame Wall: Instead of targeting a creature, create a burning line that harms creatures who pass through it or begin their turn within it. Requires Concentration.
+- (2 Mana) Flame Shield: The flames cling close to you and burn creatures that strike at you. Requires Concentration.
+- (3 Mana) Flame Burst: Reduce the range to Reach, but increase the damage and spread.
+- (5 Mana) Flame Ball: Increase the damage and turn the spell into a larger explosive blast.
+
+**Invoke Ice**
+**Tag:** Instant, Ice
+**Difficulty:** Target Defense
+**Optimal Range:** C
+**Base Cast:**
+Invoke ice in your hands and hurl it at a target. This spell deals 6 CD and applies Freeze.
+
+**Variety Cast:**
+- (2 Mana) Ice Wall: Create a wall of ice that blocks movement and can be broken down. Requires Concentration.
+- (2 Mana) Ice Shards: The attack spreads into a wider burst.
+- (2 Mana) Ice Spear: The attack penetrates armor, reducing the target's physical protection against this hit.
+- (2 Mana) Dark Ice: The attack also carries the Necrotic effect.
+- (4 Mana) Frost Nova: Reduce the range to Reach, but spread the spell outward in a freezing burst.
+
+**Levitate**
+**Tag:** Concentration, Harmless, Movement
+**Difficulty:** 1
+**Base Cast:**
+You levitate above the ground and drift rather than walk. While levitating, you are harder to strike in melee unless the attacker has suitable reach.
+
+**Variety Cast:**
+- (4 Mana) Fly: Gain full control of your movement through the air.
+- (2 Mana) Aim Higher: Rise further out of normal melee reach.
+- (2 Mana) Targeted: Cast the spell on another creature within Close range instead.
+
+**Teleportation**
+**Tag:** Instant, Harmless, Movement
+**Difficulty:** 1
+**Optimal Range:** M
+**Base Cast:**
+Teleport yourself to a location within range that you can see.
+
+**Variety Cast:**
+- (2 Mana) Send Them Away: Teleport another creature within Reach instead of yourself.
+- (2 Mana) Blink: Increase the maximum range to anywhere within sight.
+- (2 Mana) Travel with Company: Bring one additional creature within Reach with you.
+- (4 Mana) Mass Teleport: Teleport everyone within a small area together.
+- (8 Mana) Devil's in the Detail: Teleport to a location based only on a precise description.
+- (X Mana) Teleportation Circle: **Tag:** Channeling, Movement. After channeling for 10 minutes, teleport up to 8 creatures across the travel map.
+
+**Necrotic Touch**
+**Tag:** Instant, Necrotic
+**Difficulty:** Target Defense
+**Optimal Range:** Reach
+**Base Cast:**
+Channel necrotic energy into your hand and deliver it through touch. On a successful cast, the touch deals 3 CD and applies Necrotic.
+
+**Variety Cast:**
+- (2 Mana) Draining Touch: Heal Health equal to the necrotic damage dealt.
+- (2 Mana) Turn Undead: The touch also gains Turn Undead.
+- (3 Mana) Absorb Necrosis: Target an ally instead and remove necrotic damage from them, storing that stolen force in your next attack.
+
+**Temper with Time**
+**Tag:** Concentration, Harmless, Time
+**Difficulty:** 2
+**Optimal Range:** C
+**Base Cast:**
+Temper with time around a creature to quicken or slow them.
+
+- Quickened: The target gains AP and acts with improved Speed for a short time.
+- Slow: The target loses AP and acts with worse Speed for a short time.
+
+**Variety Cast:**
+- (4 Mana) Full Stop: Freeze a creature in time. While frozen, it cannot act and the effects of incoming attacks are delayed until the spell ends.
+- (4 Mana) Elegant Speed: Greatly improve the target's AP and Speed for the duration.
+- (8 Mana) Rewind: Rewind the entire combat to the start of the previous round.
+
+**Create Illusions**
+**Tag:** Concentration, Harmless, Illusion
+**Difficulty:** 1
+**Optimal Range:** C
+**Base Cast:**
+Create a visual illusion to mislead your enemies. A creature must spend an action to inspect the illusion and make a `d20 + Investigation` test against the caster's Mind in order to see through it.
+
+**Variety Cast:**
+- (1 Mana) Auditory: The illusion also creates sound.
+- (1 Mana) Robust: The illusion can survive one attack before breaking apart.
+- (1 Mana) Grand Illusion: Increase the illusion's size.
+- (2 Mana) Mirror Illusion: Create multiple duplicates around yourself that make you harder to target.
+
+**Raise Dead**
+**Tag:** Concentration, Necrotic, Undead
+**Difficulty:** 1
+**Base Cast:**
+Raise and command undead servants. A single cast can safely raise either 1 Normal undead or 2 Minions without requiring a control check. Minions have a lower Mana cost than Normal undead.
+
+When you attempt to raise undead beyond that safe allowance, make a `d20 + Potency` check against your current control burden. Control burden begins at `-5` and increases by the type of undead you control:
+
+- Minion: +2
+- Normal: +5
+- Mighty: +10
+- Legendary: +15
+
+If the check fails, the new undead is not raised and all undead already under your control break free. If you lose Concentration while controlling undead, make the same check to maintain control. On a failure, your undead break free.
+
+Undead remain under your control for a day unless laid to rest or otherwise released.
+
+**Variety Cast:**
+- (2 Mana) Competence: Raise a Mighty undead.
+- (4 Mana) Of Legends: Raise a Legendary undead.
+- (2 Mana) Treacherous Bones: Attempt to seize control of undead already bound by another caster.
+- (2 Mana) Release: Lay undead under your control to rest.
+
+**Enslave**
+**Tag:** Concentration, Mind Control
+**Difficulty:** Target Mind
+**Optimal Range:** C
+**Base Cast:**
+Seize control of another creature's will. On a success, you can command the target to carry out a safe and non-harmful act while you maintain Concentration.
+
+**Variety Cast:**
+- (2 Mana) Bold Words: Command the target to take a risky action.
+- (3 Mana) Blood-Soaked Words: Command the target to commit violence.
+- (5 Mana) True Despair: Push the target toward total surrender or self-destruction.
+- (2 Mana) Strong Will: The target can relay your will to its subordinates where appropriate.
+
+**Arcane Ward**
+**Tag:** Concentration, Harmless, Ward
+**Difficulty:** 1
+**Base Cast:**
+Cast a ward over yourself that regenerates temporary Health. While concentrating, at the start of each of your turns you restore 3 CD temporary Health.
+
+**Variety Cast:**
+- (2 Mana) Mana Shield: Feed additional Mana into the ward to increase the temporary Health restored that round.
+- (3 Mana) Obscuring: While the ward is active, actions that study or read you become harder.
+- (5 Mana) Arcane Shell: Form a full shell around yourself. While inside it, you cannot act except to end the spell, but the shell must be destroyed before you can be reached.
+
+**Chaos Rays**
+**Tag:** Concentration, Necrotic, Radiant
+**Difficulty:** 2
+**Optimal Range:** M
+**Base Cast:**
+Unleash two rays. One heals 2 CD, and one deals 3 CD Necrotic damage. Choose a target for each. Anyone caught between the rays is affected when they cross or begin their turn in the line.
+
+**Variety Cast:**
+- (2 Mana) Twisting Beam: Allow one ray to bend around cover or obstacles.
+- (3 Mana) Hungering Rays: Increase the necrotic damage dealt.
+- (3 Mana) Restorative Rays: Increase the healing ray.
+
+**Confusion**
+**Tag:** Concentration, Mind, Illusion
+**Difficulty:** Target Mind
+**Base Cast:**
+Cloud a creature's thoughts until truth, order, and intention begin to fall apart. On a success, the target suffers a penalty to its defenses and becomes easier to mislead and disrupt.
+
+**Variety Cast:**
+- (2 Mana) Fractured Thought: The target must re-roll 1d20 on successful tests while the spell lasts.
+- (3 Mana) False Certainty: The target becomes easier to lure into bad choices or wasted actions.
+- (4 Mana) Mass Confusion: Affect everyone in a small area instead of a single target.

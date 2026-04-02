@@ -1,14 +1,16 @@
 extends Resource
 class_name CodexItem
 
+@export var id: int
 @export var _name: String
 @export var short_description: String
 @export var long_description: String
 
-func _init(__name: String = "", shortDescription: String = "", longDescription: String = "") -> void:
-	_name = __name
-	short_description = shortDescription
-	long_description = longDescription
+func _init(idDB: int = -1, _nameDB: String = "", short_descriptionDB: String = "", long_descriptionDB: String = "") -> void:
+	id = idDB
+	_name = _nameDB
+	short_description = short_descriptionDB
+	long_description = long_descriptionDB
 
 func save_to_codex(folder_name: String) -> void:
 	if _name.is_empty():

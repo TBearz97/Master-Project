@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ehdk5"]
+
+[resource]
+script = ExtResource("1_ehdk5")
+category = "Magic"
+_name = "Fire Starter"
+long_description = "Requirement: Ability to deal Fire damage\\\\n\\\\nThe first time each round you deal Fire damage, you may re-roll 1d20 on one Fire-related damage or effect roll tied to that action. If the table does not use such a roll, that attack or spell instead deals 10% more damage."

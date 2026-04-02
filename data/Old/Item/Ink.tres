@@ -5,9 +5,12 @@
 
 [resource]
 script = ExtResource("2_m76og")
+category = "Utility"
 effect = "Used for writing. Empty after 30 uses."
 weight = 0.4
 value = 5
 icon = ExtResource("1_f7v4h")
 allowed_slots = Array[int]([6])
 _name = "Ink"
+short_description = "Utility item."
+long_description = "Category: Utility. Effect: Used for writing. Empty after 30 uses.."

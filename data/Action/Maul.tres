@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_rnerf"]
+
+[resource]
+script = ExtResource("1_rnerf")
+_name = "Maul"
+long_description = "A ferocious chain of slashing force that overwhelms the target completely."

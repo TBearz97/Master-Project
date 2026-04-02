@@ -1,39 +1,51 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_34c8c"]
 [ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_4qym8"]
 [ext_resource type="Texture2D" path="res://Art/Icons/Items/Rapier.png" id="3_l7s4w"]
 [ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_imw6h"]
 
-[sub_resource type="Resource" id="Resource_tf4da"]
+[sub_resource type="Resource" id="Resource_a8wdk"]
 script = ExtResource("1_34c8c")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
 _name = "Thrust"
 short_description = "A precise piercing attack."
 long_description = "A focused lunge driving the point into the target."
 
-[sub_resource type="Resource" id="Resource_cxayk"]
+[sub_resource type="Resource" id="Resource_tabap"]
 script = ExtResource("1_34c8c")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
-_name = "Slash"
-short_description = "A broad cutting attack."
-long_description = "A wide swinging cut aimed at exposed flesh."
+_name = "Feint"
+long_description = "You bait a reaction before redirecting into the real attack."
 
-[sub_resource type="Resource" id="Resource_a8wdk"]
+[sub_resource type="Resource" id="Resource_xg35r"]
+script = ExtResource("1_34c8c")
+_name = "Twist"
+long_description = "A precise turn of the weapon after contact to deepen the harm."
+
+[sub_resource type="Resource" id="Resource_0sahd"]
+script = ExtResource("1_34c8c")
+_name = "Heart Seeker"
+long_description = "A thrust or lunge aimed with lethal certainty at a vital opening."
+
+[sub_resource type="Resource" id="Resource_lj70e"]
 script = ExtResource("2_4qym8")
 damage_die = 6
-crit_die = 10
 
 [resource]
 script = ExtResource("4_imw6h")
-damage_profile = SubResource("Resource_a8wdk")
+weapon_class = "Melee"
+damage_profile = SubResource("Resource_lj70e")
+damage_die_text = "d6"
 speed = 25
-qualities = Array[String](["Accurate"])
-actions = Array[ExtResource("1_34c8c")]([SubResource("Resource_tf4da"), SubResource("Resource_cxayk")])
+handedness = "1H"
+basic_attack_id = 125
+proficient_attack_id = 40
+expert_attack_id = 129
+master_attack_id = 56
+actions = Array[ExtResource("1_34c8c")]([SubResource("Resource_a8wdk"), SubResource("Resource_tabap"), SubResource("Resource_xg35r"), SubResource("Resource_0sahd")])
 weight = 2.0
 value = 26
 icon = ExtResource("3_l7s4w")
 allowed_slots = Array[int]([7])
 _name = "Rapier"
-short_description = "A weapon used in combat."
-long_description = "Deals d6, crit d10 damage at speed 25. Qualities: Accurate."
+short_description = "Melee weapon dealing d6 damage."
+long_description = "Melee weapon with 25 speed, melee range, and 1H handedness."

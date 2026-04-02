@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_u1x1y")
-category = "Skills"
+category = "Survival and Field"
 _name = "Forager"
 short_description = "Gather more resources."
 long_description = "Find additional herbs, food, and crafting materials."

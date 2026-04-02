@@ -5,9 +5,13 @@
 
 [resource]
 script = ExtResource("2_656ow")
+consumable_type = "Poison"
+category = "Consumable"
 effect = "On hit: target must save or fall Asleep (ends on damage or end of scene)"
 weight = 0.5
 value = 28
 icon = ExtResource("1_xn022")
 allowed_slots = Array[int]([6])
 _name = "Sleeping Draught"
+short_description = "Poison consumable."
+long_description = "Type: Poison. Effect: On hit: target must save or fall Asleep (ends on damage or end of scene)."

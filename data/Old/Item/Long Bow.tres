@@ -1,16 +1,33 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Long Bow.png" id="1_vxtmi"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_k4kvw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_t0ruv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_hr8js"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Long Bow.png" id="3_g7aui"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_kk4jd"]
+
+[sub_resource type="Resource" id="Resource_s6yan"]
+script = ExtResource("1_t0ruv")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+_name = "Fire"
+short_description = "A ranged attack."
+long_description = "Releasing a projectile at the target."
+
+[sub_resource type="Resource" id="Resource_l2v6n"]
+script = ExtResource("2_hr8js")
+damage_die = 10
+crit_die = 4
 
 [resource]
-script = ExtResource("2_k4kvw")
-damage = 2.0
+script = ExtResource("4_kk4jd")
+damage_profile = SubResource("Resource_l2v6n")
 speed = 50
 size = 1
 weaponRange = 3
+actions = Array[ExtResource("1_t0ruv")]([SubResource("Resource_s6yan")])
 weight = 2.0
 value = 40
-icon = ExtResource("1_vxtmi")
+icon = ExtResource("3_g7aui")
 allowed_slots = Array[int]([7])
 _name = "Long Bow"
+short_description = "A weapon used in combat."
+long_description = "Deals d10, crit d4 damage at speed 50."

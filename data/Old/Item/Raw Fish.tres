@@ -6,8 +6,12 @@
 [resource]
 script = ExtResource("2_0ke76")
 healing = 3
+consumable_type = "Food"
+category = "Consumable"
 weight = 0.4
 value = 8
 icon = ExtResource("1_3b512")
 allowed_slots = Array[int]([6])
 _name = "Raw Fish"
+short_description = "Food consumable."
+long_description = "Type: Food. Restores 3 HP."

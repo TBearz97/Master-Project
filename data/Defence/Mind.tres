@@ -5,21 +5,21 @@
 
 [sub_resource type="Resource" id="Resource_qliu3"]
 script = ExtResource("1_ufxct")
-bonus_1_prefix = "Bestiary Progress:"
-bonus_2_prefix = "Buff/Debuff Duration:"
-bonus_1_expression = "(x * 3)"
-bonus_2_expression = "(x * 5)"
-bonus_1_suffix = "%"
+modifier_1_name = "Potency"
+modifier_1_expression = "x + 2"
+modifier_2_name = "Bestiary Progression"
+modifier_2_expression = "x * 3"
+modifier_2_suffix = "%"
 _name = "Intelligence"
 short_description = "Represents reasoning and analytical ability."
 long_description = "Intelligence governs a character’s capacity for logic, learning, and understanding complex systems. It enhances awareness of enemies and the environment, improving bestiary knowledge and analysis. High Intelligence also refines control over magical and tactical effects, increasing the duration of buffs and debuffs applied in combat."
 
 [sub_resource type="Resource" id="Resource_hcsc2"]
 script = ExtResource("1_ufxct")
-bonus_1_prefix = "Concentration:"
-bonus_2_prefix = "Debuff Resistance:"
-bonus_1_expression = "x"
-bonus_2_expression = "x * 5"
+modifier_1_name = "Mana Generation"
+modifier_1_expression = "floor(x / 2)"
+modifier_2_name = "Concentration"
+modifier_2_expression = "ceil(x / 2.0)"
 _name = "Resolve"
 short_description = "Represents mental fortitude and determination."
 long_description = "Resolve reflects a character’s strength of will, focus, and emotional stability under pressure. It determines how well a character maintains concentration during combat and how resistant they are to negative mental or magical effects. Characters with high Resolve can shrug off debilitating conditions and remain steadfast in challenging situations."
@@ -29,3 +29,5 @@ script = ExtResource("2_a6pnn")
 attribute1 = SubResource("Resource_qliu3")
 attribute2 = SubResource("Resource_hcsc2")
 _name = "Mind"
+short_description = "Defends against mental effects."
+long_description = "Mind resists mental effects such as charm, fear, and confusion."

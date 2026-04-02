@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_jf76m"]
+
+[resource]
+script = ExtResource("1_jf76m")
+category = "Survival and Field"
+_name = "Iron Grip"
+long_description = "Requirement: Athletics 4\\\\n\\\\nTests for climbing become easier, and you may re-roll 1d20 when resisting being disarmed."
