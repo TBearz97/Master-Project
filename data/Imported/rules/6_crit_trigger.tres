@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_5n123"]
+
+[resource]
+script = ExtResource("1_5n123")
+expression = "damage_roll == damage_die_max"
+id = 6
+_name = "crit_trigger"
+short_description = "Critical triggers on max roll."
+long_description = "Critical occurs when damage roll equals die maximum."

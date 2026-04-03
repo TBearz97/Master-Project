@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_513a3"]
-
-[resource]
-script = ExtResource("1_513a3")
-category = "Magic"
-_name = "Hemomancy"
-long_description = "Requirement: Resolve 6, Level 4\\\\n\\\\nWhen you suffer 5 or more HP damage from a single source, gain 1 Mana. If you suffer 10 or more HP damage, gain 2 Mana instead. You cannot gain more than 2 Mana per turn from this perk."

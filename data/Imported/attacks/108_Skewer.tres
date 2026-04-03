@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_4w7aw"]
+
+[resource]
+script = ExtResource("1_4w7aw")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 108
+_name = "Skewer"
+short_description = "Driving impaling thrust."
+long_description = "A long driving thrust meant to pin the target in place."

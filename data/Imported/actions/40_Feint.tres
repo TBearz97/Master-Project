@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_tayov"]
+
+[resource]
+script = ExtResource("1_tayov")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 40
+_name = "Feint"
+short_description = "Deceptive setup attack."
+long_description = "You bait a reaction before redirecting into the real attack."

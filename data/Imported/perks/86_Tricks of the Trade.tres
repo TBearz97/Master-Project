@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_lssny"]
+
+[resource]
+script = ExtResource("1_lssny")
+category = "Knowledge and Craft"
+requirement_text = "Requirement: Craft 2"
+id = 86
+_name = "Tricks of the Trade"
+short_description = "Choose one craft field and become better at it."
+long_description = "Choose one field of craft such as alchemy, smithing, bowyering, tailoring, tinkering, or writing. Tests in that field become easier."

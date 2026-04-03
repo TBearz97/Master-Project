@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_1mfsg"]
+
+[resource]
+script = ExtResource("1_1mfsg")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on Arcana tests that use Endurance."
+weight = 1.0
+value = 26
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+id = 26
+_name = "Nature's Gown"
+short_description = "Nature-attuned garment."
+long_description = "Flowing garments inspired by natural forms, often worn by those attuned to the wild and its underlying forces."

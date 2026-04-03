@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_hbp4w"]
+
+[resource]
+script = ExtResource("1_hbp4w")
+expression = "damage * 0.5"
+id = 4
+_name = "damage_with_resistance"
+short_description = "Apply resistance."
+long_description = "Resistance halves damage after threshold."

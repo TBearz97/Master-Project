@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponQuality" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="1_1lkux"]
+
+[resource]
+script = ExtResource("1_1lkux")
+expression = "is_concealable == true"
+id = 3
+_name = "Concealed"
+short_description = "Compact and discreet, easily kept out of sight."
+long_description = "This weapon is small or subtle enough to be carried without drawing attention, making it ideal for situations where discretion matters."

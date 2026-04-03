@@ -1,0 +1,121 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_eec8i"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_r4vcv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_hqqfh"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_ut4p6"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_neu6y"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_3i25m"]
+
+[sub_resource type="Resource" id="Resource_sx3nm"]
+script = ExtResource("2_r4vcv")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 117
+_name = "Stab"
+short_description = "Direct thrust attack."
+long_description = "A direct forward thrust intended to keep the enemy at reach."
+
+[sub_resource type="Resource" id="Resource_6dxvi"]
+script = ExtResource("2_r4vcv")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 31
+_name = "Drive"
+short_description = "Forward driving shove."
+long_description = "You step through the target with force to push them backward."
+
+[sub_resource type="Resource" id="Resource_sndxl"]
+script = ExtResource("2_r4vcv")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 62
+_name = "Hook"
+short_description = "Hooking control strike."
+long_description = "A hooking motion used to drag, redirect, or unbalance the target."
+
+[sub_resource type="Resource" id="Resource_nx3m4"]
+script = ExtResource("2_r4vcv")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 108
+_name = "Skewer"
+short_description = "Driving impaling thrust."
+long_description = "A long driving thrust meant to pin the target in place."
+
+[sub_resource type="Resource" id="Resource_5wqq4"]
+script = ExtResource("2_r4vcv")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 122
+_name = "Sweep"
+short_description = "Wide sweeping strike."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_h4725"]
+script = ExtResource("2_r4vcv")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 85
+_name = "Pinning Rush"
+short_description = "Driving spear assault."
+long_description = "A forward-driving spear technique that keeps the enemy under pressure."
+
+[sub_resource type="Resource" id="Resource_6avb7"]
+script = ExtResource("2_r4vcv")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 7
+_name = "Boar Hunter"
+short_description = "Anti-charge spear finisher."
+long_description = "A spear finish meant to stop even a charging foe dead."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_hqqfh")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_lar72"]
+script = ExtResource("4_ut4p6")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ggogc"]
+script = ExtResource("5_neu6y")
+expression = "max_range = 2"
+id = 5
+_name = "Reach"
+short_description = "Allows engagement from a safer distance."
+long_description = "This weapon is designed to keep opponents at a distance, letting the wielder strike without needing to close in completely."
+
+[resource]
+script = ExtResource("6_3i25m")
+damage_profile = SubResource("Resource_lar72")
+actions = Array[ExtResource("1_eec8i")]([SubResource("Resource_sx3nm"), SubResource("Resource_6dxvi"), SubResource("Resource_sndxl"), SubResource("Resource_nx3m4"), SubResource("Resource_5wqq4"), SubResource("Resource_h4725"), SubResource("Resource_6avb7")])
+qualities = [SubResource("Resource_ggogc")]
+weight = 2.0
+value = 22
+allowed_slots = Array[int]([7])
+id = 21
+_name = "Spear"
+short_description = "Reach weapon for direct pressure and control."
+long_description = "A spear keeps enemies at distance with disciplined thrusts, hooks, and pressure that punishes careless approach."

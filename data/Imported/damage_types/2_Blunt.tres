@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_type.gd" id="1_tra1u"]
+
+[resource]
+script = ExtResource("1_tra1u")
+id = 2
+_name = "Blunt"
+short_description = "Impact damage."
+long_description = "Blunt damage is delivered through force and impact, such as hammers or clubs, often disrupting structure rather than cutting."

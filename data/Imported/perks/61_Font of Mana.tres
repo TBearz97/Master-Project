@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_yrrl4"]
+
+[resource]
+script = ExtResource("1_yrrl4")
+category = "Magic"
+requirement_text = "Requirement: Resolve 7"
+id = 61
+_name = "Font of Mana"
+short_description = "Increase maximum Mana."
+long_description = "Increase your maximum Mana by 2."

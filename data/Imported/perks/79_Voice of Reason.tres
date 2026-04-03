@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_wbpju"]
+
+[resource]
+script = ExtResource("1_wbpju")
+category = "Leadership and Social"
+requirement_text = "Requirement: Speech 2"
+id = 79
+_name = "Voice of Reason"
+short_description = "Re-roll to calm panic or defuse conflict."
+long_description = "Once per scene, when you try to calm panic, defuse conflict, or stop a rash decision, re-roll 1d20 on the test."

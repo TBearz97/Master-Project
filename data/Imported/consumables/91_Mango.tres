@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_pd42k"]
+
+[resource]
+script = ExtResource("1_pd42k")
+healing = 3
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.1
+allowed_slots = Array[int]([6])
+id = 91
+_name = "Mango"
+short_description = "Restorative food item."
+long_description = "Mango is a prepared or raw food item that restores 3 HP when consumed."

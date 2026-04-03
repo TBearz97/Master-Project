@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_synmb"]
+
+[resource]
+script = ExtResource("1_synmb")
+category = "Instruments"
+effect = "-"
+weight = 0.5
+value = 22
+allowed_slots = Array[int]([6])
+id = 186
+_name = "Lute"
+short_description = "Traditional plucked string instrument."
+long_description = "A lute used for musical performance, valued for its warm tone and versatility."

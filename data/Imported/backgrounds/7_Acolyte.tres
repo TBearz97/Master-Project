@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="Background" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_y37o4"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_7rqyb"]
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="3_as3w2"]
+
+[sub_resource type="Resource" id="Resource_32s0h"]
+script = ExtResource("1_y37o4")
+category = "Background"
+requirement_text = "Acolyte only"
+id = 27
+_name = "Sanctified Presence"
+short_description = "Followers of your faith treat you as one of their own unless given reason not to."
+long_description = "Followers of your faith tend to treat you as one of their own unless given reason not to."
+
+[sub_resource type="Resource" id="Resource_pt2gy"]
+script = ExtResource("3_as3w2")
+max_rank = 10
+id = 7
+_name = "Lore"
+short_description = "The memory of stories, histories, and knowledge."
+long_description = "Lore is the collection of all that has been learned and passed down: myths and histories, secrets of the land, and wisdom preserved through generations. Those versed in lore hold the keys to understanding both the past and the present."
+
+[sub_resource type="Resource" id="Resource_fau1s"]
+script = ExtResource("3_as3w2")
+max_rank = 10
+id = 12
+_name = "Speech"
+short_description = "The art of words given power."
+long_description = "Speech is the craft of persuasion, the ability to sway hearts and shape minds with voice alone. From rousing orations to whispered bargains, it is the force that builds alliances and bends destiny."
+
+[resource]
+script = ExtResource("2_7rqyb")
+perk = SubResource("Resource_32s0h")
+skill_1 = SubResource("Resource_pt2gy")
+skill_2 = SubResource("Resource_fau1s")
+id = 7
+_name = "Acolyte"
+short_description = "Devoted follower shaped by faith and spiritual discipline."
+long_description = "You were raised or trained within a religious tradition, learning its teachings, rituals, and values. Your worldview is shaped by belief, devotion, and a sense of purpose tied to something greater than yourself."

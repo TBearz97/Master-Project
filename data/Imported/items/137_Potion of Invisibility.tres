@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_u6f45"]
+
+[resource]
+script = ExtResource("1_u6f45")
+addiction = 1
+duration = "Lasting"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 100
+allowed_slots = Array[int]([6])
+id = 137
+_name = "Potion of Invisibility"
+short_description = "Alchemical consumable."
+long_description = "Potion of Invisibility grants temporary invisibility."

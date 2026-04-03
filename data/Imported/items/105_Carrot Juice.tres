@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_cg1q6"]
+
+[resource]
+script = ExtResource("1_cg1q6")
+healing = 3
+duration = "Instant"
+category = "Beverage"
+effect = "Refreshing drink."
+weight = 0.2
+value = 9
+allowed_slots = Array[int]([6])
+id = 105
+_name = "Carrot Juice"
+short_description = "Refreshing drink."
+long_description = "Carrot Juice is a refreshing drink that restores 3 HP when consumed."

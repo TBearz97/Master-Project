@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_xo8de"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_qu3bo"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_qgh5d"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("2_qu3bo")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_rhtko"]
+script = ExtResource("3_qgh5d")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Illusion", "Mind"])
+base_cast = "Cloud a creature's thoughts until truth, order, and intention begin to fall apart. On a success, the target suffers a penalty to its defenses and becomes easier to mislead and disrupt."
+id = 28
+_name = "Confusion"
+short_description = "Cloud a creature's thoughts."
+long_description = "Cloud a creature's thoughts until truth, order, and intention begin to fall apart. On a success, the target suffers a penalty to its defenses and becomes easier to mislead and disrupt."
+
+[resource]
+script = ExtResource("1_xo8de")
+spell = SubResource("Resource_rhtko")
+mana_cost = 3
+id = 103
+_name = "False Certainty"
+short_description = "Encourage bad decisions."
+long_description = "The target becomes easier to lure into bad choices or wasted actions."

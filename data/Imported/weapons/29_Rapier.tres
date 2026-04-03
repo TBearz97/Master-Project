@@ -1,0 +1,111 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_lo1f2"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_3uabf"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_okhji"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_y36r8"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_4kd2l"]
+
+[sub_resource type="Resource" id="Resource_akxin"]
+script = ExtResource("2_3uabf")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 125
+_name = "Thrust"
+short_description = "Precise piercing thrust."
+long_description = "A focused lunge driving the point into the target."
+
+[sub_resource type="Resource" id="Resource_yewx0"]
+script = ExtResource("2_3uabf")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 40
+_name = "Feint"
+short_description = "Deceptive setup attack."
+long_description = "You bait a reaction before redirecting into the real attack."
+
+[sub_resource type="Resource" id="Resource_qp56y"]
+script = ExtResource("2_3uabf")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 99
+_name = "Riposte"
+short_description = "Counterattack strike."
+long_description = "A sharp answer delivered the moment an opening appears."
+
+[sub_resource type="Resource" id="Resource_0n7uy"]
+script = ExtResource("2_3uabf")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 129
+_name = "Twist"
+short_description = "Twisting follow-through attack."
+long_description = "A precise turn of the weapon after contact to deepen the harm."
+
+[sub_resource type="Resource" id="Resource_uhto8"]
+script = ExtResource("2_3uabf")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 56
+_name = "Heart Seeker"
+short_description = "Vital-point thrust."
+long_description = "A thrust or lunge aimed with lethal certainty at a vital opening."
+
+[sub_resource type="Resource" id="Resource_ovtvx"]
+script = ExtResource("2_3uabf")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 43
+_name = "Final Salute"
+short_description = "Precise rapier finisher."
+long_description = "A perfected rapier finish delivered with confidence and precision."
+
+[sub_resource type="Resource" id="Resource_yk0bd"]
+script = ExtResource("2_3uabf")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 32
+_name = "Duelist's End"
+short_description = "Refined finishing strike."
+long_description = "A refined finishing attack that closes the fight cleanly."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_okhji")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_8ylmf"]
+script = ExtResource("4_y36r8")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_4kd2l")
+damage_profile = SubResource("Resource_8ylmf")
+actions = Array[ExtResource("1_lo1f2")]([SubResource("Resource_akxin"), SubResource("Resource_yewx0"), SubResource("Resource_qp56y"), SubResource("Resource_0n7uy"), SubResource("Resource_uhto8"), SubResource("Resource_ovtvx"), SubResource("Resource_yk0bd")])
+weight = 2.0
+value = 26
+allowed_slots = Array[int]([7])
+id = 29
+_name = "Rapier"
+short_description = "Precise dueling blade for thrusts and counters."
+long_description = "A rapier is built for measured thrusts, feints, and ripostes, excelling in technical one-on-one combat."

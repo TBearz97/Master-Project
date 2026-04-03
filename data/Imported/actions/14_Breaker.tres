@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_bu6qi"]
+
+[resource]
+script = ExtResource("1_bu6qi")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 14
+_name = "Breaker"
+short_description = "Leverage-based finishing strike."
+long_description = "A punishing finishing technique that turns leverage into raw harm."

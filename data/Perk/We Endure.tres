@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ondxo"]
-
-[resource]
-script = ExtResource("1_ondxo")
-category = "Race"
-_name = "We Endure"
-long_description = "Life is harsh, and your people are shaped by enduring it. During each full rest, you may either heal one additional Injury or reduce the duration of one disease by an additional step."

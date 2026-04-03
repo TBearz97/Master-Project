@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_27ptk"]
+
+[resource]
+script = ExtResource("1_27ptk")
+category = "Homeland"
+requirement_text = "Calatherian Principality only"
+id = 16
+_name = "Looter"
+short_description = "Gain an extra roll on valuables when salvaging."
+long_description = "Whenever you successfully salvage an area, you also gain a free roll on the Oddities and Valuables table."

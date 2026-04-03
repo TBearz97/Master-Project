@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Condition" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/condition.gd" id="1_1olyf"]
-
-[resource]
-script = ExtResource("1_1olyf")
-_name = "Frightened"
-short_description = "Shaken by fear."
-long_description = "The creature is mentally unsettled and may hesitate or struggle to approach the source of fear."

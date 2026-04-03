@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_5pj0a"]
-
-[resource]
-script = ExtResource("1_5pj0a")
-category = "Survival and Field"
-_name = "Know the Way"
-long_description = "Requirement: Navigation 3, Survival 2\\\\n\\\\nWhen leading a journey through land you have already crossed, the first Navigation or Survival test related to routefinding each day becomes easier."

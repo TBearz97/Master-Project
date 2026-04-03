@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="1_o8kri"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="2_pp34q"]
+
+[sub_resource type="Resource" id="Resource_r6c33"]
+script = ExtResource("1_o8kri")
+id = 2
+_name = "Zealous"
+short_description = "Magic fueled by belief and devotion."
+long_description = "Magic shaped by belief, devotion, conviction, and the powers that answer them."
+
+[resource]
+script = ExtResource("2_pp34q")
+school = SubResource("Resource_r6c33")
+tags = Array[String](["Concentration", "Zealous"])
+base_cast = "Create an aura that follows you and fills your current area. The aura's exact expression is shaped by your belief, oath, or divine allegiance. - Aura of Mercy: Divide 4 CD of healing among other creatures in the aura. - Aura of Judgment: Creatures within the aura that are already on the brink of death may be finished outright. - Aura of Revelation: Creatures within the aura are revealed. - Aura of Veils: Name an object and all instances of that object become harder to notice within the aura. - Aura of Beasts: Creatures with the Beast tag regard you as an ally. - Aura of Insight: Intelligence tests become easier within the aura. - Aura of Craft: Weapons within the aura become more reliable, and Craft tests within the aura become easier. - Aura of Wrath: Creatures damaged within the aura strike back harder on their next attack. - Aura of the Sentinel: Creatures have a harder time moving away from the center of the aura. - Aura of Flame: Weapons within the aura gain Fire. - Aura of Sand: You may strengthen or calm a sandstorm while the aura lasts."
+id = 29
+_name = "Aura of Conviction"
+short_description = "Create an aura shaped by your conviction."
+long_description = "Create an aura that follows you and fills your current area. The aura's exact expression is shaped by your belief, oath, or divine allegiance. Possible forms include Mercy, Judgment, Revelation, Veils, Beasts, Insight, Craft, Wrath, the Sentinel, Flame, and Sand."

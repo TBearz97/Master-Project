@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_sl2lm"]
+
+[resource]
+script = ExtResource("1_sl2lm")
+category = "Knowledge and Craft"
+requirement_text = "Requirement: Craft 4, Tricks of the Trade, Level 6"
+id = 89
+_name = "Master Crafter"
+short_description = "Re-roll your first test each scene in one craft field."
+long_description = "Choose one craft field you selected for Tricks of the Trade. Re-roll 1d20 on the first related Craft test you make each scene."

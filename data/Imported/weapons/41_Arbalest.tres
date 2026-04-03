@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_rrhoq"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_mcyxi"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_8igyf"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_0gavq"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_sg2lm"]
+
+[sub_resource type="Resource" id="Resource_jp0cp"]
+script = ExtResource("2_mcyxi")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 9
+_name = "Bolt Shot"
+short_description = "Simple reliable bolt attack."
+long_description = "Fire a bolt with simple force and reliability."
+
+[sub_resource type="Resource" id="Resource_plgqo"]
+script = ExtResource("2_mcyxi")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 73
+_name = "Load Bolt"
+short_description = "Reload crossbow."
+long_description = "Reload and ready the crossbow for another attack."
+
+[sub_resource type="Resource" id="Resource_qm2e6"]
+script = ExtResource("2_mcyxi")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 1
+_name = "Aimed Shot"
+short_description = "Precise ranged attack."
+long_description = "Take the extra moment needed to place the attack exactly where you want it."
+
+[sub_resource type="Resource" id="Resource_yem4d"]
+script = ExtResource("2_mcyxi")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 15
+_name = "Center Mass"
+short_description = "Center mass ranged shot."
+long_description = "Aim for the largest opening and drive the shot through with force."
+
+[sub_resource type="Resource" id="Resource_smo1d"]
+script = ExtResource("2_mcyxi")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 12
+_name = "Breach Bolt"
+short_description = "Armor-piercing bolt shot."
+long_description = "Fire a reinforced shot meant to punch through protection and cover."
+
+[sub_resource type="Resource" id="Resource_vfj4f"]
+script = ExtResource("2_mcyxi")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 106
+_name = "Siege Line"
+short_description = "Heavy siege bolt."
+long_description = "A brutally committed arbalest shot made to break what others cannot."
+
+[sub_resource type="Resource" id="Resource_a27n5"]
+script = ExtResource("2_mcyxi")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 29
+_name = "Dragon Pin"
+short_description = "Massive stopping bolt."
+long_description = "The fullest expression of the arbalest: a monstrous bolt placed to stop even the hardest target."
+
+[sub_resource type="Resource" id="Resource_m3n1k"]
+script = ExtResource("3_8igyf")
+max_distance = 10
+short_hand = "L"
+id = 4
+_name = "Long"
+short_description = "Long ranged distance."
+long_description = "Effective against targets within 8 to 10 hexes, requiring accuracy over distance."
+
+[sub_resource type="Resource" id="Resource_o4y5p"]
+script = ExtResource("4_0gavq")
+damage_die = 12
+speed = 10
+action_range = SubResource("Resource_m3n1k")
+
+[resource]
+script = ExtResource("5_sg2lm")
+damage_profile = SubResource("Resource_o4y5p")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_rrhoq")]([SubResource("Resource_jp0cp"), SubResource("Resource_plgqo"), SubResource("Resource_qm2e6"), SubResource("Resource_yem4d"), SubResource("Resource_smo1d"), SubResource("Resource_vfj4f"), SubResource("Resource_a27n5")])
+weight = 4.0
+value = 77
+allowed_slots = Array[int]([7])
+id = 41
+_name = "Arbalest"
+short_description = "Heavy siege-like crossbow for devastating bolt fire."
+long_description = "An arbalest is a massive bolt weapon built to break hard targets through sheer force, penetration, and terrifying single-shot impact."

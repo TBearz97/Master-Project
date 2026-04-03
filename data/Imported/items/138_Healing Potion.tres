@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_i24gp"]
+
+[resource]
+script = ExtResource("1_i24gp")
+duration = "Instant"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 30
+allowed_slots = Array[int]([6])
+id = 138
+_name = "Healing Potion"
+short_description = "Alchemical consumable."
+long_description = "Healing Potion restores health when consumed."

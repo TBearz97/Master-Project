@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_qv5nm"]
+
+[resource]
+script = ExtResource("1_qv5nm")
+addiction = 2
+duration = "Lasting"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 50
+allowed_slots = Array[int]([6])
+id = 133
+_name = "Demon Blood, Distilled"
+short_description = "Alchemical consumable."
+long_description = "Demon Blood, Distilled carries volatile demonic properties with unpredictable effects."

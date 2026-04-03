@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_lu4aj"]
-
-[resource]
-script = ExtResource("1_lu4aj")
-_name = "Kneecapper"
-long_description = "A low crushing attack aimed at breaking stability and movement."

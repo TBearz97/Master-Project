@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Modifier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_xgotm"]
+
+[resource]
+script = ExtResource("1_xgotm")
+id = 11
+_name = "Mana Generation"
+short_description = "Increases mana gained over time."
+long_description = "Mana Generation determines how quickly a character regains magical energy over time, supporting sustained spellcasting."

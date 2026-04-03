@@ -18,6 +18,48 @@ func evaluate(command: String, variable_names: Array = [], variable_values: Arra
 
 	return null
 
+
+func evaluate_player_expression(command: String, explicit_context: Dictionary = {}, resolving: Array[String] = []) -> Variant:
+	if command.is_empty():
+		return 0
+	var context := _build_player_expression_context(explicit_context, resolving)
+	var variable_names: Array = []
+	var variable_values: Array = []
+	for key: String in context.keys():
+		variable_names.append(key)
+		variable_values.append(context[key])
+	return evaluate(command, variable_names, variable_values)
+
+
+func resolve_player_variable(variable_name: String, explicit_context: Dictionary = {}, resolving: Array[String] = []) -> Variant:
+	if explicit_context.has(variable_name):
+		return explicit_context[variable_name]
+	if CampaignVariables == null or CampaignVariables.codex == null:
+		return 0
+	var entry := CampaignVariables.codex.get_player_data_blueprint(variable_name)
+	if entry == null or not entry.enabled:
+		return 0
+	return _resolve_blueprint_entry(entry, explicit_context, resolving)
+
+
+func resolve_modifier_value(modifier_id: int, explicit_context: Dictionary = {}, resolving: Array[String] = []) -> Variant:
+	if modifier_id < 0:
+		return 0
+	var runtime_total := 0.0
+	if PlayerVariables != null:
+		runtime_total = PlayerVariables.getModifierTotal(modifier_id)
+		if PlayerVariables.hasModifierBucket(modifier_id):
+			return runtime_total
+	var source := _find_modifier_source(modifier_id)
+	if source.is_empty():
+		return runtime_total
+	var attribute := PlayerVariables.getAttributeById(int(source.get("attribute_id", -1)))
+	if attribute == null:
+		return runtime_total
+	var local_context := explicit_context.duplicate(true)
+	local_context["x"] = attribute.value
+	return evaluate_player_expression(str(source.get("expression", "")), local_context, resolving)
+
 func rollDice(num: int, sides: int) -> int:
 	var diceArray: Array[int] = []
 	var rng := RandomNumberGenerator.new()
@@ -28,6 +70,83 @@ func rollDice(num: int, sides: int) -> int:
 		diceArray.append(res)
 	diceRolled.emit(diceArray)
 	return total
+
+
+func _build_player_expression_context(explicit_context: Dictionary, resolving: Array[String]) -> Dictionary:
+	var context := explicit_context.duplicate(true)
+	if CampaignVariables == null or CampaignVariables.codex == null:
+		return context
+	var blueprint_entries: Array[PlayerDataBlueprintEntry] = []
+	for entry: PlayerDataBlueprintEntry in CampaignVariables.codex.PlayerDataBlueprint.values():
+		if entry != null and entry.enabled:
+			blueprint_entries.append(entry)
+	blueprint_entries.sort_custom(func(a: PlayerDataBlueprintEntry, b: PlayerDataBlueprintEntry) -> bool:
+		return a.sort_order < b.sort_order
+	)
+	for entry in blueprint_entries:
+		if not context.has(entry._name):
+			context[entry._name] = _resolve_blueprint_entry(entry, context, resolving)
+	return context
+
+
+func _resolve_blueprint_entry(entry: PlayerDataBlueprintEntry, explicit_context: Dictionary, resolving: Array[String]) -> Variant:
+	if entry == null:
+		return 0
+	if explicit_context.has(entry._name):
+		return explicit_context[entry._name]
+	if resolving.has(entry._name):
+		push_error("Circular player variable dependency: %s" % " -> ".join(resolving + [entry._name]))
+		return 0
+	var next_resolving := resolving.duplicate()
+	next_resolving.append(entry._name)
+	match entry.source_type:
+		PlayerDataBlueprintEntry.SourceType.ATTRIBUTE:
+			var attribute := PlayerVariables.getAttributeById(entry.source_id)
+			return attribute.value if attribute != null else 0
+		PlayerDataBlueprintEntry.SourceType.MODIFIER:
+			return resolve_modifier_value(entry.source_id, explicit_context, next_resolving)
+		PlayerDataBlueprintEntry.SourceType.PLAYER_FIELD:
+			return PlayerVariables.getDataField(entry.source_key if not entry.source_key.is_empty() else _variable_to_field_name(entry._name), 0)
+		PlayerDataBlueprintEntry.SourceType.PLAYER_METHOD:
+			if PlayerVariables != null and PlayerVariables.has_method(entry.source_key):
+				return PlayerVariables.call(entry.source_key)
+			return 0
+		PlayerDataBlueprintEntry.SourceType.DERIVED_EXPRESSION:
+			return evaluate_player_expression(entry.expression, explicit_context, next_resolving)
+		_:
+			return 0
+
+
+func _find_modifier_source(modifier_id: int) -> Dictionary:
+	if CampaignVariables == null or CampaignVariables.codex == null:
+		return {}
+	for template_attribute: Attribute in CampaignVariables.codex.Attributes.values():
+		if template_attribute == null:
+			continue
+		if template_attribute.modifier_1 != null and template_attribute.modifier_1.id == modifier_id:
+			return {
+				"attribute_id": template_attribute.id,
+				"expression": template_attribute.modifier_1_expression,
+			}
+		if template_attribute.modifier_2 != null and template_attribute.modifier_2.id == modifier_id:
+			return {
+				"attribute_id": template_attribute.id,
+				"expression": template_attribute.modifier_2_expression,
+			}
+	return {}
+
+
+func _variable_to_field_name(variable_name: String) -> String:
+	var parts := variable_name.split("_", false)
+	if parts.is_empty():
+		return variable_name
+	var field_name := parts[0]
+	for i in range(1, parts.size()):
+		var part := parts[i]
+		if part.is_empty():
+			continue
+		field_name += part.substr(0, 1).to_upper() + part.substr(1)
+	return field_name
 
 
 func dealDamage(target: CreatureData, source: CreatureData = null, damage_profile: DamageProfile = null) -> Dictionary:
@@ -71,7 +190,7 @@ func dealDamage(target: CreatureData, source: CreatureData = null, damage_profil
 	return result
 	
 func applyCondition(target: CreatureData, condition_name: String) -> void:
-	var condition: Condition = CampaignVariables.codex.Conditions.get(condition_name)
+	var condition: Condition = CampaignVariables.codex.get_by_name(CampaignVariables.codex.Conditions, condition_name)
 	print(target._name + " received " + condition._name)
 
 func addDefenceBonus(target: CreatureData, defence_name: String, amount: int, duration: String = "round") -> Dictionary:

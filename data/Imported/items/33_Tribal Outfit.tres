@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_waou0"]
+
+[resource]
+script = ExtResource("1_waou0")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on melee-related skill tests."
+weight = 0.5
+value = 32
+allowed_slots = Array[int]([2, 1, 5, 4])
+id = 33
+_name = "Tribal Outfit"
+short_description = "Traditional tribal wear."
+long_description = "Traditional tribal garments that emphasize mobility and cultural identity, suited for close combat and harsh environments."

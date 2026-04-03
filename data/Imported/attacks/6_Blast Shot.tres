@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_j3xnm"]
+
+[resource]
+script = ExtResource("1_j3xnm")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 6
+_name = "Blast Shot"
+short_description = "Close-range spread shot."
+long_description = "Fire a broad close-range blast meant to overwhelm anything directly ahead."

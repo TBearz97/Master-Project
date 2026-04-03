@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_vkaci"]
+
+[resource]
+script = ExtResource("1_vkaci")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 71
+_name = "Lash"
+short_description = "Spacing whip strike."
+long_description = "A simple strike that keeps the target at a distance."

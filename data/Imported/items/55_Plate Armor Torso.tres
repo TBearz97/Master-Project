@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_3c6ii"]
+
+[resource]
+script = ExtResource("1_3c6ii")
+physicalDT = 10
+magicalDT = 8
+necroticDT = 2
+weight = 7.0
+value = 130
+allowed_slots = Array[int]([3])
+id = 55
+_name = "Plate Armor Torso"
+short_description = "Plate torso armor."
+long_description = "Full plate torso armor designed for maximum defense, greatly reducing incoming damage."

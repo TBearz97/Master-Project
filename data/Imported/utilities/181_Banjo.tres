@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_qkpny"]
+
+[resource]
+script = ExtResource("1_qkpny")
+category = "Instruments"
+effect = "-"
+weight = 5.0
+value = 26
+allowed_slots = Array[int]([6])
+id = 181
+_name = "Banjo"
+short_description = "Stringed instrument with sharp rhythm."
+long_description = "A banjo used for lively musical performance, known for its bright tone and rhythmic playing style."

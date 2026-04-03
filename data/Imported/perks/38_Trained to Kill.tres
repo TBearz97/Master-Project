@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_bka12"]
+
+[resource]
+script = ExtResource("1_bka12")
+category = "Background"
+requirement_text = "Dragon Knight only"
+id = 38
+_name = "Trained to Kill"
+short_description = "Tracking Dragons becomes easier; reroll damaging attacks against them."
+long_description = "Survival tests when tracking Dragons become easier. You may reroll 1d20 on every damaging attack against a Dragon. After killing a Dragon, local villages celebrate you as a hero and you sleep, drink, and eat for free for the next 3 days."

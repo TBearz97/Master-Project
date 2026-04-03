@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_8874t"]
-
-[resource]
-script = ExtResource("1_8874t")
-_name = "Breaker"
-long_description = "A punishing finishing technique that turns leverage into raw harm."

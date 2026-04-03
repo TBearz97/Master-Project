@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_tpl1h"]
+
+[resource]
+script = ExtResource("1_tpl1h")
+physicalDT = 1
+magicalDT = 2
+weight = 3.0
+value = 24
+allowed_slots = Array[int]([3])
+id = 43
+_name = "Leather Torso"
+short_description = "Leather torso armor."
+long_description = "Leather chest armor offering balanced protection and flexibility for agile combat."

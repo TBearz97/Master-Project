@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_yloct"]
-
-[resource]
-script = ExtResource("1_yloct")
-_name = "Siege Line"
-long_description = "A brutally committed arbalest shot made to break what others cannot."

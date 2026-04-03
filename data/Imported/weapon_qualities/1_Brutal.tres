@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponQuality" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="1_t2fkw"]
+
+[resource]
+script = ExtResource("1_t2fkw")
+expression = "damage_roll >= (damage_die_max - 1)"
+id = 1
+_name = "Brutal"
+short_description = "Designed to deliver devastating, crushing force."
+long_description = "Weapons with this property are built to maximize raw impact, delivering strikes that feel overwhelming and difficult to withstand."

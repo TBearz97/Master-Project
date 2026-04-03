@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_7hssa"]
+
+[resource]
+script = ExtResource("1_7hssa")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 12
+_name = "Breach Bolt"
+short_description = "Armor-piercing bolt shot."
+long_description = "Fire a reinforced shot meant to punch through protection and cover."

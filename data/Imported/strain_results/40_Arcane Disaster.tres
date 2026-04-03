@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_ey7s0"]
+
+[resource]
+script = ExtResource("1_ey7s0")
+roll_total = 40
+outcome = "The spell catastrophically collapses. Take 6 HP damage, lose all remaining Mana, become Stunned for the round, and the GM creates a major magical consequence."
+id = 40
+_name = "Arcane Disaster"

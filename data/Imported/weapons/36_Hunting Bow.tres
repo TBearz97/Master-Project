@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_fkqkr"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_2tav4"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_mhccm"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_weck4"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_3yap4"]
+
+[sub_resource type="Resource" id="Resource_rrq7p"]
+script = ExtResource("2_2tav4")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 75
+_name = "Loose Arrow"
+short_description = "Standard arrow release."
+long_description = "Release an arrow in one clean practiced motion."
+
+[sub_resource type="Resource" id="Resource_y6opt"]
+script = ExtResource("2_2tav4")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 90
+_name = "Quick Nock"
+short_description = "Fast arrow preparation."
+long_description = "Draw and set the next arrow with practiced speed."
+
+[sub_resource type="Resource" id="Resource_0e6o6"]
+script = ExtResource("2_2tav4")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Slowed\", 1)"])
+id = 24
+_name = "Crippling Shot"
+short_description = "Movement-hindering shot."
+long_description = "Place the shot to hinder movement and break the target's stride."
+
+[sub_resource type="Resource" id="Resource_qm2e6"]
+script = ExtResource("2_2tav4")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 1
+_name = "Aimed Shot"
+short_description = "Precise ranged attack."
+long_description = "Take the extra moment needed to place the attack exactly where you want it."
+
+[sub_resource type="Resource" id="Resource_e0o1k"]
+script = ExtResource("2_2tav4")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 116
+_name = "Split Shot"
+short_description = "Multi-target shot."
+long_description = "Fire with the intent of threatening more than one target or line at once."
+
+[sub_resource type="Resource" id="Resource_0jdku"]
+script = ExtResource("2_2tav4")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "markTarget(target, source, 1)"])
+id = 65
+_name = "Hunter's Mark"
+short_description = "Marking precision shot."
+long_description = "A practiced hunting shot that fixes the target and pressures every later attack."
+
+[sub_resource type="Resource" id="Resource_jnw4c"]
+script = ExtResource("2_2tav4")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 93
+_name = "Quiet Ending"
+short_description = "Silent precision kill shot."
+long_description = "A precise lethal arrow delivered without flourish or wasted motion."
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("3_mhccm")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_yl1bt"]
+script = ExtResource("4_weck4")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_eulau")
+
+[resource]
+script = ExtResource("5_3yap4")
+damage_profile = SubResource("Resource_yl1bt")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_fkqkr")]([SubResource("Resource_rrq7p"), SubResource("Resource_y6opt"), SubResource("Resource_0e6o6"), SubResource("Resource_qm2e6"), SubResource("Resource_e0o1k"), SubResource("Resource_0jdku"), SubResource("Resource_jnw4c")])
+weight = 1.0
+value = 24
+allowed_slots = Array[int]([7])
+id = 36
+_name = "Hunting Bow"
+short_description = "Reliable bow for precision hunting shots."
+long_description = "A hunting bow balances control and range, rewarding accurate shooting, clean placement, and steady marksmanship."

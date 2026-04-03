@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="1_1kusm"]
-
-[resource]
-script = ExtResource("1_1kusm")
-_name = "Animal Handling"
-short_description = "The bond between mortal and beast."
-long_description = "Animal handling is the art of trust and instinct, guiding creatures through patience rather than force. It is the steady hand that calms a frightened steed, the subtle command that turns a hound against its quarry, and the quiet respect that earns loyalty from claw and fang alike."

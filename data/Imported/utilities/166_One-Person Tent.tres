@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_2muti"]
+
+[resource]
+script = ExtResource("1_2muti")
+category = "Utility"
+effect = "A tent that allows one character to become rested after sleeping outdoors."
+weight = 7.0
+value = 65
+allowed_slots = Array[int]([6])
+id = 166
+_name = "One-Person Tent"
+short_description = "Tent for one traveler."
+long_description = "A compact field tent that allows one character to become rested after sleeping outdoors."

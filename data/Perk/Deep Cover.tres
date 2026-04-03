@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_8akcm"]
-
-[resource]
-script = ExtResource("1_8akcm")
-category = "Background"
-_name = "Deep Cover"
-long_description = "Your Renown is increased while you are undercover or disguised."

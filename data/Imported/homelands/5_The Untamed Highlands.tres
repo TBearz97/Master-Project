@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_c1psp"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_vjtvg"]
+
+[sub_resource type="Resource" id="Resource_osvgl"]
+script = ExtResource("1_c1psp")
+category = "Homeland"
+requirement_text = "Untamed Highlands only"
+id = 14
+_name = "No Safe Roads"
+short_description = "Experience favors you in dangerous travel."
+long_description = "Travel-related rules will favor your experience once those systems are in place."
+
+[resource]
+script = ExtResource("2_vjtvg")
+perk = SubResource("Resource_osvgl")
+id = 5
+_name = "The Untamed Highlands"
+short_description = "Diverse highlands of scattered cities and shifting cultures."
+long_description = "You grew up among a wide range of independent cities, each with its own customs and expectations. This environment required adaptability, awareness, and an ability to navigate varied social landscapes."

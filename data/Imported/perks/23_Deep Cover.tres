@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_vptk5"]
+
+[resource]
+script = ExtResource("1_vptk5")
+category = "Background"
+requirement_text = "Spy only"
+id = 23
+_name = "Deep Cover"
+short_description = "Your Renown is increased while undercover or disguised."
+long_description = "Your Renown is increased while you are undercover or disguised."

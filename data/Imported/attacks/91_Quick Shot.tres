@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_mawjp"]
+
+[resource]
+script = ExtResource("1_mawjp")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 91
+_name = "Quick Shot"
+short_description = "Quick ranged shot."
+long_description = "Fire a fast and direct shot before the enemy can settle."

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_6bosp"]
+
+[resource]
+script = ExtResource("1_6bosp")
+expression = "12"
+id = 11
+_name = "skill_points_character_creation"
+short_description = "Starting skill points."
+long_description = "At character creation, the player has 12 skill points to distribute."

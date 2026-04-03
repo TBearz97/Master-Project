@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3 uid="uid://bug1shtce5meu"]
+
+[ext_resource type="Script" uid="uid://dlu627bi036c1" path="res://content/codex/rule/rule.gd" id="1_i7csq"]
+
+[resource]
+script = ExtResource("1_i7csq")
+expression = "rollDice(1, 20) + accuracy >= defense"
+id = 3
+_name = "attack_hit"
+short_description = "Attack hits if roll + accuracy >= defense."
+long_description = "Roll 1d20 and add Accuracy. If the result meets or exceeds the target defense, the attack hits."

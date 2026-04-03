@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_jpfj1"]
+
+[resource]
+script = ExtResource("1_jpfj1")
+category = "Weapon"
+requirement_text = "Requirement: Quick Swap, Level 4"
+id = 44
+_name = "Master at Arms"
+short_description = "Gain an additional weapon loadout."
+long_description = "You gain one additional weapon loadout."

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_0r1gv"]
+
+[resource]
+script = ExtResource("1_0r1gv")
+addiction = 1
+duration = "Brief"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 70
+allowed_slots = Array[int]([6])
+id = 134
+_name = "Potion of Demon Speed"
+short_description = "Alchemical consumable."
+long_description = "Potion of Demon Speed increases movement and reaction speed temporarily."

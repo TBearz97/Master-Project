@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_dlvxi"]
-
-[resource]
-script = ExtResource("1_dlvxi")
-_name = "Falling Star"
-long_description = "A great sword blow that carries the full arc of the weapon through the target."

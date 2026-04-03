@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_js4bd"]
+
+[resource]
+script = ExtResource("1_js4bd")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 136
+_name = "Wrap"
+short_description = "Wrapping control attack."
+long_description = "You curl the attack around the target to interfere with their position."

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_o0yog"]
+
+[resource]
+script = ExtResource("1_o0yog")
+addiction = 1
+duration = "Lasting"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 30
+allowed_slots = Array[int]([6])
+id = 127
+_name = "Potion of Fury"
+short_description = "Alchemical consumable."
+long_description = "Potion of Fury is an alchemical substance with specialized effects when consumed."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_dlxal"]
+
+[resource]
+script = ExtResource("1_dlxal")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 45
+_name = "Flash Step"
+short_description = "Fast repositioning strike."
+long_description = "A sudden movement cut delivered before the target can reset."

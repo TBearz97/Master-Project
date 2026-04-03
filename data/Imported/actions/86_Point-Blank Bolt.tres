@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_mr0aa"]
+
+[resource]
+script = ExtResource("1_mr0aa")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 86
+_name = "Point-Blank Bolt"
+short_description = "Point-blank bolt attack."
+long_description = "Drive a bolt into the target from almost no distance at all."

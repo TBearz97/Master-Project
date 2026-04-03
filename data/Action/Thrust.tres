@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_lr6ys"]
-
-[resource]
-script = ExtResource("1_lr6ys")
-_name = "Thrust"
-short_description = "A precise piercing attack."
-long_description = "A focused lunge driving the point into the target."

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_gtr0v"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_phia6"]
+
+[sub_resource type="Resource" id="Resource_yqrhg"]
+script = ExtResource("1_gtr0v")
+category = "Homeland"
+requirement_text = "Quasarian Empire only"
+id = 13
+_name = "Desert Adventurer"
+short_description = "Increase Survival rating against heat and endure thirst longer."
+long_description = "You can increase your Survival rating by 1.5 when it comes to exposure to hot weather. You can go an hour longer for every stage of Thirst and hot weather does not halve it."
+
+[resource]
+script = ExtResource("2_phia6")
+perk = SubResource("Resource_yqrhg")
+id = 4
+_name = "The Quasarian Empire"
+short_description = "Vast desert empire shaped by heat, scarcity, and strength."
+long_description = "You hail from a powerful empire built within unforgiving deserts. Life revolves around managing scarce resources, enduring extreme conditions, and navigating a culture forged by hardship and ambition."

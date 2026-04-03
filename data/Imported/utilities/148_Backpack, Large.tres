@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_eyuj5"]
+
+[resource]
+script = ExtResource("1_eyuj5")
+category = "Utility"
+effect = "Wearer adds 5 x Might to maximum Carry Weight."
+value = 60
+allowed_slots = Array[int]([6])
+id = 148
+_name = "Backpack, Large"
+short_description = "Large pack for heavy loads."
+long_description = "A large backpack designed to carry substantial gear. While worn, it increases maximum Carry Weight by 5 times your Might."

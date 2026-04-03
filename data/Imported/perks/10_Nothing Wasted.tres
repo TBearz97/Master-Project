@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_b5giy"]
+
+[resource]
+script = ExtResource("1_b5giy")
+category = "Homeland"
+requirement_text = "Ur'Holdum Jungle only"
+id = 10
+_name = "Nothing Wasted"
+short_description = "Make full use of what nature provides."
+long_description = "You know how to make use of what nature gives and what it takes."

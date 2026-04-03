@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_p5hby"]
+
+[resource]
+script = ExtResource("1_p5hby")
+addiction = 3
+duration = "Lasting"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 50
+allowed_slots = Array[int]([6])
+id = 123
+_name = "Potion of Sharp Mind"
+short_description = "Alchemical consumable."
+long_description = "Potion of Sharp Mind sharpens mental clarity and focus."

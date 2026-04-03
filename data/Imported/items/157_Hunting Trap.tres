@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_36v3i"]
+
+[resource]
+script = ExtResource("1_36v3i")
+category = "Utility"
+effect = "Place and hide a trap using Intelligence + Survival. Spotting the trap requires awareness and close inspection. When triggered, the trap makes an attack against the target's defenses and inflicts physical damage to the legs."
+weight = 10.0
+value = 50
+allowed_slots = Array[int]([6])
+id = 157
+_name = "Hunting Trap"
+short_description = "Hidden trap for hunting or defense."
+long_description = "A mechanical trap that can be placed and concealed using Intelligence + Survival. Spotting it requires awareness and close inspection. When triggered, it attacks the target’s defenses and deals physical damage to the legs."

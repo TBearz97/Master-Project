@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_u2bqh"]
-
-[resource]
-script = ExtResource("1_u2bqh")
-category = "Leadership and Social"
-_name = "Leveraging Status"
-long_description = "Requirement: Society 3\\\\n\\\\nIf you have positive Renown in the current culture or faction, gain +2 on your first related social test each scene."

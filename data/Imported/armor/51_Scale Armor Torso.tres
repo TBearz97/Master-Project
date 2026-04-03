@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_x78eb"]
+
+[resource]
+script = ExtResource("1_x78eb")
+physicalDT = 4
+magicalDT = 6
+necroticDT = 1
+weight = 5.0
+value = 72
+allowed_slots = Array[int]([3])
+id = 51
+_name = "Scale Armor Torso"
+short_description = "Scale torso armor."
+long_description = "Scale armor for the torso, combining layered metal plates for strong magical defense."

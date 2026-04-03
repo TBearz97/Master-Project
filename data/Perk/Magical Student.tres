@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_dxkwx"]
-
-[resource]
-script = ExtResource("1_dxkwx")
-category = "Magic"
-_name = "Magical Student"
-long_description = "Requirement: Intelligence 6, Lore 2\\\\n\\\\nLearn Theoretical spells through study and observation, gaining permanent access to all spells recorded in your spellbook without needing preparation."

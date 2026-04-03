@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_s1kjm"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_12h3m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_tqnad"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_yyncb"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_dfxrv"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_htwrv"]
+
+[sub_resource type="Resource" id="Resource_uqoht"]
+script = ExtResource("2_12h3m")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 110
+_name = "Slash"
+short_description = "Wide cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_4vcb2"]
+script = ExtResource("2_12h3m")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 63
+_name = "Hook Cut"
+short_description = "Curving guard-bypassing cut."
+long_description = "A curving cut that pulls around a guard or catches a retreat."
+
+[sub_resource type="Resource" id="Resource_5wqq4"]
+script = ExtResource("2_12h3m")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 122
+_name = "Sweep"
+short_description = "Wide sweeping strike."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_bk1e5"]
+script = ExtResource("2_12h3m")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 134
+_name = "Wing Clip"
+short_description = "Movement-disrupting strike."
+long_description = "A strike meant to ruin footing and cut off clean movement."
+
+[sub_resource type="Resource" id="Resource_l7j5u"]
+script = ExtResource("2_12h3m")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 96
+_name = "Reap"
+short_description = "Wide harvesting swing."
+long_description = "A broad harvesting swing that cuts through space in front of you."
+
+[sub_resource type="Resource" id="Resource_j0wmw"]
+script = ExtResource("2_12h3m")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 59
+_name = "Hedge of Iron"
+short_description = "Area-controlling spear technique."
+long_description = "A battlefield technique that locks down space with repeated reach."
+
+[sub_resource type="Resource" id="Resource_lnkke"]
+script = ExtResource("2_12h3m")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 52
+_name = "Harvest Moon"
+short_description = "Wide polearm sweep."
+long_description = "A broad polearm mastery sweep that claims the battlefield around you."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_tqnad")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_208e7"]
+script = ExtResource("4_yyncb")
+damage_die = 10
+speed = 50
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ggogc"]
+script = ExtResource("5_dfxrv")
+expression = "max_range = 2"
+id = 5
+_name = "Reach"
+short_description = "Allows engagement from a safer distance."
+long_description = "This weapon is designed to keep opponents at a distance, letting the wielder strike without needing to close in completely."
+
+[resource]
+script = ExtResource("6_htwrv")
+damage_profile = SubResource("Resource_208e7")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_s1kjm")]([SubResource("Resource_uqoht"), SubResource("Resource_4vcb2"), SubResource("Resource_5wqq4"), SubResource("Resource_bk1e5"), SubResource("Resource_l7j5u"), SubResource("Resource_j0wmw"), SubResource("Resource_lnkke")])
+qualities = [SubResource("Resource_ggogc")]
+weight = 4.0
+value = 47
+allowed_slots = Array[int]([7])
+id = 30
+_name = "Polearm"
+short_description = "Heavy reach weapon for wide-area control."
+long_description = "A polearm controls space through long-reach sweeps, hooks, and broad harvesting cuts that punish clustered enemies."

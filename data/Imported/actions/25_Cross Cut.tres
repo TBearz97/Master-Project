@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_ja5p8"]
+
+[resource]
+script = ExtResource("1_ja5p8")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 25
+_name = "Cross Cut"
+short_description = "Follow-up cutting attack."
+long_description = "A disciplined follow-up that turns one opening into another."

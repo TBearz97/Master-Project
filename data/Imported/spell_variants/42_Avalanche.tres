@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_tc8vd"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_5mcrv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_18d75"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_kh8yx"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("2_5mcrv")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("3_18d75")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[sub_resource type="Resource" id="Resource_cwvqi"]
+script = ExtResource("4_kh8yx")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Earth", "Instant"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Control earth and sand to strike a target. The attack deals physical damage and can Stun."
+id = 10
+_name = "Sand Toss"
+short_description = "Strike a target with sand and earth."
+long_description = "Control earth and sand to strike a target. The attack deals physical damage and can Stun."
+
+[resource]
+script = ExtResource("1_tc8vd")
+spell = SubResource("Resource_cwvqi")
+mana_cost = 4
+id = 42
+_name = "Avalanche"
+short_description = "Widen area and damage."
+long_description = "Increase the spread and impact."

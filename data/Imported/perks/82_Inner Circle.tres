@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_jdb0x"]
+
+[resource]
+script = ExtResource("1_jdb0x")
+category = "Leadership and Social"
+requirement_text = "Requirement: Society 2"
+id = 82
+_name = "Inner Circle"
+short_description = "Identify who holds real influence."
+long_description = "In courts, guilds, temples, or other structured groups, you are better at identifying who really holds influence."

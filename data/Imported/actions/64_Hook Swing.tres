@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_et81p"]
+
+[resource]
+script = ExtResource("1_et81p")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 64
+_name = "Hook Swing"
+short_description = "Wide angled swing."
+long_description = "A chained or spiked swing that comes around from an awkward angle."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_j4yeh"]
+
+[resource]
+script = ExtResource("1_j4yeh")
+roll_total = 31
+outcome = "Your current spell resolves, but you cannot Focus until the end of the scene."
+id = 31
+_name = "Broken Focus"

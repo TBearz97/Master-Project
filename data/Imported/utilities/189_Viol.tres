@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_jn8pn"]
+
+[resource]
+script = ExtResource("1_jn8pn")
+category = "Instruments"
+effect = "-"
+weight = 0.5
+value = 24
+allowed_slots = Array[int]([6])
+id = 189
+_name = "Viol"
+short_description = "Bowed string instrument."
+long_description = "A viol used for refined musical performance, producing sustained tones through bowing."

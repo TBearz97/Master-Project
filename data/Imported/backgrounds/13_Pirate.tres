@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="Background" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_le0wj"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_2ajby"]
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="3_wbkww"]
+
+[sub_resource type="Resource" id="Resource_fe7ax"]
+script = ExtResource("1_le0wj")
+category = "Background"
+requirement_text = "Pirate only"
+id = 33
+_name = "Home at Sea"
+short_description = "Reroll Navigation at sea and become Well-Rested when sleeping on a ship."
+long_description = "You can reroll 1d20 on Navigation tests while at sea. You also always gain Well-Rested when sleeping on a ship."
+
+[sub_resource type="Resource" id="Resource_fau1s"]
+script = ExtResource("3_wbkww")
+max_rank = 10
+id = 12
+_name = "Speech"
+short_description = "The art of words given power."
+long_description = "Speech is the craft of persuasion, the ability to sway hearts and shape minds with voice alone. From rousing orations to whispered bargains, it is the force that builds alliances and bends destiny."
+
+[sub_resource type="Resource" id="Resource_0ce85"]
+script = ExtResource("3_wbkww")
+max_rank = 10
+id = 9
+_name = "Navigation"
+long_description = "Finding your way across land or sea, planning routes, and keeping direction in unfamiliar places."
+
+[resource]
+script = ExtResource("2_2ajby")
+perk = SubResource("Resource_fe7ax")
+skill_1 = SubResource("Resource_fau1s")
+skill_2 = SubResource("Resource_0ce85")
+id = 13
+_name = "Pirate"
+short_description = "Seafarer shaped by a life of freedom and lawlessness."
+long_description = "You lived on the open waters, embracing risk, independence, and a code of your own making. Life at sea taught you adaptability, boldness, and how to survive outside conventional society."

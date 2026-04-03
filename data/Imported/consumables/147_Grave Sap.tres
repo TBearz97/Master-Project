@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_4svsf"]
+
+[resource]
+script = ExtResource("1_4svsf")
+duration = "Lasting"
+category = "Poison"
+effect = "Harmful toxic substance."
+weight = 0.5
+value = 70
+allowed_slots = Array[int]([6])
+id = 147
+_name = "Grave Sap"
+short_description = "Harmful toxic substance."
+long_description = "Grave Sap is a toxic substance used to inflict harmful effects on targets."

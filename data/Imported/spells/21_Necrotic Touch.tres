@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_q2ssd"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_2vvib"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_hosbe"]
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("1_q2ssd")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("2_2vvib")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[resource]
+script = ExtResource("3_hosbe")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Instant", "Necrotic"])
+action_range = SubResource("Resource_5t53p")
+base_cast = "Channel necrotic energy into your hand and deliver it through touch. On a successful cast, the touch deals 3 CD and applies Necrotic."
+id = 21
+_name = "Necrotic Touch"
+short_description = "Deliver necrotic energy through touch."
+long_description = "Channel necrotic energy into your hand and deliver it through touch. On a successful cast, the touch deals 3 CD and applies Necrotic."

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_tdoyl"]
+
+[resource]
+script = ExtResource("1_tdoyl")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
+weight = 2.0
+value = 36
+allowed_slots = Array[int]([2, 1])
+id = 48
+_name = "Chain Mail Arm"
+short_description = "Chain mail arm guards."
+long_description = "Chain mail sleeves that protect the arms while maintaining reasonable flexibility."

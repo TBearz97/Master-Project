@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_udpcj"]
+
+[resource]
+script = ExtResource("1_udpcj")
+category = "Homeland"
+requirement_text = "Asharati Forest only"
+id = 17
+_name = "Animal Friend"
+short_description = "Beasts will not attack you on sight; gain a reroll on Animal Handling."
+long_description = "When you encounter a creature with the Beast tag, it will never attack you on sight. Also gain 1 reroll on all Animal Handling tests."

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_2mry4"]
+
+[resource]
+script = ExtResource("1_2mry4")
+category = "Race"
+requirement_text = "Dwarf only"
+id = 4
+_name = "Runic Destiny"
+short_description = "Choose a rune that grants a distinct benefit tied to fortune, magic, or craftsmanship."
+long_description = "From the moment of birth, every Dwarf bears a rune etched into their body, signifying clan, heritage, and fate. Choose one of the following runes:
+
+Explorer's Rune - Whenever you roll on a loot table, roll twice and choose the outcome.
+
+Magister's Rune - You know one spell for free.
+
+Artisan's Rune - You gain +2 on tests when using something you made yourself."

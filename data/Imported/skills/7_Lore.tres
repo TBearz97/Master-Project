@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="1_m43mm"]
+
+[resource]
+script = ExtResource("1_m43mm")
+max_rank = 10
+id = 7
+_name = "Lore"
+short_description = "The memory of stories, histories, and knowledge."
+long_description = "Lore is the collection of all that has been learned and passed down: myths and histories, secrets of the land, and wisdom preserved through generations. Those versed in lore hold the keys to understanding both the past and the present."

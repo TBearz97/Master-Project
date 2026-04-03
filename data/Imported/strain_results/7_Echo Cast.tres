@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_7xpkv"]
+
+[resource]
+script = ExtResource("1_7xpkv")
+roll_total = 7
+outcome = "The spell leaves behind a harmless visible afterimage of its effect."
+id = 7
+_name = "Echo Cast"

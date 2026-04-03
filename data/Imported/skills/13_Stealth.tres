@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="1_8dm8j"]
+
+[resource]
+script = ExtResource("1_8dm8j")
+max_rank = 10
+id = 13
+_name = "Stealth"
+short_description = "The shadow’s embrace, unseen and unheard."
+long_description = "Stealth is the skill of moving in silence, slipping past notice, and striking unseen. It is patience, precision, and the discipline to become part of the darkness itself."

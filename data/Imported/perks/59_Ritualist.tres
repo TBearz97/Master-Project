@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_604uk"]
+
+[resource]
+script = ExtResource("1_604uk")
+category = "Magic"
+requirement_text = "Requirement: Resolve 6, Survival 2 or Lore 2"
+id = 59
+_name = "Ritualist"
+short_description = "Prepare Primal spells through ritual."
+long_description = "Select a limited number of Primal spells after performing a ritual, allowing you to change your available spells during a full rest."

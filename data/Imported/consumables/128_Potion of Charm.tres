@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_6loc3"]
+
+[resource]
+script = ExtResource("1_6loc3")
+addiction = 2
+duration = "Lasting"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 60
+allowed_slots = Array[int]([6])
+id = 128
+_name = "Potion of Charm"
+short_description = "Alchemical consumable."
+long_description = "Potion of Charm is an alchemical substance with specialized effects when consumed."

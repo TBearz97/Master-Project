@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_fgdr3"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_ws286"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_2cpy1"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_r2pk2"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_qtmlf"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_e6n3v"]
+
+[sub_resource type="Resource" id="Resource_jiygw"]
+script = ExtResource("2_ws286")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 92
+_name = "Quick Slash"
+short_description = "Fast light cut."
+long_description = "A fast cut that relies on speed over commitment."
+
+[sub_resource type="Resource" id="Resource_cy436"]
+script = ExtResource("2_ws286")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 30
+_name = "Draw Cut"
+short_description = "Fluid draw-cut strike."
+long_description = "A cut delivered as the blade moves free in one fluid motion."
+
+[sub_resource type="Resource" id="Resource_va0op"]
+script = ExtResource("2_ws286")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 23
+_name = "Crescent Arc"
+short_description = "Wide curved sweeping strike."
+long_description = "A flowing curved swing meant to catch multiple lines at once."
+
+[sub_resource type="Resource" id="Resource_twk1y"]
+script = ExtResource("2_ws286")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 124
+_name = "Thousand Cuts"
+short_description = "Rapid multi-strike sequence."
+long_description = "A relentless series of shallow strikes that build pressure quickly."
+
+[sub_resource type="Resource" id="Resource_xx1j2"]
+script = ExtResource("2_ws286")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 100
+_name = "Rising Edge"
+short_description = "Rising counter cut."
+long_description = "An ascending blade path that turns defense into offense."
+
+[sub_resource type="Resource" id="Resource_vl0q5"]
+script = ExtResource("2_ws286")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 78
+_name = "Moon Slice"
+short_description = "Controlled finishing cut."
+long_description = "A smooth cutting finish built on perfect timing and control."
+
+[sub_resource type="Resource" id="Resource_tv8ey"]
+script = ExtResource("2_ws286")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 37
+_name = "Falling Blossom"
+short_description = "Graceful finishing strike."
+long_description = "A graceful but lethal descending cut that completes the exchange."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_2cpy1")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_n2vyu"]
+script = ExtResource("4_r2pk2")
+damage_die = 8
+speed = 33
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ep5i6"]
+script = ExtResource("5_qtmlf")
+expression = "is_two_handed ? two_handed_damage_die : one_handed_damage_die"
+id = 6
+_name = "Versatile"
+short_description = "Flexible in handling, adaptable to different combat styles."
+long_description = "This weapon can be used in multiple ways depending on the wielder’s needs, offering a balance between control and power through different grips or techniques."
+
+[resource]
+script = ExtResource("6_e6n3v")
+damage_profile = SubResource("Resource_n2vyu")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_fgdr3")]([SubResource("Resource_jiygw"), SubResource("Resource_cy436"), SubResource("Resource_va0op"), SubResource("Resource_twk1y"), SubResource("Resource_xx1j2"), SubResource("Resource_vl0q5"), SubResource("Resource_tv8ey")])
+qualities = [SubResource("Resource_ep5i6")]
+weight = 4.0
+value = 31
+allowed_slots = Array[int]([7])
+id = 24
+_name = "Katana"
+short_description = "Versatile curved sword with disciplined lethality."
+long_description = "A katana blends precision timing with strong cutting force, rewarding controlled offense and smooth sequencing."

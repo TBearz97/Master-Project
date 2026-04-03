@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_7w82e"]
+
+[resource]
+script = ExtResource("1_7w82e")
+category = "Crafting Tools"
+effect = "Tools used for preparing hide and leather."
+weight = 2.5
+value = 84
+allowed_slots = Array[int]([6])
+id = 177
+_name = "Tanner's Tools"
+short_description = "Tools for hide and leather work."
+long_description = "A set of tanner’s tools used to prepare hides and work leather into useful materials or equipment."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_hxwa5"]
+
+[resource]
+script = ExtResource("1_hxwa5")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on Arcana tests that use Charisma."
+weight = 0.5
+value = 40
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+id = 30
+_name = "Priest's Garments"
+short_description = "Devotional priest garments."
+long_description = "Simple but symbolic garments worn by priests, reflecting devotion and spiritual discipline."

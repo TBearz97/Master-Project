@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_0bj82"]
+
+[resource]
+script = ExtResource("1_0bj82")
+category = "Magic"
+id = 58
+_name = "Conviction"
+short_description = "Resist fear and charm."
+long_description = "Unshakeable faith grants immunity to fear and control effects."

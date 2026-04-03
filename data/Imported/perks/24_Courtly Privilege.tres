@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_7nkd0"]
+
+[resource]
+script = ExtResource("1_7nkd0")
+category = "Background"
+requirement_text = "Noble only"
+id = 24
+_name = "Courtly Privilege"
+short_description = "Status opens doors in civilized places."
+long_description = "You are accustomed to status, ceremony, and access. In appropriate civilized settings, you can secure basic hospitality or an audience that others might need to work harder to obtain."

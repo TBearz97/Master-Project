@@ -1,5 +1,5 @@
 extends CodexItem
-class_name Effects
+class_name Effect
 
 @export var defence: Defence
 

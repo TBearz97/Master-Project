@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_yp2ig"]
+
+[resource]
+script = ExtResource("1_yp2ig")
+category = "Background"
+requirement_text = "Pathfinder only"
+id = 31
+_name = "Trailblazer"
+short_description = "Navigation becomes easier when you are leading the route."
+long_description = "Navigation becomes easier when you are leading the route."

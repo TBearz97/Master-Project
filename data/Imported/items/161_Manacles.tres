@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_o75mp"]
+
+[resource]
+script = ExtResource("1_o75mp")
+category = "Utility"
+effect = "A shackled target suffers the effects of injured arms, legs, or both depending on what has been restrained. They can be broken with a Might + Athletics test or unlocked by an ally with a Perception + Sleight of Hand test."
+weight = 1.0
+value = 28
+allowed_slots = Array[int]([6])
+id = 161
+_name = "Manacles"
+short_description = "Restraints for prisoners or captives."
+long_description = "Strong metal manacles used to restrain limbs. A shackled target suffers the effects of injured arms, legs, or both depending on what is restrained. They can be broken with a Might + Athletics test or unlocked by an ally using Perception + Sleight of Hand."

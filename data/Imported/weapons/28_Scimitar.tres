@@ -1,0 +1,111 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_5uj42"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_xunpa"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_ul0kw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_3noua"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_two0i"]
+
+[sub_resource type="Resource" id="Resource_jiygw"]
+script = ExtResource("2_xunpa")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 92
+_name = "Quick Slash"
+short_description = "Fast light cut."
+long_description = "A fast cut that relies on speed over commitment."
+
+[sub_resource type="Resource" id="Resource_cy436"]
+script = ExtResource("2_xunpa")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 30
+_name = "Draw Cut"
+short_description = "Fluid draw-cut strike."
+long_description = "A cut delivered as the blade moves free in one fluid motion."
+
+[sub_resource type="Resource" id="Resource_va0op"]
+script = ExtResource("2_xunpa")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 23
+_name = "Crescent Arc"
+short_description = "Wide curved sweeping strike."
+long_description = "A flowing curved swing meant to catch multiple lines at once."
+
+[sub_resource type="Resource" id="Resource_vviue"]
+script = ExtResource("2_xunpa")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 47
+_name = "Gash"
+short_description = "Bleeding-focused cut."
+long_description = "A deeper deliberate wound intended to keep bleeding pressure on the target."
+
+[sub_resource type="Resource" id="Resource_y61gf"]
+script = ExtResource("2_xunpa")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 133
+_name = "Whirling Step"
+short_description = "Curving mobile strike."
+long_description = "A curving moving attack that changes angle mid-assault."
+
+[sub_resource type="Resource" id="Resource_pp6ei"]
+script = ExtResource("2_xunpa")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 103
+_name = "Sand Reaper"
+short_description = "Exhausting cutting sequence."
+long_description = "A cutting sequence meant to exhaust and carve the target down."
+
+[sub_resource type="Resource" id="Resource_kl2m3"]
+script = ExtResource("2_xunpa")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 128
+_name = "Twin Moon Cut"
+short_description = "Dual flowing strike."
+long_description = "A flowing finishing pattern that strikes in a seamless pair."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_ul0kw")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_1odsq"]
+script = ExtResource("4_3noua")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_two0i")
+damage_profile = SubResource("Resource_1odsq")
+actions = Array[ExtResource("1_5uj42")]([SubResource("Resource_jiygw"), SubResource("Resource_cy436"), SubResource("Resource_va0op"), SubResource("Resource_vviue"), SubResource("Resource_y61gf"), SubResource("Resource_pp6ei"), SubResource("Resource_kl2m3")])
+weight = 2.0
+value = 26
+allowed_slots = Array[int]([7])
+id = 28
+_name = "Scimitar"
+short_description = "Curved sword for mobile, flowing offense."
+long_description = "A scimitar favors speed, shifting angles, and fluid offensive pressure that wears a target down through movement and cuts."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Modifier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_tql7y"]
+
+[resource]
+script = ExtResource("1_tql7y")
+id = 1
+_name = "Damage & Healing"
+short_description = "Affects damage and healing output."
+long_description = "Damage & Healing modifies how much damage you deal and how much healing you provide. Higher values increase both offensive and restorative effectiveness."

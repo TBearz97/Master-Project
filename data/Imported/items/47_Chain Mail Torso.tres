@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_tlxvi"]
+
+[resource]
+script = ExtResource("1_tlxvi")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
+weight = 5.0
+value = 65
+allowed_slots = Array[int]([3])
+id = 47
+_name = "Chain Mail Torso"
+short_description = "Chain mail torso armor."
+long_description = "Chain mail torso armor offering solid protection against physical attacks and some magical resilience."

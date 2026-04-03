@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_tltpf"]
+
+[resource]
+script = ExtResource("1_tltpf")
+category = "Leadership and Social"
+id = 81
+_name = "Diplomat"
+short_description = "Win favor among nobles."
+long_description = "Speak with authority to gain favor in upper circles."

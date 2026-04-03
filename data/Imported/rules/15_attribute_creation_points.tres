@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_pwix7"]
+
+[resource]
+script = ExtResource("1_pwix7")
+expression = "5"
+id = 15
+_name = "attribute_creation_points"
+short_description = "Attribute points available."
+long_description = "Player has 5 points to distribute during character creation."

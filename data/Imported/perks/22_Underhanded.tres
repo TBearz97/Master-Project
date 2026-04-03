@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_o3cja"]
+
+[resource]
+script = ExtResource("1_o3cja")
+category = "Background"
+requirement_text = "Criminal only"
+id = 22
+_name = "Underhanded"
+short_description = "Pick locks without needing lockpicks."
+long_description = "You do not need lockpicks in order to pick a lock."

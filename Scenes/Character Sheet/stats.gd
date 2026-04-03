@@ -50,10 +50,10 @@ func _setupAttributes(main: VBoxContainer, _grid: GridContainer) -> void:
 		var split := VSplitContainer.new()
 		
 		var bonus1 := CampaignVariables.prepareLabel(RichTextLabel.new())
-		bonus1.text = CampaignVariables.replaceText(att.bonus_1_prefix + " " + str(RuleEngine.evaluate(att.bonus_1_expression, ["x"], [att.value])) + " " + att.bonus_1_suffix)
+		bonus1.text = _format_modifier_text(att, att.modifier_1, att.modifier_1_expression)
 
 		var bonus2 := CampaignVariables.prepareLabel(RichTextLabel.new())
-		bonus2.text = CampaignVariables.replaceText(att.bonus_2_prefix + " " + str(RuleEngine.evaluate(att.bonus_2_expression, ["x"], [att.value])) + " " + att.bonus_2_suffix)
+		bonus2.text = _format_modifier_text(att, att.modifier_2, att.modifier_2_expression)
 
 		split.add_child(bonus1)
 		split.add_child(bonus2)
@@ -127,32 +127,60 @@ func _setupAttHeader() -> GridContainer:
 	return attGrid.duplicate()
 
 func _setupStatHeader() -> GridContainer:
-	var health := 0
 	for child in statGrid.get_children():
 		match child.name:
-			"Level": child.get_child(1).text = str(PlayerVariables.getLevel())
-			"Health":
-				var att := PlayerVariables.getAttribute("Constitution")
-				health = (RuleEngine.evaluate(att.bonus_1_expression, ["x"], [att.value])) * PlayerVariables.getLevel() - PlayerVariables.getNecroticDamage()
-				child.get_child(1).text = str(health)
-			"ActionPoints":
-				var att := PlayerVariables.getAttribute("Dexterity")
-				child.get_child(1).text = str((RuleEngine.evaluate(att.bonus_1_expression, ["x"], [att.value]) - PlayerVariables.getFatigue()))
-			"Experience": child.get_child(1).text = str(PlayerVariables.getExperience())
-			"Vitality":
-				var att := PlayerVariables.getAttribute("Constitution")
-				child.get_child(1).text = str((RuleEngine.evaluate(att.bonus_2_expression, ["x"], [att.value]) * health + PlayerVariables.getNecroticDamage()))
-			"Fatigue": child.get_child(1).text = str(PlayerVariables.getFatigue())
 			"LevelUp":
 				PlayerVariables.leveledUp.connect(func() -> void: child.disabled = !PlayerVariables.getLevelAvailable())
 				child.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://Scenes/Character Sheet/Character_Sheet.tscn"))
-			"NecroticDamage": child.get_child(1).text = str(PlayerVariables.getNecroticDamage())
+			_:
+				if child.get_child_count() > 1:
+					child.get_child(1).text = str(_resolve_stat_value(child.name))
 
 	return statGrid.duplicate()
 
+func _format_modifier_text(attribute: Attribute, modifier: Modifier, expression: String) -> String:
+	if modifier == null or expression.is_empty():
+		return ""
+	return CampaignVariables.replaceText("%s %s" % [modifier._name, str(int(RuleEngine.evaluate_player_expression(expression, {"x": attribute.value})))])
+
+func _resolve_stat_value(control_name: String) -> int:
+	var variable_name := _control_name_to_variable_name(control_name)
+	var blueprint_entry := CampaignVariables.codex.get_player_data_blueprint(variable_name)
+	if blueprint_entry != null and blueprint_entry.enabled:
+		return int(RuleEngine.resolve_player_variable(variable_name))
+	var modifier_name := _humanize_control_name(control_name)
+	var modifier := CampaignVariables.codex.get_by_name(CampaignVariables.codex.Modifiers, modifier_name) as Modifier
+	if modifier != null:
+		return int(RuleEngine.resolve_modifier_value(modifier.id))
+	var getter_name := "get%s" % control_name
+	if PlayerVariables.has_method(getter_name):
+		return int(PlayerVariables.call(getter_name))
+	return 0
+
+func _control_name_to_variable_name(control_name: String) -> String:
+	var variable_name := ""
+	for i in range(control_name.length()):
+		var character := control_name[i]
+		var lower := character.to_lower()
+		if i > 0 and character != lower and control_name[i - 1] != "_":
+			variable_name += "_"
+		variable_name += lower
+	return variable_name
+
+func _humanize_control_name(control_name: String) -> String:
+	var variable_name := _control_name_to_variable_name(control_name)
+	var parts := variable_name.split("_", false)
+	for i in range(parts.size()):
+		parts[i] = parts[i].capitalize()
+	return " ".join(parts)
+
 func skillCheck(skill: int) -> Variant:
 	var difficulty := int(optionButton.get_item_text(optionButton.selected))
-	return RuleEngine.evaluate(CampaignVariables.codex.Rules["Skill Check"].expression, ["difficulty", "skill"], [difficulty, skill])
+	var skill_check_rule := CampaignVariables.codex.get_rule("Skill Check")
+	var expression := "rollDice(1, difficulty) <= skill"
+	if skill_check_rule != null and not skill_check_rule.expression.is_empty():
+		expression = skill_check_rule.expression
+	return RuleEngine.evaluate(expression, ["difficulty", "skill"], [difficulty, skill])
 
 func _update_percentage(idx: int) -> void:
 	var difficulty := int(optionButton.get_item_text(idx))

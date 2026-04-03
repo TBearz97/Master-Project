@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ActionRange" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_enyj8"]
+
+[resource]
+script = ExtResource("1_enyj8")
+max_distance = 13
+short_hand = "X"
+id = 5
+_name = "Extreme"
+short_description = "Extreme ranged distance."
+long_description = "Effective against targets within 11 to 13 hexes, pushing the limits of range and precision."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_7xk34"]
+
+[resource]
+script = ExtResource("1_7xk34")
+category = "Utility"
+effect = "Used to write documents and scrolls. Empty after 30 uses."
+weight = 0.4
+value = 5
+allowed_slots = Array[int]([6])
+id = 158
+_name = "Ink"
+short_description = "Ink for writing and records."
+long_description = "A bottle of ink used to write documents and scrolls. It is emptied after 30 uses."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_qv10y"]
+
+[resource]
+script = ExtResource("1_qv10y")
+roll_total = 2
+outcome = "Gain 2 Mana after the spell resolves."
+id = 2
+_name = "Perfect Flow"

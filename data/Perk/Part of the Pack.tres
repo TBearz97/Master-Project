@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_d4w3x"]
-
-[resource]
-script = ExtResource("1_d4w3x")
-category = "Survival and Field"
-_name = "Part of the Pack"
-long_description = "Requirement: Animal Handling 2\\\\n\\\\nWhen you first encounter a non-hostile or uncertain Beast, you may attempt to calm it as a free social gesture before violence begins."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Modifier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_nvqoh"]
+
+[resource]
+script = ExtResource("1_nvqoh")
+id = 6
+_name = "Vitality"
+short_description = "Represents endurance and recovery."
+long_description = "Vitality reflects overall stamina and recovery capability, influencing how well a character endures prolonged activity and recovers from strain."

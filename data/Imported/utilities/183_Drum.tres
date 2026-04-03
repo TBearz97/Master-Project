@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_of3ca"]
+
+[resource]
+script = ExtResource("1_of3ca")
+category = "Instruments"
+effect = "-"
+weight = 1.5
+value = 12
+allowed_slots = Array[int]([6])
+id = 183
+_name = "Drum"
+short_description = "Percussion instrument for rhythm."
+long_description = "A drum used to provide rhythm, cadence, and strong percussive sound during performance."

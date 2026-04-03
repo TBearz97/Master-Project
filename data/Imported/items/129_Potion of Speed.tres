@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_fc74q"]
+
+[resource]
+script = ExtResource("1_fc74q")
+addiction = 2
+duration = "Brief"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 50
+allowed_slots = Array[int]([6])
+id = 129
+_name = "Potion of Speed"
+short_description = "Alchemical consumable."
+long_description = "Potion of Speed increases movement and reaction speed temporarily."

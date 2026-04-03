@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_l8u8e"]
+
+[resource]
+script = ExtResource("1_l8u8e")
+category = "Homeland"
+requirement_text = "Untamed Highlands only"
+id = 14
+_name = "No Safe Roads"
+short_description = "Experience favors you in dangerous travel."
+long_description = "Travel-related rules will favor your experience once those systems are in place."

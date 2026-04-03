@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_pn2yt"]
+
+[resource]
+script = ExtResource("1_pn2yt")
+roll_total = 36
+outcome = "The spell partially fails and lashes the caster with magical feedback. Take 5 HP damage."
+id = 36
+_name = "Spell Collapse"

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_sj45n"]
+
+[resource]
+script = ExtResource("1_sj45n")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 46
+_name = "Flatten"
+short_description = "Crushing hammer attack."
+long_description = "A warhammer strike that turns weight and leverage into domination."

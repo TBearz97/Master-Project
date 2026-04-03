@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_id0dk"]
+
+[resource]
+script = ExtResource("1_id0dk")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on any test to Craft at an Armor Smith Workstation or Weapon Smith Workstation."
+weight = 2.0
+value = 20
+allowed_slots = Array[int]([5, 4, 3])
+id = 23
+_name = "Blacksmith's Outfit"
+short_description = "Durable smithing outfit."
+long_description = "Heavy-duty clothing suited for blacksmithing, built to endure heat, sparks, and long hours at the forge."

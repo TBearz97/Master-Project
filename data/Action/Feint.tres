@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_4nofd"]
-
-[resource]
-script = ExtResource("1_4nofd")
-_name = "Feint"
-long_description = "You bait a reaction before redirecting into the real attack."

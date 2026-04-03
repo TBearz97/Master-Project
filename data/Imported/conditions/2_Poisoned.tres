@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Condition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/condition.gd" id="1_3ebrb"]
+
+[resource]
+script = ExtResource("1_3ebrb")
+id = 2
+_name = "Poisoned"
+short_description = "Suffering from a toxic effect."
+long_description = "The creature is weakened by poison and may take ongoing harm or penalties."

@@ -23,14 +23,16 @@ func _setup() -> void:
 		sb.tooltip_text = skill._name
 		sb.set_meta(sb.tooltip_text.replace(" ", ""), skill)
 		sb.alignment = HORIZONTAL_ALIGNMENT_CENTER
-		sb.min_value = 1
+		sb.min_value = skill.min_rank
+		sb.max_value = skill.max_rank
+		sb.value = skill.min_rank
 		if skills.any(func(a): return a._name == skill._name):
 			sb.value = skills[skills.find_custom(func(a): return a._name == skill._name)].value
 		sb.rounded = true
 		sb.step = 1
-		prev[sb] = 1
+		prev[sb] = sb.value
 		sb.value_changed.connect(_on_value_changed.bind(sb))
-		_on_value_changed(1, sb)
+		_on_value_changed(int(sb.value), sb)
 
 		grid.columns = 2
 		grid.add_child(label)
@@ -47,7 +49,10 @@ func _on_value_changed(new_value: int, sb: SpinBox) -> void:
 	for key in prev:
 		var pointsAvailable: float = key.value + points.value
 		var _max: float = pointsAvailable
-		var cap: int = int(RuleEngine.evaluate(CampaignVariables.codex.Rules["Skill Cap"].expression, ["player_level"], [PlayerVariables.getLevel()]))
+		var cap: int = _get_skill_cap()
+		var key_skill: Skill = key.get_meta(key.tooltip_text.replace(" ", ""))
+		if key_skill != null:
+			_max = min(_max, key_skill.max_rank)
 		if key.value + points.value > cap:
 			_max = cap
 		key.max_value = _max
@@ -63,3 +68,10 @@ func _save() -> void:
 			skills.append(sk)
 	PlayerVariables.setSkills(skills)
 	PlayerVariables.setSkillPoints(int(points.value))
+
+func _get_skill_cap() -> int:
+	var skill_cap_rule := CampaignVariables.codex.get_rule("Skill Cap")
+	var expression := "min(player_level + 2, 10)"
+	if skill_cap_rule != null and not skill_cap_rule.expression.is_empty():
+		expression = skill_cap_rule.expression
+	return int(RuleEngine.evaluate(expression, ["player_level"], [PlayerVariables.getLevel()]))

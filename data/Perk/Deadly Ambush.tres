@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_jb7ry"]
-
-[resource]
-script = ExtResource("1_jb7ry")
-category = "Medicine and Stealth"
-_name = "Deadly Ambush"
-long_description = "Requirement: From the Shadows, Level 4\\\\n\\\\nThe first damaging hit you make against a creature that has not noticed you deals 20% more damage."

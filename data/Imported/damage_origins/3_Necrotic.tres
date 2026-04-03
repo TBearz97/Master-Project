@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageOrigin" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_origin.gd" id="1_pprgk"]
+
+[resource]
+script = ExtResource("1_pprgk")
+id = 3
+_name = "Necrotic"
+short_description = "Damage from death and decay."
+long_description = "Necrotic damage stems from death, decay, and dark magic. It is often associated with undead entities and effects that wither life force."

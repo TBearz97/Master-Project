@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_type.gd" id="1_mobj8"]
+
+[resource]
+script = ExtResource("1_mobj8")
+id = 5
+_name = "Frost"
+short_description = "Cold and freezing damage."
+long_description = "Frost damage is caused by extreme cold, slowing movement and damaging tissues through freezing."

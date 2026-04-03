@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_iucvx"]
+
+[resource]
+script = ExtResource("1_iucvx")
+addiction = 3
+duration = "Brief"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 67
+allowed_slots = Array[int]([6])
+id = 130
+_name = "Potion of Greater Speed"
+short_description = "Alchemical consumable."
+long_description = "Potion of Greater Speed increases movement and reaction speed temporarily."

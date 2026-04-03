@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_1sk82"]
+
+[resource]
+script = ExtResource("1_1sk82")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 81
+_name = "Palm Strike"
+short_description = "Forceful palm strike."
+long_description = "A perfectly placed burst of force that stops the target in place."

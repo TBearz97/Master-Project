@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_2sc3l"]
+
+[resource]
+script = ExtResource("1_2sc3l")
+roll_total = 37
+outcome = "The spell tears something open. The GM introduces an immediate dangerous magical phenomenon."
+id = 37
+_name = "Open Conduit"

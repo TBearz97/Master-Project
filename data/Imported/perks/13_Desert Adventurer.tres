@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_6rvpk"]
+
+[resource]
+script = ExtResource("1_6rvpk")
+category = "Homeland"
+requirement_text = "Quasarian Empire only"
+id = 13
+_name = "Desert Adventurer"
+short_description = "Increase Survival rating against heat and endure thirst longer."
+long_description = "You can increase your Survival rating by 1.5 when it comes to exposure to hot weather. You can go an hour longer for every stage of Thirst and hot weather does not halve it."

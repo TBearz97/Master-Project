@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_nowy6"]
+
+[resource]
+script = ExtResource("1_nowy6")
+category = "Utility"
+effect = "Flammable material that, once ignited, is difficult to put out."
+weight = 0.5
+value = 19
+allowed_slots = Array[int]([6])
+id = 162
+_name = "Oil"
+short_description = "Flammable fuel for fire."
+long_description = "A container of oil that burns readily. Once ignited, it is difficult to extinguish."

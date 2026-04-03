@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Modifier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_g3wuj"]
+
+[resource]
+script = ExtResource("1_g3wuj")
+id = 2
+_name = "Max Carry Weight"
+short_description = "Increases carrying capacity."
+long_description = "Max Carry Weight determines how much equipment and items a character can carry before becoming encumbered. Higher values allow heavier loads."

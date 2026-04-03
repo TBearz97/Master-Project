@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_q6ayt"]
+
+[resource]
+script = ExtResource("1_q6ayt")
+clothing_type = "Clothing"
+effect = "While wearing this clothing, you can increase your Survival rank for determining exposure to hot weather by 1.5."
+weight = 0.5
+value = 12
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+id = 36
+_name = "Desert Clothing"
+short_description = "Light heat-resistant clothing."
+long_description = "Lightweight clothing designed to reduce heat stress and protect against harsh desert conditions."

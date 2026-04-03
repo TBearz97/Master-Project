@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_io8sv"]
-
-[resource]
-script = ExtResource("1_io8sv")
-category = "Weapon"
-_name = "Bull's Eye"
-long_description = "Requirement: Center of Mass, Level 7\\\\n\\\\nThe first ranged attack you make each round gains +1 Crit Die size."

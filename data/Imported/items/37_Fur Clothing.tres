@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_2lijb"]
+
+[resource]
+script = ExtResource("1_2lijb")
+clothing_type = "Clothing"
+effect = "While wearing this clothing, you can increase your Survival rank for determining exposure to cold weather by 1.5."
+weight = 2.0
+value = 14
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+id = 37
+_name = "Fur Clothing"
+short_description = "Insulated cold-weather clothing."
+long_description = "Thick, insulated clothing made to retain warmth and protect against freezing temperatures."

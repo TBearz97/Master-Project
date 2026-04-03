@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_j14hx"]
+
+[resource]
+script = ExtResource("1_j14hx")
+category = "Race"
+requirement_text = "Goliath only"
+id = 2
+_name = "Unyielding"
+short_description = "When you suffer Trauma, you do not suffer the extra Concentration loss from it."
+long_description = "Your people are shaped by hardship and do not break easily. When you suffer Trauma, you do not suffer the extra Concentration loss from it."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_4i5mh"]
+
+[resource]
+script = ExtResource("1_4i5mh")
+category = "Utility"
+effect = "Used to write documents and scrolls. May break upon complication."
+weight = 0.1
+value = 3
+allowed_slots = Array[int]([6])
+id = 159
+_name = "Ink Pen"
+short_description = "Pen for writing by hand."
+long_description = "A writing pen used for documents and scrolls. It may break if a complication is rolled while in use."

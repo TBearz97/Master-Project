@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_nmbv2"]
+
+[resource]
+script = ExtResource("1_nmbv2")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 92
+_name = "Quick Slash"
+short_description = "Fast light cut."
+long_description = "A fast cut that relies on speed over commitment."

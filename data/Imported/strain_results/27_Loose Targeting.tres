@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_048tb"]
+
+[resource]
+script = ExtResource("1_048tb")
+roll_total = 27
+outcome = "The GM may shift the spell's target, area, or point of origin slightly."
+id = 27
+_name = "Loose Targeting"

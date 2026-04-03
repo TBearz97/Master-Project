@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_gpv6w"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_cx86m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_56thb"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("2_cx86m")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_abew8"]
+script = ExtResource("3_56thb")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Arcane", "Harmless", "Instant"])
+base_cast = "Use this spell against an ongoing Channeling spell or an active Concentration spell. Roll d20 + Potency against Mana Spent x2. On a success, the target spell ends or fails, but the original caster still loses the Mana spent."
+id = 14
+_name = "Counter Spell"
+short_description = "Disrupt an ongoing or channeled spell."
+long_description = "Use this spell against an ongoing Channeling spell or an active Concentration spell. Roll d20 + Potency against Mana Spent x2. On a success, the target spell ends or fails, but the original caster still loses the Mana spent."
+
+[resource]
+script = ExtResource("1_gpv6w")
+spell = SubResource("Resource_abew8")
+mana_cost = 4
+id = 54
+_name = "Store"
+short_description = "Store and release spell."
+long_description = "On a successful counter, hold the spell briefly and release it later as its own action."

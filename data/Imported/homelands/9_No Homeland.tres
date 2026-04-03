@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_sttv2"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_x4v7w"]
+
+[sub_resource type="Resource" id="Resource_qiaj5"]
+script = ExtResource("1_sttv2")
+category = "Homeland"
+requirement_text = "No Homeland"
+id = 18
+_name = "Wanderer"
+short_description = "Become Well-Rested even in rough conditions."
+long_description = "You can become Well-Rested even when sleeping in rough conditions that would normally prevent it."
+
+[resource]
+script = ExtResource("2_x4v7w")
+perk = SubResource("Resource_qiaj5")
+id = 9
+_name = "No Homeland"
+short_description = "Wanderer without roots, shaped by movement rather than place."
+long_description = "You do not belong to any single homeland. Instead, your identity is shaped by the roads you have traveled and the people you have encountered along the way."

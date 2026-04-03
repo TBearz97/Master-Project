@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_type.gd" id="1_7qnn1"]
+
+[resource]
+script = ExtResource("1_7qnn1")
+id = 7
+_name = "Acid"
+short_description = "Corrosive damage."
+long_description = "Acid damage corrodes and dissolves materials, bypassing conventional defenses over time."

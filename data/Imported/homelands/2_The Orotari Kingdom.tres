@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_lk16l"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_bea22"]
+
+[sub_resource type="Resource" id="Resource_ykot2"]
+script = ExtResource("1_lk16l")
+category = "Homeland"
+requirement_text = "Orotari Kingdom only"
+id = 11
+_name = "Proper Bearing"
+short_description = "Gain respect in formal settings."
+long_description = "Your upbringing in a refined kingdom grants you the manners and expectations of civilized life. In formal settings, you are treated with the respect due to proper station unless you give others reason not to."
+
+[resource]
+script = ExtResource("2_bea22")
+perk = SubResource("Resource_ykot2")
+id = 2
+_name = "The Orotari Kingdom"
+short_description = "Refined kingdom known for culture, learning, and structure."
+long_description = "You come from a prosperous and orderly realm where education, discipline, and tradition are highly valued. Society here emphasizes knowledge, refinement, and a clear social hierarchy."

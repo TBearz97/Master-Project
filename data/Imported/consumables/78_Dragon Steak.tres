@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_srj43"]
+
+[resource]
+script = ExtResource("1_srj43")
+healing = 14
+duration = "Until End of Next Scene"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.5
+value = 130
+allowed_slots = Array[int]([6])
+id = 78
+_name = "Dragon Steak"
+short_description = "Restorative food item."
+long_description = "Dragon Steak is a prepared or raw food item that restores 14 HP when consumed."

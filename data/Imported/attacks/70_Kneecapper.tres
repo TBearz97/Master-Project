@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_jmlin"]
+
+[resource]
+script = ExtResource("1_jmlin")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Slowed\", 1)"])
+id = 70
+_name = "Kneecapper"
+short_description = "Low stability-breaking attack."
+long_description = "A low crushing attack aimed at breaking stability and movement."

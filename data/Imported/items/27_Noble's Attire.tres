@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_yt42x"]
+
+[resource]
+script = ExtResource("1_yt42x")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on Speech and Society tests."
+weight = 1.0
+value = 60
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+id = 27
+_name = "Noble's Attire"
+short_description = "Refined noble attire."
+long_description = "Elegant attire crafted from fine materials, reflecting wealth and status while maintaining comfort."

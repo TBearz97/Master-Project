@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_sdwwa"]
-
-[resource]
-script = ExtResource("1_sdwwa")
-_name = "Hook Cut"
-long_description = "A curving cut that pulls around a guard or catches a retreat."

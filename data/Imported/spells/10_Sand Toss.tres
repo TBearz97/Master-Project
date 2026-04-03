@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_4bg8n"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_bd2dh"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_ueqrr"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("1_4bg8n")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("2_bd2dh")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[resource]
+script = ExtResource("3_ueqrr")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Earth", "Instant"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Control earth and sand to strike a target. The attack deals physical damage and can Stun."
+id = 10
+_name = "Sand Toss"
+short_description = "Strike a target with sand and earth."
+long_description = "Control earth and sand to strike a target. The attack deals physical damage and can Stun."

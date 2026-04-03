@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_q8jc0"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_2qu2a"]
+
+[sub_resource type="Resource" id="Resource_ckgvd"]
+script = ExtResource("1_q8jc0")
+category = "Race"
+requirement_text = "Ashborne only"
+id = 6
+_name = "From Fire and Flame"
+short_description = "A random body location gains an obsidian patch that is immune to damage until the patch is broken."
+long_description = "Forged in the heart of a volcano, your body grows magical obsidian patches. Roll a random location at character creation. That location is immune to damage while the obsidian patch remains. If that location suffers 2 Trauma, the patch is destroyed. It regrows after a week, when your Vitality is reset."
+
+[resource]
+script = ExtResource("2_2qu2a")
+perk = SubResource("Resource_ckgvd")
+id = 6
+_name = "Ashborne"
+short_description = "Volcanic-born beings marked by obsidian and inner fire."
+long_description = "Ashborne are shaped by volcanic origins, their bodies bearing hardened traces of the environments that birthed them. Their presence is striking and often intimidating, reflecting a balance between elemental force and mortal will. They carry an intensity that mirrors the landscapes they come from."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_smixn"]
+
+[resource]
+script = ExtResource("1_smixn")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 73
+_name = "Load Bolt"
+short_description = "Reload crossbow."
+long_description = "Reload and ready the crossbow for another attack."

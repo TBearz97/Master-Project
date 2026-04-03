@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_88vuu"]
+
+[resource]
+script = ExtResource("1_88vuu")
+addiction = 2
+duration = "Lasting"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 60
+allowed_slots = Array[int]([6])
+id = 126
+_name = "Potion of the Opened Mind"
+short_description = "Alchemical consumable."
+long_description = "Potion of the Opened Mind sharpens mental clarity and focus."

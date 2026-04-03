@@ -137,12 +137,12 @@ func _addNPCs() -> void:
 	for child in npc_picker_list.get_children():
 		child.queue_free()
 
-	var npc_names: Array = CampaignVariables.codex.NPCs.keys()
+	var npc_names := CampaignVariables.codex.get_sorted_names(CampaignVariables.codex.NPCs)
 	npc_names.sort()
 
 	for npc_name_variant in npc_names:
 		var npc_name := str(npc_name_variant)
-		var npc: NPC = CampaignVariables.codex.NPCs.get(npc_name, null)
+		var npc: NPC = CampaignVariables.codex.get_by_name(CampaignVariables.codex.NPCs, npc_name)
 		if npc == null:
 			continue
 
@@ -484,7 +484,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		payload["actions"] = _get_player_action_entries(player_data, active_loadout)
 		payload["action_names"] = _get_player_action_names(player_data, active_loadout)
 		return payload
-	var npc: NPC = CampaignVariables.codex.NPCs.get(str(payload.get("name", "")), null)
+	var npc: NPC = CampaignVariables.codex.get_by_name(CampaignVariables.codex.NPCs, str(payload.get("name", "")))
 	if npc == null:
 		return {}
 	payload["current_hp"] = npc.data.currentHP

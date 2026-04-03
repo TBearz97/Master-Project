@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_0mjq8"]
-
-[resource]
-script = ExtResource("1_0mjq8")
-category = "Survival and Field"
-_name = "Strong Companions"
-long_description = "Requirement: Faithful Companions, Animal Handling 4, Level 5\\\\n\\\\nChoose one of your animal companions. It becomes stronger, tougher, or more capable in a way agreed with the GM."

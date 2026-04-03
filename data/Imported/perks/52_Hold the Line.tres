@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_sf5ob"]
+
+[resource]
+script = ExtResource("1_sf5ob")
+category = "Weapon"
+requirement_text = "Requirement: Might 6, Constitution 6"
+id = 52
+_name = "Hold the Line"
+short_description = "Make it harder for enemies to leave your Reach."
+long_description = "Creatures provoke 1 additional AP to move out of your Reach."

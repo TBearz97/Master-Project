@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_type.gd" id="1_wtres"]
+
+[resource]
+script = ExtResource("1_wtres")
+id = 3
+_name = "Blade"
+short_description = "Cutting damage."
+long_description = "Blade damage is inflicted by sharp edges, causing cuts and lacerations through slicing or slashing attacks."

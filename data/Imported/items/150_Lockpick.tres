@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_lki6b"]
+
+[resource]
+script = ExtResource("1_lki6b")
+category = "Utility"
+effect = "Lockpick tests become easier. One bobby pin breaks per complication rolled."
+value = 1
+allowed_slots = Array[int]([6])
+id = 150
+_name = "Lockpick"
+short_description = "Single-use lockpicking tool."
+long_description = "A simple lockpick used to open locks more easily. One bobby pin breaks for each complication rolled during a lockpicking attempt."

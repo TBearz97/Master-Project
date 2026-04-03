@@ -1,0 +1,121 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_nekhf"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_u1fyr"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_26d52"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_q4bxv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_cqxxt"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_xlj7f"]
+
+[sub_resource type="Resource" id="Resource_noefq"]
+script = ExtResource("2_u1fyr")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 71
+_name = "Lash"
+short_description = "Spacing whip strike."
+long_description = "A simple strike that keeps the target at a distance."
+
+[sub_resource type="Resource" id="Resource_mswl3"]
+script = ExtResource("2_u1fyr")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 112
+_name = "Snap"
+short_description = "Disruptive quick strike."
+long_description = "A sharp cracking strike meant to disrupt timing and posture."
+
+[sub_resource type="Resource" id="Resource_yewx0"]
+script = ExtResource("2_u1fyr")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 40
+_name = "Feint"
+short_description = "Deceptive setup attack."
+long_description = "You bait a reaction before redirecting into the real attack."
+
+[sub_resource type="Resource" id="Resource_evqha"]
+script = ExtResource("2_u1fyr")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 136
+_name = "Wrap"
+short_description = "Wrapping control attack."
+long_description = "You curl the attack around the target to interfere with their position."
+
+[sub_resource type="Resource" id="Resource_n2qw5"]
+script = ExtResource("2_u1fyr")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 28
+_name = "Drag Line"
+short_description = "Control-focused whip attack."
+long_description = "A controlling whip technique that tears through posture and positioning."
+
+[sub_resource type="Resource" id="Resource_ljbbf"]
+script = ExtResource("2_u1fyr")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 16
+_name = "Chain Snap"
+short_description = "Guard-breaking flail strike."
+long_description = "A violent flail motion that batters through timing and guard."
+
+[sub_resource type="Resource" id="Resource_dflt0"]
+script = ExtResource("2_u1fyr")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 105
+_name = "Serpent's Kiss"
+short_description = "Precision whip finisher."
+long_description = "A precise whip finish that punishes the smallest mistake."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_26d52")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_mvr82"]
+script = ExtResource("4_q4bxv")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ggogc"]
+script = ExtResource("5_cqxxt")
+expression = "max_range = 2"
+id = 5
+_name = "Reach"
+short_description = "Allows engagement from a safer distance."
+long_description = "This weapon is designed to keep opponents at a distance, letting the wielder strike without needing to close in completely."
+
+[resource]
+script = ExtResource("6_xlj7f")
+damage_profile = SubResource("Resource_mvr82")
+actions = Array[ExtResource("1_nekhf")]([SubResource("Resource_noefq"), SubResource("Resource_mswl3"), SubResource("Resource_yewx0"), SubResource("Resource_evqha"), SubResource("Resource_n2qw5"), SubResource("Resource_ljbbf"), SubResource("Resource_dflt0")])
+qualities = [SubResource("Resource_ggogc")]
+weight = 1.5
+value = 22
+allowed_slots = Array[int]([7])
+id = 3
+_name = "Whip"
+short_description = "Flexible reach weapon for control and disruption."
+long_description = "A whip strikes from awkward angles and excels at spacing, interference, and repositioning rather than raw stopping power."

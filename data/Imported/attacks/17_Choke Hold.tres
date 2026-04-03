@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_ewlu7"]
+
+[resource]
+script = ExtResource("1_ewlu7")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Grappled\", 1)"])
+id = 17
+_name = "Choke Hold"
+short_description = "Restraining choke technique."
+long_description = "A dominating hold that shuts down the enemy's options at close range."

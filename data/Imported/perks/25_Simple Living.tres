@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_xh55y"]
+
+[resource]
+script = ExtResource("1_xh55y")
+category = "Background"
+requirement_text = "Farmer only"
+id = 25
+_name = "Simple Living"
+short_description = "Food and shelter you provide can support one additional person."
+long_description = "Food and shelter you provide can support one additional person."

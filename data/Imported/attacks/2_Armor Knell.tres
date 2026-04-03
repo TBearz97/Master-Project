@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_ntbrv"]
+
+[resource]
+script = ExtResource("1_ntbrv")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 2
+_name = "Armor Knell"
+short_description = "Armor-punishing hammer strike."
+long_description = "A hammer technique meant to punish even heavily protected foes."

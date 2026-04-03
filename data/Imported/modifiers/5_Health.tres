@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Modifier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_01kjj"]
+
+[resource]
+script = ExtResource("1_01kjj")
+id = 5
+_name = "Health"
+short_description = "Determines total health pool."
+long_description = "Health represents the total amount of damage a character can sustain before being incapacitated. Increasing Health improves survivability."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_7ypvc"]
+
+[resource]
+script = ExtResource("1_7ypvc")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 122
+_name = "Sweep"
+short_description = "Wide sweeping strike."
+long_description = "A broad arc that can catch multiple foes."

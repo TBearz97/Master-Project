@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_skf4w"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_oxsbj"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_uytsb"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_6iq0w"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("2_oxsbj")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_r6c33"]
+script = ExtResource("3_uytsb")
+id = 2
+_name = "Zealous"
+short_description = "Magic fueled by belief and devotion."
+long_description = "Magic shaped by belief, devotion, conviction, and the powers that answer them."
+
+[sub_resource type="Resource" id="Resource_iqy3y"]
+script = ExtResource("4_6iq0w")
+school = SubResource("Resource_r6c33")
+tags = Array[String](["Instant"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Speak a word of power and surround yourself with sacred certainty. Gain +2 Deflection until the end of your next turn."
+id = 33
+_name = "Words of Power"
+short_description = "Speak a sacred word to protect yourself."
+long_description = "Speak a word of power and surround yourself with sacred certainty. Gain +2 Deflection until the end of your next turn."
+
+[resource]
+script = ExtResource("1_skf4w")
+spell = SubResource("Resource_iqy3y")
+mana_cost = 6
+id = 118
+_name = "Pain"
+short_description = "Deal heavy damage."
+long_description = "Deal 10 CD damage with Intense."

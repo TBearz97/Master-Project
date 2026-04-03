@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_t1ehu"]
+
+[resource]
+script = ExtResource("1_t1ehu")
+category = "Background"
+requirement_text = "Elder only"
+id = 36
+_name = "Wise Counsel"
+short_description = "When you advise another character, their next relevant test becomes easier."
+long_description = "When you take time to advise another character, their next relevant test becomes easier."

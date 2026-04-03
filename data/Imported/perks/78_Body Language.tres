@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_3bnyw"]
+
+[resource]
+script = ExtResource("1_3bnyw")
+category = "Leadership and Social"
+requirement_text = "Requirement: Insight 3"
+id = 78
+_name = "Body Language"
+short_description = "Notice lies and hesitation more easily."
+long_description = "Tests to notice lies, fear, hidden hostility, or hesitation become easier for you."

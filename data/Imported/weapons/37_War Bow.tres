@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_2r7np"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_a1klk"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_gsmve"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_n6g6b"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_qoi76"]
+
+[sub_resource type="Resource" id="Resource_rrq7p"]
+script = ExtResource("2_a1klk")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 75
+_name = "Loose Arrow"
+short_description = "Standard arrow release."
+long_description = "Release an arrow in one clean practiced motion."
+
+[sub_resource type="Resource" id="Resource_sg62l"]
+script = ExtResource("2_a1klk")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 58
+_name = "Heavy Draw"
+short_description = "High-power drawn shot."
+long_description = "Pull the shot with full strength to deliver more force on release."
+
+[sub_resource type="Resource" id="Resource_0e6o6"]
+script = ExtResource("2_a1klk")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Slowed\", 1)"])
+id = 24
+_name = "Crippling Shot"
+short_description = "Movement-hindering shot."
+long_description = "Place the shot to hinder movement and break the target's stride."
+
+[sub_resource type="Resource" id="Resource_qm2e6"]
+script = ExtResource("2_a1klk")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 1
+_name = "Aimed Shot"
+short_description = "Precise ranged attack."
+long_description = "Take the extra moment needed to place the attack exactly where you want it."
+
+[sub_resource type="Resource" id="Resource_c5r56"]
+script = ExtResource("2_a1klk")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 118
+_name = "Storm Volley"
+short_description = "Area saturation volley."
+long_description = "Fill an area with arrows and force everyone within it to react."
+
+[sub_resource type="Resource" id="Resource_wt1jg"]
+script = ExtResource("2_a1klk")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 66
+_name = "Impaling Flight"
+short_description = "Deep-penetrating arrow."
+long_description = "A powerful arrow that drives deep and leaves the target in serious trouble."
+
+[sub_resource type="Resource" id="Resource_67cvi"]
+script = ExtResource("2_a1klk")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 41
+_name = "Field Breaker"
+short_description = "Line-breaking bow shot."
+long_description = "A war bow shot meant to disrupt the enemy line through raw force."
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("3_gsmve")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_86hsb"]
+script = ExtResource("4_n6g6b")
+damage_die = 8
+speed = 33
+action_range = SubResource("Resource_eulau")
+
+[resource]
+script = ExtResource("5_qoi76")
+damage_profile = SubResource("Resource_86hsb")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_2r7np")]([SubResource("Resource_rrq7p"), SubResource("Resource_sg62l"), SubResource("Resource_0e6o6"), SubResource("Resource_qm2e6"), SubResource("Resource_c5r56"), SubResource("Resource_wt1jg"), SubResource("Resource_67cvi")])
+weight = 2.0
+value = 45
+allowed_slots = Array[int]([7])
+id = 37
+_name = "War Bow"
+short_description = "Powerful bow for battlefield dominance."
+long_description = "A war bow delivers strong shots with force and reach, excelling at punishing exposed targets and disrupting enemy lines."

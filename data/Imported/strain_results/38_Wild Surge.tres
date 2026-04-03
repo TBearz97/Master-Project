@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_nal0w"]
+
+[resource]
+script = ExtResource("1_nal0w")
+roll_total = 38
+outcome = "The spell resolves in a heavily distorted form chosen by the GM."
+id = 38
+_name = "Wild Surge"

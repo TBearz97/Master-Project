@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_e8bkv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_5u368"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_mjnsa"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_1t0af"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_csaig"]
+
+[sub_resource type="Resource" id="Resource_88q67"]
+script = ExtResource("2_5u368")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 120
+_name = "Strike"
+short_description = "Basic direct attack."
+long_description = "A direct, unadorned blow."
+
+[sub_resource type="Resource" id="Resource_hc3rf"]
+script = ExtResource("2_5u368")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["markDelayedAction(source, 1)"])
+id = 11
+_name = "Brace"
+short_description = "Anti-charge defensive stance."
+long_description = "A planted pike technique that turns the enemy's momentum against them."
+
+[sub_resource type="Resource" id="Resource_sndxl"]
+script = ExtResource("2_5u368")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 62
+_name = "Hook"
+short_description = "Hooking control strike."
+long_description = "A hooking motion used to drag, redirect, or unbalance the target."
+
+[sub_resource type="Resource" id="Resource_5wqq4"]
+script = ExtResource("2_5u368")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 122
+_name = "Sweep"
+short_description = "Wide sweeping strike."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_6dxvi"]
+script = ExtResource("2_5u368")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 31
+_name = "Drive"
+short_description = "Forward driving shove."
+long_description = "You step through the target with force to push them backward."
+
+[sub_resource type="Resource" id="Resource_hjlur"]
+script = ExtResource("2_5u368")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 130
+_name = "Vaulting Blow"
+short_description = "Mobile staff strike."
+long_description = "A mobile staff strike that turns movement into impact."
+
+[sub_resource type="Resource" id="Resource_e3ir0"]
+script = ExtResource("2_5u368")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 114
+_name = "Spinning Guard"
+short_description = "Defensive spinning attack."
+long_description = "A mastering flourish that attacks while controlling surrounding space."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_mjnsa")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_aljc3"]
+script = ExtResource("4_1t0af")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_csaig")
+damage_profile = SubResource("Resource_aljc3")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_e8bkv")]([SubResource("Resource_88q67"), SubResource("Resource_hc3rf"), SubResource("Resource_sndxl"), SubResource("Resource_5wqq4"), SubResource("Resource_6dxvi"), SubResource("Resource_hjlur"), SubResource("Resource_e3ir0")])
+weight = 1.5
+value = 20
+allowed_slots = Array[int]([7])
+id = 8
+_name = "Staff"
+short_description = "Simple pole weapon with excellent control."
+long_description = "A staff is versatile and disciplined, useful for bracing, tripping, sweeping, and converting movement into leverage."

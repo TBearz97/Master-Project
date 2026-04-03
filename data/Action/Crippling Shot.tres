@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_fg01s"]
-
-[resource]
-script = ExtResource("1_fg01s")
-_name = "Crippling Shot"
-long_description = "Place the shot to hinder movement and break the target's stride."

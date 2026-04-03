@@ -1,0 +1,121 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_ry04x"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_3lm3s"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_gvm1j"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_wc2tk"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_trhq3"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_i33c8"]
+
+[sub_resource type="Resource" id="Resource_jp0cp"]
+script = ExtResource("2_3lm3s")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 9
+_name = "Bolt Shot"
+short_description = "Simple reliable bolt attack."
+long_description = "Fire a bolt with simple force and reliability."
+
+[sub_resource type="Resource" id="Resource_plgqo"]
+script = ExtResource("2_3lm3s")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 73
+_name = "Load Bolt"
+short_description = "Reload crossbow."
+long_description = "Reload and ready the crossbow for another attack."
+
+[sub_resource type="Resource" id="Resource_a0njn"]
+script = ExtResource("2_3lm3s")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 86
+_name = "Point-Blank Bolt"
+short_description = "Point-blank bolt attack."
+long_description = "Drive a bolt into the target from almost no distance at all."
+
+[sub_resource type="Resource" id="Resource_xhydy"]
+script = ExtResource("2_3lm3s")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 61
+_name = "Hidden Release"
+short_description = "Ambush ranged attack."
+long_description = "Fire from concealment or surprise before the enemy properly reads the threat."
+
+[sub_resource type="Resource" id="Resource_qm2e6"]
+script = ExtResource("2_3lm3s")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 1
+_name = "Aimed Shot"
+short_description = "Precise ranged attack."
+long_description = "Take the extra moment needed to place the attack exactly where you want it."
+
+[sub_resource type="Resource" id="Resource_2xq74"]
+script = ExtResource("2_3lm3s")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 94
+_name = "Quiet Finish"
+short_description = "Silent close finisher."
+long_description = "A silent close shot that ends the exchange before it widens."
+
+[sub_resource type="Resource" id="Resource_t7okn"]
+script = ExtResource("2_3lm3s")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 131
+_name = "Vein Hunter"
+short_description = "Weak-point bolt shot."
+long_description = "A wickedly placed crossbow shot aimed at the most vulnerable point available."
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("3_gvm1j")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_jkgsy"]
+script = ExtResource("4_wc2tk")
+damage_die = 8
+speed = 10
+action_range = SubResource("Resource_8likl")
+
+[sub_resource type="Resource" id="Resource_gh64l"]
+script = ExtResource("5_trhq3")
+expression = "!apply_melee_threat_penalty"
+id = 2
+_name = "Close Quarters"
+short_description = "Effective in tight and confined combat situations."
+long_description = "This weapon is well-suited for fighting at close range, allowing the wielder to maneuver and strike effectively even in cramped or pressured environments."
+
+[resource]
+script = ExtResource("6_i33c8")
+damage_profile = SubResource("Resource_jkgsy")
+actions = Array[ExtResource("1_ry04x")]([SubResource("Resource_jp0cp"), SubResource("Resource_plgqo"), SubResource("Resource_a0njn"), SubResource("Resource_xhydy"), SubResource("Resource_qm2e6"), SubResource("Resource_2xq74"), SubResource("Resource_t7okn")])
+qualities = [SubResource("Resource_gh64l")]
+weight = 2.0
+value = 40
+allowed_slots = Array[int]([7])
+id = 39
+_name = "Hand Crossbow"
+short_description = "Compact crossbow for close-range bolt fire."
+long_description = "A hand crossbow is a portable bolt weapon made for confined fighting, ambush shots, and fast lethal follow-ups at short range."

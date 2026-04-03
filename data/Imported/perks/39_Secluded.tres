@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_bpyti"]
+
+[resource]
+script = ExtResource("1_bpyti")
+category = "Background"
+requirement_text = "Hermit only"
+id = 39
+_name = "Secluded"
+short_description = "Require less comfort to become Well-Rested and are less affected by long periods without company."
+long_description = "You require less comfort to become Well-Rested and are less affected by long periods without company."

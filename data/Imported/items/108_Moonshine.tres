@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_0kxqw"]
+
+[resource]
+script = ExtResource("1_0kxqw")
+alcoholic = true
+duration = "Instant"
+category = "Beverage"
+effect = "Alcoholic drink."
+weight = 0.2
+value = 13
+allowed_slots = Array[int]([6])
+id = 108
+_name = "Moonshine"
+short_description = "Alcoholic drink."
+long_description = "Moonshine is an alcoholic beverage. It offers little to no healing but may have other effects depending on usage."

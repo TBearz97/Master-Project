@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponQuality" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="1_dbmma"]
+
+[resource]
+script = ExtResource("1_dbmma")
+expression = "makes_sound == false"
+id = 4
+_name = "Quiet"
+short_description = "Designed for silent and unobtrusive use."
+long_description = "Attacks made with this weapon are difficult to detect, making it well-suited for stealth and situations where remaining unnoticed is important."

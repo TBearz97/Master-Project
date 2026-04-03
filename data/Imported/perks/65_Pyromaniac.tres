@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_edb5x"]
+
+[resource]
+script = ExtResource("1_edb5x")
+category = "Magic"
+requirement_text = "Requirement: Ability to deal Fire damage"
+id = 65
+_name = "Pyromaniac"
+short_description = "Deal more damage to burning targets."
+long_description = "You deal 10% more damage against targets that are on fire. If a single attack or spell affects more than one target that is on fire, increase the damage by an additional 10% for each extra burning target, up to 30% total."

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="1_73g8t"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="2_fmh4n"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("1_73g8t")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[resource]
+script = ExtResource("2_fmh4n")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Harmless", "Ward"])
+base_cast = "Cast a ward over yourself that regenerates temporary Health. While concentrating, at the start of each of your turns you restore 3 CD temporary Health."
+id = 26
+_name = "Arcane Ward"
+short_description = "Create a ward that restores temporary Health."
+long_description = "Cast a ward over yourself that regenerates temporary Health. While concentrating, at the start of each of your turns you restore 3 CD temporary Health."

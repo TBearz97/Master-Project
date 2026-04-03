@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_6jt0f"]
+
+[resource]
+script = ExtResource("1_6jt0f")
+healing = 2
+alcoholic = true
+duration = "Instant"
+category = "Beverage"
+effect = "Alcoholic drink."
+weight = 0.2
+value = 32
+allowed_slots = Array[int]([6])
+id = 114
+_name = "Vodka"
+short_description = "Alcoholic drink."
+long_description = "Vodka is an alcoholic beverage. It offers little to no healing but may have other effects depending on usage."

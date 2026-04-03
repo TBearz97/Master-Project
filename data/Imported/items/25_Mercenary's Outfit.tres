@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_3w3ud"]
+
+[resource]
+script = ExtResource("1_3w3ud")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on attacks made with hired or issued battlefield equipment, at the GM's discretion."
+weight = 3.0
+value = 55
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+id = 25
+_name = "Mercenary's Outfit"
+short_description = "Battle-ready mercenary attire."
+long_description = "A well-worn but functional outfit used by mercenaries, offering durability and adaptability for varied battlefield conditions."

@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_o7p3k"]
-
-[resource]
-script = ExtResource("1_o7p3k")
-_name = "Chop"
-long_description = "A heavy edged attack that commits to a decisive cut."

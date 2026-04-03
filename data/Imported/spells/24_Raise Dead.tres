@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="1_fgtad"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="2_0gl4o"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("1_fgtad")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[resource]
+script = ExtResource("2_0gl4o")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Necrotic", "Undead"])
+base_cast = "Raise and command undead servants. A single cast can safely raise either 1 Normal undead or 2 Minions without requiring a control check. Minions have a lower Mana cost than Normal undead. When you attempt to raise undead beyond that safe allowance, make a d20 + Potency check against your current control burden. Control burden begins at -5 and increases by the type of undead you control: - Minion: +2 - Normal: +5 - Mighty: +10 - Legendary: +15 If the check fails, the new undead is not raised and all undead already under your control break free. If you lose Concentration while controlling undead, make the same check to maintain control. On a failure, your undead break free. Undead remain under your control for a day unless laid to rest or otherwise released."
+id = 24
+_name = "Raise Dead"
+short_description = "Raise and command undead servants."
+long_description = "Raise and command undead servants. A single cast can safely raise either 1 Normal undead or 2 Minions without requiring a control check. Minions have a lower Mana cost than Normal undead. When you attempt to raise undead beyond that safe allowance, make a d20 + Potency check against your current control burden. Control burden begins at -5 and increases by the type of undead you control: Minion +2, Normal +5, Mighty +10, Legendary +15. If the check fails, the new undead is not raised and all undead already under your control break free. If you lose Concentration while controlling undead, make the same check to maintain control. On a failure, your undead break free. Undead remain under your control for a day unless laid to rest or otherwise released."

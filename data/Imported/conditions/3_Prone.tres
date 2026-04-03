@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Condition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/condition.gd" id="1_n47oe"]
+
+[resource]
+script = ExtResource("1_n47oe")
+id = 3
+_name = "Prone"
+short_description = "Knocked to the ground."
+long_description = "Movement is hindered and melee and ranged attackers interact differently with the target."

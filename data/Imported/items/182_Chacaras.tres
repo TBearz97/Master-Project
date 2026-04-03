@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_akpcg"]
+
+[resource]
+script = ExtResource("1_akpcg")
+category = "Instruments"
+effect = "-"
+weight = 0.1
+value = 3
+allowed_slots = Array[int]([6])
+id = 182
+_name = "Chacaras"
+short_description = "Hand percussion instrument."
+long_description = "A pair of chacaras used to keep rhythm and add sharp percussive accents to music."

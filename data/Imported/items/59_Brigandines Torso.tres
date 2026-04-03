@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_pvm03"]
+
+[resource]
+script = ExtResource("1_pvm03")
+physicalDT = 8
+magicalDT = 10
+necroticDT = 2
+weight = 7.0
+value = 138
+allowed_slots = Array[int]([3])
+id = 59
+_name = "Brigandines Torso"
+short_description = "Brigandine torso armor."
+long_description = "Brigandine torso armor with layered plates, providing excellent magical defense and durability."

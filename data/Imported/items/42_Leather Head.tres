@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_3ssdv"]
+
+[resource]
+script = ExtResource("1_3ssdv")
+physicalDT = 1
+magicalDT = 2
+weight = 1.0
+value = 16
+allowed_slots = Array[int]([0])
+id = 42
+_name = "Leather Head"
+short_description = "Light leather helmet."
+long_description = "A basic leather cap providing slightly improved magical resistance compared to hide."

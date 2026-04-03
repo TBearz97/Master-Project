@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3 uid="uid://buylxfkp3ug7s"]
+
+[ext_resource type="Script" uid="uid://dlu627bi036c1" path="res://content/codex/rule/rule.gd" id="1_v6x5e"]
+
+[resource]
+script = ExtResource("1_v6x5e")
+expression = "rollDice(1, 20) + skill >= difficulty"
+id = 1
+_name = "skill_check"
+short_description = "Skill check succeeds if roll + skill >= Difficulty."
+long_description = "Roll 1d20 and add the relevant skill. If the result meets or exceeds the Difficulty, the test succeeds."

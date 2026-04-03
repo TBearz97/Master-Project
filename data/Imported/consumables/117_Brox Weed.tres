@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_uis2v"]
+
+[resource]
+script = ExtResource("1_uis2v")
+addiction = 2
+duration = "Lasting"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.1
+value = 60
+allowed_slots = Array[int]([6])
+id = 117
+_name = "Brox Weed"
+short_description = "Alchemical consumable."
+long_description = "Brox Weed is an alchemical substance with specialized effects when consumed."

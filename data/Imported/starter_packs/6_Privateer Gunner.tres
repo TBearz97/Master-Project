@@ -1,0 +1,193 @@
+[gd_resource type="Resource" script_class="StarterPack" load_steps=24 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_vdso7"]
+[ext_resource type="Script" path="res://content/codex/items/starter_pack_item.gd" id="2_yfki6"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="3_12v2m"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="4_patvd"]
+[ext_resource type="Script" path="res://content/codex/items/starter_pack.gd" id="5_w42pd"]
+
+[sub_resource type="Resource" id="Resource_sbu0r"]
+script = ExtResource("1_vdso7")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on any Navigation test made at sea."
+weight = 1.5
+value = 36
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+id = 29
+_name = "Pirate's Attire"
+short_description = "Seafaring pirate attire."
+long_description = "Practical seafaring clothing designed for life aboard ships, balancing mobility, durability, and style."
+
+[sub_resource type="Resource" id="Resource_c77om"]
+script = ExtResource("2_yfki6")
+item_table = "clothing"
+item_id = 29
+quantity = 1
+loadout_group = "Armor and Clothing"
+item = SubResource("Resource_sbu0r")
+
+[sub_resource type="Resource" id="Resource_63t0a"]
+script = ExtResource("3_12v2m")
+healing = 5
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.4
+value = 12
+allowed_slots = Array[int]([6])
+id = 66
+_name = "Bread"
+short_description = "Restorative food item."
+long_description = "Bread is a prepared or raw food item that restores 5 HP when consumed."
+
+[sub_resource type="Resource" id="Resource_tty4f"]
+script = ExtResource("2_yfki6")
+item_table = "consumables"
+item_id = 66
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_63t0a")
+
+[sub_resource type="Resource" id="Resource_ink64"]
+script = ExtResource("4_patvd")
+category = "Utility"
+effect = "Wearer adds 3 x Might to maximum Carry Weight."
+value = 30
+allowed_slots = Array[int]([6])
+id = 149
+_name = "Backpack, Small"
+short_description = "Small pack for extra storage."
+long_description = "A compact backpack for everyday travel and supplies. While worn, it increases maximum Carry Weight by 3 times your Might."
+
+[sub_resource type="Resource" id="Resource_m08fl"]
+script = ExtResource("2_yfki6")
+item_table = "utilities"
+item_id = 149
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_ink64")
+
+[sub_resource type="Resource" id="Resource_vdeis"]
+script = ExtResource("4_patvd")
+category = "Utility"
+effect = "Generates bright light within Close range, and dim light within Medium range."
+weight = 1.0
+value = 15
+allowed_slots = Array[int]([6])
+id = 153
+_name = "Lantern"
+short_description = "Portable enclosed light source."
+long_description = "A sturdy lantern that produces bright light within Close range and dim light within Medium range."
+
+[sub_resource type="Resource" id="Resource_t7d1v"]
+script = ExtResource("2_yfki6")
+item_table = "utilities"
+item_id = 153
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_vdeis")
+
+[sub_resource type="Resource" id="Resource_crsy8"]
+script = ExtResource("4_patvd")
+category = "Utility"
+effect = "Enables a character to become rested after sleeping outdoors."
+weight = 4.0
+value = 35
+allowed_slots = Array[int]([6])
+id = 156
+_name = "Bedroll"
+short_description = "Sleeping roll for outdoor rest."
+long_description = "A padded bedroll that allows a character to become rested after sleeping outdoors."
+
+[sub_resource type="Resource" id="Resource_jwaqn"]
+script = ExtResource("2_yfki6")
+item_table = "utilities"
+item_id = 156
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_crsy8")
+
+[sub_resource type="Resource" id="Resource_r7l7g"]
+script = ExtResource("4_patvd")
+category = "Utility"
+effect = "A shackled target suffers the effects of injured arms, legs, or both depending on what has been restrained. They can be broken with a Might + Athletics test or unlocked by an ally with a Perception + Sleight of Hand test."
+weight = 1.0
+value = 28
+allowed_slots = Array[int]([6])
+id = 161
+_name = "Manacles"
+short_description = "Restraints for prisoners or captives."
+long_description = "Strong metal manacles used to restrain limbs. A shackled target suffers the effects of injured arms, legs, or both depending on what is restrained. They can be broken with a Might + Athletics test or unlocked by an ally using Perception + Sleight of Hand."
+
+[sub_resource type="Resource" id="Resource_1bje8"]
+script = ExtResource("2_yfki6")
+item_table = "utilities"
+item_id = 161
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_r7l7g")
+
+[sub_resource type="Resource" id="Resource_2itbb"]
+script = ExtResource("4_patvd")
+category = "Utility"
+effect = "A 15 meter long hemp rope."
+weight = 5.0
+value = 11
+allowed_slots = Array[int]([6])
+id = 164
+_name = "Rope"
+short_description = "Strong hemp rope."
+long_description = "A 15 meter length of hemp rope useful for climbing, binding, hauling, and general travel tasks."
+
+[sub_resource type="Resource" id="Resource_ueb8s"]
+script = ExtResource("2_yfki6")
+item_table = "utilities"
+item_id = 164
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_2itbb")
+
+[sub_resource type="Resource" id="Resource_jg0a3"]
+script = ExtResource("4_patvd")
+category = "Utility"
+effect = "Can hold 2 liters of liquid."
+value = 16
+allowed_slots = Array[int]([6])
+id = 167
+_name = "Waterskin"
+short_description = "Flexible container for liquids."
+long_description = "A practical waterskin that can hold up to 2 liters of liquid."
+
+[sub_resource type="Resource" id="Resource_pupv5"]
+script = ExtResource("2_yfki6")
+item_table = "utilities"
+item_id = 167
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_jg0a3")
+
+[sub_resource type="Resource" id="Resource_06gdb"]
+script = ExtResource("4_patvd")
+category = "Utility"
+effect = "Used for smaller items like chems, gold, or other easy-to-access supplies."
+value = 18
+allowed_slots = Array[int]([6])
+id = 169
+_name = "Pouch"
+short_description = "Small bag for valuables."
+long_description = "A small pouch used to carry coins, chems, or other easily accessed supplies."
+
+[sub_resource type="Resource" id="Resource_uyjn1"]
+script = ExtResource("2_yfki6")
+item_table = "utilities"
+item_id = 169
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_06gdb")
+
+[resource]
+script = ExtResource("5_w42pd")
+leftover_gold = 191.0
+items = [SubResource("Resource_c77om"), SubResource("Resource_tty4f"), SubResource("Resource_m08fl"), SubResource("Resource_t7d1v"), SubResource("Resource_jwaqn"), SubResource("Resource_1bje8"), SubResource("Resource_ueb8s"), SubResource("Resource_pupv5"), SubResource("Resource_uyjn1")]
+id = 6
+_name = "Privateer Gunner"

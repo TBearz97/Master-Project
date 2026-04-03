@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_fp57y"]
-
-[resource]
-script = ExtResource("1_fp57y")
-category = "Weapon"
-_name = "Dual Wielder"
-long_description = "Requirement: Dexterity 6\\\\n\\\\nWhen fighting with a one-handed weapon in each hand, the first off-hand attack you make each round costs 1 less AP."

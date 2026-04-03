@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_tderw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_daukn"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_mihvq"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_5gxup"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_qvm63"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_vwq4m"]
+
+[sub_resource type="Resource" id="Resource_uqoht"]
+script = ExtResource("2_daukn")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 110
+_name = "Slash"
+short_description = "Wide cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_h1kcs"]
+script = ExtResource("2_daukn")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 18
+_name = "Chop"
+short_description = "Heavy committed chop."
+long_description = "A heavy edged attack that commits to a decisive cut."
+
+[sub_resource type="Resource" id="Resource_4vcb2"]
+script = ExtResource("2_daukn")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 63
+_name = "Hook Cut"
+short_description = "Curving guard-bypassing cut."
+long_description = "A curving cut that pulls around a guard or catches a retreat."
+
+[sub_resource type="Resource" id="Resource_5wqq4"]
+script = ExtResource("2_daukn")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 122
+_name = "Sweep"
+short_description = "Wide sweeping strike."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_l7j5u"]
+script = ExtResource("2_daukn")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 96
+_name = "Reap"
+short_description = "Wide harvesting swing."
+long_description = "A broad harvesting swing that cuts through space in front of you."
+
+[sub_resource type="Resource" id="Resource_hqi8b"]
+script = ExtResource("2_daukn")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "addDefenceBonus(target, \"Deflection\", -1, \"round\")"])
+id = 50
+_name = "Guard Break"
+short_description = "Guard-shattering strike."
+long_description = "A mastery strike designed to shatter structure and force an opening."
+
+[sub_resource type="Resource" id="Resource_qhifl"]
+script = ExtResource("2_daukn")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 55
+_name = "Headsman's Reach"
+short_description = "Extended reach finisher."
+long_description = "A halberd finish delivered from just outside a normal guard."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_mihvq")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_1vh74"]
+script = ExtResource("4_5gxup")
+damage_die = 10
+speed = 50
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ggogc"]
+script = ExtResource("5_qvm63")
+expression = "max_range = 2"
+id = 5
+_name = "Reach"
+short_description = "Allows engagement from a safer distance."
+long_description = "This weapon is designed to keep opponents at a distance, letting the wielder strike without needing to close in completely."
+
+[resource]
+script = ExtResource("6_vwq4m")
+damage_profile = SubResource("Resource_1vh74")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_tderw")]([SubResource("Resource_uqoht"), SubResource("Resource_h1kcs"), SubResource("Resource_4vcb2"), SubResource("Resource_5wqq4"), SubResource("Resource_l7j5u"), SubResource("Resource_hqi8b"), SubResource("Resource_qhifl")])
+qualities = [SubResource("Resource_ggogc")]
+weight = 5.0
+value = 48
+allowed_slots = Array[int]([7])
+id = 31
+_name = "Halberd"
+short_description = "Reach weapon combining axe power and hook control."
+long_description = "A halberd blends chopping force, hooking attacks, and sweeping polearm technique into a versatile battlefield arm."

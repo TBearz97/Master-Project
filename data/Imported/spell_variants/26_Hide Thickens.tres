@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_bq5gj"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_fjvyp"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_66plr"]
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("2_fjvyp")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[sub_resource type="Resource" id="Resource_ajfm5"]
+script = ExtResource("3_66plr")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Concentration", "Transformation"])
+base_cast = "Transform into the form of a Normal animal. You gain the animal's physical form and abilities while keeping your own maximum Health."
+id = 7
+_name = "Shapeshift"
+short_description = "Transform into a normal animal."
+long_description = "Transform into the form of a Normal animal. You gain the animal's physical form and abilities while keeping your own maximum Health."
+
+[resource]
+script = ExtResource("1_bq5gj")
+spell = SubResource("Resource_ajfm5")
+mana_cost = 2
+id = 26
+_name = "Hide Thickens"
+short_description = "Improve armor from form."
+long_description = "Benefit from suitable non-metal armor if it offers better protection."

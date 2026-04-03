@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_tnant"]
+
+[resource]
+script = ExtResource("1_tnant")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 103
+_name = "Sand Reaper"
+short_description = "Exhausting cutting sequence."
+long_description = "A cutting sequence meant to exhaust and carve the target down."

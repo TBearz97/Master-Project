@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_n01vt"]
-
-[resource]
-script = ExtResource("1_n01vt")
-category = "Survival and Field"
-_name = "Survivalist"
-long_description = "Requirement: Survival 4\\\\n\\\\nYou can become Well-Rested in harsher conditions than most characters, so long as the location is not actively dangerous."

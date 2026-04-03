@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_sm2mo"]
+
+[resource]
+script = ExtResource("1_sm2mo")
+duration = "Instant"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 90
+allowed_slots = Array[int]([6])
+id = 140
+_name = "Superior Healing Potion"
+short_description = "Alchemical consumable."
+long_description = "Superior Healing Potion restores health when consumed."

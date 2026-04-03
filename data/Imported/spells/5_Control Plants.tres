@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_k7yg6"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_opyde"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_ca5dh"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("1_k7yg6")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("2_opyde")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[resource]
+script = ExtResource("3_ca5dh")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Concentration", "Control", "Nature"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Command nearby plants to lash out, restrain movement, and harm a creature."
+id = 5
+_name = "Control Plants"
+short_description = "Command nearby plants to hinder a target."
+long_description = "Command nearby plants to lash out, restrain movement, and harm a creature."

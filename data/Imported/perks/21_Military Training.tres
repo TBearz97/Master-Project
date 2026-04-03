@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_1v8ql"]
+
+[resource]
+script = ExtResource("1_1v8ql")
+category = "Background"
+requirement_text = "Soldier only"
+id = 21
+_name = "Military Training"
+short_description = "Gain 1 additional movement-only AP each turn in combat."
+long_description = "During combat, you gain 1 additional AP each turn that can only be spent on movement."

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_2lqte"]
+
+[resource]
+script = ExtResource("1_2lqte")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
+weight = 2.0
+value = 42
+allowed_slots = Array[int]([0])
+id = 46
+_name = "Chain Mail Head"
+short_description = "Chain mail coif."
+long_description = "A chain mail coif made of interlinked rings. Strong physical defense with moderate magical resistance."

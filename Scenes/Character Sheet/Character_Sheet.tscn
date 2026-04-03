@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cys02mj06x6vs" path="res://systems/inventory/draganddrop.tscn" id="5_nl4im"]
 [ext_resource type="PackedScene" uid="uid://bot2agb1y18ax" path="res://Scenes/Combat Session/CombatSession.tscn" id="6_gh7wh"]
 [ext_resource type="PackedScene" uid="uid://d1hjcr78y7rkk" path="res://Scenes/Networks/CampaignManager.tscn" id="6_t4xyy"]
-[ext_resource type="Script" path="res://Scenes/Character Sheet/character_sheet.gd" id="7_char_sheet"]
+[ext_resource type="Script" uid="uid://dg5rrgc2o1jg" path="res://Scenes/Character Sheet/character_sheet.gd" id="7_char_sheet"]
 
 [node name="Sheet" type="Control"]
 layout_mode = 3

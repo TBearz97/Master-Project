@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ActionRange" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_1u84u"]
+
+[resource]
+script = ExtResource("1_1u84u")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."

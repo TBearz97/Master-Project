@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_6mhfn"]
+
+[resource]
+script = ExtResource("1_6mhfn")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 115
+_name = "Split Guard"
+short_description = "Defense-breaking axe strike."
+long_description = "A disciplined axe strike that opens a target through broken defense."

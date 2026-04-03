@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_pkhyw"]
+
+[resource]
+script = ExtResource("1_pkhyw")
+roll_total = 10
+outcome = "Blue sparks dance across your hands for a moment, but nothing else happens."
+id = 10
+_name = "Blue Sparks"

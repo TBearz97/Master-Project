@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_3d8cv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_0okdv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_s5rpt"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_5ympl"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_vxhln"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_jbbdj"]
+
+[sub_resource type="Resource" id="Resource_o1b4l"]
+script = ExtResource("2_0okdv")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 123
+_name = "Swing"
+short_description = "Simple heavy swing."
+long_description = "A straightforward hammering attack with solid momentum."
+
+[sub_resource type="Resource" id="Resource_nsugm"]
+script = ExtResource("2_0okdv")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 8
+_name = "Body Blow"
+short_description = "Breath-stealing body strike."
+long_description = "A committed strike to the middle meant to steal breath and stance."
+
+[sub_resource type="Resource" id="Resource_rjckg"]
+script = ExtResource("2_0okdv")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Slowed\", 1)"])
+id = 70
+_name = "Kneecapper"
+short_description = "Low stability-breaking attack."
+long_description = "A low crushing attack aimed at breaking stability and movement."
+
+[sub_resource type="Resource" id="Resource_soqss"]
+script = ExtResource("2_0okdv")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Dazed\", 1)"])
+id = 4
+_name = "Bell Ringer"
+short_description = "Disorienting hammer blow."
+long_description = "A head-rattling hammer strike that leaves the target reeling."
+
+[sub_resource type="Resource" id="Resource_jv5vm"]
+script = ExtResource("2_0okdv")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 2
+_name = "Armor Knell"
+short_description = "Armor-punishing hammer strike."
+long_description = "A hammer technique meant to punish even heavily protected foes."
+
+[sub_resource type="Resource" id="Resource_n411w"]
+script = ExtResource("2_0okdv")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 46
+_name = "Flatten"
+short_description = "Crushing hammer attack."
+long_description = "A warhammer strike that turns weight and leverage into domination."
+
+[sub_resource type="Resource" id="Resource_av5ga"]
+script = ExtResource("2_0okdv")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 69
+_name = "King's Judgement"
+short_description = "Authoritative hammer finisher."
+long_description = "A finishing hammer blow delivered with complete authority."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_s5rpt")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_d4co4"]
+script = ExtResource("4_5ympl")
+damage_die = 8
+speed = 33
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ep5i6"]
+script = ExtResource("5_vxhln")
+expression = "is_two_handed ? two_handed_damage_die : one_handed_damage_die"
+id = 6
+_name = "Versatile"
+short_description = "Flexible in handling, adaptable to different combat styles."
+long_description = "This weapon can be used in multiple ways depending on the wielder’s needs, offering a balance between control and power through different grips or techniques."
+
+[resource]
+script = ExtResource("6_jbbdj")
+damage_profile = SubResource("Resource_d4co4")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_3d8cv")]([SubResource("Resource_o1b4l"), SubResource("Resource_nsugm"), SubResource("Resource_rjckg"), SubResource("Resource_soqss"), SubResource("Resource_jv5vm"), SubResource("Resource_n411w"), SubResource("Resource_av5ga")])
+qualities = [SubResource("Resource_ep5i6")]
+weight = 4.0
+value = 45
+allowed_slots = Array[int]([7])
+id = 15
+_name = "Warhammer"
+short_description = "Versatile hammer for crushing protected foes."
+long_description = "A warhammer turns leverage and concentrated impact into armor-breaking dominance on the battlefield."

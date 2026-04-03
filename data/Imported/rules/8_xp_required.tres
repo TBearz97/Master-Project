@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_g0yiu"]
+
+[resource]
+script = ExtResource("1_g0yiu")
+expression = "(level * (level - 1) / 2) * 100"
+id = 8
+_name = "xp_required"
+short_description = "XP formula"
+long_description = "XP required for level follows a quadratic formula."

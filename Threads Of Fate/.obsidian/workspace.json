@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5. Equipment/5.3 Ranged Weapons.md",
+                "file": "2. Combat/2.1 Combat Encounters.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "5.3 Ranged Weapons"
+              "title": "2.1 Combat Encounters"
             }
           }
         ]
@@ -186,36 +186,36 @@
   },
   "active": "cf46ab6030a61899",
   "lastOpenFiles": [
-    "5. Equipment/5.2 Melee Weapons.md",
+    "2. Combat/2.2 Damage, Effects and Qualities.md",
     "2. Combat/2.1 Combat Encounters.md",
-    "5. Equipment/5.5 Armor.md",
-    "8. Character Creation/8.3 Choosing your Homeland.md",
-    "1. Core Rules/1.1 Introduction.md",
-    "1. Core Rules/1.2 Skill Tests.md",
+    "8. Character Creation/8.5 Distributing Attributes.md",
+    "6. Magic/6.2 Primal Spells.md",
+    "6. Magic/6.1 Magic Explained.md",
+    "4. Exploration/4.1 Staying Alive.md",
+    "4. Exploration/4.2 Traveling.md",
+    "4. Exploration/4.3 Random Map Maker.md",
+    "4. Exploration/4.4 Scavenging - Incomplete.md",
+    "4. Exploration/4.5 Bestiary.md",
+    "5. Equipment/5.7 Tools and Utility.md",
+    "5. Equipment/5.8 Services.md",
+    "2. Combat/2.4 The Environment.md",
+    "6. Magic/6.4 Zealous Spells.md",
+    "6. Magic/6.3 Theoretical Spells.md",
     "1. Core Rules/1.3 Action Points and Mana.md",
-    "Archive/Magic v1/Theoretical Spells.md",
-    "Archive/Magic v1/Religious Spells.md",
-    "Archive/Magic v1/Natural Spells.md",
-    "Archive/Magic v1/Magical and Legendary Weapons.md",
-    "Archive/Magic v2/Magic Explained.md",
-    "Archive/Magic v2/Natural Spells.md",
-    "Archive/Magic v2/Perks Reworked.md",
-    "Archive/Magic v2/Theoretical Spells.md",
-    "Archive/Work in Progress/Skills and Attributes.md",
-    "Archive/Work in Progress/Upgrades.md",
-    "Archive/TODO.md",
+    "1. Core Rules/1.2 Skill Tests.md",
+    "1. Core Rules/1.1 Introduction.md",
+    "10. Creatures and Characters/10.1 Types of NPCs.md",
+    "8. Character Creation/8.2 Choosing your Race.md",
+    "7. A Guide to Al'otoro/Torgana Canyons.md",
+    "7. A Guide to Al'otoro/Threads of Fate.md",
+    "7. A Guide to Al'otoro/Third Era.md",
+    "7. A Guide to Al'otoro/The Ur'Holdum Jungle.md",
+    "7. A Guide to Al'otoro/The Untamed Highlands.md",
+    "7. A Guide to Al'otoro/The Pantheon.md",
     "Archive/Untitled.canvas",
     "Archive/Untitled 1.canvas",
     "Images",
     "Archive",
-    "Images/Exported image 20241105151642-0.png",
-    "Archive/Untitled.md",
-    "10. Creatures and Characters/10.3 Defeating or Overcoming NPCs.md",
-    "10. Creatures and Characters/10.2 Creating Creatures and Characters.md",
-    "10. Creatures and Characters/10.1 Types of NPCs.md",
-    "10. Creatures and Characters/Elemental.md",
-    "9. Gamemastering/Skill Tests.md",
-    "9. Gamemastering/Quests and Campaigns.md",
-    "9. Gamemastering/Managing the Rules.md"
+    "Images/Exported image 20241105151642-0.png"
   ]
 }

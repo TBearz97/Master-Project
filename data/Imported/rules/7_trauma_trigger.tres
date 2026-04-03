@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_ago3r"]
+
+[resource]
+script = ExtResource("1_ago3r")
+expression = "damage >= trauma_threshold"
+id = 7
+_name = "trauma_trigger"
+short_description = "Trauma occurs when damage exceeds threshold."
+long_description = "If damage to a location exceeds trauma threshold, Trauma occurs."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_hxoxk"]
+
+[resource]
+script = ExtResource("1_hxoxk")
+category = "Crafting Tools"
+effect = "Tools used for forging and repairing metal equipment."
+weight = 4.0
+value = 100
+allowed_slots = Array[int]([6])
+id = 172
+_name = "Smithing Tools"
+short_description = "Tools for metalworking."
+long_description = "A set of smithing tools used for forging, repairing, and maintaining metal weapons and armor."

@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_pxu8d"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_00x73"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_ug28f"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_ayw4p"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("2_00x73")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("3_ug28f")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[sub_resource type="Resource" id="Resource_i2gow"]
+script = ExtResource("4_ayw4p")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Concentration", "Water"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Take control of a quantity of free water and move it as you wish while the spell lasts."
+id = 11
+_name = "Control Water"
+short_description = "Take control of nearby free water."
+long_description = "Take control of a quantity of free water and move it as you wish while the spell lasts."
+
+[resource]
+script = ExtResource("1_pxu8d")
+spell = SubResource("Resource_i2gow")
+mana_cost = 3
+id = 46
+_name = "Launch"
+short_description = "Launch water as attack."
+long_description = "Launch the controlled water at a target, with added effects based on its form."

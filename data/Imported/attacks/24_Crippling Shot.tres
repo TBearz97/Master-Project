@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_43nne"]
+
+[resource]
+script = ExtResource("1_43nne")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Slowed\", 1)"])
+id = 24
+_name = "Crippling Shot"
+short_description = "Movement-hindering shot."
+long_description = "Place the shot to hinder movement and break the target's stride."

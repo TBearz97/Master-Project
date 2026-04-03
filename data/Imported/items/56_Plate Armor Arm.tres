@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_xxd2h"]
+
+[resource]
+script = ExtResource("1_xxd2h")
+physicalDT = 10
+magicalDT = 8
+necroticDT = 2
+weight = 3.0
+value = 72
+allowed_slots = Array[int]([2, 1])
+id = 56
+_name = "Plate Armor Arm"
+short_description = "Plate arm guards."
+long_description = "Plate arm guards delivering superior protection but limiting agility."

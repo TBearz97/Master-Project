@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_vqh3h"]
+
+[resource]
+script = ExtResource("1_vqh3h")
+healing = 14
+duration = "Until End of Next Scene"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.5
+value = 110
+allowed_slots = Array[int]([6])
+id = 65
+_name = "Bear Roast"
+short_description = "Restorative food item."
+long_description = "Bear Roast is a prepared or raw food item that restores 14 HP when consumed."

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_xq2k7"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_2tp7m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_pkm7r"]
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("2_2tp7m")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[sub_resource type="Resource" id="Resource_8ajbq"]
+script = ExtResource("3_pkm7r")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Concentration", "Elemental", "Weapon"])
+base_cast = "Draw elemental force into a weapon. The weapon gains an elemental expression while the spell lasts. - Earth: The weapon strikes with crushing force and can Stun. - Air: The weapon becomes lighter and quicker in motion. - Water: The weapon gains freezing force and can apply Freeze. - Fire: The weapon gains Fire and can apply Burning."
+id = 1
+_name = "Imbue Elements"
+short_description = "Imbue a weapon with elemental force."
+long_description = "Draw elemental force into a weapon. The weapon gains an elemental expression while the spell lasts. Earth causes crushing force and can Stun. Air makes the weapon lighter and quicker in motion. Water grants freezing force and can apply Freeze. Fire grants Fire and can apply Burning."
+
+[resource]
+script = ExtResource("1_xq2k7")
+spell = SubResource("Resource_8ajbq")
+mana_cost = 1
+id = 2
+_name = "Conjured Vessel"
+short_description = "Conjure a weapon for the element."
+long_description = "Conjure a weapon to carry the chosen element."

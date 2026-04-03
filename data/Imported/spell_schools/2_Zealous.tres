@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SpellSchool" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="1_lndfy"]
+
+[resource]
+script = ExtResource("1_lndfy")
+id = 2
+_name = "Zealous"
+short_description = "Magic fueled by belief and devotion."
+long_description = "Magic shaped by belief, devotion, conviction, and the powers that answer them."

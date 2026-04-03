@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_mkuqo"]
+
+[resource]
+script = ExtResource("1_mkuqo")
+category = "Utility"
+effect = "A portable ram that requires two hands and deals heavy physical damage when used on structures."
+weight = 18.0
+value = 125
+allowed_slots = Array[int]([6])
+id = 163
+_name = "Portable Ram"
+short_description = "Heavy ram for breaking structures."
+long_description = "A portable battering ram that requires two hands to use. It deals heavy physical damage when used against structures and barriers."

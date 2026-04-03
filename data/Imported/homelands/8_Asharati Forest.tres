@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_q41o2"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_txq3e"]
+
+[sub_resource type="Resource" id="Resource_e7k0j"]
+script = ExtResource("1_q41o2")
+category = "Homeland"
+requirement_text = "Asharati Forest only"
+id = 17
+_name = "Animal Friend"
+short_description = "Beasts will not attack you on sight; gain a reroll on Animal Handling."
+long_description = "When you encounter a creature with the Beast tag, it will never attack you on sight. Also gain 1 reroll on all Animal Handling tests."
+
+[resource]
+script = ExtResource("2_txq3e")
+perk = SubResource("Resource_e7k0j")
+id = 8
+_name = "Asharati Forest"
+short_description = "Ancient forest where nature and its creatures are deeply respected."
+long_description = "You were raised within vast, living forests where harmony with nature is central to survival. The bond between people and the natural world is strong, shaping a culture of respect and balance."

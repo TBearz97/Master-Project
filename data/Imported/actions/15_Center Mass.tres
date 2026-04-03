@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_2gb0d"]
+
+[resource]
+script = ExtResource("1_2gb0d")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 15
+_name = "Center Mass"
+short_description = "Center mass ranged shot."
+long_description = "Aim for the largest opening and drive the shot through with force."

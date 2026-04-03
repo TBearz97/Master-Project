@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_36h8g"]
+
+[resource]
+script = ExtResource("1_36h8g")
+healing = 3
+alcoholic = true
+duration = "Instant"
+category = "Beverage"
+effect = "Alcoholic drink."
+weight = 0.2
+value = 34
+allowed_slots = Array[int]([6])
+id = 110
+_name = "Stillheart Port Wine"
+short_description = "Alcoholic drink."
+long_description = "Stillheart Port Wine is an alcoholic beverage. It offers little to no healing but may have other effects depending on usage."

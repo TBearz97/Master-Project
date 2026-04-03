@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_j5xja"]
+
+[resource]
+script = ExtResource("1_j5xja")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 8
+_name = "Body Blow"
+short_description = "Breath-stealing body strike."
+long_description = "A committed strike to the middle meant to steal breath and stance."

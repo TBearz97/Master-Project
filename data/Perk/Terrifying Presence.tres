@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_1jtjf"]
-
-[resource]
-script = ExtResource("1_1jtjf")
-category = "Leadership and Social"
-_name = "Terrifying Presence"
-long_description = "Requirement: Might 6 or Command 2\\\\n\\\\nWhen you try to intimidate a creature, you may use Might instead of Speech if your threat is based on force or physical menace."

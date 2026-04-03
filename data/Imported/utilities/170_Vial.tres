@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_lmuuu"]
+
+[resource]
+script = ExtResource("1_lmuuu")
+category = "Utility"
+effect = "Can hold 0.5 liters of liquid."
+value = 35
+allowed_slots = Array[int]([6])
+id = 170
+_name = "Vial"
+short_description = "Small container for measured liquids."
+long_description = "A small vial used for storing concentrated fluids, alchemical substances, or samples. It can hold up to 0.5 liters."

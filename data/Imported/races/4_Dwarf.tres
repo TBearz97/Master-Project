@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_f0aom"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_h84vk"]
+
+[sub_resource type="Resource" id="Resource_qkt6c"]
+script = ExtResource("1_f0aom")
+category = "Race"
+requirement_text = "Dwarf only"
+id = 4
+_name = "Runic Destiny"
+short_description = "Choose a rune that grants a distinct benefit tied to fortune, magic, or craftsmanship."
+long_description = "From the moment of birth, every Dwarf bears a rune etched into their body, signifying clan, heritage, and fate. Choose one of the following runes:
+
+Explorer's Rune - Whenever you roll on a loot table, roll twice and choose the outcome.
+
+Magister's Rune - You know one spell for free.
+
+Artisan's Rune - You gain +2 on tests when using something you made yourself."
+
+[resource]
+script = ExtResource("2_h84vk")
+perk = SubResource("Resource_qkt6c")
+id = 4
+_name = "Dwarf"
+short_description = "Stout people guided by ancient traditions and inherited purpose."
+long_description = "Dwarves live lives steeped in tradition, where heritage and identity are closely intertwined. Their societies are built on loyalty, craftsmanship, and a deep respect for the past. Each individual carries a sense of purpose shaped by their lineage, and their culture is as enduring as the stone they favor."

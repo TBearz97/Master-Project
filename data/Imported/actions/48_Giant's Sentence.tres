@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_6wr8y"]
+
+[resource]
+script = ExtResource("1_6wr8y")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 48
+_name = "Giant's Sentence"
+short_description = "Overwhelming heavy finisher."
+long_description = "A heavy finishing cut that leaves no room for recovery."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_elj5x"]
+
+[resource]
+script = ExtResource("1_elj5x")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on any test to Perform during downtime and on Speech tests made to entertain, distract, or command attention."
+weight = 1.0
+value = 24
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+id = 28
+_name = "Performer's Outfit"
+short_description = "Expressive performer’s outfit."
+long_description = "A vibrant and flexible outfit tailored for performers, enabling expressive movement and commanding attention."

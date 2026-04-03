@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_11agc"]
+
+[resource]
+script = ExtResource("1_11agc")
+category = "Weapon"
+requirement_text = "Requirement: Might 7, Constitution 6, Level 5"
+id = 53
+_name = "Heavy Armor Master"
+short_description = "Gain extra Physical DT in Heavy Load."
+long_description = "While in Heavy Load, gain +1 Physical DT."

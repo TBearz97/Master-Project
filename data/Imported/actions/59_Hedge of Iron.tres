@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_jmttb"]
+
+[resource]
+script = ExtResource("1_jmttb")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 59
+_name = "Hedge of Iron"
+short_description = "Area-controlling spear technique."
+long_description = "A battlefield technique that locks down space with repeated reach."

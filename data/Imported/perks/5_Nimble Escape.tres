@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_vkxkf"]
+
+[resource]
+script = ExtResource("1_vkxkf")
+category = "Race"
+requirement_text = "Halfling only"
+id = 5
+_name = "Nimble Escape"
+short_description = "When moving out of melee with only one opponent threatening you, the extra AP cost does not apply."
+long_description = "Your small frame and quick instincts make it difficult to pin you down. When moving out of melee with only one opponent threatening you, the extra AP cost does not apply."

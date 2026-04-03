@@ -1,0 +1,111 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_i4ogf"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_lyugn"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_1o2di"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_auhlj"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_hk54v"]
+
+[sub_resource type="Resource" id="Resource_jiygw"]
+script = ExtResource("2_lyugn")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 92
+_name = "Quick Slash"
+short_description = "Fast light cut."
+long_description = "A fast cut that relies on speed over commitment."
+
+[sub_resource type="Resource" id="Resource_yewx0"]
+script = ExtResource("2_lyugn")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 40
+_name = "Feint"
+short_description = "Deceptive setup attack."
+long_description = "You bait a reaction before redirecting into the real attack."
+
+[sub_resource type="Resource" id="Resource_cy436"]
+script = ExtResource("2_lyugn")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 30
+_name = "Draw Cut"
+short_description = "Fluid draw-cut strike."
+long_description = "A cut delivered as the blade moves free in one fluid motion."
+
+[sub_resource type="Resource" id="Resource_va0op"]
+script = ExtResource("2_lyugn")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 23
+_name = "Crescent Arc"
+short_description = "Wide curved sweeping strike."
+long_description = "A flowing curved swing meant to catch multiple lines at once."
+
+[sub_resource type="Resource" id="Resource_twk1y"]
+script = ExtResource("2_lyugn")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 124
+_name = "Thousand Cuts"
+short_description = "Rapid multi-strike sequence."
+long_description = "A relentless series of shallow strikes that build pressure quickly."
+
+[sub_resource type="Resource" id="Resource_7pgmo"]
+script = ExtResource("2_lyugn")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 45
+_name = "Flash Step"
+short_description = "Fast repositioning strike."
+long_description = "A sudden movement cut delivered before the target can reset."
+
+[sub_resource type="Resource" id="Resource_vl0q5"]
+script = ExtResource("2_lyugn")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 78
+_name = "Moon Slice"
+short_description = "Controlled finishing cut."
+long_description = "A smooth cutting finish built on perfect timing and control."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_1o2di")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_2ary3"]
+script = ExtResource("4_auhlj")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_hk54v")
+damage_profile = SubResource("Resource_2ary3")
+actions = Array[ExtResource("1_i4ogf")]([SubResource("Resource_jiygw"), SubResource("Resource_yewx0"), SubResource("Resource_cy436"), SubResource("Resource_va0op"), SubResource("Resource_twk1y"), SubResource("Resource_7pgmo"), SubResource("Resource_vl0q5")])
+weight = 2.0
+value = 28
+allowed_slots = Array[int]([7])
+id = 23
+_name = "Wakizashi"
+short_description = "Fast blade built for flowing cuts and feints."
+long_description = "A wakizashi emphasizes speed, rhythm, and graceful transitions between slashes, draw cuts, and finishing motion."

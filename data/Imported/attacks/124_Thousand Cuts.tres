@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_t6rnn"]
+
+[resource]
+script = ExtResource("1_t6rnn")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 124
+_name = "Thousand Cuts"
+short_description = "Rapid multi-strike sequence."
+long_description = "A relentless series of shallow strikes that build pressure quickly."

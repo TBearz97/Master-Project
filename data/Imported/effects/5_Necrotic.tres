@@ -1,0 +1,77 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_s7vxn"]
+[ext_resource type="Script" path="res://content/codex/character_options/attribute.gd" id="2_gokds"]
+[ext_resource type="Script" path="res://content/codex/character_options/defence.gd" id="3_s7uc7"]
+[ext_resource type="Script" path="res://content/codex/gameplay/effects.gd" id="4_5xxvi"]
+
+[sub_resource type="Resource" id="Resource_bvh3n"]
+script = ExtResource("1_s7vxn")
+id = 1
+_name = "Damage & Healing"
+short_description = "Affects damage and healing output."
+long_description = "Damage & Healing modifies how much damage you deal and how much healing you provide. Higher values increase both offensive and restorative effectiveness."
+
+[sub_resource type="Resource" id="Resource_rq3ee"]
+script = ExtResource("1_s7vxn")
+id = 2
+_name = "Max Carry Weight"
+short_description = "Increases carrying capacity."
+long_description = "Max Carry Weight determines how much equipment and items a character can carry before becoming encumbered. Higher values allow heavier loads."
+
+[sub_resource type="Resource" id="Resource_4ofg7"]
+script = ExtResource("2_gokds")
+modifier_1 = SubResource("Resource_bvh3n")
+modifier_1_expression = "(x - 5) * 7"
+modifier_2 = SubResource("Resource_rq3ee")
+modifier_2_expression = "(x * 10) + 45"
+min_value = 1
+max_value = 10
+id = 1
+_name = "Might"
+short_description = "Represents physical and spiritual strength."
+long_description = "Might measures the character’s raw physical and inner power. It influences both physical and magical damage as well as the effectiveness of healing abilities. Characters with higher Might deal and heal more damage and can carry heavier loads."
+
+[sub_resource type="Resource" id="Resource_rsohl"]
+script = ExtResource("1_s7vxn")
+id = 5
+_name = "Health"
+short_description = "Determines total health pool."
+long_description = "Health represents the total amount of damage a character can sustain before being incapacitated. Increasing Health improves survivability."
+
+[sub_resource type="Resource" id="Resource_hgj4n"]
+script = ExtResource("1_s7vxn")
+id = 6
+_name = "Vitality"
+short_description = "Represents endurance and recovery."
+long_description = "Vitality reflects overall stamina and recovery capability, influencing how well a character endures prolonged activity and recovers from strain."
+
+[sub_resource type="Resource" id="Resource_m1dg0"]
+script = ExtResource("2_gokds")
+modifier_1 = SubResource("Resource_rsohl")
+modifier_1_expression = "x + 5"
+modifier_2 = SubResource("Resource_hgj4n")
+modifier_2_expression = "3 + floor(x / 3)"
+min_value = 1
+max_value = 10
+id = 3
+_name = "Constitution"
+short_description = "Represents endurance and overall toughness."
+long_description = "Constitution determines a character’s physical resilience and ability to withstand harm, fatigue, and disease. It directly affects maximum health and long-term vitality, influencing how long a character can endure in battle or harsh environments. Those with higher Constitution can take more punishment and recover faster from strain."
+
+[sub_resource type="Resource" id="Resource_7sfpp"]
+script = ExtResource("3_s7uc7")
+attribute1 = SubResource("Resource_4ofg7")
+attribute2 = SubResource("Resource_m1dg0")
+id = 3
+_name = "Endurance"
+short_description = "Resists physical effects."
+long_description = "Endurance resists physical effects such as poison, disease, and knockdowns."
+
+[resource]
+script = ExtResource("4_5xxvi")
+defence = SubResource("Resource_7sfpp")
+id = 5
+_name = "Necrotic"
+short_description = "Reduces maximum health."
+long_description = "Necrotic damage is tracked separately and reduces the target’s maximum Health until recovered."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Modifier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_ld8xx"]
+
+[resource]
+script = ExtResource("1_ld8xx")
+id = 4
+_name = "Deflection"
+short_description = "Improves chance to avoid attacks."
+long_description = "Deflection determines how difficult it is for enemies to land weapon attacks against you. Higher Deflection increases your chance to avoid incoming attacks."

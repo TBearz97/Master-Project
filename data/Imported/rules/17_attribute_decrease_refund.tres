@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_vrrk4"]
+
+[resource]
+script = ExtResource("1_vrrk4")
+expression = "1"
+id = 17
+_name = "attribute_decrease_refund"
+short_description = "Refund from decreasing attribute."
+long_description = "Reducing an attribute grants 1 point."

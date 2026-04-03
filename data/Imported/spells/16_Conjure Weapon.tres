@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="1_qudpm"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="2_rng1v"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("1_qudpm")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[resource]
+script = ExtResource("2_rng1v")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Conjuration", "Weapon"])
+base_cast = "Conjure a weapon from the normal equipment list. The weapon counts as magical, functions like a normal weapon, and begins with access to its Basic attack. The difficulty is based on the rarity of the weapon."
+id = 16
+_name = "Conjure Weapon"
+short_description = "Conjure a magical weapon."
+long_description = "Conjure a weapon from the normal equipment list. The weapon counts as magical, functions like a normal weapon, and begins with access to its Basic attack. The difficulty is based on the rarity of the weapon."

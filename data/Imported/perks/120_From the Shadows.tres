@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_s2h4v"]
+
+[resource]
+script = ExtResource("1_s2h4v")
+category = "Medicine and Stealth"
+requirement_text = "Requirement: Stealth 2"
+id = 120
+_name = "From the Shadows"
+short_description = "Gain Accuracy against unaware targets."
+long_description = "The first attack you make against a creature that has not noticed you gains +1 Accuracy."

@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_wveur"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_5epni"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_4dn06"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_xrflt"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("2_5epni")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("3_4dn06")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_2uc31"]
+script = ExtResource("4_xrflt")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Harmless", "Illusion"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Create a visual illusion to mislead your enemies. A creature must spend an action to inspect the illusion and make a d20 + Investigation test against the caster's Mind in order to see through it."
+id = 23
+_name = "Create Illusions"
+short_description = "Create a visual illusion."
+long_description = "Create a visual illusion to mislead your enemies. A creature must spend an action to inspect the illusion and make a d20 + Investigation test against the caster's Mind in order to see through it."
+
+[resource]
+script = ExtResource("1_wveur")
+spell = SubResource("Resource_2uc31")
+mana_cost = 1
+id = 85
+_name = "Robust"
+short_description = "Illusion survives damage."
+long_description = "The illusion can survive one attack before breaking apart."

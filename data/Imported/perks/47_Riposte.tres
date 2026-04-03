@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_av268"]
+
+[resource]
+script = ExtResource("1_av268")
+category = "Weapon"
+requirement_text = "Requirement: Duelist, Level 5"
+id = 47
+_name = "Riposte"
+short_description = "Counter missed melee attacks more effectively."
+long_description = "The first time each round a creature misses you with a melee attack, your next melee attack against that creature gains +1 Accuracy and deals 10% more damage."

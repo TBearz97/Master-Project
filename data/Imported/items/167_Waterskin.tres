@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_oqi0n"]
+
+[resource]
+script = ExtResource("1_oqi0n")
+category = "Utility"
+effect = "Can hold 2 liters of liquid."
+value = 16
+allowed_slots = Array[int]([6])
+id = 167
+_name = "Waterskin"
+short_description = "Flexible container for liquids."
+long_description = "A practical waterskin that can hold up to 2 liters of liquid."

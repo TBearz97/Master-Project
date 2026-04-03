@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_ets0n"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_w8nj5"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_avki7"]
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("1_ets0n")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("2_w8nj5")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[resource]
+script = ExtResource("3_avki7")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Concentration", "Hunt"])
+action_range = SubResource("Resource_eulau")
+base_cast = "Mark a creature as prey. The spell makes the target easier to track over long distances and for a long duration."
+id = 4
+_name = "Hunter's Mark"
+short_description = "Mark a creature as prey."
+long_description = "Mark a creature as prey. The spell makes the target easier to track over long distances and for a long duration."

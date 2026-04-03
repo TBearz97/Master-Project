@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_05cu6"]
+
+[resource]
+script = ExtResource("1_05cu6")
+expression = "1"
+id = 16
+_name = "attribute_increase_cost"
+short_description = "Cost to increase attribute."
+long_description = "Increasing an attribute by 1 costs 1 point."

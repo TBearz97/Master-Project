@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="Background" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_dgvms"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_8mra6"]
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="3_vb0w5"]
+
+[sub_resource type="Resource" id="Resource_04t46"]
+script = ExtResource("1_dgvms")
+category = "Background"
+requirement_text = "Criminal only"
+id = 22
+_name = "Underhanded"
+short_description = "Pick locks without needing lockpicks."
+long_description = "You do not need lockpicks in order to pick a lock."
+
+[sub_resource type="Resource" id="Resource_uo72s"]
+script = ExtResource("3_vb0w5")
+max_rank = 10
+id = 13
+_name = "Stealth"
+short_description = "The shadow’s embrace, unseen and unheard."
+long_description = "Stealth is the skill of moving in silence, slipping past notice, and striking unseen. It is patience, precision, and the discipline to become part of the darkness itself."
+
+[sub_resource type="Resource" id="Resource_4nqnc"]
+script = ExtResource("3_vb0w5")
+max_rank = 10
+id = 10
+_name = "Sleight of Hand"
+short_description = "The art of swift, subtle fingers."
+long_description = "Sleight of hand is dexterity made invisible — a coin vanished, a purse lifted, a dagger drawn before the eye can follow. It is trickery and finesse, both performance and deception."
+
+[resource]
+script = ExtResource("2_8mra6")
+perk = SubResource("Resource_04t46")
+skill_1 = SubResource("Resource_uo72s")
+skill_2 = SubResource("Resource_4nqnc")
+id = 2
+_name = "Criminal"
+short_description = "Streetwise survivor shaped by a life outside the law."
+long_description = "You lived beyond the bounds of legality, relying on cunning, adaptability, and instinct. Navigating dangerous situations, reading people, and surviving among society’s shadows became second nature to you."

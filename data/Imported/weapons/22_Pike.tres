@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_6jmyn"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_ho8c6"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_i8o7m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_5mkkg"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_n6ry5"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_0p2oj"]
+
+[sub_resource type="Resource" id="Resource_sx3nm"]
+script = ExtResource("2_ho8c6")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 117
+_name = "Stab"
+short_description = "Direct thrust attack."
+long_description = "A direct forward thrust intended to keep the enemy at reach."
+
+[sub_resource type="Resource" id="Resource_6dxvi"]
+script = ExtResource("2_ho8c6")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 31
+_name = "Drive"
+short_description = "Forward driving shove."
+long_description = "You step through the target with force to push them backward."
+
+[sub_resource type="Resource" id="Resource_hc3rf"]
+script = ExtResource("2_ho8c6")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["markDelayedAction(source, 1)"])
+id = 11
+_name = "Brace"
+short_description = "Anti-charge defensive stance."
+long_description = "A planted pike technique that turns the enemy's momentum against them."
+
+[sub_resource type="Resource" id="Resource_5wqq4"]
+script = ExtResource("2_ho8c6")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 122
+_name = "Sweep"
+short_description = "Wide sweeping strike."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_nx3m4"]
+script = ExtResource("2_ho8c6")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 108
+_name = "Skewer"
+short_description = "Driving impaling thrust."
+long_description = "A long driving thrust meant to pin the target in place."
+
+[sub_resource type="Resource" id="Resource_stsoe"]
+script = ExtResource("2_ho8c6")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 82
+_name = "Phalanx Push"
+short_description = "Formation pushing strike."
+long_description = "A formation-minded drive that claims ground through reach and force."
+
+[sub_resource type="Resource" id="Resource_j0wmw"]
+script = ExtResource("2_ho8c6")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 59
+_name = "Hedge of Iron"
+short_description = "Area-controlling spear technique."
+long_description = "A battlefield technique that locks down space with repeated reach."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_i8o7m")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_hibdl"]
+script = ExtResource("4_5mkkg")
+damage_die = 8
+speed = 33
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ggogc"]
+script = ExtResource("5_n6ry5")
+expression = "max_range = 2"
+id = 5
+_name = "Reach"
+short_description = "Allows engagement from a safer distance."
+long_description = "This weapon is designed to keep opponents at a distance, letting the wielder strike without needing to close in completely."
+
+[resource]
+script = ExtResource("6_0p2oj")
+damage_profile = SubResource("Resource_hibdl")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_6jmyn")]([SubResource("Resource_sx3nm"), SubResource("Resource_6dxvi"), SubResource("Resource_hc3rf"), SubResource("Resource_5wqq4"), SubResource("Resource_nx3m4"), SubResource("Resource_stsoe"), SubResource("Resource_j0wmw")])
+qualities = [SubResource("Resource_ggogc")]
+weight = 4.0
+value = 34
+allowed_slots = Array[int]([7])
+id = 22
+_name = "Pike"
+short_description = "Long formation weapon for locking down approach lanes."
+long_description = "A pike is designed for planted control, reach dominance, and punishing enemies who commit into your space."

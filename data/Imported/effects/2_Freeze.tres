@@ -1,0 +1,77 @@
+[gd_resource type="Resource" script_class="Effect" load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_p7bvy"]
+[ext_resource type="Script" path="res://content/codex/character_options/attribute.gd" id="2_xpj08"]
+[ext_resource type="Script" path="res://content/codex/character_options/defence.gd" id="3_h458s"]
+[ext_resource type="Script" path="res://content/codex/gameplay/effects.gd" id="4_40o24"]
+
+[sub_resource type="Resource" id="Resource_fpcfp"]
+script = ExtResource("1_p7bvy")
+id = 3
+_name = "Action Points"
+short_description = "Determines available actions per turn."
+long_description = "Action Points represent how many actions a character can take during their turn. Increasing this value allows for more actions each round."
+
+[sub_resource type="Resource" id="Resource_5lpto"]
+script = ExtResource("1_p7bvy")
+id = 4
+_name = "Deflection"
+short_description = "Improves chance to avoid attacks."
+long_description = "Deflection determines how difficult it is for enemies to land weapon attacks against you. Higher Deflection increases your chance to avoid incoming attacks."
+
+[sub_resource type="Resource" id="Resource_wpnqb"]
+script = ExtResource("2_xpj08")
+modifier_1 = SubResource("Resource_fpcfp")
+modifier_1_expression = "x + 6 - floor(x / 4)"
+modifier_2 = SubResource("Resource_5lpto")
+modifier_2_expression = "x"
+min_value = 1
+max_value = 10
+id = 2
+_name = "Dexterity"
+short_description = "Represents speed, coordination, and reflexes."
+long_description = "Dexterity reflects a character’s agility and precision in both physical and mental actions. It governs how quickly and efficiently a character can move, attack, and react. High Dexterity grants additional action points, allowing more actions per turn, and improves deflection, helping to avoid incoming attacks."
+
+[sub_resource type="Resource" id="Resource_2rvds"]
+script = ExtResource("1_p7bvy")
+id = 7
+_name = "Accuracy"
+short_description = "Improves chance to hit targets."
+long_description = "Accuracy determines how likely an attack is to successfully hit its target. Higher Accuracy reduces the chance of missing."
+
+[sub_resource type="Resource" id="Resource_8uuax"]
+script = ExtResource("1_p7bvy")
+id = 8
+_name = "Crit Dice"
+short_description = "Increases critical damage potential."
+long_description = "Crit Dice increases the number or effectiveness of dice rolled when scoring a critical hit, leading to higher burst damage potential."
+
+[sub_resource type="Resource" id="Resource_yftm0"]
+script = ExtResource("2_xpj08")
+modifier_1 = SubResource("Resource_2rvds")
+modifier_1_expression = "x + 2"
+modifier_2 = SubResource("Resource_8uuax")
+modifier_2_expression = "2 * ceil(x / 2.0) + 2"
+min_value = 1
+max_value = 10
+id = 4
+_name = "Perception"
+short_description = "Represents awareness and precision."
+long_description = "Perception measures a character’s ability to notice details, aim accurately, and react swiftly to subtle changes in their surroundings. High Perception increases accuracy with all attacks and improves the likelihood of striking vital points, resulting in more devastating critical hits."
+
+[sub_resource type="Resource" id="Resource_uli0g"]
+script = ExtResource("3_h458s")
+attribute1 = SubResource("Resource_wpnqb")
+attribute2 = SubResource("Resource_yftm0")
+id = 2
+_name = "Reflex"
+short_description = "Avoids area-of-effect dangers."
+long_description = "Reflex helps avoid area-of-effect attacks such as explosions and traps."
+
+[resource]
+script = ExtResource("4_40o24")
+defence = SubResource("Resource_uli0g")
+id = 2
+_name = "Freeze"
+short_description = "Reduces action capability."
+long_description = "The target’s Action Points are reduced for a number of rounds. This effect can stack, further limiting actions."

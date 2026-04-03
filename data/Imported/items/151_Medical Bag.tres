@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_vyh2v"]
+
+[resource]
+script = ExtResource("1_vyh2v")
+category = "Utility"
+effect = "Medicine tests become easier. When providing long-term care, allows care of up to 2 additional patients."
+weight = 5.0
+value = 300
+allowed_slots = Array[int]([6])
+id = 151
+_name = "Medical Bag"
+short_description = "Kit for medical treatment."
+long_description = "A stocked medical bag containing tools and supplies for treatment. It makes Medicine tests easier and allows long-term care for up to two additional patients."

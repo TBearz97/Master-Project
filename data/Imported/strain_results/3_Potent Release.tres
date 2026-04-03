@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_t56vk"]
+
+[resource]
+script = ExtResource("1_t56vk")
+roll_total = 3
+outcome = "Increase the spell's Potency by 2."
+id = 3
+_name = "Potent Release"

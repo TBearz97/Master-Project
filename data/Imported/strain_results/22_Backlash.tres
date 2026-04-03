@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_07vdv"]
+
+[resource]
+script = ExtResource("1_07vdv")
+roll_total = 22
+outcome = "Take 2 HP damage."
+id = 22
+_name = "Backlash"

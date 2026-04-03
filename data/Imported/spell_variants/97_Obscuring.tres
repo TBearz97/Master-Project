@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_04trs"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_h6j8e"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_q54gh"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("2_h6j8e")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_a06yj"]
+script = ExtResource("3_q54gh")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Harmless", "Ward"])
+base_cast = "Cast a ward over yourself that regenerates temporary Health. While concentrating, at the start of each of your turns you restore 3 CD temporary Health."
+id = 26
+_name = "Arcane Ward"
+short_description = "Create a ward that restores temporary Health."
+long_description = "Cast a ward over yourself that regenerates temporary Health. While concentrating, at the start of each of your turns you restore 3 CD temporary Health."
+
+[resource]
+script = ExtResource("1_04trs")
+spell = SubResource("Resource_a06yj")
+mana_cost = 3
+id = 97
+_name = "Obscuring"
+short_description = "Obscure perception."
+long_description = "While the ward is active, actions that study or read you become harder."

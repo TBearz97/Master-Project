@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_m6uy5"]
+
+[resource]
+script = ExtResource("1_m6uy5")
+physicalDT = 4
+magicalDT = 6
+necroticDT = 1
+weight = 4.0
+value = 54
+allowed_slots = Array[int]([5, 4])
+id = 53
+_name = "Scale Armor Leg"
+short_description = "Scale leg armor."
+long_description = "Scale leggings providing a balance of defense, weight, and magical resistance."

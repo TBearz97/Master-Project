@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SpellSchool" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="1_lbc75"]
+
+[resource]
+script = ExtResource("1_lbc75")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."

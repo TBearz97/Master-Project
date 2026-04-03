@@ -1,0 +1,39 @@
+[gd_resource type="Resource" script_class="Background" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_gbsyg"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_xes4h"]
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="3_ew2wg"]
+
+[sub_resource type="Resource" id="Resource_8141d"]
+script = ExtResource("1_gbsyg")
+category = "Background"
+requirement_text = "Pathfinder only"
+id = 31
+_name = "Trailblazer"
+short_description = "Navigation becomes easier when you are leading the route."
+long_description = "Navigation becomes easier when you are leading the route."
+
+[sub_resource type="Resource" id="Resource_0ce85"]
+script = ExtResource("3_ew2wg")
+max_rank = 10
+id = 9
+_name = "Navigation"
+long_description = "Finding your way across land or sea, planning routes, and keeping direction in unfamiliar places."
+
+[sub_resource type="Resource" id="Resource_qh5pf"]
+script = ExtResource("3_ew2wg")
+max_rank = 10
+id = 14
+_name = "Survival"
+short_description = "The knowledge to endure the wilds."
+long_description = "Survival is the understanding of nature’s dangers and gifts — how to find water, build shelter, track game, and weather storm or famine. It is the art of living where the land itself may seek to claim you."
+
+[resource]
+script = ExtResource("2_xes4h")
+perk = SubResource("Resource_8141d")
+skill_1 = SubResource("Resource_0ce85")
+skill_2 = SubResource("Resource_qh5pf")
+id = 11
+_name = "Pathfinder"
+short_description = "Guide experienced in navigating untamed environments."
+long_description = "You are familiar with landscapes others would find impassable. Whether through forests, mountains, or unknown regions, you have spent your life leading the way where paths do not exist."

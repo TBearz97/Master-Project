@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_dmqts"]
-
-[resource]
-script = ExtResource("1_dmqts")
-_name = "Breach Bolt"
-long_description = "Fire a reinforced shot meant to punch through protection and cover."

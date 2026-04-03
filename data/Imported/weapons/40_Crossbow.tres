@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_82b5r"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_v7o8t"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_bucbi"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_i3tty"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_nkm26"]
+
+[sub_resource type="Resource" id="Resource_jp0cp"]
+script = ExtResource("2_v7o8t")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 9
+_name = "Bolt Shot"
+short_description = "Simple reliable bolt attack."
+long_description = "Fire a bolt with simple force and reliability."
+
+[sub_resource type="Resource" id="Resource_plgqo"]
+script = ExtResource("2_v7o8t")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 73
+_name = "Load Bolt"
+short_description = "Reload crossbow."
+long_description = "Reload and ready the crossbow for another attack."
+
+[sub_resource type="Resource" id="Resource_qm2e6"]
+script = ExtResource("2_v7o8t")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 1
+_name = "Aimed Shot"
+short_description = "Precise ranged attack."
+long_description = "Take the extra moment needed to place the attack exactly where you want it."
+
+[sub_resource type="Resource" id="Resource_yem4d"]
+script = ExtResource("2_v7o8t")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 15
+_name = "Center Mass"
+short_description = "Center mass ranged shot."
+long_description = "Aim for the largest opening and drive the shot through with force."
+
+[sub_resource type="Resource" id="Resource_pvqbs"]
+script = ExtResource("2_v7o8t")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Pinned\", 1)"])
+id = 84
+_name = "Pinning Bolt"
+short_description = "Pinning heavy bolt."
+long_description = "Place a heavy bolt so it fixes the target in place or ruins their movement."
+
+[sub_resource type="Resource" id="Resource_joybf"]
+script = ExtResource("2_v7o8t")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 27
+_name = "Deadweight"
+short_description = "Momentum-draining bolt."
+long_description = "Fire a punishing bolt that drags the target's posture and momentum down."
+
+[sub_resource type="Resource" id="Resource_qp4yc"]
+script = ExtResource("2_v7o8t")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 132
+_name = "Wall Nailer"
+short_description = "Immobilizing heavy bolt."
+long_description = "A heavy bolt that hammers the target into place with terrifying force."
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("3_bucbi")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_hb85w"]
+script = ExtResource("4_i3tty")
+damage_die = 10
+speed = 10
+action_range = SubResource("Resource_eulau")
+
+[resource]
+script = ExtResource("5_nkm26")
+damage_profile = SubResource("Resource_hb85w")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_82b5r")]([SubResource("Resource_jp0cp"), SubResource("Resource_plgqo"), SubResource("Resource_qm2e6"), SubResource("Resource_yem4d"), SubResource("Resource_pvqbs"), SubResource("Resource_joybf"), SubResource("Resource_qp4yc")])
+weight = 3.0
+value = 50
+allowed_slots = Array[int]([7])
+id = 40
+_name = "Crossbow"
+short_description = "Steady ranged weapon for powerful bolt shots."
+long_description = "A crossbow delivers reliable armor-threatening shots with strong stopping force, favoring deliberate positioning over rapid fire."

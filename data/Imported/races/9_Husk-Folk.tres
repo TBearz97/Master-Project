@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_crqlu"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_3muvu"]
+
+[sub_resource type="Resource" id="Resource_pfcfl"]
+script = ExtResource("1_crqlu")
+category = "Race"
+requirement_text = "Husk-Folk only"
+id = 9
+_name = "Soulless"
+short_description = "You are immune to necrotic damage and instead heal the full amount it would have dealt."
+long_description = "Though still fully living people, Husk-Folk have been touched by necrosis so deeply that it no longer harms them as it does others. You are immune to necrotic damage. Instead, you heal the full amount of necrotic damage that would have been inflicted upon you."
+
+[resource]
+script = ExtResource("2_3muvu")
+perk = SubResource("Resource_pfcfl")
+id = 9
+_name = "Husk-Folk"
+short_description = "Unsettling beings caught between life and death."
+long_description = "Husk-Folk exist in a strange state between the living and the dead, their presence often evoking unease. They are sustained by forces others fear, giving them an unusual perspective on existence. Isolated from most societies, they embody a quiet, haunting resilience."

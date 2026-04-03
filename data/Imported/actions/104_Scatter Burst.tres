@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_ailrd"]
+
+[resource]
+script = ExtResource("1_ailrd")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 104
+_name = "Scatter Burst"
+short_description = "Wide spread blast."
+long_description = "Spread the blast wide to catch multiple targets in a dangerous space."

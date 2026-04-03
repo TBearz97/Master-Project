@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_dmqxo"]
-
-[resource]
-script = ExtResource("1_dmqxo")
-_name = "Snap Volley"
-long_description = "Send several arrows skyward to threaten a wider area."

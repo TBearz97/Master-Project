@@ -1,0 +1,131 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_m7tn0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_nv7tf"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_bhlsp"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_v15wg"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_ptvph"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_2pauo"]
+
+[sub_resource type="Resource" id="Resource_uqoht"]
+script = ExtResource("2_nv7tf")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 110
+_name = "Slash"
+short_description = "Wide cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_h1kcs"]
+script = ExtResource("2_nv7tf")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 18
+_name = "Chop"
+short_description = "Heavy committed chop."
+long_description = "A heavy edged attack that commits to a decisive cut."
+
+[sub_resource type="Resource" id="Resource_shctl"]
+script = ExtResource("2_nv7tf")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 19
+_name = "Cleave"
+short_description = "Powerful downward chop."
+long_description = "A downward chop with full force behind it."
+
+[sub_resource type="Resource" id="Resource_bk1e5"]
+script = ExtResource("2_nv7tf")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 134
+_name = "Wing Clip"
+short_description = "Movement-disrupting strike."
+long_description = "A strike meant to ruin footing and cut off clean movement."
+
+[sub_resource type="Resource" id="Resource_vviue"]
+script = ExtResource("2_nv7tf")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 47
+_name = "Gash"
+short_description = "Bleeding-focused cut."
+long_description = "A deeper deliberate wound intended to keep bleeding pressure on the target."
+
+[sub_resource type="Resource" id="Resource_d38af"]
+script = ExtResource("2_nv7tf")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 115
+_name = "Split Guard"
+short_description = "Defense-breaking axe strike."
+long_description = "A disciplined axe strike that opens a target through broken defense."
+
+[sub_resource type="Resource" id="Resource_5j1x0"]
+script = ExtResource("2_nv7tf")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 36
+_name = "Executioner's Fall"
+short_description = "Descending execution cut."
+long_description = "A committed descending cut that ends hesitation and mercy."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_bhlsp")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_p2y6v"]
+script = ExtResource("4_v15wg")
+damage_die = 8
+speed = 33
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ep5i6"]
+script = ExtResource("5_ptvph")
+expression = "is_two_handed ? two_handed_damage_die : one_handed_damage_die"
+id = 6
+_name = "Versatile"
+short_description = "Flexible in handling, adaptable to different combat styles."
+long_description = "This weapon can be used in multiple ways depending on the wielder’s needs, offering a balance between control and power through different grips or techniques."
+
+[sub_resource type="Resource" id="Resource_4swjo"]
+script = ExtResource("5_ptvph")
+expression = "damage_roll >= (damage_die_max - 1)"
+id = 1
+_name = "Brutal"
+short_description = "Designed to deliver devastating, crushing force."
+long_description = "Weapons with this property are built to maximize raw impact, delivering strikes that feel overwhelming and difficult to withstand."
+
+[resource]
+script = ExtResource("6_2pauo")
+damage_profile = SubResource("Resource_p2y6v")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_m7tn0")]([SubResource("Resource_uqoht"), SubResource("Resource_h1kcs"), SubResource("Resource_shctl"), SubResource("Resource_bk1e5"), SubResource("Resource_vviue"), SubResource("Resource_d38af"), SubResource("Resource_5j1x0")])
+qualities = [SubResource("Resource_ep5i6"), SubResource("Resource_4swjo")]
+weight = 4.0
+value = 31
+allowed_slots = Array[int]([7])
+id = 12
+_name = "Battle Axe"
+short_description = "Versatile axe for heavy cuts and pressure."
+long_description = "A battle axe combines weight and control, making it effective for broad chopping arcs and punishing openings in a target’s guard."

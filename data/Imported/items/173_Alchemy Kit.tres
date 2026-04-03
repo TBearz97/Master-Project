@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_4q30b"]
+
+[resource]
+script = ExtResource("1_4q30b")
+category = "Crafting Tools"
+effect = "Tools used for mixing reagents and preparing alchemical creations."
+weight = 4.0
+value = 125
+allowed_slots = Array[int]([6])
+id = 173
+_name = "Alchemy Kit"
+short_description = "Tools for alchemical work."
+long_description = "An alchemy kit containing the implements needed to mix reagents and prepare alchemical creations."

@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_ewdow"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_cl1r6"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_h3njj"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_p0ag1"]
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("2_cl1r6")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("3_h3njj")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_x6v4g"]
+script = ExtResource("4_p0ag1")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Fire", "Instant"])
+action_range = SubResource("Resource_eulau")
+base_cast = "Conjure flame in your hands and hurl it at a target. This spell deals 4 CD and applies Burning."
+id = 17
+_name = "Evoke Flame"
+short_description = "Hurl flame at a target."
+long_description = "Conjure flame in your hands and hurl it at a target. This spell deals 4 CD and applies Burning."
+
+[resource]
+script = ExtResource("1_ewdow")
+spell = SubResource("Resource_x6v4g")
+mana_cost = 2
+id = 60
+_name = "Flame Wall"
+short_description = "Create a burning wall."
+long_description = "Instead of targeting a creature, create a burning line that harms creatures who pass through it or begin their turn within it. Requires Concentration."

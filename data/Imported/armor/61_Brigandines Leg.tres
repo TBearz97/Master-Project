@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_sulv3"]
+
+[resource]
+script = ExtResource("1_sulv3")
+physicalDT = 8
+magicalDT = 10
+necroticDT = 2
+weight = 5.0
+value = 102
+allowed_slots = Array[int]([5, 4])
+id = 61
+_name = "Brigandines Leg"
+short_description = "Brigandine leg armor."
+long_description = "Brigandine leg armor offering high resistance and durability while maintaining some mobility."

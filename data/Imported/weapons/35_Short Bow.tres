@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_cm5ei"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_lv2xj"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_50kio"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_ly6gg"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_gffls"]
+
+[sub_resource type="Resource" id="Resource_rrq7p"]
+script = ExtResource("2_lv2xj")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 75
+_name = "Loose Arrow"
+short_description = "Standard arrow release."
+long_description = "Release an arrow in one clean practiced motion."
+
+[sub_resource type="Resource" id="Resource_y6opt"]
+script = ExtResource("2_lv2xj")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 90
+_name = "Quick Nock"
+short_description = "Fast arrow preparation."
+long_description = "Draw and set the next arrow with practiced speed."
+
+[sub_resource type="Resource" id="Resource_0e6o6"]
+script = ExtResource("2_lv2xj")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Slowed\", 1)"])
+id = 24
+_name = "Crippling Shot"
+short_description = "Movement-hindering shot."
+long_description = "Place the shot to hinder movement and break the target's stride."
+
+[sub_resource type="Resource" id="Resource_307j8"]
+script = ExtResource("2_lv2xj")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 113
+_name = "Snap Volley"
+short_description = "Multi-arrow volley."
+long_description = "Send several arrows skyward to threaten a wider area."
+
+[sub_resource type="Resource" id="Resource_illjm"]
+script = ExtResource("2_lv2xj")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 102
+_name = "Running Shot"
+short_description = "Mobile ranged attack."
+long_description = "Loose an arrow cleanly while still moving and repositioning."
+
+[sub_resource type="Resource" id="Resource_8l0xn"]
+script = ExtResource("2_lv2xj")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 95
+_name = "Rain of Thorns"
+short_description = "Area denial arrow barrage."
+long_description = "Layer an area with arrows so movement through it becomes dangerous."
+
+[sub_resource type="Resource" id="Resource_bmsei"]
+script = ExtResource("2_lv2xj")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 54
+_name = "Hawk's Wake"
+short_description = "Timed precision bow shot."
+long_description = "A sharp finishing bow shot released at the exact moment the target breaks."
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("3_50kio")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_3kdu3"]
+script = ExtResource("4_ly6gg")
+damage_die = 4
+speed = 20
+action_range = SubResource("Resource_8likl")
+
+[resource]
+script = ExtResource("5_gffls")
+damage_profile = SubResource("Resource_3kdu3")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_cm5ei")]([SubResource("Resource_rrq7p"), SubResource("Resource_y6opt"), SubResource("Resource_0e6o6"), SubResource("Resource_307j8"), SubResource("Resource_illjm"), SubResource("Resource_8l0xn"), SubResource("Resource_bmsei")])
+weight = 1.0
+value = 27
+allowed_slots = Array[int]([7])
+id = 35
+_name = "Short Bow"
+short_description = "Light bow for quick shots at short range."
+long_description = "A short bow emphasizes mobility, fast loosing, and practical battlefield versatility at short engagement distances."

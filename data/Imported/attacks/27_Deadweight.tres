@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_gr00e"]
+
+[resource]
+script = ExtResource("1_gr00e")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 27
+_name = "Deadweight"
+short_description = "Momentum-draining bolt."
+long_description = "Fire a punishing bolt that drags the target's posture and momentum down."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_hkrpm"]
+
+[resource]
+script = ExtResource("1_hkrpm")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 13
+_name = "Breach Shot"
+short_description = "Close-range armor-breaking blast."
+long_description = "A devastating blast intended to tear through protection at close range."

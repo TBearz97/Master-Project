@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_k45r0"]
+
+[resource]
+script = ExtResource("1_k45r0")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 90
+_name = "Quick Nock"
+short_description = "Fast arrow preparation."
+long_description = "Draw and set the next arrow with practiced speed."

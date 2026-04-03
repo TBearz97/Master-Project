@@ -1,0 +1,98 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_h71ha"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_p4t0x"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_phoav"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_ipwrk"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_cmte0"]
+
+[sub_resource type="Resource" id="Resource_mdodo"]
+script = ExtResource("2_p4t0x")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 67
+_name = "Jab"
+short_description = "Quick opening strike."
+long_description = "A quick close strike meant to create an opening."
+
+[sub_resource type="Resource" id="Resource_g00ok"]
+script = ExtResource("2_p4t0x")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Grappled\", 1)"])
+id = 20
+_name = "Clinch"
+short_description = "Close control engagement."
+long_description = "You crash in close and control the enemy's space with your body."
+
+[sub_resource type="Resource" id="Resource_wt36t"]
+script = ExtResource("2_p4t0x")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 34
+_name = "Elbow"
+short_description = "Close-range elbow strike."
+long_description = "A brutal short-range strike delivered from tight positioning."
+
+[sub_resource type="Resource" id="Resource_his13"]
+script = ExtResource("2_p4t0x")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Grappled\", 1)"])
+id = 17
+_name = "Choke Hold"
+short_description = "Restraining choke technique."
+long_description = "A dominating hold that shuts down the enemy's options at close range."
+
+[sub_resource type="Resource" id="Resource_cl74u"]
+script = ExtResource("2_p4t0x")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 81
+_name = "Palm Strike"
+short_description = "Forceful palm strike."
+long_description = "A perfectly placed burst of force that stops the target in place."
+
+[sub_resource type="Resource" id="Resource_hjkd1"]
+script = ExtResource("2_p4t0x")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 14
+_name = "Breaker"
+short_description = "Leverage-based finishing strike."
+long_description = "A punishing finishing technique that turns leverage into raw harm."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_phoav")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_0my73"]
+script = ExtResource("4_ipwrk")
+damage_die = 4
+speed = 20
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_cmte0")
+damage_profile = SubResource("Resource_0my73")
+actions = Array[ExtResource("1_h71ha")]([SubResource("Resource_mdodo"), SubResource("Resource_g00ok"), SubResource("Resource_wt36t"), SubResource("Resource_his13"), SubResource("Resource_cl74u"), SubResource("Resource_his13"), SubResource("Resource_hjkd1")])
+allowed_slots = Array[int]([7])
+id = 1
+_name = "Unarmed"
+short_description = "Hand-to-hand combat without a weapon."
+long_description = "Unarmed fighting relies on fists, grapples, body control, and close-range strikes. It is always available and favors pressure, disruption, and control in immediate melee."

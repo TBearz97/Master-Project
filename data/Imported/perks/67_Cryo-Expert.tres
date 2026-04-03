@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_d404m"]
+
+[resource]
+script = ExtResource("1_d404m")
+category = "Magic"
+requirement_text = "Requirement: Ability to deal Freeze damage or use Ice magic"
+id = 67
+_name = "Cryo-Expert"
+short_description = "Freeze effects also drain AP."
+long_description = "Creatures affected by your Ice or Freeze effects are easier to keep controlled. The first time each round you inflict Freeze, the target also loses 1 AP."

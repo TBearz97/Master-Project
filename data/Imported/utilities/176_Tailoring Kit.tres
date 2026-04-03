@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_pfw6c"]
+
+[resource]
+script = ExtResource("1_pfw6c")
+category = "Crafting Tools"
+effect = "Tools used for sewing, repairing, and adjusting clothing."
+weight = 2.5
+value = 50
+allowed_slots = Array[int]([6])
+id = 176
+_name = "Tailoring Kit"
+short_description = "Tools for sewing and clothing repair."
+long_description = "A tailoring kit used for sewing, mending, adjusting, and crafting clothing and fabric gear."

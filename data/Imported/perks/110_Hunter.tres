@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_b6ko6"]
+
+[resource]
+script = ExtResource("1_b6ko6")
+category = "Survival and Field"
+requirement_text = "Requirement: Survival 2"
+id = 110
+_name = "Hunter"
+short_description = "Track beasts and prey more easily."
+long_description = "Tests to track beasts, follow signs, and pursue prey become easier."

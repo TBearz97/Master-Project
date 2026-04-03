@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_qnw3a"]
+
+[resource]
+script = ExtResource("1_qnw3a")
+category = "Utility"
+effect = "Enables a character to become rested after sleeping outdoors."
+weight = 4.0
+value = 35
+allowed_slots = Array[int]([6])
+id = 156
+_name = "Bedroll"
+short_description = "Sleeping roll for outdoor rest."
+long_description = "A padded bedroll that allows a character to become rested after sleeping outdoors."

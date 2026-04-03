@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_1jdil"]
+
+[resource]
+script = ExtResource("1_1jdil")
+healing = 3
+duration = "Instant"
+category = "Beverage"
+effect = "Refreshing drink."
+weight = 0.2
+value = 10
+allowed_slots = Array[int]([6])
+id = 113
+_name = "Tomato Juice"
+short_description = "Refreshing drink."
+long_description = "Tomato Juice is a refreshing drink that restores 3 HP when consumed."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_v05cw"]
+
+[resource]
+script = ExtResource("1_v05cw")
+roll_total = 18
+outcome = "Reduce Concentration by 1."
+id = 18
+_name = "Shaken Focus"

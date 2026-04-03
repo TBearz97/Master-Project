@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponQuality" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="1_7mh6w"]
+
+[resource]
+script = ExtResource("1_7mh6w")
+expression = "!apply_melee_threat_penalty"
+id = 2
+_name = "Close Quarters"
+short_description = "Effective in tight and confined combat situations."
+long_description = "This weapon is well-suited for fighting at close range, allowing the wielder to maneuver and strike effectively even in cramped or pressured environments."

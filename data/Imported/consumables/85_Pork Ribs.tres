@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_8r21e"]
+
+[resource]
+script = ExtResource("1_8r21e")
+healing = 7
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.5
+value = 15
+allowed_slots = Array[int]([6])
+id = 85
+_name = "Pork Ribs"
+short_description = "Restorative food item."
+long_description = "Pork Ribs is a prepared or raw food item that restores 7 HP when consumed."

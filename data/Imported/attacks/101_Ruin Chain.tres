@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_3jjpn"]
+
+[resource]
+script = ExtResource("1_3jjpn")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 101
+_name = "Ruin Chain"
+short_description = "Relentless chained assault."
+long_description = "A relentless chained assault that keeps the enemy from recovering space."

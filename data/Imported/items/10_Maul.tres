@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_04cfj"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_oaalm"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_s6g3n"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_q2dlj"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_4smwe"]
+
+[sub_resource type="Resource" id="Resource_i6l01"]
+script = ExtResource("2_oaalm")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 111
+_name = "Smash"
+short_description = "Heavy crushing blow."
+long_description = "A heavy strike that crushes bone and armour."
+
+[sub_resource type="Resource" id="Resource_nsugm"]
+script = ExtResource("2_oaalm")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 8
+_name = "Body Blow"
+short_description = "Breath-stealing body strike."
+long_description = "A committed strike to the middle meant to steal breath and stance."
+
+[sub_resource type="Resource" id="Resource_rjckg"]
+script = ExtResource("2_oaalm")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Slowed\", 1)"])
+id = 70
+_name = "Kneecapper"
+short_description = "Low stability-breaking attack."
+long_description = "A low crushing attack aimed at breaking stability and movement."
+
+[sub_resource type="Resource" id="Resource_krnoj"]
+script = ExtResource("2_oaalm")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 80
+_name = "Overhead Swing"
+short_description = "Heavy overhead strike."
+long_description = "A high committed blow brought down with punishing force."
+
+[sub_resource type="Resource" id="Resource_q6xwa"]
+script = ExtResource("2_oaalm")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 49
+_name = "Groundbreaker"
+short_description = "Ground-shaking impact."
+long_description = "A devastating impact that shakes bodies and footing alike."
+
+[sub_resource type="Resource" id="Resource_c5nex"]
+script = ExtResource("2_oaalm")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 10
+_name = "Bone Crusher"
+short_description = "Devastating maul strike."
+long_description = "A maul strike delivered with enough force to ruin whatever it lands on."
+
+[sub_resource type="Resource" id="Resource_q26b7"]
+script = ExtResource("2_oaalm")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 127
+_name = "Tomb Hammer"
+short_description = "Heavy maul finisher."
+long_description = "A full-bodied maul swing meant to end resistance outright."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_s6g3n")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_rq50k"]
+script = ExtResource("4_q2dlj")
+damage_die = 10
+speed = 50
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_4smwe")
+damage_profile = SubResource("Resource_rq50k")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_04cfj")]([SubResource("Resource_i6l01"), SubResource("Resource_nsugm"), SubResource("Resource_rjckg"), SubResource("Resource_krnoj"), SubResource("Resource_q6xwa"), SubResource("Resource_c5nex"), SubResource("Resource_q26b7")])
+weight = 5.5
+value = 39
+allowed_slots = Array[int]([7])
+id = 10
+_name = "Maul"
+short_description = "Massive crushing weapon for overwhelming impact."
+long_description = "A maul delivers punishing blunt force through huge swings meant to break bodies, posture, and resistance outright."

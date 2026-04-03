@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="Background" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_sl2km"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_k5d5s"]
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="3_sss41"]
+
+[sub_resource type="Resource" id="Resource_3jfs2"]
+script = ExtResource("1_sl2km")
+category = "Background"
+requirement_text = "Dragon Knight only"
+id = 38
+_name = "Trained to Kill"
+short_description = "Tracking Dragons becomes easier; reroll damaging attacks against them."
+long_description = "Survival tests when tracking Dragons become easier. You may reroll 1d20 on every damaging attack against a Dragon. After killing a Dragon, local villages celebrate you as a hero and you sleep, drink, and eat for free for the next 3 days."
+
+[sub_resource type="Resource" id="Resource_nw44m"]
+script = ExtResource("3_sss41")
+max_rank = 10
+id = 2
+_name = "Athletics"
+short_description = "The measure of strength, speed, and stamina in motion."
+long_description = "Athletics is the discipline of the body pushed to its limits — running, climbing, leaping, and enduring trials that test both muscle and breath. It is the difference between faltering on the field and pressing forward with unyielding vigor."
+
+[sub_resource type="Resource" id="Resource_pt2gy"]
+script = ExtResource("3_sss41")
+max_rank = 10
+id = 7
+_name = "Lore"
+short_description = "The memory of stories, histories, and knowledge."
+long_description = "Lore is the collection of all that has been learned and passed down: myths and histories, secrets of the land, and wisdom preserved through generations. Those versed in lore hold the keys to understanding both the past and the present."
+
+[resource]
+script = ExtResource("2_k5d5s")
+perk = SubResource("Resource_3jfs2")
+skill_1 = SubResource("Resource_nw44m")
+skill_2 = SubResource("Resource_pt2gy")
+id = 18
+_name = "Dragon Knight"
+short_description = "Warrior raised within an elite martial order."
+long_description = "You were brought up within a prestigious order dedicated to confronting powerful threats. Your upbringing was shaped by discipline, training, and a strong sense of purpose tied to that legacy."

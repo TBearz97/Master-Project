@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_nyb85"]
+
+[resource]
+script = ExtResource("1_nyb85")
+category = "Instruments"
+effect = "-"
+weight = 1.0
+value = 12
+allowed_slots = Array[int]([6])
+id = 188
+_name = "Pan Flute"
+short_description = "Set of tuned reed pipes."
+long_description = "A pan flute made of multiple pipes of different lengths, used to create layered melodies."

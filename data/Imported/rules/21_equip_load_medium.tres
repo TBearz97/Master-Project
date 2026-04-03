@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_6e07x"]
+
+[resource]
+script = ExtResource("1_6e07x")
+expression = "current_equip_load > max_equip_load / 3 and current_equip_load <= (max_equip_load * 2 / 3)"
+id = 21
+_name = "equip_load_medium"
+short_description = "Medium load threshold."
+long_description = "Medium load is above one third and up to two thirds of maximum equip load."

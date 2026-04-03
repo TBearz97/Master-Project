@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_tp8v7"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_c4lxx"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_pvo6o"]
+
+[sub_resource type="Resource" id="Resource_r6c33"]
+script = ExtResource("2_c4lxx")
+id = 2
+_name = "Zealous"
+short_description = "Magic fueled by belief and devotion."
+long_description = "Magic shaped by belief, devotion, conviction, and the powers that answer them."
+
+[sub_resource type="Resource" id="Resource_6e0va"]
+script = ExtResource("3_pvo6o")
+school = SubResource("Resource_r6c33")
+tags = Array[String](["Instant", "Weapon"])
+base_cast = "Brandish your weapon with sacred power for the next attack. The attack deals its normal damage plus 2 CD."
+id = 30
+_name = "Divine Smite"
+short_description = "Empower your next attack with sacred force."
+long_description = "Brandish your weapon with sacred power for the next attack. The attack deals its normal damage plus 2 CD."
+
+[resource]
+script = ExtResource("1_tp8v7")
+spell = SubResource("Resource_6e0va")
+mana_cost = 2
+id = 109
+_name = "Brandishing Smite"
+short_description = "Apply sacred mark."
+long_description = "The attack leaves a sacred mark tied to your belief that others of that faith can sense."

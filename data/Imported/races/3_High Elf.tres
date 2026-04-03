@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_xsmw5"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_ighs0"]
+
+[sub_resource type="Resource" id="Resource_r2vid"]
+script = ExtResource("1_xsmw5")
+category = "Race"
+requirement_text = "High Elf only"
+id = 3
+_name = "Social Beings"
+short_description = "You gain +2 Renown, representing your higher standing within societies."
+long_description = "High Elves naturally carry status and legitimacy in the eyes of many cultures. You gain +2 Renown, representing your higher standing within societies. Individual people may still feel however they wish about you."
+
+[resource]
+script = ExtResource("2_ighs0")
+perk = SubResource("Resource_r2vid")
+id = 3
+_name = "High Elf"
+short_description = "Refined and long-lived people devoted to mastery and tradition."
+long_description = "High Elves are known for their discipline, elegance, and deep cultural heritage. Their long lives allow them to pursue mastery over arts, knowledge, and society itself. They often carry an air of quiet superiority, shaped by centuries of refinement and a strong connection to their lineage."

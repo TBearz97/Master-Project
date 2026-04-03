@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_dpp5g"]
+
+[resource]
+script = ExtResource("1_dpp5g")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 128
+_name = "Twin Moon Cut"
+short_description = "Dual flowing strike."
+long_description = "A flowing finishing pattern that strikes in a seamless pair."

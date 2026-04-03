@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_sra80"]
+
+[resource]
+script = ExtResource("1_sra80")
+roll_total = 15
+outcome = "Your eyes or skin glow faintly until the end of the turn, but nothing else happens."
+id = 15
+_name = "Faint Glow"

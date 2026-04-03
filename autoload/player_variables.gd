@@ -8,6 +8,7 @@ signal combat_loadout_changed()
 
 func _ready() -> void:
 	data = PlayerData.new()
+	_ensure_modifier_state()
 
 # Character Info
 func setName(value: String) -> void:
@@ -65,6 +66,12 @@ func getAttribute(value: String) -> Attribute:
 			return att
 	return null
 
+func getAttributeById(value: int) -> Attribute:
+	for att in data.attributes:
+		if att.id == value:
+			return att
+	return null
+
 # Skills
 func setSkills(value: Array[Skill]) -> void:
 	data.skills = value
@@ -80,22 +87,71 @@ func getSkill(value: String) -> Skill:
 
 # Conditions
 func setFatigue(value: int) -> void:
-	data.fatigue = value
+	setBlueprintModifierValue("fatigue", value)
 
 func getFatigue() -> int:
-	return data.fatigue
+	return int(RuleEngine.resolve_player_variable("fatigue"))
 
 func addFatigue(value: int) -> void:
-	data.fatigue += value
+	setFatigue(getFatigue() + value)
 
 func setNecroticDamage(value: int) -> void:
-	data.necroticDamage = value
+	setBlueprintModifierValue("necrotic_damage", value)
 
 func getNecroticDamage() -> int:
-	return data.necroticDamage
+	return int(RuleEngine.resolve_player_variable("necrotic_damage"))
 
 func addNecroticDamage(value: int) -> void:
-	data.necroticDamage += value
+	setNecroticDamage(getNecroticDamage() + value)
+
+func getModifiers() -> Dictionary[int, Array[Modifier]]:
+	_ensure_modifier_state()
+	return data.modifiers
+
+func hasModifierBucket(modifier_id: int) -> bool:
+	_ensure_modifier_state()
+	return data.modifiers.has(modifier_id) and not data.modifiers[modifier_id].is_empty()
+
+func getModifierTotal(modifier_id: int, base_value: float = 0.0) -> float:
+	_ensure_modifier_state()
+	return data.get_modifier_total(modifier_id, base_value)
+
+func getModifierTotalByName(modifier_name: String, base_value: float = 0.0) -> float:
+	_ensure_modifier_state()
+	var modifier_id := _get_modifier_id_by_name(modifier_name)
+	if modifier_id < 0:
+		return base_value
+	return data.get_modifier_total(modifier_id, base_value)
+
+func addModifier(modifier: Modifier) -> void:
+	_ensure_modifier_state()
+	if modifier == null:
+		return
+	data.add_modifier(modifier)
+	_sync_legacy_field_for_modifier(modifier.id)
+
+func clearModifierBucket(modifier_id: int) -> void:
+	_ensure_modifier_state()
+	data.clear_modifier_bucket(modifier_id)
+	_sync_legacy_field_for_modifier(modifier_id)
+
+func getDataField(field_name: String, default_value: Variant = null) -> Variant:
+	if data == null or not _has_data_field(field_name):
+		return default_value
+	return data.get(field_name)
+
+func setDataField(field_name: String, value: Variant) -> void:
+	if data == null or not _has_data_field(field_name):
+		return
+	data.set(field_name, value)
+
+func setBlueprintModifierValue(variable_name: String, value: int) -> void:
+	_ensure_modifier_state()
+	var entry := _get_blueprint_entry(variable_name)
+	if entry == null or entry.source_type != PlayerDataBlueprintEntry.SourceType.MODIFIER:
+		return
+	_set_modifier_bucket_value(entry.source_id, value)
+	_sync_legacy_field_for_modifier(entry.source_id)
 
 func setConditions(value: Array[Condition]) -> void:
 	data.conditions = value
@@ -225,8 +281,105 @@ func load(character_name: String) -> void:
 	var resource := ResourceLoader.load(file_path)
 	if resource is PlayerData:
 		data = resource
+		_ensure_modifier_state()
 	else:
 		push_error("Save file %s is not a PlayerData resource" % file_path)
+
+func _ensure_modifier_state() -> void:
+	if data == null:
+		data = PlayerData.new()
+	if data.modifiers == null:
+		data.modifiers = {}
+	for entry in _get_blueprint_entries():
+		if entry.source_type != PlayerDataBlueprintEntry.SourceType.MODIFIER:
+			continue
+		_backfill_modifier_from_legacy_field(entry)
+		_sync_legacy_field_for_modifier(entry.source_id)
+
+func _set_modifier_bucket_value(modifier_id: int, value: int) -> void:
+	if modifier_id < 0:
+		return
+	var template: Modifier = CampaignVariables.codex.Modifiers.get(modifier_id, null)
+	if template == null:
+		return
+	var runtime_modifier := template.duplicate(true) as Modifier
+	runtime_modifier.value = value
+	runtime_modifier.application_type = Modifier.ApplicationType.FLAT
+	data.set_modifier_bucket(modifier_id, [runtime_modifier])
+
+func _sync_legacy_field_for_modifier(modifier_id: int) -> void:
+	if modifier_id < 0:
+		return
+	var entry := _get_blueprint_entry_by_modifier_id(modifier_id)
+	if entry == null:
+		return
+	var field_name := _variable_to_field_name(entry._name)
+	if not _has_data_field(field_name):
+		return
+	var total := data.get_modifier_total_int(modifier_id)
+	data.set(field_name, total)
+
+func _backfill_modifier_from_legacy_field(entry: PlayerDataBlueprintEntry) -> void:
+	if entry == null or entry.source_id < 0 or data.modifiers.has(entry.source_id):
+		return
+	var field_name := _variable_to_field_name(entry._name)
+	if not _has_data_field(field_name):
+		return
+	var fallback_value := int(data.get(field_name))
+	if fallback_value == 0:
+		return
+	_set_modifier_bucket_value(entry.source_id, fallback_value)
+
+func _get_blueprint_entries() -> Array[PlayerDataBlueprintEntry]:
+	if CampaignVariables == null or CampaignVariables.codex == null:
+		return []
+	var entries: Array[PlayerDataBlueprintEntry] = []
+	for entry: PlayerDataBlueprintEntry in CampaignVariables.codex.PlayerDataBlueprint.values():
+		if entry != null and entry.enabled:
+			entries.append(entry)
+	entries.sort_custom(func(a: PlayerDataBlueprintEntry, b: PlayerDataBlueprintEntry) -> bool:
+		return a.sort_order < b.sort_order
+	)
+	return entries
+
+func _get_blueprint_entry(variable_name: String) -> PlayerDataBlueprintEntry:
+	if CampaignVariables == null or CampaignVariables.codex == null:
+		return null
+	return CampaignVariables.codex.get_player_data_blueprint(variable_name)
+
+func _get_blueprint_entry_by_modifier_id(modifier_id: int) -> PlayerDataBlueprintEntry:
+	for entry in _get_blueprint_entries():
+		if entry.source_type == PlayerDataBlueprintEntry.SourceType.MODIFIER and entry.source_id == modifier_id:
+			return entry
+	return null
+
+func _get_modifier_id_by_name(modifier_name: String) -> int:
+	if CampaignVariables == null or CampaignVariables.codex == null:
+		return -1
+	var modifier := CampaignVariables.codex.get_by_name(CampaignVariables.codex.Modifiers, modifier_name) as Modifier
+	if modifier == null:
+		return -1
+	return modifier.id
+
+func _variable_to_field_name(variable_name: String) -> String:
+	var parts := variable_name.split("_", false)
+	if parts.is_empty():
+		return variable_name
+	var field_name := parts[0]
+	for i in range(1, parts.size()):
+		var part := parts[i]
+		if part.is_empty():
+			continue
+		field_name += part.substr(0, 1).to_upper() + part.substr(1)
+	return field_name
+
+func _has_data_field(field_name: String) -> bool:
+	if data == null:
+		return false
+	for property_info in data.get_property_list():
+		if str(property_info.get("name", "")) == field_name:
+			return true
+	return false
 
 func _ensure_character_directory() -> bool:
 	var directory := DirAccess.open("user://")

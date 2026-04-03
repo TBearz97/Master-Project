@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_23f7i"]
-
-[resource]
-script = ExtResource("1_23f7i")
-_name = "Gash"
-long_description = "A deeper deliberate wound intended to keep bleeding pressure on the target."

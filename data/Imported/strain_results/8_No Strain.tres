@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_2c6bk"]
+
+[resource]
+script = ExtResource("1_2c6bk")
+roll_total = 8
+outcome = "Nothing else happens."
+id = 8
+_name = "No Strain"

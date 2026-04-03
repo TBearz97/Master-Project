@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_vw4gd"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_mlh76"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_de1rp"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("1_vw4gd")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("2_mlh76")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[resource]
+script = ExtResource("3_de1rp")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Ice", "Instant"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Invoke ice in your hands and hurl it at a target. This spell deals 6 CD and applies Freeze."
+id = 18
+_name = "Invoke Ice"
+short_description = "Hurl ice at a target."
+long_description = "Invoke ice in your hands and hurl it at a target. This spell deals 6 CD and applies Freeze."

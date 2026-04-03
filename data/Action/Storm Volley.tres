@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_12niv"]
-
-[resource]
-script = ExtResource("1_12niv")
-_name = "Storm Volley"
-long_description = "Fill an area with arrows and force everyone within it to react."

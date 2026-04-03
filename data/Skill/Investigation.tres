@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="1_2k2og"]
-
-[resource]
-script = ExtResource("1_2k2og")
-_name = "Investigation"
-short_description = "The pursuit of hidden answers through reason."
-long_description = "Investigation is the patient unraveling of mystery — studying clues, tracing patterns, and connecting fragments until the truth emerges. It is the art of the inquisitive mind, leaving no stone unturned and no secret concealed for long."

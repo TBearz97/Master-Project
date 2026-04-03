@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_1je4a"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_i65ri"]
+
+[sub_resource type="Resource" id="Resource_x4hts"]
+script = ExtResource("1_1je4a")
+category = "Race"
+requirement_text = "Wood Elf only"
+id = 7
+_name = "Forest Child"
+short_description = "You cannot safely eat meat, are immune to disease, and all other food gives you double benefit."
+long_description = "Living in harmony with nature, your diet is strictly herbivorous. You cannot safely eat meat; if you do, your Max Health is reduced by 25% until you have had a full night's rest. You are immune to disease, and all other food gives you double benefit."
+
+[resource]
+script = ExtResource("2_i65ri")
+perk = SubResource("Resource_x4hts")
+id = 7
+_name = "Wood Elf"
+short_description = "Forest-dwelling people deeply connected to the natural world."
+long_description = "Wood Elves live in close harmony with nature, shaping their lives around the rhythms of the land. Their culture emphasizes balance, respect, and coexistence with the environment. They are often seen as calm and deliberate, guided by a long-standing relationship with the wild."

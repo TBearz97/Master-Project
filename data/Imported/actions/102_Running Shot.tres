@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_qbsi7"]
+
+[resource]
+script = ExtResource("1_qbsi7")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 102
+_name = "Running Shot"
+short_description = "Mobile ranged attack."
+long_description = "Loose an arrow cleanly while still moving and repositioning."

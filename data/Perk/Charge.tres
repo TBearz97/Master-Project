@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_tfa24"]
-
-[resource]
-script = ExtResource("1_tfa24")
-category = "Survival and Field"
-_name = "Charge"
-long_description = "Requirement: Athletics 3\\\\n\\\\nIf you move at least 3 hexes in a straight line before making a melee attack, that attack deals 10% more damage."

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_segp2"]
+
+[resource]
+script = ExtResource("1_segp2")
+healing = 3
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.1
+value = 6
+allowed_slots = Array[int]([6])
+id = 83
+_name = "Potato"
+short_description = "Restorative food item."
+long_description = "Potato is a prepared or raw food item that restores 3 HP when consumed."

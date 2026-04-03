@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_xmuda"]
+
+[resource]
+script = ExtResource("1_xmuda")
+category = "Instruments"
+effect = "-"
+weight = 0.5
+value = 6
+allowed_slots = Array[int]([6])
+id = 184
+_name = "Flute"
+short_description = "Simple wind instrument."
+long_description = "A flute used for melody and soft musical passages, easy to carry and play."

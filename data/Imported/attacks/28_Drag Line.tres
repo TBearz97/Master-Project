@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_t31rc"]
+
+[resource]
+script = ExtResource("1_t31rc")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 28
+_name = "Drag Line"
+short_description = "Control-focused whip attack."
+long_description = "A controlling whip technique that tears through posture and positioning."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_2h181"]
+
+[resource]
+script = ExtResource("1_2h181")
+category = "Instruments"
+effect = "-"
+weight = 3.0
+value = 28
+allowed_slots = Array[int]([6])
+id = 180
+_name = "Bagpipes"
+short_description = "Loud wind instrument."
+long_description = "A set of bagpipes used for musical performance, often producing a powerful and sustained sound."

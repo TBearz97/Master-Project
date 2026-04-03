@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_gynqw"]
-
-[resource]
-script = ExtResource("1_gynqw")
-_name = "Pinning Bolt"
-long_description = "Place a heavy bolt so it fixes the target in place or ruins their movement."

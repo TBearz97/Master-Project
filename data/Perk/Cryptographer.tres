@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_qoit1"]
-
-[resource]
-script = ExtResource("1_qoit1")
-category = "Knowledge and Craft"
-_name = "Cryptographer"
-long_description = "Requirement: Investigation 2, Lore 2\\\\n\\\\nTests to decode ciphers, break simple codes, and understand encoded writing become easier."

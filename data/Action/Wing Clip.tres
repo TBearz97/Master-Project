@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_krms0"]
-
-[resource]
-script = ExtResource("1_krms0")
-_name = "Wing Clip"
-long_description = "A strike meant to ruin footing and cut off clean movement."

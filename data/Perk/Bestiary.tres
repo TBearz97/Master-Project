@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_g3oy5"]
-
-[resource]
-script = ExtResource("1_g3oy5")
-category = "Knowledge and Craft"
-_name = "Bestiary"
-long_description = "Requirement: Lore 2\\\\n\\\\nThe first time you encounter a creature type, you may ask the GM for one useful fact about its habits, weaknesses, or dangers."

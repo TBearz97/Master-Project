@@ -1,0 +1,412 @@
+[gd_resource type="Resource" script_class="NPC" load_steps=74 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_egof7"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_gthci"]
+[ext_resource type="Script" path="res://content/codex/character_options/attribute.gd" id="3_s6k38"]
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="4_3c8u3"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="5_psi4d"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="6_wxdvp"]
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="7_kp6yj"]
+[ext_resource type="Script" path="res://content/codex/gameplay/condition.gd" id="8_66alx"]
+[ext_resource type="Script" path="res://content/codex/character_options/defence.gd" id="9_l12oc"]
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="10_t6s15"]
+[ext_resource type="Script" path="res://content/codex/items/item.gd" id="11_788cp"]
+[ext_resource type="Script" path="res://content/codex/items/equipment.gd" id="12_lotcm"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="13_lj8th"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="14_bfr4y"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="15_ma7k8"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="16_8m1x5"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="17_se7p5"]
+[ext_resource type="Script" path="res://content/actor_data/HumanoidData.gd" id="18_8igcm"]
+[ext_resource type="Script" path="res://content/codex/NPC/NPC.gd" id="19_5l1qc"]
+
+[sub_resource type="Resource" id="Resource_h1kcs"]
+script = ExtResource("2_gthci")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 18
+_name = "Chop"
+short_description = "Heavy committed chop."
+long_description = "A heavy edged attack that commits to a decisive cut."
+
+[sub_resource type="Resource" id="Resource_88q67"]
+script = ExtResource("2_gthci")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 120
+_name = "Strike"
+short_description = "Basic direct attack."
+long_description = "A direct, unadorned blow."
+
+[sub_resource type="Resource" id="Resource_hf0e4"]
+script = ExtResource("2_gthci")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 21
+_name = "Clobber"
+short_description = "Unbalancing blunt strike."
+long_description = "A rough battering blow designed to knock the target off balance."
+
+[sub_resource type="Resource" id="Resource_vgksv"]
+script = ExtResource("4_3c8u3")
+id = 1
+_name = "Damage & Healing"
+short_description = "Affects damage and healing output."
+long_description = "Damage & Healing modifies how much damage you deal and how much healing you provide. Higher values increase both offensive and restorative effectiveness."
+
+[sub_resource type="Resource" id="Resource_qxkfu"]
+script = ExtResource("4_3c8u3")
+id = 2
+_name = "Max Carry Weight"
+short_description = "Increases carrying capacity."
+long_description = "Max Carry Weight determines how much equipment and items a character can carry before becoming encumbered. Higher values allow heavier loads."
+
+[sub_resource type="Resource" id="Resource_w1xxx"]
+script = ExtResource("3_s6k38")
+value = 3
+modifier_1 = SubResource("Resource_vgksv")
+modifier_1_expression = "(x - 5) * 7"
+modifier_2 = SubResource("Resource_qxkfu")
+modifier_2_expression = "(x * 10) + 45"
+min_value = 1
+max_value = 10
+id = 1
+_name = "Might"
+short_description = "Represents physical and spiritual strength."
+long_description = "Might measures the character’s raw physical and inner power. It influences both physical and magical damage as well as the effectiveness of healing abilities. Characters with higher Might deal and heal more damage and can carry heavier loads."
+
+[sub_resource type="Resource" id="Resource_c1bn1"]
+script = ExtResource("4_3c8u3")
+id = 3
+_name = "Action Points"
+short_description = "Determines available actions per turn."
+long_description = "Action Points represent how many actions a character can take during their turn. Increasing this value allows for more actions each round."
+
+[sub_resource type="Resource" id="Resource_me7p3"]
+script = ExtResource("4_3c8u3")
+id = 4
+_name = "Deflection"
+short_description = "Improves chance to avoid attacks."
+long_description = "Deflection determines how difficult it is for enemies to land weapon attacks against you. Higher Deflection increases your chance to avoid incoming attacks."
+
+[sub_resource type="Resource" id="Resource_1wl2v"]
+script = ExtResource("3_s6k38")
+value = 2
+modifier_1 = SubResource("Resource_c1bn1")
+modifier_1_expression = "x + 6 - floor(x / 4)"
+modifier_2 = SubResource("Resource_me7p3")
+modifier_2_expression = "x"
+min_value = 1
+max_value = 10
+id = 2
+_name = "Dexterity"
+short_description = "Represents speed, coordination, and reflexes."
+long_description = "Dexterity reflects a character’s agility and precision in both physical and mental actions. It governs how quickly and efficiently a character can move, attack, and react. High Dexterity grants additional action points, allowing more actions per turn, and improves deflection, helping to avoid incoming attacks."
+
+[sub_resource type="Resource" id="Resource_ngyn5"]
+script = ExtResource("4_3c8u3")
+id = 5
+_name = "Health"
+short_description = "Determines total health pool."
+long_description = "Health represents the total amount of damage a character can sustain before being incapacitated. Increasing Health improves survivability."
+
+[sub_resource type="Resource" id="Resource_7qc4m"]
+script = ExtResource("4_3c8u3")
+id = 6
+_name = "Vitality"
+short_description = "Represents endurance and recovery."
+long_description = "Vitality reflects overall stamina and recovery capability, influencing how well a character endures prolonged activity and recovers from strain."
+
+[sub_resource type="Resource" id="Resource_wol58"]
+script = ExtResource("3_s6k38")
+value = 3
+modifier_1 = SubResource("Resource_ngyn5")
+modifier_1_expression = "x + 5"
+modifier_2 = SubResource("Resource_7qc4m")
+modifier_2_expression = "3 + floor(x / 3)"
+min_value = 1
+max_value = 10
+id = 3
+_name = "Constitution"
+short_description = "Represents endurance and overall toughness."
+long_description = "Constitution determines a character’s physical resilience and ability to withstand harm, fatigue, and disease. It directly affects maximum health and long-term vitality, influencing how long a character can endure in battle or harsh environments. Those with higher Constitution can take more punishment and recover faster from strain."
+
+[sub_resource type="Resource" id="Resource_6d3wb"]
+script = ExtResource("4_3c8u3")
+id = 7
+_name = "Accuracy"
+short_description = "Improves chance to hit targets."
+long_description = "Accuracy determines how likely an attack is to successfully hit its target. Higher Accuracy reduces the chance of missing."
+
+[sub_resource type="Resource" id="Resource_xuqsc"]
+script = ExtResource("4_3c8u3")
+id = 8
+_name = "Crit Dice"
+short_description = "Increases critical damage potential."
+long_description = "Crit Dice increases the number or effectiveness of dice rolled when scoring a critical hit, leading to higher burst damage potential."
+
+[sub_resource type="Resource" id="Resource_1y203"]
+script = ExtResource("3_s6k38")
+value = 2
+modifier_1 = SubResource("Resource_6d3wb")
+modifier_1_expression = "x + 2"
+modifier_2 = SubResource("Resource_xuqsc")
+modifier_2_expression = "2 * ceil(x / 2.0) + 2"
+min_value = 1
+max_value = 10
+id = 4
+_name = "Perception"
+short_description = "Represents awareness and precision."
+long_description = "Perception measures a character’s ability to notice details, aim accurately, and react swiftly to subtle changes in their surroundings. High Perception increases accuracy with all attacks and improves the likelihood of striking vital points, resulting in more devastating critical hits."
+
+[sub_resource type="Resource" id="Resource_pichq"]
+script = ExtResource("4_3c8u3")
+id = 9
+_name = "Potency"
+short_description = "Enhances effect strength and duration."
+long_description = "Potency enhances the strength, effectiveness, and sometimes duration of abilities, spells, and effects applied to targets."
+
+[sub_resource type="Resource" id="Resource_qumey"]
+script = ExtResource("4_3c8u3")
+id = 10
+_name = "Bestiary Progression"
+short_description = "Improves knowledge of creatures."
+long_description = "Bestiary Progression tracks knowledge and understanding of creatures, improving effectiveness when dealing with known enemy types."
+
+[sub_resource type="Resource" id="Resource_cg2dy"]
+script = ExtResource("3_s6k38")
+value = 1
+modifier_1 = SubResource("Resource_pichq")
+modifier_1_expression = "x + 2"
+modifier_2 = SubResource("Resource_qumey")
+modifier_2_expression = "x * 3"
+min_value = 1
+max_value = 10
+id = 5
+_name = "Intelligence"
+short_description = "Represents reasoning and analytical ability."
+long_description = "Intelligence governs a character’s capacity for logic, learning, and understanding complex systems. It enhances awareness of enemies and the environment, improving bestiary knowledge and analysis. High Intelligence also refines control over magical and tactical effects, increasing the duration of buffs and debuffs applied in combat."
+
+[sub_resource type="Resource" id="Resource_om73c"]
+script = ExtResource("4_3c8u3")
+id = 11
+_name = "Mana Generation"
+short_description = "Increases mana gained over time."
+long_description = "Mana Generation determines how quickly a character regains magical energy over time, supporting sustained spellcasting."
+
+[sub_resource type="Resource" id="Resource_1e4wq"]
+script = ExtResource("4_3c8u3")
+id = 12
+_name = "Concentration"
+short_description = "Determines sustained mental focus."
+long_description = "Concentration governs the ability to maintain focus on ongoing effects, spells, or abilities without interruption."
+
+[sub_resource type="Resource" id="Resource_muhu1"]
+script = ExtResource("3_s6k38")
+value = 2
+modifier_1 = SubResource("Resource_om73c")
+modifier_1_expression = "floor(x / 2)"
+modifier_2 = SubResource("Resource_1e4wq")
+modifier_2_expression = "ceil(x / 2.0)"
+min_value = 1
+max_value = 10
+id = 6
+_name = "Resolve"
+short_description = "Represents mental fortitude and determination."
+long_description = "Resolve reflects a character’s strength of will, focus, and emotional stability under pressure. It determines how well a character maintains concentration during combat and how resistant they are to negative mental or magical effects. Characters with high Resolve can shrug off debilitating conditions and remain steadfast in challenging situations."
+
+[sub_resource type="Resource" id="Resource_h4tx8"]
+script = ExtResource("5_psi4d")
+id = -1
+
+[sub_resource type="Resource" id="Resource_y26pf"]
+script = ExtResource("7_kp6yj")
+max_rank = 10
+id = -1
+
+[sub_resource type="Resource" id="Resource_466sj"]
+script = ExtResource("7_kp6yj")
+max_rank = 10
+id = -1
+
+[sub_resource type="Resource" id="Resource_8j7v0"]
+script = ExtResource("6_wxdvp")
+perk = SubResource("Resource_h4tx8")
+skill_1 = SubResource("Resource_y26pf")
+skill_2 = SubResource("Resource_466sj")
+id = -1
+
+[sub_resource type="Resource" id="Resource_b5fe0"]
+script = ExtResource("10_t6s15")
+id = -1
+
+[sub_resource type="Resource" id="Resource_lrnpu"]
+script = ExtResource("10_t6s15")
+id = -1
+
+[sub_resource type="Resource" id="Resource_pvkqr"]
+script = ExtResource("10_t6s15")
+id = -1
+
+[sub_resource type="Resource" id="Resource_ba1pl"]
+script = ExtResource("11_788cp")
+id = -1
+
+[sub_resource type="Resource" id="Resource_oxn4b"]
+script = ExtResource("11_788cp")
+id = -1
+
+[sub_resource type="Resource" id="Resource_sdkqc"]
+script = ExtResource("11_788cp")
+id = -1
+
+[sub_resource type="Resource" id="Resource_ohg23"]
+script = ExtResource("11_788cp")
+id = -1
+
+[sub_resource type="Resource" id="Resource_0t6r3"]
+script = ExtResource("10_t6s15")
+id = -1
+
+[sub_resource type="Resource" id="Resource_23u4h"]
+script = ExtResource("10_t6s15")
+id = -1
+
+[sub_resource type="Resource" id="Resource_iri5h"]
+script = ExtResource("10_t6s15")
+id = -1
+
+[sub_resource type="Resource" id="Resource_b887x"]
+script = ExtResource("13_lj8th")
+id = -1
+
+[sub_resource type="Resource" id="Resource_0ifqs"]
+script = ExtResource("14_bfr4y")
+action_range = SubResource("Resource_b887x")
+
+[sub_resource type="Resource" id="Resource_j8q6j"]
+script = ExtResource("15_ma7k8")
+damage_profile = SubResource("Resource_0ifqs")
+allowed_slots = Array[int]([7])
+id = -1
+
+[sub_resource type="Resource" id="Resource_21041"]
+script = ExtResource("13_lj8th")
+id = -1
+
+[sub_resource type="Resource" id="Resource_et058"]
+script = ExtResource("14_bfr4y")
+action_range = SubResource("Resource_21041")
+
+[sub_resource type="Resource" id="Resource_kgi03"]
+script = ExtResource("15_ma7k8")
+damage_profile = SubResource("Resource_et058")
+allowed_slots = Array[int]([7])
+id = -1
+
+[sub_resource type="Resource" id="Resource_nlpqg"]
+script = ExtResource("13_lj8th")
+id = -1
+
+[sub_resource type="Resource" id="Resource_qg3ya"]
+script = ExtResource("14_bfr4y")
+action_range = SubResource("Resource_nlpqg")
+
+[sub_resource type="Resource" id="Resource_qw6a1"]
+script = ExtResource("15_ma7k8")
+damage_profile = SubResource("Resource_qg3ya")
+allowed_slots = Array[int]([7])
+id = -1
+
+[sub_resource type="Resource" id="Resource_plmbc"]
+script = ExtResource("13_lj8th")
+id = -1
+
+[sub_resource type="Resource" id="Resource_scshd"]
+script = ExtResource("14_bfr4y")
+action_range = SubResource("Resource_plmbc")
+
+[sub_resource type="Resource" id="Resource_8unx5"]
+script = ExtResource("15_ma7k8")
+damage_profile = SubResource("Resource_scshd")
+allowed_slots = Array[int]([7])
+id = -1
+
+[sub_resource type="Resource" id="Resource_mq56i"]
+script = ExtResource("12_lotcm")
+head = SubResource("Resource_b5fe0")
+torso = SubResource("Resource_iri5h")
+leftArm = SubResource("Resource_lrnpu")
+rightArm = SubResource("Resource_0t6r3")
+leftLeg = SubResource("Resource_pvkqr")
+rightLeg = SubResource("Resource_23u4h")
+weapon1Left = SubResource("Resource_j8q6j")
+weapon1Right = SubResource("Resource_kgi03")
+weapon2Left = SubResource("Resource_qw6a1")
+weapon2Right = SubResource("Resource_8unx5")
+quickItem1 = SubResource("Resource_ba1pl")
+quickItem2 = SubResource("Resource_oxn4b")
+quickItem3 = SubResource("Resource_sdkqc")
+quickItem4 = SubResource("Resource_ohg23")
+
+[sub_resource type="Resource" id="Resource_28nwm"]
+script = ExtResource("5_psi4d")
+id = -1
+
+[sub_resource type="Resource" id="Resource_lrv6c"]
+script = ExtResource("16_8m1x5")
+perk = SubResource("Resource_28nwm")
+id = -1
+
+[sub_resource type="Resource" id="Resource_r1ykt"]
+script = ExtResource("5_psi4d")
+id = -1
+
+[sub_resource type="Resource" id="Resource_2jkrv"]
+script = ExtResource("17_se7p5")
+perk = SubResource("Resource_r1ykt")
+id = -1
+
+[sub_resource type="Resource" id="Resource_fmi2x"]
+script = ExtResource("7_kp6yj")
+value = 2
+max_rank = 10
+id = 2
+_name = "Athletics"
+short_description = "The measure of strength, speed, and stamina in motion."
+long_description = "Athletics is the discipline of the body pushed to its limits — running, climbing, leaping, and enduring trials that test both muscle and breath. It is the difference between faltering on the field and pressing forward with unyielding vigor."
+
+[sub_resource type="Resource" id="Resource_8rha7"]
+script = ExtResource("18_8igcm")
+skills = Array[ExtResource("7_kp6yj")]([SubResource("Resource_fmi2x")])
+equipment = SubResource("Resource_mq56i")
+race = SubResource("Resource_2jkrv")
+homeland = SubResource("Resource_lrv6c")
+background = SubResource("Resource_8j7v0")
+id = 1
+name = "Bandit Raider"
+short_description = "A rough melee combatant."
+long_description = "A poorly equipped but aggressive fighter who relies on brute force and numbers to overwhelm opponents."
+type = "Humanoid"
+category = "Hostile"
+level = 2
+max_hp = 18
+maxHP = 18
+currentHP = 18
+attributes = Array[ExtResource("3_s6k38")]([SubResource("Resource_w1xxx"), SubResource("Resource_1wl2v"), SubResource("Resource_wol58"), SubResource("Resource_1y203"), SubResource("Resource_cg2dy"), SubResource("Resource_muhu1")])
+attacks = Array[ExtResource("2_gthci")]([SubResource("Resource_h1kcs"), SubResource("Resource_88q67"), SubResource("Resource_hf0e4")])
+actions = Array[ExtResource("1_egof7")]([SubResource("Resource_h1kcs"), SubResource("Resource_88q67"), SubResource("Resource_hf0e4")])
+
+[resource]
+script = ExtResource("19_5l1qc")
+data = SubResource("Resource_8rha7")
+id = 1
+_name = "Bandit Raider"
+short_description = "A rough melee combatant."
+long_description = "A poorly equipped but aggressive fighter who relies on brute force and numbers to overwhelm opponents."

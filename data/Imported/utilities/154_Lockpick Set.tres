@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_432yd"]
+
+[resource]
+script = ExtResource("1_432yd")
+category = "Utility"
+effect = "Lockpick tests become easier. After 3 complications, the set is broken."
+weight = 1.0
+value = 150
+allowed_slots = Array[int]([6])
+id = 154
+_name = "Lockpick Set"
+short_description = "Durable lockpicking set."
+long_description = "A dedicated set of lockpicking tools that makes lockpick tests easier. After accumulating three complications, the set is broken."

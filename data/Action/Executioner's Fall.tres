@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_3d8xn"]
-
-[resource]
-script = ExtResource("1_3d8xn")
-_name = "Executioner's Fall"
-long_description = "A committed descending cut that ends hesitation and mercy."

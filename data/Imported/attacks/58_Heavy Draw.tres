@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_tva86"]
+
+[resource]
+script = ExtResource("1_tva86")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 58
+_name = "Heavy Draw"
+short_description = "High-power drawn shot."
+long_description = "Pull the shot with full strength to deliver more force on release."

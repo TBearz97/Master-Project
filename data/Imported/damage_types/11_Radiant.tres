@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_type.gd" id="1_8n4er"]
+
+[resource]
+script = ExtResource("1_8n4er")
+id = 11
+_name = "Radiant"
+short_description = "Holy energy damage."
+long_description = "Radiant damage is produced by divine or holy energy, often especially harmful to corrupted or undead beings."

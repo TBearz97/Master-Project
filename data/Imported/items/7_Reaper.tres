@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_lgbde"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_puc4a"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_nw0ie"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_tjfgb"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_qgdhx"]
+
+[sub_resource type="Resource" id="Resource_l7j5u"]
+script = ExtResource("2_puc4a")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 96
+_name = "Reap"
+short_description = "Wide harvesting swing."
+long_description = "A broad harvesting swing that cuts through space in front of you."
+
+[sub_resource type="Resource" id="Resource_4vcb2"]
+script = ExtResource("2_puc4a")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 63
+_name = "Hook Cut"
+short_description = "Curving guard-bypassing cut."
+long_description = "A curving cut that pulls around a guard or catches a retreat."
+
+[sub_resource type="Resource" id="Resource_bk1e5"]
+script = ExtResource("2_puc4a")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 134
+_name = "Wing Clip"
+short_description = "Movement-disrupting strike."
+long_description = "A strike meant to ruin footing and cut off clean movement."
+
+[sub_resource type="Resource" id="Resource_va0op"]
+script = ExtResource("2_puc4a")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 23
+_name = "Crescent Arc"
+short_description = "Wide curved sweeping strike."
+long_description = "A flowing curved swing meant to catch multiple lines at once."
+
+[sub_resource type="Resource" id="Resource_vviue"]
+script = ExtResource("2_puc4a")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 47
+_name = "Gash"
+short_description = "Bleeding-focused cut."
+long_description = "A deeper deliberate wound intended to keep bleeding pressure on the target."
+
+[sub_resource type="Resource" id="Resource_5vy1m"]
+script = ExtResource("2_puc4a")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 53
+_name = "Harvest Stroke"
+short_description = "Controlled reaping strike."
+long_description = "A seasoned reaping blow that carries through with deadly control."
+
+[sub_resource type="Resource" id="Resource_8mb32"]
+script = ExtResource("2_puc4a")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 42
+_name = "Final Reaping"
+short_description = "Full reaping finisher."
+long_description = "The full murderous expression of the reaper's reach and curve."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_nw0ie")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_g2ey6"]
+script = ExtResource("4_tjfgb")
+damage_die = 8
+speed = 33
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_qgdhx")
+damage_profile = SubResource("Resource_g2ey6")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_lgbde")]([SubResource("Resource_l7j5u"), SubResource("Resource_4vcb2"), SubResource("Resource_bk1e5"), SubResource("Resource_va0op"), SubResource("Resource_vviue"), SubResource("Resource_5vy1m"), SubResource("Resource_8mb32")])
+weight = 4.0
+value = 34
+allowed_slots = Array[int]([7])
+id = 7
+_name = "Reaper"
+short_description = "Heavy curved blade for broad harvesting cuts."
+long_description = "A reaper favors sweeping angles, hook-like cuts, and battlefield-clearing arcs that punish clustered enemies."

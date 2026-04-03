@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_n4a28"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_h27hj"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_j45hs"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_wx3uj"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("2_h27hj")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("3_j45hs")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_ghes7"]
+script = ExtResource("4_wx3uj")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Mind Control"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Seize control of another creature's will. On a success, you can command the target to carry out a safe and non-harmful act while you maintain Concentration."
+id = 25
+_name = "Enslave"
+short_description = "Seize control of another creature's will."
+long_description = "Seize control of another creature's will. On a success, you can command the target to carry out a safe and non-harmful act while you maintain Concentration."
+
+[resource]
+script = ExtResource("1_n4a28")
+spell = SubResource("Resource_ghes7")
+mana_cost = 3
+id = 93
+_name = "Blood-Soaked Words"
+short_description = "Force violent actions."
+long_description = "Command the target to commit violence."

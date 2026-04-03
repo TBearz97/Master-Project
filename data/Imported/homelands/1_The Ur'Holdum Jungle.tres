@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_gsdyo"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_j1024"]
+
+[sub_resource type="Resource" id="Resource_qlbsu"]
+script = ExtResource("1_gsdyo")
+category = "Homeland"
+requirement_text = "Ur'Holdum Jungle only"
+id = 10
+_name = "Nothing Wasted"
+short_description = "Make full use of what nature provides."
+long_description = "You know how to make use of what nature gives and what it takes."
+
+[resource]
+script = ExtResource("2_j1024")
+perk = SubResource("Resource_qlbsu")
+id = 1
+_name = "The Ur'Holdum Jungle"
+short_description = "Dense, perilous jungle where survival is a constant challenge."
+long_description = "You were raised within a vast and dangerous jungle, where every step requires awareness and caution. Life here has shaped you to be resourceful, attentive, and deeply connected to the rhythms of nature."

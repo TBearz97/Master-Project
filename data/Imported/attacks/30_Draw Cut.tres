@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_vhyop"]
+
+[resource]
+script = ExtResource("1_vhyop")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 30
+_name = "Draw Cut"
+short_description = "Fluid draw-cut strike."
+long_description = "A cut delivered as the blade moves free in one fluid motion."

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_a4l3r"]
+
+[resource]
+script = ExtResource("1_a4l3r")
+duration = "Brief"
+category = "Poison"
+effect = "Harmful toxic substance."
+weight = 0.5
+value = 45
+allowed_slots = Array[int]([6])
+id = 145
+_name = "Stun Toxin"
+short_description = "Harmful toxic substance."
+long_description = "Stun Toxin is a toxic substance used to inflict harmful effects on targets."

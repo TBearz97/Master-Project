@@ -14,6 +14,6 @@ func _useAction() -> void:
 		print("No weapon action available.")
 		return
 	var action: Action = weapon.actions[0]
-	var result = action.use(target, CreatureData.new(), weapon.damage_profile)
+	var result = action.use(target, CreatureData.new())
 	print("Clicked: " + action._name)
 	print(result)

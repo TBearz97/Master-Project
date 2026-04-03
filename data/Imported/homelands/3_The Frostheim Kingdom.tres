@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_475gx"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_bocs5"]
+
+[sub_resource type="Resource" id="Resource_i7mxn"]
+script = ExtResource("1_475gx")
+category = "Homeland"
+requirement_text = "Frostheim Kingdom only"
+id = 12
+_name = "Frostborn"
+short_description = "Increase Survival rating against cold exposure."
+long_description = "You can increase your Survival rating by 1.5 when it comes to exposure to cold weather."
+
+[resource]
+script = ExtResource("2_bocs5")
+perk = SubResource("Resource_i7mxn")
+id = 3
+_name = "The Frostheim Kingdom"
+short_description = "Frozen realm where endurance and resilience define daily life."
+long_description = "You were raised in a land of relentless cold, where survival depends on endurance and preparation. The harsh environment has instilled in you a quiet toughness and respect for nature’s unforgiving conditions."

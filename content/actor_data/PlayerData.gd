@@ -4,6 +4,8 @@ class_name PlayerData
 @export var gender: String
 @export var age: int
 @export var backstory: String
+@export var inventory: Dictionary[String, Array]
+@export var money: int
 
 # Level Up
 @export var levelAvailable: bool
@@ -17,6 +19,8 @@ func _init() -> void:
 	gender = ""
 	age = 0
 	backstory = ""
+	inventory = {}
+	money = 0
 
 	levelAvailable = false
 	experience = 0

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_77sp7"]
+
+[resource]
+script = ExtResource("1_77sp7")
+physicalDT = 2
+magicalDT = 1
+weight = 1.0
+value = 12
+allowed_slots = Array[int]([0])
+id = 38
+_name = "Hide Head"
+short_description = "Basic hide helmet."
+long_description = "A crude helmet made from animal hide. Offers minimal physical protection and very limited resistance to magic."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_fy1ib"]
+
+[resource]
+script = ExtResource("1_fy1ib")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 18
+_name = "Chop"
+short_description = "Heavy committed chop."
+long_description = "A heavy edged attack that commits to a decisive cut."

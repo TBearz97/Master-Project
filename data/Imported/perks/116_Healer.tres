@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_lnaea"]
+
+[resource]
+script = ExtResource("1_lnaea")
+category = "Medicine and Stealth"
+requirement_text = "Requirement: Medicine 3 or any magical identity perk"
+id = 116
+_name = "Healer"
+short_description = "Restore extra HP when healing others."
+long_description = "Whenever you restore HP to another creature, add +1 healing."

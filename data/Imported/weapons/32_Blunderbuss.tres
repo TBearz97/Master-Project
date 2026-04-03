@@ -1,0 +1,129 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_mjrty"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_yooxw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_7qswq"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_mo1mg"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_sreha"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_3jcqj"]
+
+[sub_resource type="Resource" id="Resource_tt3eb"]
+script = ExtResource("2_yooxw")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 6
+_name = "Blast Shot"
+short_description = "Close-range spread shot."
+long_description = "Fire a broad close-range blast meant to overwhelm anything directly ahead."
+
+[sub_resource type="Resource" id="Resource_dfun2"]
+script = ExtResource("2_yooxw")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 74
+_name = "Load Shot"
+short_description = "Reload firearm."
+long_description = "Reload and ready the firearm for another attack."
+
+[sub_resource type="Resource" id="Resource_x1kvu"]
+script = ExtResource("2_yooxw")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 87
+_name = "Point-Blank Shot"
+short_description = "Point-blank firearm shot."
+long_description = "Fire at extremely close range with total commitment."
+
+[sub_resource type="Resource" id="Resource_hd3fn"]
+script = ExtResource("2_yooxw")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 104
+_name = "Scatter Burst"
+short_description = "Wide spread blast."
+long_description = "Spread the blast wide to catch multiple targets in a dangerous space."
+
+[sub_resource type="Resource" id="Resource_ey58f"]
+script = ExtResource("2_yooxw")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 13
+_name = "Breach Shot"
+short_description = "Close-range armor-breaking blast."
+long_description = "A devastating blast intended to tear through protection at close range."
+
+[sub_resource type="Resource" id="Resource_2nf5l"]
+script = ExtResource("2_yooxw")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 126
+_name = "Thunder Mouth"
+short_description = "Concussive close blast."
+long_description = "A concussive close-range discharge that leaves survivors reeling."
+
+[sub_resource type="Resource" id="Resource_wwyyf"]
+script = ExtResource("2_yooxw")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 119
+_name = "Street Sweeper"
+short_description = "Close-range scatter blast."
+long_description = "The full brutal expression of a scatter gun in cramped fighting."
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("3_7qswq")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_hjlq1"]
+script = ExtResource("4_mo1mg")
+damage_die = 12
+speed = 10
+action_range = SubResource("Resource_8likl")
+
+[sub_resource type="Resource" id="Resource_4swjo"]
+script = ExtResource("5_sreha")
+expression = "damage_roll >= (damage_die_max - 1)"
+id = 1
+_name = "Brutal"
+short_description = "Designed to deliver devastating, crushing force."
+long_description = "Weapons with this property are built to maximize raw impact, delivering strikes that feel overwhelming and difficult to withstand."
+
+[sub_resource type="Resource" id="Resource_gh64l"]
+script = ExtResource("5_sreha")
+expression = "!apply_melee_threat_penalty"
+id = 2
+_name = "Close Quarters"
+short_description = "Effective in tight and confined combat situations."
+long_description = "This weapon is well-suited for fighting at close range, allowing the wielder to maneuver and strike effectively even in cramped or pressured environments."
+
+[resource]
+script = ExtResource("6_3jcqj")
+damage_profile = SubResource("Resource_hjlq1")
+actions = Array[ExtResource("1_mjrty")]([SubResource("Resource_tt3eb"), SubResource("Resource_dfun2"), SubResource("Resource_x1kvu"), SubResource("Resource_hd3fn"), SubResource("Resource_ey58f"), SubResource("Resource_2nf5l"), SubResource("Resource_wwyyf")])
+qualities = [SubResource("Resource_4swjo"), SubResource("Resource_gh64l")]
+weight = 2.0
+value = 137
+allowed_slots = Array[int]([7])
+id = 32
+_name = "Blunderbuss"
+short_description = "Brutal close-range firearm with a wide spread."
+long_description = "A blunderbuss is built for devastating close-range discharge, trading precision for overwhelming stopping power and brutal area pressure."

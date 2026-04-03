@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_i15c2"]
+
+[resource]
+script = ExtResource("1_i15c2")
+roll_total = 26
+outcome = "The GM slightly alters the spell's appearance or exact expression."
+id = 26
+_name = "Warped Spell"

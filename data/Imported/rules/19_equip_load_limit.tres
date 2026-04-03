@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_3apkh"]
+
+[resource]
+script = ExtResource("1_3apkh")
+expression = "current_equip_load <= max_equip_load"
+id = 19
+_name = "equip_load_limit"
+short_description = "Cannot exceed maximum equip load."
+long_description = "A character cannot equip items if total equip load exceeds their maximum."

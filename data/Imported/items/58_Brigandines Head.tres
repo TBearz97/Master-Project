@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_61atq"]
+
+[resource]
+script = ExtResource("1_61atq")
+physicalDT = 8
+magicalDT = 10
+necroticDT = 2
+weight = 3.0
+value = 92
+allowed_slots = Array[int]([0])
+id = 58
+_name = "Brigandines Head"
+short_description = "Brigandine helmet."
+long_description = "A reinforced brigandine helmet combining metal plates and fabric for high magical resistance."

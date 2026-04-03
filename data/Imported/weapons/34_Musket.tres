@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_kt2uu"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_6ygvw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_awbr8"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_6s6d4"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_d5di6"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_x3m4w"]
+
+[sub_resource type="Resource" id="Resource_ab3fc"]
+script = ExtResource("2_6ygvw")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 44
+_name = "Fire"
+short_description = "Basic ranged attack."
+long_description = "Releasing a projectile at the target."
+
+[sub_resource type="Resource" id="Resource_dfun2"]
+script = ExtResource("2_6ygvw")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 74
+_name = "Load Shot"
+short_description = "Reload firearm."
+long_description = "Reload and ready the firearm for another attack."
+
+[sub_resource type="Resource" id="Resource_qm2e6"]
+script = ExtResource("2_6ygvw")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 1
+_name = "Aimed Shot"
+short_description = "Precise ranged attack."
+long_description = "Take the extra moment needed to place the attack exactly where you want it."
+
+[sub_resource type="Resource" id="Resource_yem4d"]
+script = ExtResource("2_6ygvw")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 15
+_name = "Center Mass"
+short_description = "Center mass ranged shot."
+long_description = "Aim for the largest opening and drive the shot through with force."
+
+[sub_resource type="Resource" id="Resource_fos6j"]
+script = ExtResource("2_6ygvw")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "markDelayedAction(target, 1)"])
+id = 121
+_name = "Suppressing Shot"
+short_description = "Suppressive ranged fire."
+long_description = "Force the enemy to keep their head down and give up space."
+
+[sub_resource type="Resource" id="Resource_0mffi"]
+script = ExtResource("2_6ygvw")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 76
+_name = "Marksman's Patience"
+short_description = "Delayed precision shot."
+long_description = "Hold the shot until the perfect opening appears and then exploit it."
+
+[sub_resource type="Resource" id="Resource_cpg17"]
+script = ExtResource("2_6ygvw")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 72
+_name = "Last Light"
+short_description = "Long-range decisive shot."
+long_description = "A musket shot delivered with final decisive force across long distance."
+
+[sub_resource type="Resource" id="Resource_m3n1k"]
+script = ExtResource("3_awbr8")
+max_distance = 10
+short_hand = "L"
+id = 4
+_name = "Long"
+short_description = "Long ranged distance."
+long_description = "Effective against targets within 8 to 10 hexes, requiring accuracy over distance."
+
+[sub_resource type="Resource" id="Resource_uhrmy"]
+script = ExtResource("4_6s6d4")
+damage_die = 12
+speed = 10
+action_range = SubResource("Resource_m3n1k")
+
+[sub_resource type="Resource" id="Resource_4swjo"]
+script = ExtResource("5_d5di6")
+expression = "damage_roll >= (damage_die_max - 1)"
+id = 1
+_name = "Brutal"
+short_description = "Designed to deliver devastating, crushing force."
+long_description = "Weapons with this property are built to maximize raw impact, delivering strikes that feel overwhelming and difficult to withstand."
+
+[resource]
+script = ExtResource("6_x3m4w")
+damage_profile = SubResource("Resource_uhrmy")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_kt2uu")]([SubResource("Resource_ab3fc"), SubResource("Resource_dfun2"), SubResource("Resource_qm2e6"), SubResource("Resource_yem4d"), SubResource("Resource_fos6j"), SubResource("Resource_0mffi"), SubResource("Resource_cpg17")])
+qualities = [SubResource("Resource_4swjo")]
+weight = 5.0
+value = 140
+allowed_slots = Array[int]([7])
+id = 34
+_name = "Musket"
+short_description = "Heavy firearm for deliberate long-range fire."
+long_description = "A musket is a powerful two-handed firearm suited to measured volleys, aimed fire, and punishing long-range stopping shots."

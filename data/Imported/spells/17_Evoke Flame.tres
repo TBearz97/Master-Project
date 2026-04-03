@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_ftgnv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_wolyl"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_d8red"]
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("1_ftgnv")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("2_wolyl")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[resource]
+script = ExtResource("3_d8red")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Fire", "Instant"])
+action_range = SubResource("Resource_eulau")
+base_cast = "Conjure flame in your hands and hurl it at a target. This spell deals 4 CD and applies Burning."
+id = 17
+_name = "Evoke Flame"
+short_description = "Hurl flame at a target."
+long_description = "Conjure flame in your hands and hurl it at a target. This spell deals 4 CD and applies Burning."

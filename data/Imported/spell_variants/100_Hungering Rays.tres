@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_1mlmr"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_b0bvk"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_5ipi0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_hftf4"]
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("2_b0bvk")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("3_5ipi0")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_h5hp8"]
+script = ExtResource("4_hftf4")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Necrotic", "Radiant"])
+action_range = SubResource("Resource_eulau")
+base_cast = "Unleash two rays. One heals 2 CD, and one deals 3 CD Necrotic damage. Choose a target for each. Anyone caught between the rays is affected when they cross or begin their turn in the line."
+id = 27
+_name = "Chaos Rays"
+short_description = "Unleash one healing ray and one harmful ray."
+long_description = "Unleash two rays. One heals 2 CD, and one deals 3 CD Necrotic damage. Choose a target for each. Anyone caught between the rays is affected when they cross or begin their turn in the line."
+
+[resource]
+script = ExtResource("1_1mlmr")
+spell = SubResource("Resource_h5hp8")
+mana_cost = 3
+id = 100
+_name = "Hungering Rays"
+short_description = "Increase Necrotic damage."
+long_description = "Increase the necrotic damage dealt."

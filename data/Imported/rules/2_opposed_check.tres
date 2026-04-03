@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_ul6qr"]
+
+[resource]
+script = ExtResource("1_ul6qr")
+expression = "rollDice(1, 20) + actor_skill > rollDice(1, 20) + target_skill"
+id = 2
+_name = "opposed_check"
+short_description = "Opposed roll comparison."
+long_description = "Both sides roll 1d20 and add skill. Higher result wins."

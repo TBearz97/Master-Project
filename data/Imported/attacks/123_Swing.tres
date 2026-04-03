@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_lo8hq"]
+
+[resource]
+script = ExtResource("1_lo8hq")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 123
+_name = "Swing"
+short_description = "Simple heavy swing."
+long_description = "A straightforward hammering attack with solid momentum."

@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_njsgn"]
-
-[resource]
-script = ExtResource("1_njsgn")
-category = "Race"
-_name = "Nimble Escape"
-long_description = "Your small frame and quick instincts make it difficult to pin you down. When moving out of melee with only one opponent threatening you, the extra AP cost does not apply."

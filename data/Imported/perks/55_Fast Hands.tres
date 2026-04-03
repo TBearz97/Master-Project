@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_i8ai0"]
+
+[resource]
+script = ExtResource("1_i8ai0")
+category = "Weapon"
+requirement_text = "Requirement: Dexterity 6"
+id = 55
+_name = "Fast Hands"
+short_description = "Reduce the AP cost of your first Interact each round."
+long_description = "The first Interact action you take each round costs 1 less AP, to a minimum of 1."

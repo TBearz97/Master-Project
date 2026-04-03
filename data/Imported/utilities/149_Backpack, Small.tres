@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_shkb3"]
+
+[resource]
+script = ExtResource("1_shkb3")
+category = "Utility"
+effect = "Wearer adds 3 x Might to maximum Carry Weight."
+value = 30
+allowed_slots = Array[int]([6])
+id = 149
+_name = "Backpack, Small"
+short_description = "Small pack for extra storage."
+long_description = "A compact backpack for everyday travel and supplies. While worn, it increases maximum Carry Weight by 3 times your Might."

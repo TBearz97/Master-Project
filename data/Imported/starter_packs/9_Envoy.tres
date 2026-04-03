@@ -1,0 +1,253 @@
+[gd_resource type="Resource" script_class="StarterPack" load_steps=30 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_h3f37"]
+[ext_resource type="Script" path="res://content/codex/items/starter_pack_item.gd" id="2_ha78x"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="3_nyrv1"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="4_e2gf2"]
+[ext_resource type="Script" path="res://content/codex/items/starter_pack.gd" id="5_2l1h5"]
+
+[sub_resource type="Resource" id="Resource_ns4c6"]
+script = ExtResource("1_h3f37")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on Speech and Society tests."
+weight = 1.0
+value = 60
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+id = 27
+_name = "Noble's Attire"
+short_description = "Refined noble attire."
+long_description = "Elegant attire crafted from fine materials, reflecting wealth and status while maintaining comfort."
+
+[sub_resource type="Resource" id="Resource_g0jw8"]
+script = ExtResource("2_ha78x")
+item_table = "clothing"
+item_id = 27
+quantity = 1
+loadout_group = "Armor and Clothing"
+item = SubResource("Resource_ns4c6")
+
+[sub_resource type="Resource" id="Resource_63t0a"]
+script = ExtResource("3_nyrv1")
+healing = 5
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.4
+value = 12
+allowed_slots = Array[int]([6])
+id = 66
+_name = "Bread"
+short_description = "Restorative food item."
+long_description = "Bread is a prepared or raw food item that restores 5 HP when consumed."
+
+[sub_resource type="Resource" id="Resource_c7oon"]
+script = ExtResource("2_ha78x")
+item_table = "consumables"
+item_id = 66
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_63t0a")
+
+[sub_resource type="Resource" id="Resource_ink64"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "Wearer adds 3 x Might to maximum Carry Weight."
+value = 30
+allowed_slots = Array[int]([6])
+id = 149
+_name = "Backpack, Small"
+short_description = "Small pack for extra storage."
+long_description = "A compact backpack for everyday travel and supplies. While worn, it increases maximum Carry Weight by 3 times your Might."
+
+[sub_resource type="Resource" id="Resource_pujnl"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 149
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_ink64")
+
+[sub_resource type="Resource" id="Resource_vdeis"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "Generates bright light within Close range, and dim light within Medium range."
+weight = 1.0
+value = 15
+allowed_slots = Array[int]([6])
+id = 153
+_name = "Lantern"
+short_description = "Portable enclosed light source."
+long_description = "A sturdy lantern that produces bright light within Close range and dim light within Medium range."
+
+[sub_resource type="Resource" id="Resource_jam1a"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 153
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_vdeis")
+
+[sub_resource type="Resource" id="Resource_gawr8"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "Lockpick tests become easier. After 3 complications, the set is broken."
+weight = 1.0
+value = 150
+allowed_slots = Array[int]([6])
+id = 154
+_name = "Lockpick Set"
+short_description = "Durable lockpicking set."
+long_description = "A dedicated set of lockpicking tools that makes lockpick tests easier. After accumulating three complications, the set is broken."
+
+[sub_resource type="Resource" id="Resource_781di"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 154
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_gawr8")
+
+[sub_resource type="Resource" id="Resource_crsy8"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "Enables a character to become rested after sleeping outdoors."
+weight = 4.0
+value = 35
+allowed_slots = Array[int]([6])
+id = 156
+_name = "Bedroll"
+short_description = "Sleeping roll for outdoor rest."
+long_description = "A padded bedroll that allows a character to become rested after sleeping outdoors."
+
+[sub_resource type="Resource" id="Resource_3mx3n"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 156
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_crsy8")
+
+[sub_resource type="Resource" id="Resource_3la3h"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "Used to write documents and scrolls. Empty after 30 uses."
+weight = 0.4
+value = 5
+allowed_slots = Array[int]([6])
+id = 158
+_name = "Ink"
+short_description = "Ink for writing and records."
+long_description = "A bottle of ink used to write documents and scrolls. It is emptied after 30 uses."
+
+[sub_resource type="Resource" id="Resource_gb5ja"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 158
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_3la3h")
+
+[sub_resource type="Resource" id="Resource_47dxs"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "Used to write documents and scrolls. May break upon complication."
+weight = 0.1
+value = 3
+allowed_slots = Array[int]([6])
+id = 159
+_name = "Ink Pen"
+short_description = "Pen for writing by hand."
+long_description = "A writing pen used for documents and scrolls. It may break if a complication is rolled while in use."
+
+[sub_resource type="Resource" id="Resource_kwhp7"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 159
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_47dxs")
+
+[sub_resource type="Resource" id="Resource_k4xvu"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "Used to write documents and scrolls. Bought in stacks of 30."
+weight = 0.1
+value = 7
+allowed_slots = Array[int]([6])
+id = 160
+_name = "Paper"
+short_description = "Paper for notes and scrolls."
+long_description = "Sheets of paper used for writing documents and scrolls. Usually purchased in stacks of 30."
+
+[sub_resource type="Resource" id="Resource_ba8g8"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 160
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_k4xvu")
+
+[sub_resource type="Resource" id="Resource_2itbb"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "A 15 meter long hemp rope."
+weight = 5.0
+value = 11
+allowed_slots = Array[int]([6])
+id = 164
+_name = "Rope"
+short_description = "Strong hemp rope."
+long_description = "A 15 meter length of hemp rope useful for climbing, binding, hauling, and general travel tasks."
+
+[sub_resource type="Resource" id="Resource_xeou6"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 164
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_2itbb")
+
+[sub_resource type="Resource" id="Resource_jg0a3"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "Can hold 2 liters of liquid."
+value = 16
+allowed_slots = Array[int]([6])
+id = 167
+_name = "Waterskin"
+short_description = "Flexible container for liquids."
+long_description = "A practical waterskin that can hold up to 2 liters of liquid."
+
+[sub_resource type="Resource" id="Resource_jvm84"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 167
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_jg0a3")
+
+[sub_resource type="Resource" id="Resource_06gdb"]
+script = ExtResource("4_e2gf2")
+category = "Utility"
+effect = "Used for smaller items like chems, gold, or other easy-to-access supplies."
+value = 18
+allowed_slots = Array[int]([6])
+id = 169
+_name = "Pouch"
+short_description = "Small bag for valuables."
+long_description = "A small pouch used to carry coins, chems, or other easily accessed supplies."
+
+[sub_resource type="Resource" id="Resource_21xda"]
+script = ExtResource("2_ha78x")
+item_table = "utilities"
+item_id = 169
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_06gdb")
+
+[resource]
+script = ExtResource("5_2l1h5")
+leftover_gold = 103.0
+items = [SubResource("Resource_g0jw8"), SubResource("Resource_c7oon"), SubResource("Resource_pujnl"), SubResource("Resource_jam1a"), SubResource("Resource_781di"), SubResource("Resource_3mx3n"), SubResource("Resource_gb5ja"), SubResource("Resource_kwhp7"), SubResource("Resource_ba8g8"), SubResource("Resource_xeou6"), SubResource("Resource_jvm84"), SubResource("Resource_21xda")]
+id = 9
+_name = "Envoy"

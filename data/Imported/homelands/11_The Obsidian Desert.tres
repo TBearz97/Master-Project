@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_geerm"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_6fclt"]
+
+[sub_resource type="Resource" id="Resource_rt52r"]
+script = ExtResource("1_geerm")
+category = "Homeland"
+requirement_text = "Obsidian Desert only"
+id = 20
+_name = "Scorched Resourcefulness"
+short_description = "Foraging becomes easier anywhere."
+long_description = "Foraging becomes easier anywhere."
+
+[resource]
+script = ExtResource("2_6fclt")
+perk = SubResource("Resource_rt52r")
+id = 11
+_name = "The Obsidian Desert"
+short_description = "Scorching desert where relentless heat defines existence."
+long_description = "You were raised in an unforgiving desert where the sun dominates the landscape. Life here revolves around endurance, adaptation, and respect for the power of the elements."

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ActionRange" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_xl81w"]
+
+[resource]
+script = ExtResource("1_xl81w")
+max_distance = 10
+short_hand = "L"
+id = 4
+_name = "Long"
+short_description = "Long ranged distance."
+long_description = "Effective against targets within 8 to 10 hexes, requiring accuracy over distance."

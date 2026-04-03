@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_3is5q"]
+
+[resource]
+script = ExtResource("1_3is5q")
+roll_total = 20
+outcome = "Lose 1 additional Mana after the spell resolves."
+id = 20
+_name = "Mana Leak"

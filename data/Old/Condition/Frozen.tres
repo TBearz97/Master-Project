@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Condition" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/condition.gd" id="1_38q15"]
-
-[resource]
-script = ExtResource("1_38q15")
-_name = "Frozen"
-short_description = "Slowed by intense cold."
-long_description = "The creature is hampered by ice and severe cold, reducing mobility and responsiveness."

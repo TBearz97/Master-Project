@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageOrigin" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_origin.gd" id="1_2jhkr"]
+
+[resource]
+script = ExtResource("1_2jhkr")
+id = 2
+_name = "Magical"
+short_description = "Damage of magical origin."
+long_description = "Magical damage originates from spells, enchantments, or supernatural forces. It represents energy shaped by arcane or mystical means."

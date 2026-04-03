@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_q3rbp"]
+
+[resource]
+script = ExtResource("1_q3rbp")
+roll_total = 24
+outcome = "You cannot gain Mana from Focus until the end of your next turn."
+id = 24
+_name = "Spent Breath"

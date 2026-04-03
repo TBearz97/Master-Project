@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_kb06x"]
+
+[resource]
+script = ExtResource("1_kb06x")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 87
+_name = "Point-Blank Shot"
+short_description = "Point-blank firearm shot."
+long_description = "Fire at extremely close range with total commitment."

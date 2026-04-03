@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_type.gd" id="1_v0aoi"]
+
+[resource]
+script = ExtResource("1_v0aoi")
+id = 12
+_name = "Corrupt"
+short_description = "Dark corruption damage."
+long_description = "Corrupt damage stems from dark, twisted forces that degrade and destabilize both body and soul."

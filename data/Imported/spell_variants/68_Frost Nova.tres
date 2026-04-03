@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_ss41v"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_uu7ls"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_ufdh8"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_ghly5"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("2_uu7ls")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("3_ufdh8")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_bjifl"]
+script = ExtResource("4_ghly5")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Ice", "Instant"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Invoke ice in your hands and hurl it at a target. This spell deals 6 CD and applies Freeze."
+id = 18
+_name = "Invoke Ice"
+short_description = "Hurl ice at a target."
+long_description = "Invoke ice in your hands and hurl it at a target. This spell deals 6 CD and applies Freeze."
+
+[resource]
+script = ExtResource("1_ss41v")
+spell = SubResource("Resource_bjifl")
+mana_cost = 4
+id = 68
+_name = "Frost Nova"
+short_description = "Create freezing burst."
+long_description = "Reduce the range to Reach, but spread the spell outward in a freezing burst."

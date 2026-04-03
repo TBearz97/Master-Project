@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_tctgn"]
+
+[resource]
+script = ExtResource("1_tctgn")
+category = "Survival and Field"
+requirement_text = "Requirement: Dexterity 6, Athletics 2"
+id = 104
+_name = "Feline Grace"
+short_description = "Jump and land more safely."
+long_description = "Jumping, leaping, and landing safely become easier for you. Whenever you take falling damage, reduce the final damage by 10%."

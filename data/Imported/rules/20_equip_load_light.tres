@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_ei31m"]
+
+[resource]
+script = ExtResource("1_ei31m")
+expression = "current_equip_load <= max_equip_load / 3"
+id = 20
+_name = "equip_load_light"
+short_description = "Light load threshold."
+long_description = "Light load is up to one third of maximum equip load."

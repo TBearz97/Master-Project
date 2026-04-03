@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_eu7p2"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_eex4s"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_2lv3m"]
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("2_eex4s")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[sub_resource type="Resource" id="Resource_3bn1f"]
+script = ExtResource("3_2lv3m")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Instant"])
+base_cast = "Empower one ranged weapon with primal force until the end of the scene."
+id = 8
+_name = "Hunter's Shot"
+short_description = "Empower a ranged weapon with primal force."
+long_description = "Empower one ranged weapon with primal force until the end of the scene."
+
+[resource]
+script = ExtResource("1_eu7p2")
+spell = SubResource("Resource_3bn1f")
+mana_cost = 2
+id = 31
+_name = "Revealing Shot"
+short_description = "Attacks reveal targets."
+long_description = "Attacks made with the weapon gain Revealing."

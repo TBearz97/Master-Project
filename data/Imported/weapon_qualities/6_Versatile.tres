@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="WeaponQuality" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="1_j6h7a"]
+
+[resource]
+script = ExtResource("1_j6h7a")
+expression = "is_two_handed ? two_handed_damage_die : one_handed_damage_die"
+id = 6
+_name = "Versatile"
+short_description = "Flexible in handling, adaptable to different combat styles."
+long_description = "This weapon can be used in multiple ways depending on the wielder’s needs, offering a balance between control and power through different grips or techniques."

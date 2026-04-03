@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_1ql3c"]
+
+[resource]
+script = ExtResource("1_1ql3c")
+category = "Instruments"
+effect = "-"
+weight = 3.0
+value = 50
+allowed_slots = Array[int]([6])
+id = 185
+_name = "Hurdy-gurdy"
+short_description = "Complex hand-cranked string instrument."
+long_description = "A hurdy-gurdy that produces sound through a hand-cranked wheel and keys, suitable for both melody and drone."

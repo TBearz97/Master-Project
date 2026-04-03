@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_w83fw"]
+
+[resource]
+script = ExtResource("1_w83fw")
+category = "Background"
+requirement_text = "Hunter only"
+id = 35
+_name = "Forager"
+short_description = "Foraging takes less time for you."
+long_description = "Foraging takes less time for you."

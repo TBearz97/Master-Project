@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_j4gpo"]
+
+[resource]
+script = ExtResource("1_j4gpo")
+expression = "rollDice(1, 20) + potency >= defense"
+id = 23
+_name = "effect_check"
+short_description = "Effect succeeds if roll + potency >= defense."
+long_description = "When an attack, action, or spell applies a secondary effect, roll 1d20 and add Potency. If the result meets or exceeds the relevant defense, the effect gets through."

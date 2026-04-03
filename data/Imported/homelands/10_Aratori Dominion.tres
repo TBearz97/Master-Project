@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_j5tgp"]
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_n6vgk"]
+
+[sub_resource type="Resource" id="Resource_po47j"]
+script = ExtResource("1_j5tgp")
+category = "Homeland"
+requirement_text = "Aratori Dominion only"
+id = 19
+_name = "Survivor"
+short_description = "Necrotic damage cannot put you into a coma."
+long_description = "Necrotic damage cannot put you in a coma."
+
+[resource]
+script = ExtResource("2_n6vgk")
+perk = SubResource("Resource_po47j")
+id = 10
+_name = "Aratori Dominion"
+short_description = "Hazardous land marked by toxicity and constant danger."
+long_description = "You come from a region where the environment itself is a threat. Survival requires caution, resilience, and an ability to endure conditions that would overwhelm most others."

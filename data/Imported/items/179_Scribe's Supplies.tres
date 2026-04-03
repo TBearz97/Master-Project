@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_tljf8"]
+
+[resource]
+script = ExtResource("1_tljf8")
+category = "Crafting Tools"
+effect = "Tools used for writing, copying, and preserving text."
+weight = 2.5
+value = 60
+allowed_slots = Array[int]([6])
+id = 179
+_name = "Scribe's Supplies"
+short_description = "Tools for writing and recordkeeping."
+long_description = "A set of scribe’s supplies used for writing, copying, preserving, and organizing texts and records."

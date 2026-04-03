@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_lw8nl"]
+
+[resource]
+script = ExtResource("1_lw8nl")
+addiction = 2
+duration = "Instant"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 53
+allowed_slots = Array[int]([6])
+id = 143
+_name = "Greater Potion of Mana"
+short_description = "Alchemical consumable."
+long_description = "Greater Potion of Mana restores or enhances magical energy."

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ActionRange" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_1qa7v"]
+
+[resource]
+script = ExtResource("1_1qa7v")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."

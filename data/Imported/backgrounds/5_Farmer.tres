@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="Background" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_f14iy"]
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_nqbkw"]
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="3_2hnsm"]
+
+[sub_resource type="Resource" id="Resource_iut7d"]
+script = ExtResource("1_f14iy")
+category = "Background"
+requirement_text = "Farmer only"
+id = 25
+_name = "Simple Living"
+short_description = "Food and shelter you provide can support one additional person."
+long_description = "Food and shelter you provide can support one additional person."
+
+[sub_resource type="Resource" id="Resource_qh5pf"]
+script = ExtResource("3_2hnsm")
+max_rank = 10
+id = 14
+_name = "Survival"
+short_description = "The knowledge to endure the wilds."
+long_description = "Survival is the understanding of nature’s dangers and gifts — how to find water, build shelter, track game, and weather storm or famine. It is the art of living where the land itself may seek to claim you."
+
+[sub_resource type="Resource" id="Resource_ua1t7"]
+script = ExtResource("3_2hnsm")
+max_rank = 10
+id = 1
+_name = "Animal Handling"
+short_description = "The bond between mortal and beast."
+long_description = "Animal handling is the art of trust and instinct, guiding creatures through patience rather than force. It is the steady hand that calms a frightened steed, the subtle command that turns a hound against its quarry, and the quiet respect that earns loyalty from claw and fang alike."
+
+[resource]
+script = ExtResource("2_nqbkw")
+perk = SubResource("Resource_iut7d")
+skill_1 = SubResource("Resource_qh5pf")
+skill_2 = SubResource("Resource_ua1t7")
+id = 5
+_name = "Farmer"
+short_description = "Hardworking individual accustomed to life on the land."
+long_description = "You lived close to the earth, working with your hands to sustain yourself and others. Your life taught patience, resilience, and a grounded understanding of nature and community."

@@ -5,8 +5,10 @@ enum WeaponSize { ONE_HANDED, TWO_HANDED }
 enum WeaponRange { MELEE, CLOSE, MEDIUM, LONG }
 
 @export var damage_profile: DamageProfile
+@export var size: WeaponSize
 @export var handedness: WeaponSize
 @export var actions: Array[Action]
+@export var qualities: Array
 
 func _init(
 	idDB: int = -1,
@@ -28,13 +30,17 @@ func _init(
 	# Convert string → enum
 	match handednessDB:
 		"1H":
+			size = WeaponSize.ONE_HANDED
 			handedness = WeaponSize.ONE_HANDED
 		"2H":
+			size = WeaponSize.TWO_HANDED
 			handedness = WeaponSize.TWO_HANDED
 		_:
+			size = WeaponSize.ONE_HANDED
 			handedness = WeaponSize.ONE_HANDED  # safe default
 
 	actions = []
+	qualities = []
 
 func _print() -> String:
 	var handedness_str := ""

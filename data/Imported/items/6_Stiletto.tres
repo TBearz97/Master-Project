@@ -1,0 +1,129 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_khk5p"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_4d17n"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_2rcnt"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_2r2t4"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_15c6r"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_iw2g5"]
+
+[sub_resource type="Resource" id="Resource_mdodo"]
+script = ExtResource("2_4d17n")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 67
+_name = "Jab"
+short_description = "Quick opening strike."
+long_description = "A quick close strike meant to create an opening."
+
+[sub_resource type="Resource" id="Resource_akxin"]
+script = ExtResource("2_4d17n")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 125
+_name = "Thrust"
+short_description = "Precise piercing thrust."
+long_description = "A focused lunge driving the point into the target."
+
+[sub_resource type="Resource" id="Resource_yewx0"]
+script = ExtResource("2_4d17n")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 40
+_name = "Feint"
+short_description = "Deceptive setup attack."
+long_description = "You bait a reaction before redirecting into the real attack."
+
+[sub_resource type="Resource" id="Resource_0n7uy"]
+script = ExtResource("2_4d17n")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 129
+_name = "Twist"
+short_description = "Twisting follow-through attack."
+long_description = "A precise turn of the weapon after contact to deepen the harm."
+
+[sub_resource type="Resource" id="Resource_on50c"]
+script = ExtResource("2_4d17n")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 83
+_name = "Piercer"
+short_description = "Armor-piercing thrust."
+long_description = "A hard puncturing attack that forces through protection with intent."
+
+[sub_resource type="Resource" id="Resource_uhto8"]
+script = ExtResource("2_4d17n")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 56
+_name = "Heart Seeker"
+short_description = "Vital-point thrust."
+long_description = "A thrust or lunge aimed with lethal certainty at a vital opening."
+
+[sub_resource type="Resource" id="Resource_ovtvx"]
+script = ExtResource("2_4d17n")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 43
+_name = "Final Salute"
+short_description = "Precise rapier finisher."
+long_description = "A perfected rapier finish delivered with confidence and precision."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_2rcnt")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_c7uuh"]
+script = ExtResource("4_2r2t4")
+damage_die = 4
+speed = 20
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_nnlnl"]
+script = ExtResource("5_15c6r")
+expression = "is_concealable == true"
+id = 3
+_name = "Concealed"
+short_description = "Compact and discreet, easily kept out of sight."
+long_description = "This weapon is small or subtle enough to be carried without drawing attention, making it ideal for situations where discretion matters."
+
+[sub_resource type="Resource" id="Resource_4swjo"]
+script = ExtResource("5_15c6r")
+expression = "damage_roll >= (damage_die_max - 1)"
+id = 1
+_name = "Brutal"
+short_description = "Designed to deliver devastating, crushing force."
+long_description = "Weapons with this property are built to maximize raw impact, delivering strikes that feel overwhelming and difficult to withstand."
+
+[resource]
+script = ExtResource("6_iw2g5")
+damage_profile = SubResource("Resource_c7uuh")
+actions = Array[ExtResource("1_khk5p")]([SubResource("Resource_mdodo"), SubResource("Resource_akxin"), SubResource("Resource_yewx0"), SubResource("Resource_0n7uy"), SubResource("Resource_on50c"), SubResource("Resource_uhto8"), SubResource("Resource_ovtvx")])
+qualities = [SubResource("Resource_nnlnl"), SubResource("Resource_4swjo")]
+weight = 0.5
+value = 20
+allowed_slots = Array[int]([7])
+id = 6
+_name = "Stiletto"
+short_description = "Narrow blade made to slip through openings."
+long_description = "A stiletto is a ruthless piercing weapon designed for weak points, deep punctures, and lethal finishing thrusts."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Modifier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_kiu3y"]
+
+[resource]
+script = ExtResource("1_kiu3y")
+id = 10
+_name = "Bestiary Progression"
+short_description = "Improves knowledge of creatures."
+long_description = "Bestiary Progression tracks knowledge and understanding of creatures, improving effectiveness when dealing with known enemy types."

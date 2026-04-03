@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_os3i3"]
-
-[resource]
-script = ExtResource("1_os3i3")
-category = "Magic"
-_name = "Spellsword"
-long_description = "Requirement: Any magical identity perk, Weapon Proficiency, Level 4\\\\n\\\\nChoose one weapon type you have Weapon Proficiency with. That weapon counts as a casting focus for you, and the first time each round you deal damage with it you gain 1 Mana."

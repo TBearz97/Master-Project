@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_i3yth"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_71d5k"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_glsrl"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_dytr6"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_7eaml"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_qdelf"]
+
+[sub_resource type="Resource" id="Resource_88q67"]
+script = ExtResource("2_71d5k")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 120
+_name = "Strike"
+short_description = "Basic direct attack."
+long_description = "A direct, unadorned blow."
+
+[sub_resource type="Resource" id="Resource_hf0e4"]
+script = ExtResource("2_71d5k")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 21
+_name = "Clobber"
+short_description = "Unbalancing blunt strike."
+long_description = "A rough battering blow designed to knock the target off balance."
+
+[sub_resource type="Resource" id="Resource_4trmv"]
+script = ExtResource("2_71d5k")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 64
+_name = "Hook Swing"
+short_description = "Wide angled swing."
+long_description = "A chained or spiked swing that comes around from an awkward angle."
+
+[sub_resource type="Resource" id="Resource_on50c"]
+script = ExtResource("2_71d5k")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 83
+_name = "Piercer"
+short_description = "Armor-piercing thrust."
+long_description = "A hard puncturing attack that forces through protection with intent."
+
+[sub_resource type="Resource" id="Resource_2maij"]
+script = ExtResource("2_71d5k")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Dazed\", 1)"])
+id = 60
+_name = "Helmshaker"
+short_description = "Stunning crushing strike."
+long_description = "A crushing impact aimed to leave the target stunned and broken in posture."
+
+[sub_resource type="Resource" id="Resource_21fj5"]
+script = ExtResource("2_71d5k")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 101
+_name = "Ruin Chain"
+short_description = "Relentless chained assault."
+long_description = "A relentless chained assault that keeps the enemy from recovering space."
+
+[sub_resource type="Resource" id="Resource_r1ru7"]
+script = ExtResource("2_71d5k")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 5
+_name = "Black Comet"
+short_description = "Heavy spiked finishing strike."
+long_description = "A spiked finishing strike that lands with terrifying inevitability."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_glsrl")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_hiskv"]
+script = ExtResource("4_dytr6")
+damage_die = 8
+speed = 33
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ep5i6"]
+script = ExtResource("5_7eaml")
+expression = "is_two_handed ? two_handed_damage_die : one_handed_damage_die"
+id = 6
+_name = "Versatile"
+short_description = "Flexible in handling, adaptable to different combat styles."
+long_description = "This weapon can be used in multiple ways depending on the wielder’s needs, offering a balance between control and power through different grips or techniques."
+
+[resource]
+script = ExtResource("6_qdelf")
+damage_profile = SubResource("Resource_hiskv")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_i3yth")]([SubResource("Resource_88q67"), SubResource("Resource_hf0e4"), SubResource("Resource_4trmv"), SubResource("Resource_on50c"), SubResource("Resource_2maij"), SubResource("Resource_21fj5"), SubResource("Resource_r1ru7")])
+qualities = [SubResource("Resource_ep5i6")]
+weight = 4.0
+value = 45
+allowed_slots = Array[int]([7])
+id = 27
+_name = "Morning Star"
+short_description = "Spiked weapon combining weight and penetration."
+long_description = "A morning star pairs crushing delivery with puncturing force, making it deadly against both flesh and armor."

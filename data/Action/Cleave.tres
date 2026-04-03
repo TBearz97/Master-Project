@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_gt5h7"]
-
-[resource]
-script = ExtResource("1_gt5h7")
-_name = "Cleave"
-short_description = "A powerful chopping blow."
-long_description = "A downward chop with full force behind it."

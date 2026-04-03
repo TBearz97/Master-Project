@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_qkgjy"]
-
-[resource]
-script = ExtResource("1_qkgjy")
-category = "Leadership and Social"
-_name = "Black Market"
-long_description = "Requirement: Society 2 or Stealth 2\\\\n\\\\nTests made to find illegal, hidden, or restricted goods become easier."

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_ch0v7"]
+
+[resource]
+script = ExtResource("1_ch0v7")
+healing = 11
+duration = "Until End of Next Scene"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.5
+value = 60
+allowed_slots = Array[int]([6])
+id = 74
+_name = "Grilled Deer"
+short_description = "Restorative food item."
+long_description = "Grilled Deer is a prepared or raw food item that restores 11 HP when consumed."

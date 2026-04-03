@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_e3k54"]
+
+[resource]
+script = ExtResource("1_e3k54")
+expression = "5"
+id = 14
+_name = "attribute_base_value"
+short_description = "Base attribute value."
+long_description = "All attributes start at 5 during character creation."

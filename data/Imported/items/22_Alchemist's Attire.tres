@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_a3015"]
+
+[resource]
+script = ExtResource("1_a3015")
+clothing_type = "Outfit"
+weight = 1.0
+value = 28
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+id = 22
+_name = "Alchemist's Attire"
+short_description = "Outfit for alchemical work."
+long_description = "A practical set of garments designed for alchemical work, allowing freedom of movement and resistance to minor spills and fumes."

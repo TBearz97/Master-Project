@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_k1cdn"]
+
+[resource]
+script = ExtResource("1_k1cdn")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 5
+_name = "Black Comet"
+short_description = "Heavy spiked finishing strike."
+long_description = "A spiked finishing strike that lands with terrifying inevitability."

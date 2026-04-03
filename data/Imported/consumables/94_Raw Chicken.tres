@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_q0a4r"]
+
+[resource]
+script = ExtResource("1_q0a4r")
+healing = 4
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 2.5
+allowed_slots = Array[int]([6])
+id = 94
+_name = "Raw Chicken"
+short_description = "Restorative food item."
+long_description = "Raw Chicken is a prepared or raw food item that restores 4 HP when consumed."

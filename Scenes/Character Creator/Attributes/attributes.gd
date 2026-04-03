@@ -32,14 +32,16 @@ func _setup() -> void:
 		sb.tooltip_text = attribute._name
 		sb.set_meta(sb.tooltip_text.replace(" ", ""), attribute)
 		sb.alignment = HORIZONTAL_ALIGNMENT_CENTER
-		sb.min_value = 1
+		sb.min_value = attribute.min_value
+		sb.max_value = attribute.max_value
+		sb.value = clamp(5, attribute.min_value, attribute.max_value)
 		if attributes.any(func(a): return a._name == attribute._name):
 			sb.value = attributes[attributes.find_custom(func(a): return a._name == attribute._name)].value
 		sb.rounded = true
 		sb.step = 1
-		prev[sb] = 1
+		prev[sb] = sb.value
 		sb.value_changed.connect(_on_value_changed.bind(bonus1, bonus2, attribute, sb))
-		_on_value_changed(1, bonus1, bonus2, attribute, sb)
+		_on_value_changed(int(sb.value), bonus1, bonus2, attribute, sb)
 
 		grid.columns = 4
 		grid.add_child(label)
@@ -91,8 +93,8 @@ func _save() -> void:
 	PlayerVariables.setAttributePoints(int(points.value))
 
 func _on_value_changed(new_value: int, bonus1: RichTextLabel, bonus2: RichTextLabel, rows: Attribute, sb: SpinBox) -> void:
-	bonus1.text = CampaignVariables.replaceText(rows.bonus_1_prefix + " " + str(RuleEngine.evaluate(rows.bonus_1_expression, ["x"], [new_value])) + " " + rows.bonus_1_suffix)
-	bonus2.text = CampaignVariables.replaceText(rows.bonus_2_prefix + " " + str(RuleEngine.evaluate(rows.bonus_2_expression, ["x"], [new_value])) + " " + rows.bonus_2_suffix)
+	bonus1.text = _format_modifier_text(rows, rows.modifier_1, rows.modifier_1_expression, new_value)
+	bonus2.text = _format_modifier_text(rows, rows.modifier_2, rows.modifier_2_expression, new_value)
 
 	if new_value > prev[sb]:
 		points.value -= new_value - prev[sb]
@@ -103,8 +105,9 @@ func _on_value_changed(new_value: int, bonus1: RichTextLabel, bonus2: RichTextLa
 
 	for key in prev:
 		var _max: float = key.value + points.value
-		if _max > 15:
-			_max = 15
+		var key_attribute: Attribute = key.get_meta(key.tooltip_text.replace(" ", ""))
+		if key_attribute != null:
+			_max = min(_max, key_attribute.max_value)
 		key.max_value = _max
 
 func _on_attribute_changed_for_defences(_new_value: int) -> void:
@@ -135,3 +138,8 @@ func _build_preview_attributes() -> Array[Attribute]:
 		preview_attribute.value = int(sb.value)
 		preview_attributes.append(preview_attribute)
 	return preview_attributes
+
+func _format_modifier_text(attribute: Attribute, modifier: Modifier, expression: String, attribute_value: int) -> String:
+	if modifier == null or expression.is_empty():
+		return ""
+	return CampaignVariables.replaceText("%s %s" % [modifier._name, str(int(RuleEngine.evaluate_player_expression(expression, {"x": attribute_value})))])

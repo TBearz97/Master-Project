@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_crcx5"]
-
-[resource]
-script = ExtResource("1_crcx5")
-category = "Survival and Field"
-_name = "Strong Back"
-long_description = "Requirement: Athletics 1\\\\n\\\\nIncrease your maximum Carry Weight by 10 kg."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_ww1kn"]
+
+[resource]
+script = ExtResource("1_ww1kn")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 109
+_name = "Skull Crack"
+short_description = "Crushing blunt finisher."
+long_description = "A crushing club strike meant to finish with blunt certainty."

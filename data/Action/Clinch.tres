@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_dm0n8"]
-
-[resource]
-script = ExtResource("1_dm0n8")
-_name = "Clinch"
-long_description = "You crash in close and control the enemy's space with your body."

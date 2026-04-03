@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_gaufl"]
+
+[resource]
+script = ExtResource("1_gaufl")
+category = "Background"
+requirement_text = "Acolyte only"
+id = 27
+_name = "Sanctified Presence"
+short_description = "Followers of your faith treat you as one of their own unless given reason not to."
+long_description = "Followers of your faith tend to treat you as one of their own unless given reason not to."

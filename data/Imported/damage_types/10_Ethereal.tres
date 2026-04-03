@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_type.gd" id="1_k1txd"]
+
+[resource]
+script = ExtResource("1_k1txd")
+id = 10
+_name = "Ethereal"
+short_description = "Phase-based damage."
+long_description = "Ethereal damage interacts with targets on a non-physical level, affecting spirits or partially bypassing material defenses."

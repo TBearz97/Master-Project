@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_aa5sb"]
+
+[resource]
+script = ExtResource("1_aa5sb")
+category = "Utility"
+effect = "Standard equipment used to direct a mount."
+allowed_slots = Array[int]([6])
+id = 171
+_name = "Bit and Bridle"
+short_description = "Basic gear for controlling a mount."
+long_description = "A standard bit and bridle used to guide and direct a mount during travel or riding."

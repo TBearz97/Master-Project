@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_5os85"]
-
-[resource]
-script = ExtResource("1_5os85")
-category = "Knowledge and Craft"
-_name = "Theologian"
-long_description = "Requirement: Lore 2\\\\n\\\\nTests involving gods, cults, doctrine, sacred practices, and religious history become easier."

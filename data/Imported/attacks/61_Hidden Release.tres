@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_du5au"]
+
+[resource]
+script = ExtResource("1_du5au")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 61
+_name = "Hidden Release"
+short_description = "Ambush ranged attack."
+long_description = "Fire from concealment or surprise before the enemy properly reads the threat."

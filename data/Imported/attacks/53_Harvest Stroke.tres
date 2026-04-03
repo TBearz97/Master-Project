@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_vh67w"]
+
+[resource]
+script = ExtResource("1_vh67w")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 53
+_name = "Harvest Stroke"
+short_description = "Controlled reaping strike."
+long_description = "A seasoned reaping blow that carries through with deadly control."

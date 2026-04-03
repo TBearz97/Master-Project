@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_1glv1"]
+
+[resource]
+script = ExtResource("1_1glv1")
+physicalDT = 2
+magicalDT = 1
+weight = 3.0
+value = 20
+allowed_slots = Array[int]([3])
+id = 39
+_name = "Hide Torso"
+short_description = "Hide torso armor."
+long_description = "Torso armor crafted from layered hides. Lightweight and flexible but provides only basic defense."

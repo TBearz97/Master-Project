@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_sol1q"]
+
+[resource]
+script = ExtResource("1_sol1q")
+expression = "current_rank + 1"
+id = 13
+_name = "skill_increase_cost"
+short_description = "Cost to increase skill."
+long_description = "Increasing a skill costs (current rank + 1)."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Modifier" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_1a25w"]
+
+[resource]
+script = ExtResource("1_1a25w")
+id = 9
+_name = "Potency"
+short_description = "Enhances effect strength and duration."
+long_description = "Potency enhances the strength, effectiveness, and sometimes duration of abilities, spells, and effects applied to targets."

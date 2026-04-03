@@ -1,0 +1,123 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_li18c"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_g4p4h"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_xdhe3"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_fjyhw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_ll5j1"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_o3nee"]
+
+[sub_resource type="Resource" id="Resource_h1kcs"]
+script = ExtResource("2_g4p4h")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 18
+_name = "Chop"
+short_description = "Heavy committed chop."
+long_description = "A heavy edged attack that commits to a decisive cut."
+
+[sub_resource type="Resource" id="Resource_shctl"]
+script = ExtResource("2_g4p4h")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 19
+_name = "Cleave"
+short_description = "Powerful downward chop."
+long_description = "A downward chop with full force behind it."
+
+[sub_resource type="Resource" id="Resource_bk1e5"]
+script = ExtResource("2_g4p4h")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 134
+_name = "Wing Clip"
+short_description = "Movement-disrupting strike."
+long_description = "A strike meant to ruin footing and cut off clean movement."
+
+[sub_resource type="Resource" id="Resource_vviue"]
+script = ExtResource("2_g4p4h")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 47
+_name = "Gash"
+short_description = "Bleeding-focused cut."
+long_description = "A deeper deliberate wound intended to keep bleeding pressure on the target."
+
+[sub_resource type="Resource" id="Resource_va0op"]
+script = ExtResource("2_g4p4h")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 23
+_name = "Crescent Arc"
+short_description = "Wide curved sweeping strike."
+long_description = "A flowing curved swing meant to catch multiple lines at once."
+
+[sub_resource type="Resource" id="Resource_5j1x0"]
+script = ExtResource("2_g4p4h")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 36
+_name = "Executioner's Fall"
+short_description = "Descending execution cut."
+long_description = "A committed descending cut that ends hesitation and mercy."
+
+[sub_resource type="Resource" id="Resource_tq1yt"]
+script = ExtResource("2_g4p4h")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 135
+_name = "World Splitter"
+short_description = "Maximum force axe strike."
+long_description = "A great axe blow delivered with maximum force and commitment."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_xdhe3")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_rn455"]
+script = ExtResource("4_fjyhw")
+damage_die = 10
+speed = 50
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_4swjo"]
+script = ExtResource("5_ll5j1")
+expression = "damage_roll >= (damage_die_max - 1)"
+id = 1
+_name = "Brutal"
+short_description = "Designed to deliver devastating, crushing force."
+long_description = "Weapons with this property are built to maximize raw impact, delivering strikes that feel overwhelming and difficult to withstand."
+
+[resource]
+script = ExtResource("6_o3nee")
+damage_profile = SubResource("Resource_rn455")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_li18c")]([SubResource("Resource_h1kcs"), SubResource("Resource_shctl"), SubResource("Resource_bk1e5"), SubResource("Resource_vviue"), SubResource("Resource_va0op"), SubResource("Resource_5j1x0"), SubResource("Resource_tq1yt")])
+qualities = [SubResource("Resource_4swjo")]
+weight = 5.5
+value = 45
+allowed_slots = Array[int]([7])
+id = 13
+_name = "Great Axe"
+short_description = "Huge axe built for sweeping execution blows."
+long_description = "A great axe dominates space with devastating chopping power and massive finishing arcs that leave little room for recovery."

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_qty68"]
+
+[resource]
+script = ExtResource("1_qty68")
+category = "Background"
+requirement_text = "Gladiator only"
+id = 34
+_name = "Arena Instinct"
+short_description = "Ignore becoming Prone the first time each combat."
+long_description = "The first time each combat you would become Prone, you may ignore it."

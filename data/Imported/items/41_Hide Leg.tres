@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_jsn5y"]
+
+[resource]
+script = ExtResource("1_jsn5y")
+physicalDT = 2
+magicalDT = 1
+weight = 2.0
+value = 14
+allowed_slots = Array[int]([5, 4])
+id = 41
+_name = "Hide Leg"
+short_description = "Hide leg protection."
+long_description = "Hide leggings designed for minimal protection with little impact on movement."

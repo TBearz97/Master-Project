@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_sos0h"]
+
+[resource]
+script = ExtResource("1_sos0h")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 67
+_name = "Jab"
+short_description = "Quick opening strike."
+long_description = "A quick close strike meant to create an opening."

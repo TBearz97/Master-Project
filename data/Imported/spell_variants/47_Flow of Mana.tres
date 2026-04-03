@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_1wu25"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_t67h2"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_gv3ij"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_gyncf"]
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("2_t67h2")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("3_gv3ij")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[sub_resource type="Resource" id="Resource_rfnn1"]
+script = ExtResource("4_gyncf")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Concentration", "Harmless", "Healing"])
+action_range = SubResource("Resource_eulau")
+base_cast = "Concentrate on a target and continuously heal its injuries and wounds. The target regains 3 CD at the start of each of your turns."
+id = 12
+_name = "Regeneration"
+short_description = "Continuously heal a target over time."
+long_description = "Concentrate on a target and continuously heal its injuries and wounds. The target regains 3 CD at the start of each of your turns."
+
+[resource]
+script = ExtResource("1_1wu25")
+spell = SubResource("Resource_rfnn1")
+mana_cost = 2
+id = 47
+_name = "Flow of Mana"
+short_description = "Generate Mana over time."
+long_description = "The target gains Mana each turn."

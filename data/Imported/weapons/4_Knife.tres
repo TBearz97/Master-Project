@@ -1,0 +1,121 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_ky0yh"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_8rem8"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_62fap"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_38ftl"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_g4dei"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_xdu2p"]
+
+[sub_resource type="Resource" id="Resource_uqoht"]
+script = ExtResource("2_8rem8")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 110
+_name = "Slash"
+short_description = "Wide cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_mdodo"]
+script = ExtResource("2_8rem8")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 67
+_name = "Jab"
+short_description = "Quick opening strike."
+long_description = "A quick close strike meant to create an opening."
+
+[sub_resource type="Resource" id="Resource_yewx0"]
+script = ExtResource("2_8rem8")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 40
+_name = "Feint"
+short_description = "Deceptive setup attack."
+long_description = "You bait a reaction before redirecting into the real attack."
+
+[sub_resource type="Resource" id="Resource_vviue"]
+script = ExtResource("2_8rem8")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 47
+_name = "Gash"
+short_description = "Bleeding-focused cut."
+long_description = "A deeper deliberate wound intended to keep bleeding pressure on the target."
+
+[sub_resource type="Resource" id="Resource_0n7uy"]
+script = ExtResource("2_8rem8")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 129
+_name = "Twist"
+short_description = "Twisting follow-through attack."
+long_description = "A precise turn of the weapon after contact to deepen the harm."
+
+[sub_resource type="Resource" id="Resource_v8ped"]
+script = ExtResource("2_8rem8")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 68
+_name = "Kidney Strike"
+short_description = "Crippling close strike."
+long_description = "A cruel close blow aimed at dropping the target's strength instantly."
+
+[sub_resource type="Resource" id="Resource_opbb0"]
+script = ExtResource("2_8rem8")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 79
+_name = "Open Vein"
+short_description = "Precision bleeding cut."
+long_description = "A perfected cut placed exactly where a wound will matter most."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_62fap")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_ri7xj"]
+script = ExtResource("4_38ftl")
+damage_die = 4
+speed = 20
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_nnlnl"]
+script = ExtResource("5_g4dei")
+expression = "is_concealable == true"
+id = 3
+_name = "Concealed"
+short_description = "Compact and discreet, easily kept out of sight."
+long_description = "This weapon is small or subtle enough to be carried without drawing attention, making it ideal for situations where discretion matters."
+
+[resource]
+script = ExtResource("6_xdu2p")
+damage_profile = SubResource("Resource_ri7xj")
+actions = Array[ExtResource("1_ky0yh")]([SubResource("Resource_uqoht"), SubResource("Resource_mdodo"), SubResource("Resource_yewx0"), SubResource("Resource_vviue"), SubResource("Resource_0n7uy"), SubResource("Resource_v8ped"), SubResource("Resource_opbb0")])
+qualities = [SubResource("Resource_nnlnl")]
+weight = 0.5
+value = 18
+allowed_slots = Array[int]([7])
+id = 4
+_name = "Knife"
+short_description = "Small concealed blade for close work."
+long_description = "A knife is easy to conceal and deadly in tight quarters, favoring quick slashes, feints, and vicious precision wounds."

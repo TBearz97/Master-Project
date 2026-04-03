@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_n56hi"]
-
-[resource]
-script = ExtResource("1_n56hi")
-_name = "Body Blow"
-long_description = "A committed strike to the middle meant to steal breath and stance."

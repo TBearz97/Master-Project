@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_x77yt"]
+
+[resource]
+script = ExtResource("1_x77yt")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
+weight = 4.0
+value = 48
+allowed_slots = Array[int]([5, 4])
+id = 49
+_name = "Chain Mail Leg"
+short_description = "Chain mail leg armor."
+long_description = "Chain mail leggings providing durable protection at the cost of increased weight."

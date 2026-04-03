@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_1o385"]
+
+[resource]
+script = ExtResource("1_1o385")
+roll_total = 11
+outcome = "Nearby air whispers your last spoken word, but nothing else happens."
+id = 11
+_name = "Whispering Air"

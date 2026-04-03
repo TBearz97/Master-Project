@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_iohte"]
+
+[resource]
+script = ExtResource("1_iohte")
+physicalDT = 8
+magicalDT = 10
+necroticDT = 2
+weight = 3.0
+value = 76
+allowed_slots = Array[int]([2, 1])
+id = 60
+_name = "Brigandines Arm"
+short_description = "Brigandine arm guards."
+long_description = "Brigandine arm guards balancing flexibility with strong protective capability."

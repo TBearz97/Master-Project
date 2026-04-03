@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_dhswp"]
+
+[resource]
+script = ExtResource("1_dhswp")
+category = "Utility"
+effect = "Used to write documents and scrolls. Bought in stacks of 30."
+weight = 0.1
+value = 7
+allowed_slots = Array[int]([6])
+id = 160
+_name = "Paper"
+short_description = "Paper for notes and scrolls."
+long_description = "Sheets of paper used for writing documents and scrolls. Usually purchased in stacks of 30."

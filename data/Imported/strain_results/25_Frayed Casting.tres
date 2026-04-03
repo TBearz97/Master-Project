@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_1jn5h"]
+
+[resource]
+script = ExtResource("1_1jn5h")
+roll_total = 25
+outcome = "Your next spell this scene has +1 Strain roll."
+id = 25
+_name = "Frayed Casting"

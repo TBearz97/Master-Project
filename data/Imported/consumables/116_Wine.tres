@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_0i6ft"]
+
+[resource]
+script = ExtResource("1_0i6ft")
+alcoholic = true
+duration = "Instant"
+category = "Beverage"
+effect = "Alcoholic drink."
+weight = 0.2
+value = 15
+allowed_slots = Array[int]([6])
+id = 116
+_name = "Wine"
+short_description = "Alcoholic drink."
+long_description = "Wine is an alcoholic beverage. It offers little to no healing but may have other effects depending on usage."

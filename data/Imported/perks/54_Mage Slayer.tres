@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_jmi06"]
+
+[resource]
+script = ExtResource("1_jmi06")
+category = "Weapon"
+requirement_text = "Requirement: Resolve 6, Level 5"
+id = 54
+_name = "Mage Slayer"
+short_description = "Damage can reduce enemy Concentration."
+long_description = "When you damage a creature that currently has Concentration, reduce its Concentration by 1. This can only happen once per turn."

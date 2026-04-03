@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Utility" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="1_5rnlc"]
+
+[resource]
+script = ExtResource("1_5rnlc")
+category = "Utility"
+effect = "A tent that allows two characters to become rested after sleeping outdoors."
+weight = 10.0
+value = 84
+allowed_slots = Array[int]([6])
+id = 165
+_name = "Two-Person Tent"
+short_description = "Tent for two travelers."
+long_description = "A durable field tent that allows two characters to become rested after sleeping outdoors."

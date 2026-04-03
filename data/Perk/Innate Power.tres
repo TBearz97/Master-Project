@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_w0ikc"]
-
-[resource]
-script = ExtResource("1_w0ikc")
-category = "Magic"
-_name = "Innate Power"
-long_description = "Requirement: Resolve 6\\\\n\\\\nChoose a magical keyword, such as Fire, Illusion, or Necrotic. You learn matching spells from any school, with a limited number of permanently known spells that grows as you level."

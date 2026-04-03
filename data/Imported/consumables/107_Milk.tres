@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_g1scd"]
+
+[resource]
+script = ExtResource("1_g1scd")
+healing = 1
+duration = "Instant"
+category = "Beverage"
+effect = "Refreshing drink."
+weight = 0.2
+value = 17
+allowed_slots = Array[int]([6])
+id = 107
+_name = "Milk"
+short_description = "Refreshing drink."
+long_description = "Milk is a refreshing drink that restores 1 HP when consumed."

@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_yb8p0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_1hyky"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_y8ijm"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_m51gu"]
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("2_1hyky")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_r6c33"]
+script = ExtResource("3_y8ijm")
+id = 2
+_name = "Zealous"
+short_description = "Magic fueled by belief and devotion."
+long_description = "Magic shaped by belief, devotion, conviction, and the powers that answer them."
+
+[sub_resource type="Resource" id="Resource_4k3dk"]
+script = ExtResource("4_m51gu")
+school = SubResource("Resource_r6c33")
+tags = Array[String](["Instant", "Radiant"])
+action_range = SubResource("Resource_eulau")
+base_cast = "Throw three glimmershards. Each shard deals 1 CD and clings to the target. When that target is attacked, each attached shard explodes for additional damage."
+id = 42
+_name = "Glimmershards"
+short_description = "Throw radiant shards that cling and explode."
+long_description = "Throw three glimmershards. Each shard deals 1 CD and clings to the target. When that target is attacked, each attached shard explodes for additional damage."
+
+[resource]
+script = ExtResource("1_yb8p0")
+spell = SubResource("Resource_4k3dk")
+mana_cost = 3
+id = 147
+_name = "Shard Burst"
+short_description = "Create explosion effect."
+long_description = "The explosion damages creatures around the target."

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_m4a8v"]
+
+[resource]
+script = ExtResource("1_m4a8v")
+healing = 4
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.5
+value = 12
+allowed_slots = Array[int]([6])
+id = 84
+_name = "Pork Meat"
+short_description = "Restorative food item."
+long_description = "Pork Meat is a prepared or raw food item that restores 4 HP when consumed."

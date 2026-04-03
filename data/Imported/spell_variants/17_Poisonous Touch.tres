@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_tncrw"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_osrnf"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_vf3op"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_kgtg2"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("2_osrnf")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_ww6q2"]
+script = ExtResource("3_vf3op")
+id = 3
+_name = "Primal"
+short_description = "Magic drawn from nature and instinct."
+long_description = "Magic drawn from nature, instinct, spirits, and the living forces of the world."
+
+[sub_resource type="Resource" id="Resource_6shmg"]
+script = ExtResource("4_kgtg2")
+school = SubResource("Resource_ww6q2")
+tags = Array[String](["Concentration", "Control", "Nature"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Command nearby plants to lash out, restrain movement, and harm a creature."
+id = 5
+_name = "Control Plants"
+short_description = "Command nearby plants to hinder a target."
+long_description = "Command nearby plants to lash out, restrain movement, and harm a creature."
+
+[resource]
+script = ExtResource("1_tncrw")
+spell = SubResource("Resource_6shmg")
+mana_cost = 2
+id = 17
+_name = "Poisonous Touch"
+short_description = "Apply poison effect."
+long_description = "Add a poison condition."

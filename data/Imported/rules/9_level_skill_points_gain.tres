@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_2nt8i"]
+
+[resource]
+script = ExtResource("1_2nt8i")
+expression = "6"
+id = 9
+_name = "level_skill_points_gain"
+short_description = "Skill points gained on level up."
+long_description = "Each level grants 6 skill points."

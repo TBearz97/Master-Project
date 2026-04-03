@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_vl3d2"]
+
+[resource]
+script = ExtResource("1_vl3d2")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Pinned\", 1)"])
+id = 84
+_name = "Pinning Bolt"
+short_description = "Pinning heavy bolt."
+long_description = "Place a heavy bolt so it fixes the target in place or ruins their movement."

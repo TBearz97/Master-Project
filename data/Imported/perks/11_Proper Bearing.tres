@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_wnbdc"]
+
+[resource]
+script = ExtResource("1_wnbdc")
+category = "Homeland"
+requirement_text = "Orotari Kingdom only"
+id = 11
+_name = "Proper Bearing"
+short_description = "Gain respect in formal settings."
+long_description = "Your upbringing in a refined kingdom grants you the manners and expectations of civilized life. In formal settings, you are treated with the respect due to proper station unless you give others reason not to."

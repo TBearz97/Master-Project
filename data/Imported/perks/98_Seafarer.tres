@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ylipk"]
+
+[resource]
+script = ExtResource("1_ylipk")
+category = "Knowledge and Craft"
+requirement_text = "Requirement: Navigation 2"
+id = 98
+_name = "Seafarer"
+short_description = "Navigate at sea more easily."
+long_description = "Navigation tests at sea become easier."

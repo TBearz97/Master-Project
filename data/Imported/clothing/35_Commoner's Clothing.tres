@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_y6eyv"]
+
+[resource]
+script = ExtResource("1_y6eyv")
+clothing_type = "Clothing"
+effect = "Common clothing offers basic everyday protection with no special bonus beyond its modest DT."
+weight = 1.0
+value = 8
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+id = 35
+_name = "Commoner's Clothing"
+short_description = "Simple everyday clothing."
+long_description = "Basic clothing worn by common folk, offering comfort and minimal protection without specialized function."

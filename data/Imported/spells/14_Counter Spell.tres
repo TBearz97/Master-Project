@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="1_vtckn"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="2_l7j0r"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("1_vtckn")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[resource]
+script = ExtResource("2_l7j0r")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Arcane", "Harmless", "Instant"])
+base_cast = "Use this spell against an ongoing Channeling spell or an active Concentration spell. Roll d20 + Potency against Mana Spent x2. On a success, the target spell ends or fails, but the original caster still loses the Mana spent."
+id = 14
+_name = "Counter Spell"
+short_description = "Disrupt an ongoing or channeled spell."
+long_description = "Use this spell against an ongoing Channeling spell or an active Concentration spell. Roll d20 + Potency against Mana Spent x2. On a success, the target spell ends or fails, but the original caster still loses the Mana spent."

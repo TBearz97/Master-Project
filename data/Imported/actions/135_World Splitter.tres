@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_g81nf"]
+
+[resource]
+script = ExtResource("1_g81nf")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 135
+_name = "World Splitter"
+short_description = "Maximum force axe strike."
+long_description = "A great axe blow delivered with maximum force and commitment."

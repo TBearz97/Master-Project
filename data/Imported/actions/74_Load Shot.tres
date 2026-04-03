@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_dd7d6"]
+
+[resource]
+script = ExtResource("1_dd7d6")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 74
+_name = "Load Shot"
+short_description = "Reload firearm."
+long_description = "Reload and ready the firearm for another attack."

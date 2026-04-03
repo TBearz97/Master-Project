@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_levar"]
+
+[resource]
+script = ExtResource("1_levar")
+alcoholic = true
+duration = "Instant"
+category = "Beverage"
+effect = "Alcoholic drink."
+weight = 0.2
+value = 14
+allowed_slots = Array[int]([6])
+id = 106
+_name = "Dirty Wanderer"
+short_description = "Alcoholic drink."
+long_description = "Dirty Wanderer is an alcoholic beverage. It offers little to no healing but may have other effects depending on usage."

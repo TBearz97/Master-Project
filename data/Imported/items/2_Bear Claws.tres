@@ -1,0 +1,121 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_ynxac"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_fm74o"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_eklsr"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_papdm"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_poufr"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_sr4v8"]
+
+[sub_resource type="Resource" id="Resource_mdodo"]
+script = ExtResource("2_fm74o")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 67
+_name = "Jab"
+short_description = "Quick opening strike."
+long_description = "A quick close strike meant to create an opening."
+
+[sub_resource type="Resource" id="Resource_t8vd1"]
+script = ExtResource("2_fm74o")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 89
+_name = "Pounce"
+short_description = "Aggressive lunge attack."
+long_description = "You lunge aggressively to overwhelm the target before they can reset."
+
+[sub_resource type="Resource" id="Resource_sndxl"]
+script = ExtResource("2_fm74o")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 62
+_name = "Hook"
+short_description = "Hooking control strike."
+long_description = "A hooking motion used to drag, redirect, or unbalance the target."
+
+[sub_resource type="Resource" id="Resource_gy0od"]
+script = ExtResource("2_fm74o")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 98
+_name = "Rend"
+short_description = "Tearing attack."
+long_description = "A vicious strike intended to tear and wound."
+
+[sub_resource type="Resource" id="Resource_v8ped"]
+script = ExtResource("2_fm74o")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 68
+_name = "Kidney Strike"
+short_description = "Crippling close strike."
+long_description = "A cruel close blow aimed at dropping the target's strength instantly."
+
+[sub_resource type="Resource" id="Resource_p0thn"]
+script = ExtResource("2_fm74o")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 77
+_name = "Maul"
+short_description = "Overwhelming flurry attack."
+long_description = "A ferocious chain of slashing force that overwhelms the target completely."
+
+[sub_resource type="Resource" id="Resource_hjkd1"]
+script = ExtResource("2_fm74o")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 14
+_name = "Breaker"
+short_description = "Leverage-based finishing strike."
+long_description = "A punishing finishing technique that turns leverage into raw harm."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_eklsr")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_oe6lq"]
+script = ExtResource("4_papdm")
+damage_die = 8
+speed = 33
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_4swjo"]
+script = ExtResource("5_poufr")
+expression = "damage_roll >= (damage_die_max - 1)"
+id = 1
+_name = "Brutal"
+short_description = "Designed to deliver devastating, crushing force."
+long_description = "Weapons with this property are built to maximize raw impact, delivering strikes that feel overwhelming and difficult to withstand."
+
+[resource]
+script = ExtResource("6_sr4v8")
+damage_profile = SubResource("Resource_oe6lq")
+actions = Array[ExtResource("1_ynxac")]([SubResource("Resource_mdodo"), SubResource("Resource_t8vd1"), SubResource("Resource_sndxl"), SubResource("Resource_gy0od"), SubResource("Resource_v8ped"), SubResource("Resource_p0thn"), SubResource("Resource_hjkd1")])
+qualities = [SubResource("Resource_4swjo")]
+weight = 1.0
+value = 30
+allowed_slots = Array[int]([7])
+id = 2
+_name = "Bear Claws"
+short_description = "Savage natural weapons built for tearing prey apart."
+long_description = "Bear claws are brutal natural weapons that emphasize ferocity, lunging attacks, and ripping wounds through overwhelming close-range aggression."

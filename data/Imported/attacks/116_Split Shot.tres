@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_aiejg"]
+
+[resource]
+script = ExtResource("1_aiejg")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 116
+_name = "Split Shot"
+short_description = "Multi-target shot."
+long_description = "Fire with the intent of threatening more than one target or line at once."

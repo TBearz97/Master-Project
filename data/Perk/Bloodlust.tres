@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_80csr"]
-
-[resource]
-script = ExtResource("1_80csr")
-category = "Magic"
-_name = "Bloodlust"
-long_description = "Requirement: Might 6 or Resolve 6\\\\n\\\\nWhen you deal 5 or more HP damage with a single attack or spell, gain 1 Mana. If you deal 10 or more HP damage, gain 2 Mana instead. You cannot gain more than 2 Mana per turn from this perk."

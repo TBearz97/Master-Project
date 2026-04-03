@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_hp85h"]
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_hgqng"]
+
+[sub_resource type="Resource" id="Resource_vapoo"]
+script = ExtResource("1_hp85h")
+category = "Race"
+requirement_text = "Halfling only"
+id = 5
+_name = "Nimble Escape"
+short_description = "When moving out of melee with only one opponent threatening you, the extra AP cost does not apply."
+long_description = "Your small frame and quick instincts make it difficult to pin you down. When moving out of melee with only one opponent threatening you, the extra AP cost does not apply."
+
+[resource]
+script = ExtResource("2_hgqng")
+perk = SubResource("Resource_vapoo")
+id = 5
+_name = "Halfling"
+short_description = "Small, agile people known for charm and resourcefulness."
+long_description = "Halflings are quick, clever, and naturally sociable. Their size encourages agility and adaptability, allowing them to navigate the world through wit and cooperation rather than force. They value comfort, companionship, and clever solutions to life’s challenges."

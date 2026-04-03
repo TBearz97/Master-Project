@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_71lue"]
+
+[resource]
+script = ExtResource("1_71lue")
+physicalDT = 4
+magicalDT = 6
+necroticDT = 1
+weight = 2.0
+value = 48
+allowed_slots = Array[int]([0])
+id = 50
+_name = "Scale Armor Head"
+short_description = "Scale helmet."
+long_description = "A helmet constructed from overlapping metal scales. Balanced magical resistance and durability."

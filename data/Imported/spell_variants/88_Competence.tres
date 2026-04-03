@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_5se8m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_ajjev"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_xe5kn"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("2_ajjev")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_xhcrv"]
+script = ExtResource("3_xe5kn")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Necrotic", "Undead"])
+base_cast = "Raise and command undead servants. A single cast can safely raise either 1 Normal undead or 2 Minions without requiring a control check. Minions have a lower Mana cost than Normal undead. When you attempt to raise undead beyond that safe allowance, make a d20 + Potency check against your current control burden. Control burden begins at -5 and increases by the type of undead you control: - Minion: +2 - Normal: +5 - Mighty: +10 - Legendary: +15 If the check fails, the new undead is not raised and all undead already under your control break free. If you lose Concentration while controlling undead, make the same check to maintain control. On a failure, your undead break free. Undead remain under your control for a day unless laid to rest or otherwise released."
+id = 24
+_name = "Raise Dead"
+short_description = "Raise and command undead servants."
+long_description = "Raise and command undead servants. A single cast can safely raise either 1 Normal undead or 2 Minions without requiring a control check. Minions have a lower Mana cost than Normal undead. When you attempt to raise undead beyond that safe allowance, make a d20 + Potency check against your current control burden. Control burden begins at -5 and increases by the type of undead you control: Minion +2, Normal +5, Mighty +10, Legendary +15. If the check fails, the new undead is not raised and all undead already under your control break free. If you lose Concentration while controlling undead, make the same check to maintain control. On a failure, your undead break free. Undead remain under your control for a day unless laid to rest or otherwise released."
+
+[resource]
+script = ExtResource("1_5se8m")
+spell = SubResource("Resource_xhcrv")
+mana_cost = 2
+id = 88
+_name = "Competence"
+short_description = "Raise stronger undead."
+long_description = "Raise a Mighty undead."

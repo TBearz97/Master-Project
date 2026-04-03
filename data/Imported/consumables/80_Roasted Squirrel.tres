@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_myuih"]
+
+[resource]
+script = ExtResource("1_myuih")
+healing = 6
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.4
+value = 15
+allowed_slots = Array[int]([6])
+id = 80
+_name = "Roasted Squirrel"
+short_description = "Restorative food item."
+long_description = "Roasted Squirrel is a prepared or raw food item that restores 6 HP when consumed."

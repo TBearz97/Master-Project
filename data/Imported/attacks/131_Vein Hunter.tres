@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_e8hmd"]
+
+[resource]
+script = ExtResource("1_e8hmd")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 131
+_name = "Vein Hunter"
+short_description = "Weak-point bolt shot."
+long_description = "A wickedly placed crossbow shot aimed at the most vulnerable point available."

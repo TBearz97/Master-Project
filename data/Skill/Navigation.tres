@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="1_6t80l"]
-
-[resource]
-script = ExtResource("1_6t80l")
-_name = "Navigation"
-long_description = "Finding your way across land or sea, planning routes, and keeping direction in unfamiliar places."

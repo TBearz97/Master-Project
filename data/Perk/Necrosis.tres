@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ohrvi"]
-
-[resource]
-script = ExtResource("1_ohrvi")
-category = "Magic"
-_name = "Necrosis"
-long_description = "Requirement: Ability to deal Necrotic damage\\\\n\\\\nWhen you deal Necrotic damage, ignore 1 Necrotic DT."

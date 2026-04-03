@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_f3lbl"]
+
+[resource]
+script = ExtResource("1_f3lbl")
+roll_total = 28
+outcome = "The spell creates a minor harmful side effect in the nearby area."
+id = 28
+_name = "Hostile Echo"

@@ -1,0 +1,111 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_7wd2u"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_4oc0g"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_5yxar"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_w5ckp"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_7fv6w"]
+
+[sub_resource type="Resource" id="Resource_o1b4l"]
+script = ExtResource("2_4oc0g")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 123
+_name = "Swing"
+short_description = "Simple heavy swing."
+long_description = "A straightforward hammering attack with solid momentum."
+
+[sub_resource type="Resource" id="Resource_sndxl"]
+script = ExtResource("2_4oc0g")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 62
+_name = "Hook"
+short_description = "Hooking control strike."
+long_description = "A hooking motion used to drag, redirect, or unbalance the target."
+
+[sub_resource type="Resource" id="Resource_nsugm"]
+script = ExtResource("2_4oc0g")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 8
+_name = "Body Blow"
+short_description = "Breath-stealing body strike."
+long_description = "A committed strike to the middle meant to steal breath and stance."
+
+[sub_resource type="Resource" id="Resource_rjckg"]
+script = ExtResource("2_4oc0g")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Slowed\", 1)"])
+id = 70
+_name = "Kneecapper"
+short_description = "Low stability-breaking attack."
+long_description = "A low crushing attack aimed at breaking stability and movement."
+
+[sub_resource type="Resource" id="Resource_soqss"]
+script = ExtResource("2_4oc0g")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Dazed\", 1)"])
+id = 4
+_name = "Bell Ringer"
+short_description = "Disorienting hammer blow."
+long_description = "A head-rattling hammer strike that leaves the target reeling."
+
+[sub_resource type="Resource" id="Resource_jv5vm"]
+script = ExtResource("2_4oc0g")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 2
+_name = "Armor Knell"
+short_description = "Armor-punishing hammer strike."
+long_description = "A hammer technique meant to punish even heavily protected foes."
+
+[sub_resource type="Resource" id="Resource_x31na"]
+script = ExtResource("2_4oc0g")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 22
+_name = "Crater Maker"
+short_description = "Brutal hammer finisher."
+long_description = "A hammer blow that lands with brutal finality."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_5yxar")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_pqrmw"]
+script = ExtResource("4_w5ckp")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_7fv6w")
+damage_profile = SubResource("Resource_pqrmw")
+actions = Array[ExtResource("1_7wd2u")]([SubResource("Resource_o1b4l"), SubResource("Resource_sndxl"), SubResource("Resource_nsugm"), SubResource("Resource_rjckg"), SubResource("Resource_soqss"), SubResource("Resource_jv5vm"), SubResource("Resource_x31na")])
+weight = 2.0
+value = 21
+allowed_slots = Array[int]([7])
+id = 14
+_name = "Hammer"
+short_description = "Compact impact weapon for punishing armor and posture."
+long_description = "A hammer concentrates force into blunt, destabilizing blows that batter protection and punish exposed joints."

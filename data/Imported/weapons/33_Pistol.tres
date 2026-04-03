@@ -1,0 +1,129 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_ltam1"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_6a620"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_e0hed"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_dsbwc"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="5_1ssi0"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="6_oawre"]
+
+[sub_resource type="Resource" id="Resource_yryyq"]
+script = ExtResource("2_6a620")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 91
+_name = "Quick Shot"
+short_description = "Quick ranged shot."
+long_description = "Fire a fast and direct shot before the enemy can settle."
+
+[sub_resource type="Resource" id="Resource_dfun2"]
+script = ExtResource("2_6a620")
+attack_tier = "Proficiency"
+ap_cost = 1
+speed = 90
+expressions = Array[String](["reloadWeapon(source)"])
+id = 74
+_name = "Load Shot"
+short_description = "Reload firearm."
+long_description = "Reload and ready the firearm for another attack."
+
+[sub_resource type="Resource" id="Resource_x1kvu"]
+script = ExtResource("2_6a620")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 87
+_name = "Point-Blank Shot"
+short_description = "Point-blank firearm shot."
+long_description = "Fire at extremely close range with total commitment."
+
+[sub_resource type="Resource" id="Resource_qm2e6"]
+script = ExtResource("2_6a620")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 1
+_name = "Aimed Shot"
+short_description = "Precise ranged attack."
+long_description = "Take the extra moment needed to place the attack exactly where you want it."
+
+[sub_resource type="Resource" id="Resource_5k6cb"]
+script = ExtResource("2_6a620")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 39
+_name = "Fan the Hammer"
+short_description = "Rapid-fire pistol attack."
+long_description = "Fire in rapid succession before the enemy can react cleanly."
+
+[sub_resource type="Resource" id="Resource_7qt8v"]
+script = ExtResource("2_6a620")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 26
+_name = "Deadeye"
+short_description = "Perfectly placed pistol shot."
+long_description = "A perfectly measured pistol shot delivered with total confidence."
+
+[sub_resource type="Resource" id="Resource_l6lpq"]
+script = ExtResource("2_6a620")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 35
+_name = "Execution Line"
+short_description = "Execution firearm shot."
+long_description = "A finishing firearm shot meant to end resistance immediately."
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("3_e0hed")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_4kpqw"]
+script = ExtResource("4_dsbwc")
+damage_die = 10
+speed = 10
+action_range = SubResource("Resource_eulau")
+
+[sub_resource type="Resource" id="Resource_4swjo"]
+script = ExtResource("5_1ssi0")
+expression = "damage_roll >= (damage_die_max - 1)"
+id = 1
+_name = "Brutal"
+short_description = "Designed to deliver devastating, crushing force."
+long_description = "Weapons with this property are built to maximize raw impact, delivering strikes that feel overwhelming and difficult to withstand."
+
+[sub_resource type="Resource" id="Resource_gh64l"]
+script = ExtResource("5_1ssi0")
+expression = "!apply_melee_threat_penalty"
+id = 2
+_name = "Close Quarters"
+short_description = "Effective in tight and confined combat situations."
+long_description = "This weapon is well-suited for fighting at close range, allowing the wielder to maneuver and strike effectively even in cramped or pressured environments."
+
+[resource]
+script = ExtResource("6_oawre")
+damage_profile = SubResource("Resource_4kpqw")
+actions = Array[ExtResource("1_ltam1")]([SubResource("Resource_yryyq"), SubResource("Resource_dfun2"), SubResource("Resource_x1kvu"), SubResource("Resource_qm2e6"), SubResource("Resource_5k6cb"), SubResource("Resource_7qt8v"), SubResource("Resource_l6lpq")])
+qualities = [SubResource("Resource_4swjo"), SubResource("Resource_gh64l")]
+weight = 2.0
+value = 124
+allowed_slots = Array[int]([7])
+id = 33
+_name = "Pistol"
+short_description = "Compact firearm for fast close and mid-range shots."
+long_description = "A pistol favors speed, direct shots, and close-quarters aggression, allowing quick attacks before the enemy can properly react."

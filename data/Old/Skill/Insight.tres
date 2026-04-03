@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="1_ccgg8"]
-
-[resource]
-script = ExtResource("1_ccgg8")
-_name = "Insight"
-short_description = "The ability to read truth in others."
-long_description = "Insight is the quiet observation of subtle gestures, unspoken words, and hidden motives. It is the wisdom to look beyond appearances, discerning intent from shadow and sincerity from deceit."

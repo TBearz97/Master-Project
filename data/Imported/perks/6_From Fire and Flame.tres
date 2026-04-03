@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_kj25t"]
+
+[resource]
+script = ExtResource("1_kj25t")
+category = "Race"
+requirement_text = "Ashborne only"
+id = 6
+_name = "From Fire and Flame"
+short_description = "A random body location gains an obsidian patch that is immune to damage until the patch is broken."
+long_description = "Forged in the heart of a volcano, your body grows magical obsidian patches. Roll a random location at character creation. That location is immune to damage while the obsidian patch remains. If that location suffers 2 Trauma, the patch is destroyed. It regrows after a week, when your Vitality is reset."

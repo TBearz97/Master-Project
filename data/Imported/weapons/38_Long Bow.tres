@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_holxr"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_amn62"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_xsuwd"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_2ia1a"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_d55la"]
+
+[sub_resource type="Resource" id="Resource_rrq7p"]
+script = ExtResource("2_amn62")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 75
+_name = "Loose Arrow"
+short_description = "Standard arrow release."
+long_description = "Release an arrow in one clean practiced motion."
+
+[sub_resource type="Resource" id="Resource_sg62l"]
+script = ExtResource("2_amn62")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 58
+_name = "Heavy Draw"
+short_description = "High-power drawn shot."
+long_description = "Pull the shot with full strength to deliver more force on release."
+
+[sub_resource type="Resource" id="Resource_qm2e6"]
+script = ExtResource("2_amn62")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 65
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 1
+_name = "Aimed Shot"
+short_description = "Precise ranged attack."
+long_description = "Take the extra moment needed to place the attack exactly where you want it."
+
+[sub_resource type="Resource" id="Resource_c5r56"]
+script = ExtResource("2_amn62")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 118
+_name = "Storm Volley"
+short_description = "Area saturation volley."
+long_description = "Fill an area with arrows and force everyone within it to react."
+
+[sub_resource type="Resource" id="Resource_wt1jg"]
+script = ExtResource("2_amn62")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 66
+_name = "Impaling Flight"
+short_description = "Deep-penetrating arrow."
+long_description = "A powerful arrow that drives deep and leaves the target in serious trouble."
+
+[sub_resource type="Resource" id="Resource_hncg3"]
+script = ExtResource("2_amn62")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 33
+_name = "Eagle Eye"
+short_description = "Long-range precision shot."
+long_description = "A long shot placed with exceptional clarity and control."
+
+[sub_resource type="Resource" id="Resource_pq2jj"]
+script = ExtResource("2_amn62")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 3
+_name = "Battlefield Harvest"
+short_description = "Punishing long-range bow attack."
+long_description = "A dominating long bow technique that punishes anyone left exposed."
+
+[sub_resource type="Resource" id="Resource_m3n1k"]
+script = ExtResource("3_xsuwd")
+max_distance = 10
+short_hand = "L"
+id = 4
+_name = "Long"
+short_description = "Long ranged distance."
+long_description = "Effective against targets within 8 to 10 hexes, requiring accuracy over distance."
+
+[sub_resource type="Resource" id="Resource_x6kpk"]
+script = ExtResource("4_2ia1a")
+damage_die = 10
+speed = 50
+action_range = SubResource("Resource_m3n1k")
+
+[resource]
+script = ExtResource("5_d55la")
+damage_profile = SubResource("Resource_x6kpk")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_holxr")]([SubResource("Resource_rrq7p"), SubResource("Resource_sg62l"), SubResource("Resource_qm2e6"), SubResource("Resource_c5r56"), SubResource("Resource_wt1jg"), SubResource("Resource_hncg3"), SubResource("Resource_pq2jj")])
+weight = 2.0
+value = 38
+allowed_slots = Array[int]([7])
+id = 38
+_name = "Long Bow"
+short_description = "Long-range bow built for powerful accurate fire."
+long_description = "A long bow is a disciplined weapon of range and precision, capable of devastating shots placed far beyond ordinary engagement distance."

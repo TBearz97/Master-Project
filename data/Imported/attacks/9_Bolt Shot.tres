@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_xh3n8"]
+
+[resource]
+script = ExtResource("1_xh3n8")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 9
+_name = "Bolt Shot"
+short_description = "Simple reliable bolt attack."
+long_description = "Fire a bolt with simple force and reliability."

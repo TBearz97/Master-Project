@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_j167b"]
+
+[resource]
+script = ExtResource("1_j167b")
+category = "Medicine and Stealth"
+requirement_text = "Requirement: Ghost, Level 7"
+id = 124
+_name = "Vanish"
+short_description = "Hide immediately after breaking line of sight."
+long_description = "Once per scene after you break line of sight, you may immediately attempt to hide without spending additional AP."

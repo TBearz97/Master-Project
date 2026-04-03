@@ -1,0 +1,213 @@
+[gd_resource type="Resource" script_class="StarterPack" load_steps=26 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_x0xrp"]
+[ext_resource type="Script" path="res://content/codex/items/starter_pack_item.gd" id="2_ko8pr"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="3_oebmu"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="4_1i6pf"]
+[ext_resource type="Script" path="res://content/codex/items/starter_pack.gd" id="5_ojx6f"]
+
+[sub_resource type="Resource" id="Resource_yj8qo"]
+script = ExtResource("1_x0xrp")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on any Survival test."
+weight = 1.0
+value = 30
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+id = 32
+_name = "Ranger's Outfit"
+short_description = "Survivalist ranger outfit."
+long_description = "A practical outfit suited for wilderness travel, offering durability and flexibility for survival tasks."
+
+[sub_resource type="Resource" id="Resource_p6eqj"]
+script = ExtResource("2_ko8pr")
+item_table = "clothing"
+item_id = 32
+quantity = 1
+loadout_group = "Armor and Clothing"
+item = SubResource("Resource_yj8qo")
+
+[sub_resource type="Resource" id="Resource_63t0a"]
+script = ExtResource("3_oebmu")
+healing = 5
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.4
+value = 12
+allowed_slots = Array[int]([6])
+id = 66
+_name = "Bread"
+short_description = "Restorative food item."
+long_description = "Bread is a prepared or raw food item that restores 5 HP when consumed."
+
+[sub_resource type="Resource" id="Resource_rjl0i"]
+script = ExtResource("2_ko8pr")
+item_table = "consumables"
+item_id = 66
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_63t0a")
+
+[sub_resource type="Resource" id="Resource_ink64"]
+script = ExtResource("4_1i6pf")
+category = "Utility"
+effect = "Wearer adds 3 x Might to maximum Carry Weight."
+value = 30
+allowed_slots = Array[int]([6])
+id = 149
+_name = "Backpack, Small"
+short_description = "Small pack for extra storage."
+long_description = "A compact backpack for everyday travel and supplies. While worn, it increases maximum Carry Weight by 3 times your Might."
+
+[sub_resource type="Resource" id="Resource_d7kap"]
+script = ExtResource("2_ko8pr")
+item_table = "utilities"
+item_id = 149
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_ink64")
+
+[sub_resource type="Resource" id="Resource_ndf3m"]
+script = ExtResource("4_1i6pf")
+category = "Utility"
+effect = "Generates bright light within Close range until the end of the current scene. Requires an Intelligence + Survival test to light, and repeated use makes this harder."
+weight = 1.0
+value = 10
+allowed_slots = Array[int]([6])
+id = 155
+_name = "Torch"
+short_description = "Handheld flame for light."
+long_description = "A simple torch that generates bright light within Close range until the end of the current scene. Lighting it requires an Intelligence + Survival test, and repeated use becomes harder."
+
+[sub_resource type="Resource" id="Resource_rlkqd"]
+script = ExtResource("2_ko8pr")
+item_table = "utilities"
+item_id = 155
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_ndf3m")
+
+[sub_resource type="Resource" id="Resource_crsy8"]
+script = ExtResource("4_1i6pf")
+category = "Utility"
+effect = "Enables a character to become rested after sleeping outdoors."
+weight = 4.0
+value = 35
+allowed_slots = Array[int]([6])
+id = 156
+_name = "Bedroll"
+short_description = "Sleeping roll for outdoor rest."
+long_description = "A padded bedroll that allows a character to become rested after sleeping outdoors."
+
+[sub_resource type="Resource" id="Resource_7ma50"]
+script = ExtResource("2_ko8pr")
+item_table = "utilities"
+item_id = 156
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_crsy8")
+
+[sub_resource type="Resource" id="Resource_vpmcv"]
+script = ExtResource("4_1i6pf")
+category = "Utility"
+effect = "Place and hide a trap using Intelligence + Survival. Spotting the trap requires awareness and close inspection. When triggered, the trap makes an attack against the target's defenses and inflicts physical damage to the legs."
+weight = 10.0
+value = 50
+allowed_slots = Array[int]([6])
+id = 157
+_name = "Hunting Trap"
+short_description = "Hidden trap for hunting or defense."
+long_description = "A mechanical trap that can be placed and concealed using Intelligence + Survival. Spotting it requires awareness and close inspection. When triggered, it attacks the target’s defenses and deals physical damage to the legs."
+
+[sub_resource type="Resource" id="Resource_w0kvo"]
+script = ExtResource("2_ko8pr")
+item_table = "utilities"
+item_id = 157
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_vpmcv")
+
+[sub_resource type="Resource" id="Resource_2itbb"]
+script = ExtResource("4_1i6pf")
+category = "Utility"
+effect = "A 15 meter long hemp rope."
+weight = 5.0
+value = 11
+allowed_slots = Array[int]([6])
+id = 164
+_name = "Rope"
+short_description = "Strong hemp rope."
+long_description = "A 15 meter length of hemp rope useful for climbing, binding, hauling, and general travel tasks."
+
+[sub_resource type="Resource" id="Resource_ptwyl"]
+script = ExtResource("2_ko8pr")
+item_table = "utilities"
+item_id = 164
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_2itbb")
+
+[sub_resource type="Resource" id="Resource_7dqov"]
+script = ExtResource("4_1i6pf")
+category = "Utility"
+effect = "A tent that allows one character to become rested after sleeping outdoors."
+weight = 7.0
+value = 65
+allowed_slots = Array[int]([6])
+id = 166
+_name = "One-Person Tent"
+short_description = "Tent for one traveler."
+long_description = "A compact field tent that allows one character to become rested after sleeping outdoors."
+
+[sub_resource type="Resource" id="Resource_iqd4b"]
+script = ExtResource("2_ko8pr")
+item_table = "utilities"
+item_id = 166
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_7dqov")
+
+[sub_resource type="Resource" id="Resource_jg0a3"]
+script = ExtResource("4_1i6pf")
+category = "Utility"
+effect = "Can hold 2 liters of liquid."
+value = 16
+allowed_slots = Array[int]([6])
+id = 167
+_name = "Waterskin"
+short_description = "Flexible container for liquids."
+long_description = "A practical waterskin that can hold up to 2 liters of liquid."
+
+[sub_resource type="Resource" id="Resource_4it0d"]
+script = ExtResource("2_ko8pr")
+item_table = "utilities"
+item_id = 167
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_jg0a3")
+
+[sub_resource type="Resource" id="Resource_06gdb"]
+script = ExtResource("4_1i6pf")
+category = "Utility"
+effect = "Used for smaller items like chems, gold, or other easy-to-access supplies."
+value = 18
+allowed_slots = Array[int]([6])
+id = 169
+_name = "Pouch"
+short_description = "Small bag for valuables."
+long_description = "A small pouch used to carry coins, chems, or other easily accessed supplies."
+
+[sub_resource type="Resource" id="Resource_se75b"]
+script = ExtResource("2_ko8pr")
+item_table = "utilities"
+item_id = 169
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_06gdb")
+
+[resource]
+script = ExtResource("5_ojx6f")
+leftover_gold = 200.0
+items = [SubResource("Resource_p6eqj"), SubResource("Resource_rjl0i"), SubResource("Resource_d7kap"), SubResource("Resource_rlkqd"), SubResource("Resource_7ma50"), SubResource("Resource_w0kvo"), SubResource("Resource_ptwyl"), SubResource("Resource_iqd4b"), SubResource("Resource_4it0d"), SubResource("Resource_se75b")]
+id = 5
+_name = "Ranger"

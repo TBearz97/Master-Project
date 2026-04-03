@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_e1lda"]
+
+[resource]
+script = ExtResource("1_e1lda")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Grappled\", 1)"])
+id = 20
+_name = "Clinch"
+short_description = "Close control engagement."
+long_description = "You crash in close and control the enemy's space with your body."

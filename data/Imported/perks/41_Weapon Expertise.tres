@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_3nhry"]
+
+[resource]
+script = ExtResource("1_3nhry")
+category = "Weapon"
+requirement_text = "Requirement: Weapon Proficiency with the chosen weapon, Level 10"
+id = 41
+_name = "Weapon Expertise"
+short_description = "Unlock Expertise attacks for one weapon type."
+long_description = "Choose one weapon type in which you already have Weapon Proficiency. You gain access to that weapon's Expertise attacks."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageOrigin" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_origin.gd" id="1_53g74"]
+
+[resource]
+script = ExtResource("1_53g74")
+id = 1
+_name = "Physical"
+short_description = "Non-magical physical damage."
+long_description = "Physical damage represents harm caused by tangible forces such as weapons, impacts, or environmental hazards. It is not influenced by magical energies."

@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="1_jg453"]
-
-[resource]
-script = ExtResource("1_jg453")
-_name = "Athletics"
-short_description = "The measure of strength, speed, and stamina in motion."
-long_description = "Athletics is the discipline of the body pushed to its limits — running, climbing, leaping, and enduring trials that test both muscle and breath. It is the difference between faltering on the field and pressing forward with unyielding vigor."

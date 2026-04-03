@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_2npof"]
-
-[resource]
-script = ExtResource("1_2npof")
-_name = "Field Breaker"
-long_description = "A war bow shot meant to disrupt the enemy line through raw force."

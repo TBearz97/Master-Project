@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_e0hxk"]
+
+[resource]
+script = ExtResource("1_e0hxk")
+healing = 9
+duration = "Start of Next Scene"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.3
+value = 18
+allowed_slots = Array[int]([6])
+id = 70
+_name = "Crab Meat"
+short_description = "Restorative food item."
+long_description = "Crab Meat is a prepared or raw food item that restores 9 HP when consumed."

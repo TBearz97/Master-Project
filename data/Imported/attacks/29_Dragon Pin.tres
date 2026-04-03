@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_0eqv8"]
+
+[resource]
+script = ExtResource("1_0eqv8")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 29
+_name = "Dragon Pin"
+short_description = "Massive stopping bolt."
+long_description = "The fullest expression of the arbalest: a monstrous bolt placed to stop even the hardest target."

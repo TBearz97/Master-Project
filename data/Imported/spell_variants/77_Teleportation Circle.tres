@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_6nsxt"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_rfhby"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_hvmgy"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_t7fi3"]
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("2_rfhby")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("3_hvmgy")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_ndjll"]
+script = ExtResource("4_t7fi3")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Harmless", "Instant", "Movement"])
+action_range = SubResource("Resource_eulau")
+base_cast = "Teleport yourself to a location within range that you can see."
+id = 20
+_name = "Teleportation"
+short_description = "Teleport to a visible location."
+long_description = "Teleport yourself to a location within range that you can see."
+
+[resource]
+script = ExtResource("1_6nsxt")
+spell = SubResource("Resource_ndjll")
+id = 77
+_name = "Teleportation Circle"
+short_description = "Create teleportation circle."
+long_description = "Tag: Channeling, Movement. After channeling for 10 minutes, teleport up to 8 creatures across the travel map."

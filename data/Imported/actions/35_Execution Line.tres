@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_nh3dm"]
+
+[resource]
+script = ExtResource("1_nh3dm")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 35
+_name = "Execution Line"
+short_description = "Execution firearm shot."
+long_description = "A finishing firearm shot meant to end resistance immediately."

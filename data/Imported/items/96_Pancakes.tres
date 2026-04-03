@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_iqko0"]
+
+[resource]
+script = ExtResource("1_iqko0")
+healing = 8
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.5
+allowed_slots = Array[int]([6])
+id = 96
+_name = "Pancakes"
+short_description = "Restorative food item."
+long_description = "Pancakes is a prepared or raw food item that restores 8 HP when consumed."

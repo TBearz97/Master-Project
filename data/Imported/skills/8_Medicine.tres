@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="Skill" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="1_amyc2"]
+
+[resource]
+script = ExtResource("1_amyc2")
+max_rank = 10
+id = 8
+_name = "Medicine"
+short_description = "The art of healing and preserving life."
+long_description = "Medicine is the knowledge of flesh and spirit, of how wounds may be closed and ailments eased. It is the healer’s craft, restoring strength where it has faltered and warding off the grasp of death itself."

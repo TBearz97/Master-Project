@@ -1,0 +1,302 @@
+[gd_resource type="Resource" script_class="StarterPack" load_steps=40 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_k81k6"]
+[ext_resource type="Script" path="res://content/codex/items/starter_pack_item.gd" id="2_5yp2v"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="3_alqwd"]
+[ext_resource type="Script" path="res://content/codex/items/utility.gd" id="4_akbop"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="5_ay1yt"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="6_htreq"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="7_wtwo3"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="8_15720"]
+[ext_resource type="Script" path="res://content/codex/gameplay/weapon_quality.gd" id="9_ot1wj"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="10_tq7uf"]
+[ext_resource type="Script" path="res://content/codex/items/starter_pack.gd" id="11_frex5"]
+
+[sub_resource type="Resource" id="Resource_sgglp"]
+script = ExtResource("1_k81k6")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on Arcana tests that use Charisma."
+weight = 0.5
+value = 40
+allowed_slots = Array[int]([2, 1, 5, 4, 3])
+id = 30
+_name = "Priest's Garments"
+short_description = "Devotional priest garments."
+long_description = "Simple but symbolic garments worn by priests, reflecting devotion and spiritual discipline."
+
+[sub_resource type="Resource" id="Resource_dlsae"]
+script = ExtResource("2_5yp2v")
+item_table = "clothing"
+item_id = 30
+quantity = 1
+loadout_group = "Armor and Clothing"
+item = SubResource("Resource_sgglp")
+
+[sub_resource type="Resource" id="Resource_w53sk"]
+script = ExtResource("3_alqwd")
+duration = "Instant"
+category = "Potion or Herb"
+effect = "Alchemical consumable."
+weight = 0.2
+value = 30
+allowed_slots = Array[int]([6])
+id = 138
+_name = "Healing Potion"
+short_description = "Alchemical consumable."
+long_description = "Healing Potion restores health when consumed."
+
+[sub_resource type="Resource" id="Resource_7kdgj"]
+script = ExtResource("2_5yp2v")
+item_table = "consumables"
+item_id = 138
+quantity = 1
+loadout_group = "Consumables"
+item = SubResource("Resource_w53sk")
+
+[sub_resource type="Resource" id="Resource_63t0a"]
+script = ExtResource("3_alqwd")
+healing = 5
+duration = "Instant"
+category = "Food"
+effect = "Restorative food item."
+weight = 0.4
+value = 12
+allowed_slots = Array[int]([6])
+id = 66
+_name = "Bread"
+short_description = "Restorative food item."
+long_description = "Bread is a prepared or raw food item that restores 5 HP when consumed."
+
+[sub_resource type="Resource" id="Resource_tcssd"]
+script = ExtResource("2_5yp2v")
+item_table = "consumables"
+item_id = 66
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_63t0a")
+
+[sub_resource type="Resource" id="Resource_ink64"]
+script = ExtResource("4_akbop")
+category = "Utility"
+effect = "Wearer adds 3 x Might to maximum Carry Weight."
+value = 30
+allowed_slots = Array[int]([6])
+id = 149
+_name = "Backpack, Small"
+short_description = "Small pack for extra storage."
+long_description = "A compact backpack for everyday travel and supplies. While worn, it increases maximum Carry Weight by 3 times your Might."
+
+[sub_resource type="Resource" id="Resource_xatc2"]
+script = ExtResource("2_5yp2v")
+item_table = "utilities"
+item_id = 149
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_ink64")
+
+[sub_resource type="Resource" id="Resource_di6rs"]
+script = ExtResource("4_akbop")
+category = "Utility"
+effect = "Medicine tests become easier. When providing long-term care, allows care of up to 2 additional patients."
+weight = 5.0
+value = 300
+allowed_slots = Array[int]([6])
+id = 151
+_name = "Medical Bag"
+short_description = "Kit for medical treatment."
+long_description = "A stocked medical bag containing tools and supplies for treatment. It makes Medicine tests easier and allows long-term care for up to two additional patients."
+
+[sub_resource type="Resource" id="Resource_6aobw"]
+script = ExtResource("2_5yp2v")
+item_table = "utilities"
+item_id = 151
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_di6rs")
+
+[sub_resource type="Resource" id="Resource_vdeis"]
+script = ExtResource("4_akbop")
+category = "Utility"
+effect = "Generates bright light within Close range, and dim light within Medium range."
+weight = 1.0
+value = 15
+allowed_slots = Array[int]([6])
+id = 153
+_name = "Lantern"
+short_description = "Portable enclosed light source."
+long_description = "A sturdy lantern that produces bright light within Close range and dim light within Medium range."
+
+[sub_resource type="Resource" id="Resource_o6t7e"]
+script = ExtResource("2_5yp2v")
+item_table = "utilities"
+item_id = 153
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_vdeis")
+
+[sub_resource type="Resource" id="Resource_crsy8"]
+script = ExtResource("4_akbop")
+category = "Utility"
+effect = "Enables a character to become rested after sleeping outdoors."
+weight = 4.0
+value = 35
+allowed_slots = Array[int]([6])
+id = 156
+_name = "Bedroll"
+short_description = "Sleeping roll for outdoor rest."
+long_description = "A padded bedroll that allows a character to become rested after sleeping outdoors."
+
+[sub_resource type="Resource" id="Resource_66mbn"]
+script = ExtResource("2_5yp2v")
+item_table = "utilities"
+item_id = 156
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_crsy8")
+
+[sub_resource type="Resource" id="Resource_jg0a3"]
+script = ExtResource("4_akbop")
+category = "Utility"
+effect = "Can hold 2 liters of liquid."
+value = 16
+allowed_slots = Array[int]([6])
+id = 167
+_name = "Waterskin"
+short_description = "Flexible container for liquids."
+long_description = "A practical waterskin that can hold up to 2 liters of liquid."
+
+[sub_resource type="Resource" id="Resource_bsi7k"]
+script = ExtResource("2_5yp2v")
+item_table = "utilities"
+item_id = 167
+quantity = 1
+loadout_group = "Supplies"
+item = SubResource("Resource_jg0a3")
+
+[sub_resource type="Resource" id="Resource_noefq"]
+script = ExtResource("6_htreq")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 71
+_name = "Lash"
+short_description = "Spacing whip strike."
+long_description = "A simple strike that keeps the target at a distance."
+
+[sub_resource type="Resource" id="Resource_mswl3"]
+script = ExtResource("6_htreq")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 112
+_name = "Snap"
+short_description = "Disruptive quick strike."
+long_description = "A sharp cracking strike meant to disrupt timing and posture."
+
+[sub_resource type="Resource" id="Resource_yewx0"]
+script = ExtResource("6_htreq")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 40
+_name = "Feint"
+short_description = "Deceptive setup attack."
+long_description = "You bait a reaction before redirecting into the real attack."
+
+[sub_resource type="Resource" id="Resource_evqha"]
+script = ExtResource("6_htreq")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 136
+_name = "Wrap"
+short_description = "Wrapping control attack."
+long_description = "You curl the attack around the target to interfere with their position."
+
+[sub_resource type="Resource" id="Resource_n2qw5"]
+script = ExtResource("6_htreq")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 28
+_name = "Drag Line"
+short_description = "Control-focused whip attack."
+long_description = "A controlling whip technique that tears through posture and positioning."
+
+[sub_resource type="Resource" id="Resource_ljbbf"]
+script = ExtResource("6_htreq")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 16
+_name = "Chain Snap"
+short_description = "Guard-breaking flail strike."
+long_description = "A violent flail motion that batters through timing and guard."
+
+[sub_resource type="Resource" id="Resource_dflt0"]
+script = ExtResource("6_htreq")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 105
+_name = "Serpent's Kiss"
+short_description = "Precision whip finisher."
+long_description = "A precise whip finish that punishes the smallest mistake."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("7_wtwo3")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_mvr82"]
+script = ExtResource("8_15720")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[sub_resource type="Resource" id="Resource_ggogc"]
+script = ExtResource("9_ot1wj")
+expression = "max_range = 2"
+id = 5
+_name = "Reach"
+short_description = "Allows engagement from a safer distance."
+long_description = "This weapon is designed to keep opponents at a distance, letting the wielder strike without needing to close in completely."
+
+[sub_resource type="Resource" id="Resource_vo86l"]
+script = ExtResource("10_tq7uf")
+damage_profile = SubResource("Resource_mvr82")
+actions = Array[ExtResource("5_ay1yt")]([SubResource("Resource_noefq"), SubResource("Resource_mswl3"), SubResource("Resource_yewx0"), SubResource("Resource_evqha"), SubResource("Resource_n2qw5"), SubResource("Resource_ljbbf"), SubResource("Resource_dflt0")])
+qualities = [SubResource("Resource_ggogc")]
+weight = 1.5
+value = 22
+allowed_slots = Array[int]([7])
+id = 3
+_name = "Whip"
+short_description = "Flexible reach weapon for control and disruption."
+long_description = "A whip strikes from awkward angles and excels at spacing, interference, and repositioning rather than raw stopping power."
+
+[sub_resource type="Resource" id="Resource_xroki"]
+script = ExtResource("2_5yp2v")
+item_table = "weapons"
+item_id = 3
+quantity = 1
+loadout_group = "Weapons"
+item = SubResource("Resource_vo86l")
+
+[resource]
+script = ExtResource("11_frex5")
+leftover_gold = 102.0
+items = [SubResource("Resource_dlsae"), SubResource("Resource_7kdgj"), SubResource("Resource_tcssd"), SubResource("Resource_xatc2"), SubResource("Resource_6aobw"), SubResource("Resource_o6t7e"), SubResource("Resource_66mbn"), SubResource("Resource_bsi7k"), SubResource("Resource_xroki")]
+id = 7
+_name = "Field Medic"

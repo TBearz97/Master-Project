@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_1gyfh"]
+
+[resource]
+script = ExtResource("1_1gyfh")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 62
+_name = "Hook"
+short_description = "Hooking control strike."
+long_description = "A hooking motion used to drag, redirect, or unbalance the target."

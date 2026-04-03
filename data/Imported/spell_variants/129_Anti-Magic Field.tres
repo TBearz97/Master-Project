@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_w221j"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="2_6fx2m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="3_qgm4p"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="4_arebl"]
+
+[sub_resource type="Resource" id="Resource_8likl"]
+script = ExtResource("2_6fx2m")
+max_distance = 4
+short_hand = "C"
+id = 2
+_name = "Close"
+short_description = "Short ranged distance."
+long_description = "Effective against targets within 2 to 4 hexes, suitable for close-quarters ranged combat."
+
+[sub_resource type="Resource" id="Resource_r6c33"]
+script = ExtResource("3_qgm4p")
+id = 2
+_name = "Zealous"
+short_description = "Magic fueled by belief and devotion."
+long_description = "Magic shaped by belief, devotion, conviction, and the powers that answer them."
+
+[sub_resource type="Resource" id="Resource_5dy75"]
+script = ExtResource("4_arebl")
+school = SubResource("Resource_r6c33")
+tags = Array[String](["Concentration", "Harmless"])
+action_range = SubResource("Resource_8likl")
+base_cast = "Pray for a god's protection over two creatures of your choice. The targets ignore the first Effect applied to them each round."
+id = 36
+_name = "Prayer of Protection"
+short_description = "Protect two creatures from harmful effects."
+long_description = "Pray for a god's protection over two creatures of your choice. The targets ignore the first Effect applied to them each round."
+
+[resource]
+script = ExtResource("1_w221j")
+spell = SubResource("Resource_5dy75")
+mana_cost = 2
+id = 129
+_name = "Anti-Magic Field"
+short_description = "Increase Magical resistance."
+long_description = "Increase Magical DT."

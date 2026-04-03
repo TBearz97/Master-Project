@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_l8kit"]
+
+[resource]
+script = ExtResource("1_l8kit")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 7
+_name = "Boar Hunter"
+short_description = "Anti-charge spear finisher."
+long_description = "A spear finish meant to stop even a charging foe dead."

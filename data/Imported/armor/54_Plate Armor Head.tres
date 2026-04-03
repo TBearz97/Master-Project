@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_v8l8n"]
+
+[resource]
+script = ExtResource("1_v8l8n")
+physicalDT = 10
+magicalDT = 8
+necroticDT = 2
+weight = 3.0
+value = 85
+allowed_slots = Array[int]([0])
+id = 54
+_name = "Plate Armor Head"
+short_description = "Plate helmet."
+long_description = "A heavy plate helmet offering excellent physical and magical protection with significant weight."

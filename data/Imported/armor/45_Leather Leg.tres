@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_xuxug"]
+
+[resource]
+script = ExtResource("1_xuxug")
+physicalDT = 1
+magicalDT = 2
+weight = 2.0
+value = 18
+allowed_slots = Array[int]([5, 4])
+id = 45
+_name = "Leather Leg"
+short_description = "Leather leg armor."
+long_description = "Leather leg armor providing moderate protection with good mobility."

@@ -1,0 +1,113 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_076if"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_geuad"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_ofg1l"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_dufce"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_ws4pu"]
+
+[sub_resource type="Resource" id="Resource_uqoht"]
+script = ExtResource("2_geuad")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 110
+_name = "Slash"
+short_description = "Wide cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_5wqq4"]
+script = ExtResource("2_geuad")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 122
+_name = "Sweep"
+short_description = "Wide sweeping strike."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_71hcf"]
+script = ExtResource("2_geuad")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 51
+_name = "Half-Sword"
+short_description = "Close control blade technique."
+long_description = "A close controlling technique that uses the blade with precise leverage."
+
+[sub_resource type="Resource" id="Resource_lhor6"]
+script = ExtResource("2_geuad")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 88
+_name = "Pommel Crush"
+short_description = "Hilt-based crushing strike."
+long_description = "A sudden crushing strike from the weapon's hilt or butt."
+
+[sub_resource type="Resource" id="Resource_hqi8b"]
+script = ExtResource("2_geuad")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "addDefenceBonus(target, \"Deflection\", -1, \"round\")"])
+id = 50
+_name = "Guard Break"
+short_description = "Guard-shattering strike."
+long_description = "A mastery strike designed to shatter structure and force an opening."
+
+[sub_resource type="Resource" id="Resource_rrc27"]
+script = ExtResource("2_geuad")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 38
+_name = "Falling Star"
+short_description = "Heavy arcing greatsword blow."
+long_description = "A great sword blow that carries the full arc of the weapon through the target."
+
+[sub_resource type="Resource" id="Resource_2obkx"]
+script = ExtResource("2_geuad")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 48
+_name = "Giant's Sentence"
+short_description = "Overwhelming heavy finisher."
+long_description = "A heavy finishing cut that leaves no room for recovery."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_ofg1l")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_wh3bp"]
+script = ExtResource("4_dufce")
+damage_die = 10
+speed = 50
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_ws4pu")
+damage_profile = SubResource("Resource_wh3bp")
+size = 1
+handedness = 1
+actions = Array[ExtResource("1_076if")]([SubResource("Resource_uqoht"), SubResource("Resource_5wqq4"), SubResource("Resource_71hcf"), SubResource("Resource_lhor6"), SubResource("Resource_hqi8b"), SubResource("Resource_rrc27"), SubResource("Resource_2obkx")])
+weight = 5.5
+value = 46
+allowed_slots = Array[int]([7])
+id = 19
+_name = "Great Sword"
+short_description = "Heavy sword for broad dominating arcs."
+long_description = "A great sword converts reach and weight into controlled devastation, excelling at sweeping strikes and punishing follow-through."

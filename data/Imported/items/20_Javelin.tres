@@ -1,0 +1,111 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_afit1"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_byg66"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_6ahxm"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_u81gd"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_70o8w"]
+
+[sub_resource type="Resource" id="Resource_sx3nm"]
+script = ExtResource("2_byg66")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 117
+_name = "Stab"
+short_description = "Direct thrust attack."
+long_description = "A direct forward thrust intended to keep the enemy at reach."
+
+[sub_resource type="Resource" id="Resource_6dxvi"]
+script = ExtResource("2_byg66")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 31
+_name = "Drive"
+short_description = "Forward driving shove."
+long_description = "You step through the target with force to push them backward."
+
+[sub_resource type="Resource" id="Resource_sndxl"]
+script = ExtResource("2_byg66")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 62
+_name = "Hook"
+short_description = "Hooking control strike."
+long_description = "A hooking motion used to drag, redirect, or unbalance the target."
+
+[sub_resource type="Resource" id="Resource_nx3m4"]
+script = ExtResource("2_byg66")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 108
+_name = "Skewer"
+short_description = "Driving impaling thrust."
+long_description = "A long driving thrust meant to pin the target in place."
+
+[sub_resource type="Resource" id="Resource_5wqq4"]
+script = ExtResource("2_byg66")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 122
+_name = "Sweep"
+short_description = "Wide sweeping strike."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_h4725"]
+script = ExtResource("2_byg66")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 85
+_name = "Pinning Rush"
+short_description = "Driving spear assault."
+long_description = "A forward-driving spear technique that keeps the enemy under pressure."
+
+[sub_resource type="Resource" id="Resource_uhto8"]
+script = ExtResource("2_byg66")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 56
+_name = "Heart Seeker"
+short_description = "Vital-point thrust."
+long_description = "A thrust or lunge aimed with lethal certainty at a vital opening."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_6ahxm")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_mbbqh"]
+script = ExtResource("4_u81gd")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_70o8w")
+damage_profile = SubResource("Resource_mbbqh")
+actions = Array[ExtResource("1_afit1")]([SubResource("Resource_sx3nm"), SubResource("Resource_6dxvi"), SubResource("Resource_sndxl"), SubResource("Resource_nx3m4"), SubResource("Resource_5wqq4"), SubResource("Resource_h4725"), SubResource("Resource_uhto8")])
+weight = 1.0
+value = 26
+allowed_slots = Array[int]([7])
+id = 20
+_name = "Javelin"
+short_description = "Light spear for thrusting and driving attacks."
+long_description = "A javelin is a light pole weapon suited to stabbing, shoving, and maintaining aggressive forward pressure in melee."

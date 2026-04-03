@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_ey84a"]
+
+[resource]
+script = ExtResource("1_ey84a")
+roll_total = 35
+outcome = "Roll on this table again once after resolving this result."
+id = 35
+_name = "Cascading Failure"

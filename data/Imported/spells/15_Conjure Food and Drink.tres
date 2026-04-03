@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="1_rxxu0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="2_fwwp3"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("1_rxxu0")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[resource]
+script = ExtResource("2_fwwp3")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Conjuration", "Harmless", "Instant"])
+base_cast = "Conjure a chosen food or drink item. The difficulty is based on the rarity of what you create."
+id = 15
+_name = "Conjure Food and Drink"
+short_description = "Conjure food or drink."
+long_description = "Conjure a chosen food or drink item. The difficulty is based on the rarity of what you create."

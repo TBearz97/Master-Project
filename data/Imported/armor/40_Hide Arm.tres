@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Armor" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="1_h6sbk"]
+
+[resource]
+script = ExtResource("1_h6sbk")
+physicalDT = 2
+magicalDT = 1
+weight = 1.0
+value = 10
+allowed_slots = Array[int]([2, 1])
+id = 40
+_name = "Hide Arm"
+short_description = "Hide arm guards."
+long_description = "Simple hide wrappings for the arms. Allows mobility while offering light protection."

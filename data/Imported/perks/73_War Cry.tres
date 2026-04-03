@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_whmir"]
+
+[resource]
+script = ExtResource("1_whmir")
+category = "Leadership and Social"
+requirement_text = "Requirement: Command 2"
+id = 73
+_name = "War Cry"
+short_description = "Grant an ally bonus AP at combat start."
+long_description = "Once per scene, when combat begins, one ally who can hear you gains +1 AP on their first turn."

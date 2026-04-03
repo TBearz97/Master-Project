@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Clothing" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/clothing.gd" id="1_hf6ch"]
+
+[resource]
+script = ExtResource("1_hf6ch")
+clothing_type = "Outfit"
+effect = "While wearing this outfit, you can re-roll 1d20 on any Navigation test made at sea."
+weight = 1.5
+value = 36
+allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
+id = 29
+_name = "Pirate's Attire"
+short_description = "Seafaring pirate attire."
+long_description = "Practical seafaring clothing designed for life aboard ships, balancing mobility, durability, and style."

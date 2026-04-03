@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_4waq3"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_lhuut"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_a5w4a"]
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("2_lhuut")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[sub_resource type="Resource" id="Resource_rhtko"]
+script = ExtResource("3_a5w4a")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Illusion", "Mind"])
+base_cast = "Cloud a creature's thoughts until truth, order, and intention begin to fall apart. On a success, the target suffers a penalty to its defenses and becomes easier to mislead and disrupt."
+id = 28
+_name = "Confusion"
+short_description = "Cloud a creature's thoughts."
+long_description = "Cloud a creature's thoughts until truth, order, and intention begin to fall apart. On a success, the target suffers a penalty to its defenses and becomes easier to mislead and disrupt."
+
+[resource]
+script = ExtResource("1_4waq3")
+spell = SubResource("Resource_rhtko")
+mana_cost = 4
+id = 104
+_name = "Mass Confusion"
+short_description = "Affect multiple targets."
+long_description = "Affect everyone in a small area instead of a single target."

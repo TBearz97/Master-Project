@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="1_yqjbk"]
+
+[resource]
+script = ExtResource("1_yqjbk")
+duration = "Lasting"
+category = "Poison"
+effect = "Harmful toxic substance."
+weight = 0.5
+value = 38
+allowed_slots = Array[int]([6])
+id = 146
+_name = "Rot Venom"
+short_description = "Harmful toxic substance."
+long_description = "Rot Venom is a toxic substance used to inflict harmful effects on targets."

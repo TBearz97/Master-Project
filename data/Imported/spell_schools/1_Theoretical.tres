@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="SpellSchool" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="1_7o8u1"]
+
+[resource]
+script = ExtResource("1_7o8u1")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_16fhs"]
+
+[resource]
+script = ExtResource("1_16fhs")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 80
+_name = "Overhead Swing"
+short_description = "Heavy overhead strike."
+long_description = "A high committed blow brought down with punishing force."

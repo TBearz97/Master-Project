@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="Spell" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="1_jv53w"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_786sr"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_k7bra"]
+
+[sub_resource type="Resource" id="Resource_eulau"]
+script = ExtResource("1_jv53w")
+max_distance = 7
+short_hand = "M"
+id = 3
+_name = "Medium"
+short_description = "Moderate ranged distance."
+long_description = "Effective against targets within 5 to 7 hexes, representing standard ranged engagement distance."
+
+[sub_resource type="Resource" id="Resource_vlbnk"]
+script = ExtResource("2_786sr")
+id = 1
+_name = "Theoretical"
+short_description = "Magic learned through study and discipline."
+long_description = "Magic studied, understood, and shaped through knowledge, analysis, and discipline."
+
+[resource]
+script = ExtResource("3_k7bra")
+school = SubResource("Resource_vlbnk")
+tags = Array[String](["Concentration", "Necrotic", "Radiant"])
+action_range = SubResource("Resource_eulau")
+base_cast = "Unleash two rays. One heals 2 CD, and one deals 3 CD Necrotic damage. Choose a target for each. Anyone caught between the rays is affected when they cross or begin their turn in the line."
+id = 27
+_name = "Chaos Rays"
+short_description = "Unleash one healing ray and one harmful ray."
+long_description = "Unleash two rays. One heals 2 CD, and one deals 3 CD Necrotic damage. Choose a target for each. Anyone caught between the rays is affected when they cross or begin their turn in the line."

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_knubf"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_00ivb"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_ibmj1"]
+
+[sub_resource type="Resource" id="Resource_r6c33"]
+script = ExtResource("2_00ivb")
+id = 2
+_name = "Zealous"
+short_description = "Magic fueled by belief and devotion."
+long_description = "Magic shaped by belief, devotion, conviction, and the powers that answer them."
+
+[sub_resource type="Resource" id="Resource_bqam8"]
+script = ExtResource("3_ibmj1")
+school = SubResource("Resource_r6c33")
+tags = Array[String](["Concentration", "Mind"])
+base_cast = "Condemn another creature's actions and flood it with guilt or certainty. On a success, the target can no longer Move or Sprint while the spell lasts."
+id = 40
+_name = "Condemn"
+short_description = "Condemn a creature and restrict its movement."
+long_description = "Condemn another creature's actions and flood it with guilt or certainty. On a success, the target can no longer Move or Sprint while the spell lasts."
+
+[resource]
+script = ExtResource("1_knubf")
+spell = SubResource("Resource_bqam8")
+mana_cost = 3
+id = 141
+_name = "Mass Condemnation"
+short_description = "Affect multiple targets."
+long_description = "Affect everyone in a small area instead of one target."

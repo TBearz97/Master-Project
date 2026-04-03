@@ -1,0 +1,68 @@
+[gd_resource type="Resource" script_class="Defence" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/modifier.gd" id="1_c34sy"]
+[ext_resource type="Script" path="res://content/codex/character_options/attribute.gd" id="2_cri35"]
+[ext_resource type="Script" path="res://content/codex/character_options/defence.gd" id="3_ikrix"]
+
+[sub_resource type="Resource" id="Resource_rty05"]
+script = ExtResource("1_c34sy")
+id = 11
+_name = "Mana Generation"
+short_description = "Increases mana gained over time."
+long_description = "Mana Generation determines how quickly a character regains magical energy over time, supporting sustained spellcasting."
+
+[sub_resource type="Resource" id="Resource_l652r"]
+script = ExtResource("1_c34sy")
+id = 12
+_name = "Concentration"
+short_description = "Determines sustained mental focus."
+long_description = "Concentration governs the ability to maintain focus on ongoing effects, spells, or abilities without interruption."
+
+[sub_resource type="Resource" id="Resource_jm731"]
+script = ExtResource("2_cri35")
+modifier_1 = SubResource("Resource_rty05")
+modifier_1_expression = "floor(x / 2)"
+modifier_2 = SubResource("Resource_l652r")
+modifier_2_expression = "ceil(x / 2.0)"
+min_value = 1
+max_value = 10
+id = 6
+_name = "Resolve"
+short_description = "Represents mental fortitude and determination."
+long_description = "Resolve reflects a character’s strength of will, focus, and emotional stability under pressure. It determines how well a character maintains concentration during combat and how resistant they are to negative mental or magical effects. Characters with high Resolve can shrug off debilitating conditions and remain steadfast in challenging situations."
+
+[sub_resource type="Resource" id="Resource_1e8n2"]
+script = ExtResource("1_c34sy")
+id = 9
+_name = "Potency"
+short_description = "Enhances effect strength and duration."
+long_description = "Potency enhances the strength, effectiveness, and sometimes duration of abilities, spells, and effects applied to targets."
+
+[sub_resource type="Resource" id="Resource_i2hsa"]
+script = ExtResource("1_c34sy")
+id = 10
+_name = "Bestiary Progression"
+short_description = "Improves knowledge of creatures."
+long_description = "Bestiary Progression tracks knowledge and understanding of creatures, improving effectiveness when dealing with known enemy types."
+
+[sub_resource type="Resource" id="Resource_ywnu7"]
+script = ExtResource("2_cri35")
+modifier_1 = SubResource("Resource_1e8n2")
+modifier_1_expression = "x + 2"
+modifier_2 = SubResource("Resource_i2hsa")
+modifier_2_expression = "x * 3"
+min_value = 1
+max_value = 10
+id = 5
+_name = "Intelligence"
+short_description = "Represents reasoning and analytical ability."
+long_description = "Intelligence governs a character’s capacity for logic, learning, and understanding complex systems. It enhances awareness of enemies and the environment, improving bestiary knowledge and analysis. High Intelligence also refines control over magical and tactical effects, increasing the duration of buffs and debuffs applied in combat."
+
+[resource]
+script = ExtResource("3_ikrix")
+attribute1 = SubResource("Resource_jm731")
+attribute2 = SubResource("Resource_ywnu7")
+id = 4
+_name = "Mind"
+short_description = "Defends against mental effects."
+long_description = "Mind resists mental effects such as charm, fear, and confusion."

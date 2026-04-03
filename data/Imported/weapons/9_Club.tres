@@ -1,0 +1,111 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_tes6d"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_xg14m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_wgmxv"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_arg3t"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_p7lhd"]
+
+[sub_resource type="Resource" id="Resource_i6l01"]
+script = ExtResource("2_xg14m")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 111
+_name = "Smash"
+short_description = "Heavy crushing blow."
+long_description = "A heavy strike that crushes bone and armour."
+
+[sub_resource type="Resource" id="Resource_hf0e4"]
+script = ExtResource("2_xg14m")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 21
+_name = "Clobber"
+short_description = "Unbalancing blunt strike."
+long_description = "A rough battering blow designed to knock the target off balance."
+
+[sub_resource type="Resource" id="Resource_sndxl"]
+script = ExtResource("2_xg14m")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 62
+_name = "Hook"
+short_description = "Hooking control strike."
+long_description = "A hooking motion used to drag, redirect, or unbalance the target."
+
+[sub_resource type="Resource" id="Resource_nsugm"]
+script = ExtResource("2_xg14m")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 70
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 8
+_name = "Body Blow"
+short_description = "Breath-stealing body strike."
+long_description = "A committed strike to the middle meant to steal breath and stance."
+
+[sub_resource type="Resource" id="Resource_krnoj"]
+script = ExtResource("2_xg14m")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 80
+_name = "Overhead Swing"
+short_description = "Heavy overhead strike."
+long_description = "A high committed blow brought down with punishing force."
+
+[sub_resource type="Resource" id="Resource_jdgea"]
+script = ExtResource("2_xg14m")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 109
+_name = "Skull Crack"
+short_description = "Crushing blunt finisher."
+long_description = "A crushing club strike meant to finish with blunt certainty."
+
+[sub_resource type="Resource" id="Resource_2maij"]
+script = ExtResource("2_xg14m")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)", "applyCondition(target, \"Dazed\", 1)"])
+id = 60
+_name = "Helmshaker"
+short_description = "Stunning crushing strike."
+long_description = "A crushing impact aimed to leave the target stunned and broken in posture."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_wgmxv")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_wsmx4"]
+script = ExtResource("4_arg3t")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_p7lhd")
+damage_profile = SubResource("Resource_wsmx4")
+actions = Array[ExtResource("1_tes6d")]([SubResource("Resource_i6l01"), SubResource("Resource_hf0e4"), SubResource("Resource_sndxl"), SubResource("Resource_nsugm"), SubResource("Resource_krnoj"), SubResource("Resource_jdgea"), SubResource("Resource_2maij")])
+weight = 1.5
+value = 20
+allowed_slots = Array[int]([7])
+id = 9
+_name = "Club"
+short_description = "Crude blunt weapon with straightforward force."
+long_description = "A club relies on battering impact, off-balancing blows, and simple but effective melee pressure."

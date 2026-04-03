@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_tsiau"]
+
+[resource]
+script = ExtResource("1_tsiau")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 57
+_name = "Heaven Split"
+short_description = "Overwhelming mastery slash."
+long_description = "A mastery slash delivered with overwhelming reach and precision."

@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
-
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_kar08"]
-
-[resource]
-script = ExtResource("1_kar08")
-_name = "Stab"
-long_description = "A direct forward thrust intended to keep the enemy at reach."

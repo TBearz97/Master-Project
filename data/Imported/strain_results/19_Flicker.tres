@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StrainResult" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/strain_result.gd" id="1_c6d2x"]
+
+[resource]
+script = ExtResource("1_c6d2x")
+roll_total = 19
+outcome = "Lose 1 AP after the spell resolves."
+id = 19
+_name = "Flicker"

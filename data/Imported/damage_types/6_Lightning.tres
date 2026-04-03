@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="DamageType" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/damage_type.gd" id="1_27vnj"]
+
+[resource]
+script = ExtResource("1_27vnj")
+id = 6
+_name = "Lightning"
+short_description = "Electrical damage."
+long_description = "Lightning damage is delivered through electrical discharge, often striking quickly and unpredictably."

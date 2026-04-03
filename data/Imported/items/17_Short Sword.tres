@@ -1,0 +1,111 @@
+[gd_resource type="Resource" script_class="Weapon" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_v28jo"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_j0b8m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/range.gd" id="3_5kk3a"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="4_3fyyl"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_jlkkm"]
+
+[sub_resource type="Resource" id="Resource_uqoht"]
+script = ExtResource("2_j0b8m")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 110
+_name = "Slash"
+short_description = "Wide cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_akxin"]
+script = ExtResource("2_j0b8m")
+attack_tier = "Basic"
+ap_cost = 1
+speed = 75
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 125
+_name = "Thrust"
+short_description = "Precise piercing thrust."
+long_description = "A focused lunge driving the point into the target."
+
+[sub_resource type="Resource" id="Resource_qp56y"]
+script = ExtResource("2_j0b8m")
+attack_tier = "Proficiency"
+ap_cost = 2
+speed = 85
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 99
+_name = "Riposte"
+short_description = "Counterattack strike."
+long_description = "A sharp answer delivered the moment an opening appears."
+
+[sub_resource type="Resource" id="Resource_5wqq4"]
+script = ExtResource("2_j0b8m")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 122
+_name = "Sweep"
+short_description = "Wide sweeping strike."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_vviue"]
+script = ExtResource("2_j0b8m")
+attack_tier = "Expertise"
+ap_cost = 2
+speed = 55
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 47
+_name = "Gash"
+short_description = "Bleeding-focused cut."
+long_description = "A deeper deliberate wound intended to keep bleeding pressure on the target."
+
+[sub_resource type="Resource" id="Resource_d4hxq"]
+script = ExtResource("2_j0b8m")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 25
+_name = "Cross Cut"
+short_description = "Follow-up cutting attack."
+long_description = "A disciplined follow-up that turns one opening into another."
+
+[sub_resource type="Resource" id="Resource_yk0bd"]
+script = ExtResource("2_j0b8m")
+attack_tier = "Mastery"
+ap_cost = 3
+speed = 40
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+id = 32
+_name = "Duelist's End"
+short_description = "Refined finishing strike."
+long_description = "A refined finishing attack that closes the fight cleanly."
+
+[sub_resource type="Resource" id="Resource_5t53p"]
+script = ExtResource("3_5kk3a")
+max_distance = 1
+short_hand = "R"
+id = 1
+_name = "Reach"
+short_description = "Immediate melee range."
+long_description = "Used for direct physical contact or melee strikes within immediate reach (adjacent hex)."
+
+[sub_resource type="Resource" id="Resource_i50ik"]
+script = ExtResource("4_3fyyl")
+damage_die = 6
+speed = 25
+action_range = SubResource("Resource_5t53p")
+
+[resource]
+script = ExtResource("5_jlkkm")
+damage_profile = SubResource("Resource_i50ik")
+actions = Array[ExtResource("1_v28jo")]([SubResource("Resource_uqoht"), SubResource("Resource_akxin"), SubResource("Resource_qp56y"), SubResource("Resource_5wqq4"), SubResource("Resource_vviue"), SubResource("Resource_d4hxq"), SubResource("Resource_yk0bd")])
+weight = 2.0
+value = 22
+allowed_slots = Array[int]([7])
+id = 17
+_name = "Short Sword"
+short_description = "Quick one-handed sword for disciplined melee."
+long_description = "A short sword is agile and dependable, suited for cuts, thrusts, counters, and efficient close combat technique."

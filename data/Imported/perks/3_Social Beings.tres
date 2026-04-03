@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_1cjmf"]
+
+[resource]
+script = ExtResource("1_1cjmf")
+category = "Race"
+requirement_text = "High Elf only"
+id = 3
+_name = "Social Beings"
+short_description = "You gain +2 Renown, representing your higher standing within societies."
+long_description = "High Elves naturally carry status and legitimacy in the eyes of many cultures. You gain +2 Renown, representing your higher standing within societies. Individual people may still feel however they wish about you."

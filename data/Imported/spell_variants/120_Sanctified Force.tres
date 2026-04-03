@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpellVariant" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_variant.gd" id="1_affon"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spell_schools.gd" id="2_yy8sp"]
+[ext_resource type="Script" path="res://content/codex/gameplay/spells.gd" id="3_xure5"]
+
+[sub_resource type="Resource" id="Resource_r6c33"]
+script = ExtResource("2_yy8sp")
+id = 2
+_name = "Zealous"
+short_description = "Magic fueled by belief and devotion."
+long_description = "Magic shaped by belief, devotion, conviction, and the powers that answer them."
+
+[sub_resource type="Resource" id="Resource_53ls6"]
+script = ExtResource("3_xure5")
+school = SubResource("Resource_r6c33")
+tags = Array[String](["Lasting", "Zealous"])
+base_cast = "Summon your weapon of faith. What form this weapon takes is determined by your belief. Unlike Conjure Weapon, you do not freely choose the weapon at cast time. It is the sacred weapon associated with your conviction, oath, or divine allegiance. While summoned, the weapon functions like a normal weapon from the equipment lists, but counts as magical. The exact weapon granted depends on your belief. Some beliefs grant only one sacred weapon, while others allow a small set of valid sacred weapons."
+id = 34
+_name = "Weapon of Faith"
+short_description = "Summon your sacred weapon."
+long_description = "Summon your weapon of faith. What form this weapon takes is determined by your belief. Unlike Conjure Weapon, you do not freely choose the weapon at cast time. It is the sacred weapon associated with your conviction, oath, or divine allegiance. While summoned, the weapon functions like a normal weapon from the equipment lists, but counts as magical. The exact weapon granted depends on your belief. Some beliefs grant only one sacred weapon, while others allow a small set of valid sacred weapons."
+
+[resource]
+script = ExtResource("1_affon")
+spell = SubResource("Resource_53ls6")
+mana_cost = 2
+id = 120
+_name = "Sanctified Force"
+short_description = "Increase weapon damage."
+long_description = "Increase the weapon's damage for a short time."
