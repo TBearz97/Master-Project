@@ -6,12 +6,17 @@ extends ScrollContainer
 var atts: Array[Attribute] = PlayerVariables.getAttributes()
 var optionButton: OptionButton
 var btns: Array[Button]
+var displayed_stat_grid: GridContainer
 
 func _ready() -> void:
 	var _attGrid := _setupAttHeader()
 	var _statGrid := _setupStatHeader()
+	displayed_stat_grid = _statGrid
 	_setup(_attGrid, _statGrid)
 	_update_percentage(0)
+	if not PlayerVariables.vitals_changed.is_connected(_refresh_stat_values):
+		PlayerVariables.vitals_changed.connect(_refresh_stat_values)
+	_refresh_stat_values()
 
 func _setup(_grid: GridContainer, _grid2: GridContainer) -> void:
 	var container := VBoxContainer.new()
@@ -20,7 +25,9 @@ func _setup(_grid: GridContainer, _grid2: GridContainer) -> void:
 	container.custom_minimum_size = Vector2(400, 0)
 	container.add_theme_constant_override("separation", 50)
 	_setupAttributes(container, _grid)
+	_setupStats(container, _grid2)
 	_setupSkills(container)
+	add_child(container)
 
 func _setupAttributes(main: VBoxContainer, _grid: GridContainer) -> void:
 	var container := VBoxContainer.new()
@@ -35,7 +42,6 @@ func _setupAttributes(main: VBoxContainer, _grid: GridContainer) -> void:
 	
 	container.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
 	container.size_flags_vertical = Control.SIZE_EXPAND | Control.SIZE_SHRINK_BEGIN
-	add_child(main)
 
 	for child in _grid.get_children():
 		var btn := Button.new()
@@ -58,6 +64,19 @@ func _setupAttributes(main: VBoxContainer, _grid: GridContainer) -> void:
 		split.add_child(bonus1)
 		split.add_child(bonus2)
 		_grid.add_child(split)
+
+func _setupStats(main: VBoxContainer, _grid: GridContainer) -> void:
+	var container := VBoxContainer.new()
+	main.add_child(container)
+
+	var stats_title := Label.new()
+	stats_title.text = "Quick Info"
+	stats_title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	stats_title.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
+	container.add_child(stats_title)
+	container.add_child(_grid)
+	container.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
+	container.size_flags_vertical = Control.SIZE_EXPAND | Control.SIZE_SHRINK_BEGIN
 
 func _setupSkills(main: VBoxContainer) -> void:
 	var container := VBoxContainer.new()
@@ -127,28 +146,33 @@ func _setupAttHeader() -> GridContainer:
 	return attGrid.duplicate()
 
 func _setupStatHeader() -> GridContainer:
-	var health := 0
-	for child in statGrid.get_children():
+	var grid := statGrid.duplicate()
+	for child in grid.get_children():
+		if child.name == "LevelUp":
+			PlayerVariables.leveledUp.connect(func() -> void: child.disabled = !PlayerVariables.getLevelAvailable())
+			child.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://Scenes/Character Sheet/Character_Sheet.tscn"))
+			child.disabled = !PlayerVariables.getLevelAvailable()
+	_refresh_stat_values(grid)
+	return grid
+
+func _refresh_stat_values(grid: GridContainer = displayed_stat_grid) -> void:
+	if grid == null:
+		return
+	var max_health := RuleEngine.getMaxHealth(PlayerVariables.data)
+	var max_vitality := RuleEngine.getMaxVitality(PlayerVariables.data)
+	for child in grid.get_children():
 		match child.name:
 			"Level": child.get_child(1).text = str(PlayerVariables.getLevel())
 			"Health":
-				var att := PlayerVariables.getAttribute("Constitution")
-				health = (RuleEngine.evaluate(att.bonus_1_expression, ["x"], [att.value])) * PlayerVariables.getLevel() - PlayerVariables.getNecroticDamage()
-				child.get_child(1).text = str(health)
+				child.get_child(1).text = str(PlayerVariables.data.currentHP) + "/" + str(max_health)
 			"ActionPoints":
-				var att := PlayerVariables.getAttribute("Dexterity")
-				child.get_child(1).text = str((RuleEngine.evaluate(att.bonus_1_expression, ["x"], [att.value]) - PlayerVariables.getFatigue()))
+				child.get_child(1).text = str(RuleEngine.getActionPoints(PlayerVariables.data))
 			"Experience": child.get_child(1).text = str(PlayerVariables.getExperience())
 			"Vitality":
-				var att := PlayerVariables.getAttribute("Constitution")
-				child.get_child(1).text = str((RuleEngine.evaluate(att.bonus_2_expression, ["x"], [att.value]) * health + PlayerVariables.getNecroticDamage()))
+				child.get_child(1).text = str(PlayerVariables.data.currentVitality) + "/" + str(max_vitality)
 			"Fatigue": child.get_child(1).text = str(PlayerVariables.getFatigue())
-			"LevelUp":
-				PlayerVariables.leveledUp.connect(func() -> void: child.disabled = !PlayerVariables.getLevelAvailable())
-				child.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://Scenes/Character Sheet/Character_Sheet.tscn"))
+			"LevelUp": child.disabled = !PlayerVariables.getLevelAvailable()
 			"NecroticDamage": child.get_child(1).text = str(PlayerVariables.getNecroticDamage())
-
-	return statGrid.duplicate()
 
 func skillCheck(skill: int) -> Variant:
 	var difficulty := int(optionButton.get_item_text(optionButton.selected))

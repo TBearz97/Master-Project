@@ -36,21 +36,60 @@ func _setup() -> void:
 		grid.add_child(label)
 		grid.add_child(sb)
 
-func _on_value_changed(new_value: int, sb: SpinBox) -> void:
-	if new_value > prev[sb]:
-		points.value -= new_value - prev[sb]
-	elif new_value < prev[sb]:
-		points.value += prev[sb] - new_value
+func _rank_cost(from_rank: int, to_rank: int) -> int:
+	var cost := 0
 
+	if to_rank > from_rank:
+		for i in range(from_rank, to_rank):
+			cost += int(RuleEngine.evaluate(
+				CampaignVariables.codex.Rules["Skill Cost"].expression,
+				["skill"], [i]
+			))
+	elif to_rank < from_rank:
+		for i in range(to_rank, from_rank):
+			cost -= int(RuleEngine.evaluate(
+				CampaignVariables.codex.Rules["Skill Cost"].expression,
+				["skill"], [i]
+			))
+
+	return cost
+
+
+func _on_value_changed(new_value: int, sb: SpinBox) -> void:
+	var old_value: int = prev[sb]
+	var cost: int = _rank_cost(old_value, new_value)
+
+	# Not enough points: reject the increase
+	if cost > 0 and cost > points.value:
+		sb.value = old_value
+		return
+
+	# Apply cost/refund
+	points.value -= cost
 	prev[sb] = sb.value
 
 	for key in prev:
-		var pointsAvailable: float = key.value + points.value
-		var _max: float = pointsAvailable
-		var cap: int = int(RuleEngine.evaluate(CampaignVariables.codex.Rules["Skill Cap"].expression, ["player_level"], [PlayerVariables.getLevel()]))
-		if key.value + points.value > cap:
-			_max = cap
-		key.max_value = _max
+		var points_available: float = points.value
+		var current_rank: int = int(key.value)
+		var max_rank := current_rank + 1
+
+		while true:
+			var next_rank := max_rank + 1
+			var next_cost := next_rank
+			var cap: int = int(RuleEngine.evaluate(
+				CampaignVariables.codex.Rules["Skill Cap"].expression,
+				["skill"], [max_rank]
+			))
+
+			if next_rank > cap:
+				break
+			if points_available < next_cost:
+				break
+
+			points_available -= next_cost
+			max_rank += 1
+
+		key.max_value = max_rank
 
 func _save() -> void:
 	for sb in spinBoxes:

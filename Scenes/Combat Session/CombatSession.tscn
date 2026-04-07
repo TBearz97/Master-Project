@@ -25,32 +25,63 @@ anchors_preset = 10
 anchor_right = 1.0
 grow_horizontal = 2
 
-[node name="AddPlayers" type="Button" parent="Panel/Header"]
+[node name="EncounterControls" type="HBoxContainer" parent="Panel/Header"]
+layout_mode = 2
+
+[node name="AddPlayers" type="Button" parent="Panel/Header/EncounterControls"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Add Players"
 
-[node name="AddNPCs" type="Button" parent="Panel/Header"]
+[node name="AddNPCs" type="Button" parent="Panel/Header/EncounterControls"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Add NPCs"
 
-[node name="StartEncounter" type="Button" parent="Panel/Header"]
+[node name="StartEncounter" type="Button" parent="Panel/Header/EncounterControls"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Start Encounter"
 
-[node name="EndEncounter" type="Button" parent="Panel/Header"]
+[node name="EndEncounter" type="Button" parent="Panel/Header/EncounterControls"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "End Encounter"
 
-[node name="RoundLabel" type="Label" parent="Panel/Header"]
+[node name="HeaderDividerOne" type="VSeparator" parent="Panel/Header"]
+layout_mode = 2
+
+[node name="PhaseControls" type="HBoxContainer" parent="Panel/Header"]
+layout_mode = 2
+
+[node name="EndMovementPhase" type="Button" parent="Panel/Header/PhaseControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "End Movement Phase"
+
+[node name="EndActionPhase" type="Button" parent="Panel/Header/PhaseControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "End Action Phase"
+
+[node name="AutoQueueNPCs" type="Button" parent="Panel/Header/PhaseControls"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Auto Queue NPCs"
+
+[node name="HeaderDividerTwo" type="VSeparator" parent="Panel/Header"]
+layout_mode = 2
+
+[node name="StatusGroup" type="VBoxContainer" parent="Panel/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RoundLabel" type="Label" parent="Panel/Header/StatusGroup"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Round: 1"
 
-[node name="PhaseLabel" type="Label" parent="Panel/Header"]
+[node name="PhaseLabel" type="Label" parent="Panel/Header/StatusGroup"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Phase: Planning"
@@ -60,14 +91,22 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 37.0
+offset_top = 76.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Combatants" type="VBoxContainer" parent="Panel/HSplitContainer"]
+[node name="VSplitContainer" type="VSplitContainer" parent="Panel/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Combatants" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="QueuedActions" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 
 [node name="Panel" type="Panel" parent="Panel/HSplitContainer"]
 unique_name_in_owner = true
@@ -166,3 +205,55 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "You are not currently in this encounter."
+
+[node name="ActionResolutionWindow" type="Window" parent="."]
+unique_name_in_owner = true
+title = "Resolve Actions"
+initial_position = 1
+size = Vector2i(520, 320)
+visible = false
+unresizable = true
+
+[node name="MarginContainer" type="MarginContainer" parent="ActionResolutionWindow"]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ActionResolutionWindow/MarginContainer"]
+layout_mode = 2
+
+[node name="ResolutionTitle" type="Label" parent="ActionResolutionWindow/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Pending Action"
+
+[node name="ResolutionProgress" type="Label" parent="ActionResolutionWindow/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 remaining"
+
+[node name="ResolutionDetails" type="RichTextLabel" parent="ActionResolutionWindow/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+
+[node name="ResolutionButtons" type="HBoxContainer" parent="ActionResolutionWindow/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="AbortAction" type="Button" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Abort"
+
+[node name="ResolveAction" type="Button" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resolve"
+
+[node name="ResolveAllActions" type="Button" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Resolve All"

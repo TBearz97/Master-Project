@@ -5,6 +5,12 @@
 [resource]
 script = ExtResource("1_lkjad")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 20
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Strike"
 short_description = "A basic attack."
 long_description = "A direct, unadorned blow."

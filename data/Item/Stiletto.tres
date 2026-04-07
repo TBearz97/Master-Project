@@ -8,6 +8,12 @@
 [sub_resource type="Resource" id="Resource_tf4da"]
 script = ExtResource("1_qv45q")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 18
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Thrust"
 short_description = "A precise piercing attack."
 long_description = "A focused lunge driving the point into the target."
@@ -15,6 +21,12 @@ long_description = "A focused lunge driving the point into the target."
 [sub_resource type="Resource" id="Resource_24s3x"]
 script = ExtResource("1_qv45q")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 24
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Rend"
 short_description = "A tearing attack."
 long_description = "A vicious strike intended to tear and wound."
@@ -22,12 +34,12 @@ long_description = "A vicious strike intended to tear and wound."
 [sub_resource type="Resource" id="Resource_fuo2f"]
 script = ExtResource("2_vfnhb")
 damage_die = 4
-crit_die = 12
 
 [resource]
 script = ExtResource("4_0q0eh")
 damage_profile = SubResource("Resource_fuo2f")
-speed = 20
+base_ap_cost = 1
+speed_category = 1
 qualities = Array[String](["Concealed", "Brutal", "Thrown (C)"])
 actions = Array[ExtResource("1_qv45q")]([SubResource("Resource_tf4da"), SubResource("Resource_24s3x")])
 weight = 0.5
@@ -36,4 +48,4 @@ icon = ExtResource("3_kpatq")
 allowed_slots = Array[int]([7])
 _name = "Stiletto"
 short_description = "A weapon used in combat."
-long_description = "Deals d4, crit d12 damage at speed 20. Qualities: Concealed, Brutal, Thrown (C)."
+long_description = "Deals d4 damage. AP cost 1. Speed Fast. Qualities: Concealed, Brutal, Thrown (C)."

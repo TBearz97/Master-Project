@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_tuq6o")
-expression = "min(player_level + 2, 10)"
+expression = "10"
 _name = "Skill Cap"

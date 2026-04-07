@@ -8,6 +8,12 @@
 [sub_resource type="Resource" id="Resource_s6yan"]
 script = ExtResource("1_maiew")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 20
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Fire"
 short_description = "A ranged attack."
 long_description = "Releasing a projectile at the target."
@@ -15,12 +21,11 @@ long_description = "Releasing a projectile at the target."
 [sub_resource type="Resource" id="Resource_63qxh"]
 script = ExtResource("2_drgww")
 damage_die = 6
-crit_die = 10
 
 [resource]
 script = ExtResource("4_oys3n")
 damage_profile = SubResource("Resource_63qxh")
-speed = 10
+base_ap_cost = 1
 qualities = Array[String](["Accurate", "Close Quarters"])
 weaponRange = 1
 actions = Array[ExtResource("1_maiew")]([SubResource("Resource_s6yan")])
@@ -30,4 +35,4 @@ icon = ExtResource("3_xsvmp")
 allowed_slots = Array[int]([7])
 _name = "Hand Crossbow"
 short_description = "A weapon used in combat."
-long_description = "Deals d6, crit d10 damage at speed 10. Qualities: Accurate, Close Quarters."
+long_description = "Deals d6 damage. AP cost 1. Speed Very Fast. Qualities: Accurate, Close Quarters."

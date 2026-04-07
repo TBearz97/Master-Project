@@ -7,7 +7,7 @@
 script = ExtResource("1_1y6ff")
 bonus_1_prefix = "Action Points:"
 bonus_2_prefix = "Deflection:"
-bonus_1_expression = "x + 3"
+bonus_1_expression = "x + 6 - floor(x / 4)"
 bonus_2_expression = "x"
 _name = "Dexterity"
 short_description = "Represents speed, coordination, and reflexes."
@@ -16,10 +16,9 @@ long_description = "Dexterity reflects a character’s agility and precision in 
 [sub_resource type="Resource" id="Resource_rdm6v"]
 script = ExtResource("1_1y6ff")
 bonus_1_prefix = "Accuracy:"
-bonus_2_prefix = "Critical Damage:"
-bonus_1_expression = "x"
-bonus_2_expression = "((x - 1) * 5) + 50"
-bonus_2_suffix = "%"
+bonus_2_prefix = "Crit Dice : d"
+bonus_1_expression = "x + 2"
+bonus_2_expression = "2 * ceil(x / 2.0) + 2"
 _name = "Perception"
 short_description = "Represents awareness and precision."
 long_description = "Perception measures a character’s ability to notice details, aim accurately, and react swiftly to subtle changes in their surroundings. High Perception increases accuracy with all attacks and improves the likelihood of striking vital points, resulting in more devastating critical hits."

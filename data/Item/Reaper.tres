@@ -8,6 +8,12 @@
 [sub_resource type="Resource" id="Resource_cxayk"]
 script = ExtResource("1_k1v5v")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 22
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Slash"
 short_description = "A broad cutting attack."
 long_description = "A wide swinging cut aimed at exposed flesh."
@@ -15,6 +21,12 @@ long_description = "A wide swinging cut aimed at exposed flesh."
 [sub_resource type="Resource" id="Resource_bsemk"]
 script = ExtResource("1_k1v5v")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 28
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Sweep"
 short_description = "A wide sweeping attack."
 long_description = "A broad arc that can catch multiple foes."
@@ -22,6 +34,12 @@ long_description = "A broad arc that can catch multiple foes."
 [sub_resource type="Resource" id="Resource_24s3x"]
 script = ExtResource("1_k1v5v")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 24
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Rend"
 short_description = "A tearing attack."
 long_description = "A vicious strike intended to tear and wound."
@@ -29,12 +47,12 @@ long_description = "A vicious strike intended to tear and wound."
 [sub_resource type="Resource" id="Resource_dy2i2"]
 script = ExtResource("2_fc4ch")
 damage_die = 8
-crit_die = 6
 
 [resource]
 script = ExtResource("4_hn7au")
 damage_profile = SubResource("Resource_dy2i2")
-speed = 33
+base_ap_cost = 2
+speed_category = 2
 size = 1
 actions = Array[ExtResource("1_k1v5v")]([SubResource("Resource_cxayk"), SubResource("Resource_bsemk"), SubResource("Resource_24s3x")])
 weight = 4.0
@@ -43,4 +61,4 @@ icon = ExtResource("3_1ka76")
 allowed_slots = Array[int]([7])
 _name = "Reaper"
 short_description = "A weapon used in combat."
-long_description = "Deals d8, crit d6 damage at speed 33."
+long_description = "Deals d8 damage. AP cost 2. Speed Normal."

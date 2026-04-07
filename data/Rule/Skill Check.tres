@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_jng46")
-expression = "rollDice(1, difficulty) <= skill"
+expression = "rollDice(1, 20) + skill >= difficulty"
 _name = "Skill Check"

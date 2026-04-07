@@ -8,6 +8,12 @@
 [sub_resource type="Resource" id="Resource_s6yan"]
 script = ExtResource("1_vbxhf")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 20
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Fire"
 short_description = "A ranged attack."
 long_description = "Releasing a projectile at the target."
@@ -15,12 +21,12 @@ long_description = "Releasing a projectile at the target."
 [sub_resource type="Resource" id="Resource_2pl6u"]
 script = ExtResource("2_u8log")
 damage_die = 4
-crit_die = 12
 
 [resource]
 script = ExtResource("4_fo7oa")
 damage_profile = SubResource("Resource_2pl6u")
-speed = 20
+base_ap_cost = 1
+speed_category = 1
 size = 1
 weaponRange = 1
 actions = Array[ExtResource("1_vbxhf")]([SubResource("Resource_s6yan")])
@@ -30,4 +36,4 @@ icon = ExtResource("3_dm0pg")
 allowed_slots = Array[int]([7])
 _name = "Short Bow"
 short_description = "A weapon used in combat."
-long_description = "Deals d4, crit d12 damage at speed 20."
+long_description = "Deals d4 damage. AP cost 1. Speed Fast."

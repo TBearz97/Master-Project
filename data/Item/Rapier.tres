@@ -8,6 +8,12 @@
 [sub_resource type="Resource" id="Resource_tf4da"]
 script = ExtResource("1_34c8c")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 18
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Thrust"
 short_description = "A precise piercing attack."
 long_description = "A focused lunge driving the point into the target."
@@ -15,6 +21,12 @@ long_description = "A focused lunge driving the point into the target."
 [sub_resource type="Resource" id="Resource_cxayk"]
 script = ExtResource("1_34c8c")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 22
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Slash"
 short_description = "A broad cutting attack."
 long_description = "A wide swinging cut aimed at exposed flesh."
@@ -22,12 +34,12 @@ long_description = "A wide swinging cut aimed at exposed flesh."
 [sub_resource type="Resource" id="Resource_a8wdk"]
 script = ExtResource("2_4qym8")
 damage_die = 6
-crit_die = 10
 
 [resource]
 script = ExtResource("4_imw6h")
 damage_profile = SubResource("Resource_a8wdk")
-speed = 25
+base_ap_cost = 2
+speed_category = 2
 qualities = Array[String](["Accurate"])
 actions = Array[ExtResource("1_34c8c")]([SubResource("Resource_tf4da"), SubResource("Resource_cxayk")])
 weight = 2.0
@@ -36,4 +48,4 @@ icon = ExtResource("3_l7s4w")
 allowed_slots = Array[int]([7])
 _name = "Rapier"
 short_description = "A weapon used in combat."
-long_description = "Deals d6, crit d10 damage at speed 25. Qualities: Accurate."
+long_description = "Deals d6 damage. AP cost 2. Speed Normal. Qualities: Accurate."

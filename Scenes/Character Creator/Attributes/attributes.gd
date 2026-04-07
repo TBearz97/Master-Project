@@ -33,13 +33,14 @@ func _setup() -> void:
 		sb.set_meta(sb.tooltip_text.replace(" ", ""), attribute)
 		sb.alignment = HORIZONTAL_ALIGNMENT_CENTER
 		sb.min_value = 1
+		sb.value = 5
 		if attributes.any(func(a): return a._name == attribute._name):
 			sb.value = attributes[attributes.find_custom(func(a): return a._name == attribute._name)].value
 		sb.rounded = true
 		sb.step = 1
 		prev[sb] = 1
 		sb.value_changed.connect(_on_value_changed.bind(bonus1, bonus2, attribute, sb))
-		_on_value_changed(1, bonus1, bonus2, attribute, sb)
+		_on_value_changed(5, bonus1, bonus2, attribute, sb)
 
 		grid.columns = 4
 		grid.add_child(label)
@@ -103,8 +104,8 @@ func _on_value_changed(new_value: int, bonus1: RichTextLabel, bonus2: RichTextLa
 
 	for key in prev:
 		var _max: float = key.value + points.value
-		if _max > 15:
-			_max = 15
+		if _max > 10:
+			_max = 10
 		key.max_value = _max
 
 func _on_attribute_changed_for_defences(_new_value: int) -> void:

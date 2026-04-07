@@ -8,6 +8,12 @@
 [sub_resource type="Resource" id="Resource_tf4da"]
 script = ExtResource("1_md6mj")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 18
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Thrust"
 short_description = "A precise piercing attack."
 long_description = "A focused lunge driving the point into the target."
@@ -15,6 +21,12 @@ long_description = "A focused lunge driving the point into the target."
 [sub_resource type="Resource" id="Resource_cxayk"]
 script = ExtResource("1_md6mj")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 22
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Slash"
 short_description = "A broad cutting attack."
 long_description = "A wide swinging cut aimed at exposed flesh."
@@ -22,6 +34,12 @@ long_description = "A wide swinging cut aimed at exposed flesh."
 [sub_resource type="Resource" id="Resource_24s3x"]
 script = ExtResource("1_md6mj")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 24
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Rend"
 short_description = "A tearing attack."
 long_description = "A vicious strike intended to tear and wound."
@@ -29,12 +47,12 @@ long_description = "A vicious strike intended to tear and wound."
 [sub_resource type="Resource" id="Resource_v6tgc"]
 script = ExtResource("2_p4xd7")
 damage_die = 4
-crit_die = 12
 
 [resource]
 script = ExtResource("4_qx3ht")
 damage_profile = SubResource("Resource_v6tgc")
-speed = 20
+base_ap_cost = 1
+speed_category = 1
 qualities = Array[String](["Accurate", "Concealed", "Thrown (M)"])
 actions = Array[ExtResource("1_md6mj")]([SubResource("Resource_tf4da"), SubResource("Resource_cxayk"), SubResource("Resource_24s3x")])
 weight = 0.5
@@ -43,4 +61,4 @@ icon = ExtResource("3_08hbq")
 allowed_slots = Array[int]([7])
 _name = "Dagger"
 short_description = "A weapon used in combat."
-long_description = "Deals d4, crit d12 damage at speed 20. Qualities: Accurate, Concealed, Thrown (M)."
+long_description = "Deals d4 damage. AP cost 1. Speed Fast. Qualities: Accurate, Concealed, Thrown (M)."

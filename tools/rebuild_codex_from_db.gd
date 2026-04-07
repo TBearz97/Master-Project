@@ -58,7 +58,7 @@ func rebuild_from_database() -> bool:
 	var defences := _build_defences(db, keywords, attributes)
 	var actions := _build_actions(db)
 	var items := _build_items(db, keywords, actions)
-	var npcs := _build_npcs(db, attributes)
+	var npcs := _build_npcs(db, attributes, actions, items)
 
 	_build_codex_tres(races, backgrounds, homelands, attributes, skills, defences, perks, conditions, rules, actions, items, npcs)
 
@@ -196,7 +196,7 @@ func _build_races(db: SQLite, keywords: Dictionary, perks: Dictionary[String, Pe
 
 func _build_defences(db: SQLite, keywords: Dictionary, attributes: Dictionary[String, Attribute]) -> Dictionary[String, Defence]:
 	var result: Dictionary[String, Defence] = {}
-	for row in _query(db, "SELECT name, short_description, long_description, attribute1, attribute2 FROM Defence ORDER BY ID"):
+	for row in _query(db, "SELECT name, attribute1, attribute2 FROM Defence ORDER BY ID"):
 		var defence := Defence.new()
 		defence._name = _text(row, "name")
 		defence.short_description = _meta_text(keywords, defence._name, "short_description", _text(row, "short_description"))
@@ -210,7 +210,7 @@ func _build_defences(db: SQLite, keywords: Dictionary, attributes: Dictionary[St
 
 func _build_actions(db: SQLite) -> Dictionary[String, Action]:
 	var result: Dictionary[String, Action] = {}
-	for row in _query(db, "SELECT name, short_description, long_description, expressions FROM Action ORDER BY ID"):
+	for row in _query(db, "SELECT name, short_description, long_description, category, ap_cost, base_speed, expressions FROM Action ORDER BY ID"):
 		var action_name := _text(row, "name")
 		if result.has(action_name):
 			continue
@@ -218,6 +218,9 @@ func _build_actions(db: SQLite) -> Dictionary[String, Action]:
 		action._name = action_name
 		action.short_description = _text(row, "short_description")
 		action.long_description = _text(row, "long_description")
+		action.category = _text(row, "category")
+		action.ap_cost = _nullable_int(row, "ap_cost", -1)
+		action.base_speed = _int(row, "base_speed")
 		var expressions_json := _text(row, "expressions")
 		if not expressions_json.is_empty():
 			var parsed: Variant = JSON.parse_string(expressions_json)
@@ -233,7 +236,7 @@ func _build_items(db: SQLite, keywords: Dictionary, actions: Dictionary[String, 
 	var clothing_rows := _rows_by_key(_query(db, "SELECT item, locations_covered, type FROM Clothing"), "item")
 	var consumable_rows := _rows_by_key(_query(db, "SELECT item, type, hp_healed, effect, duration, addiction_threshold, alcoholic FROM Consumable"), "item")
 	var utility_rows := _rows_by_key(_query(db, "SELECT item, category, effect FROM Utility"), "item")
-	var weapon_rows := _rows_by_key(_query(db, "SELECT item, damage_die, crit_die, base_speed, qualities, size, range, actions FROM Weapon"), "item")
+	var weapon_rows := _rows_by_key(_query(db, "SELECT item, damage_die, base_ap_cost, speed_category, qualities, size, range, actions FROM Weapon"), "item")
 
 	for row in _query(db, "SELECT name, weight, cost, type FROM Item ORDER BY ID"):
 		var item_name := _text(row, "name")
@@ -244,10 +247,10 @@ func _build_items(db: SQLite, keywords: Dictionary, actions: Dictionary[String, 
 			result[item._name] = item
 	return result
 
-func _build_npcs(db: SQLite, attributes: Dictionary[String, Attribute]) -> Dictionary[String, NPC]:
+func _build_npcs(db: SQLite, attributes: Dictionary[String, Attribute], action_templates: Dictionary[String, Action], item_templates: Dictionary[String, Item]) -> Dictionary[String, NPC]:
 	var result: Dictionary[String, NPC] = {}
-	for row in _query(db, "SELECT name, short_description, long_description, creature_type, max_hp, level, attributes FROM NPC ORDER BY ID"):
-		var creature_data := _make_npc_creature_data(row, attributes)
+	for row in _query(db, "SELECT name, short_description, long_description, creature_type, max_hp, level, attributes, actions, equipment FROM NPC ORDER BY ID"):
+		var creature_data := _make_npc_creature_data(row, attributes, action_templates, item_templates)
 		var npc := NPC.new()
 		npc._name = _text(row, "name")
 		npc.short_description = _text(row, "short_description")
@@ -279,7 +282,7 @@ func _build_codex_tres(races: Dictionary[String, Race], backgrounds: Dictionary[
 	elif log_progress:
 		print("Saved res://data/baseRules.tres")
 
-func _make_npc_creature_data(row: Dictionary, attribute_templates: Dictionary[String, Attribute]) -> CreatureData:
+func _make_npc_creature_data(row: Dictionary, attribute_templates: Dictionary[String, Attribute], action_templates: Dictionary[String, Action], item_templates: Dictionary[String, Item]) -> CreatureData:
 	var creature_type := _text(row, "creature_type")
 	var creature_data: CreatureData
 	match creature_type:
@@ -297,7 +300,64 @@ func _make_npc_creature_data(row: Dictionary, attribute_templates: Dictionary[St
 	creature_data.currentHP = creature_data.maxHP
 	creature_data.level = _int(row, "level")
 	creature_data.attributes = _build_npc_attributes(_text(row, "attributes"), attribute_templates)
+	creature_data.actions = _build_npc_actions(_text(row, "actions"), action_templates)
+	if creature_data is HumanoidData:
+		(creature_data as HumanoidData).equipment = _build_npc_equipment(_text(row, "equipment"), item_templates)
+	RuleEngine.normalizeVitals(creature_data, true)
 	return creature_data
+
+func _build_npc_actions(actions_json: String, action_templates: Dictionary[String, Action]) -> Array[Action]:
+	var parsed: Variant = JSON.parse_string(actions_json)
+	var result: Array[Action] = []
+	if parsed is Array:
+		for action_name_variant in parsed:
+			var action_name := str(action_name_variant)
+			var template: Action = action_templates.get(action_name, null)
+			if template == null:
+				continue
+			result.append(template.duplicate(true) as Action)
+	return result
+
+func _build_npc_equipment(equipment_json: String, item_templates: Dictionary[String, Item]) -> Equipment:
+	var equipment := Equipment.new()
+	var parsed: Variant = JSON.parse_string(equipment_json)
+	if not (parsed is Dictionary):
+		return equipment
+	var data := parsed as Dictionary
+	equipment.head = _get_armor_from_template(data.get("head", null), item_templates)
+	equipment.torso = _get_armor_from_template(data.get("torso", null), item_templates)
+	equipment.leftArm = _get_armor_from_template(data.get("leftArm", null), item_templates)
+	equipment.rightArm = _get_armor_from_template(data.get("rightArm", null), item_templates)
+	equipment.leftLeg = _get_armor_from_template(data.get("leftLeg", null), item_templates)
+	equipment.rightLeg = _get_armor_from_template(data.get("rightLeg", null), item_templates)
+	equipment.weapon1Left = _get_weapon_from_template(data.get("weapon1Left", null), item_templates)
+	equipment.weapon1Right = _get_weapon_from_template(data.get("weapon1Right", null), item_templates)
+	equipment.weapon2Left = _get_weapon_from_template(data.get("weapon2Left", null), item_templates)
+	equipment.weapon2Right = _get_weapon_from_template(data.get("weapon2Right", null), item_templates)
+	equipment.quickItem1 = _get_item_from_template(data.get("quickItem1", null), item_templates)
+	equipment.quickItem2 = _get_item_from_template(data.get("quickItem2", null), item_templates)
+	equipment.quickItem3 = _get_item_from_template(data.get("quickItem3", null), item_templates)
+	equipment.quickItem4 = _get_item_from_template(data.get("quickItem4", null), item_templates)
+	return equipment
+
+func _get_item_from_template(item_name_variant: Variant, item_templates: Dictionary[String, Item]) -> Item:
+	if item_name_variant == null:
+		return null
+	var item_name := str(item_name_variant)
+	if item_name.is_empty():
+		return null
+	var template: Item = item_templates.get(item_name, null)
+	if template == null:
+		return null
+	return template.duplicate(true) as Item
+
+func _get_weapon_from_template(item_name_variant: Variant, item_templates: Dictionary[String, Item]) -> Weapon:
+	var item := _get_item_from_template(item_name_variant, item_templates)
+	return item as Weapon
+
+func _get_armor_from_template(item_name_variant: Variant, item_templates: Dictionary[String, Item]) -> Armor:
+	var item := _get_item_from_template(item_name_variant, item_templates)
+	return item as Armor
 
 func _build_npc_attributes(attributes_json: String, attribute_templates: Dictionary[String, Attribute]) -> Array[Attribute]:
 	var parsed: Variant = JSON.parse_string(attributes_json)
@@ -361,8 +421,9 @@ func _make_item_resource(item_name: String, item_type: String, item_row: Diction
 			var extra: Dictionary = weapon_rows.get(item_name, {})
 			_apply_item_metadata(weapon, item_name, item_row, keywords)
 			weapon.allowed_slots = [Item.ItemSlots.WeaponSlot]
-			weapon.damage_profile = DamageProfile.new(0, _int(extra, "damage_die"), _int(extra, "crit_die"))
-			weapon.speed = _int(extra, "base_speed")
+			weapon.damage_profile = DamageProfile.new(0, _int(extra, "damage_die"), 0)
+			weapon.base_ap_cost = _int(extra, "base_ap_cost")
+			weapon.speed_category = weapon._parse_speed_category(_text(extra, "speed_category"))
 			weapon.qualities = []
 			var qualities := _text(extra, "qualities")
 			if not qualities.is_empty():
@@ -407,6 +468,11 @@ func _find_armor_rows(item_name: String, armor_rows: Array) -> Array:
 		if _normalize_armor_item_name(_text(row, "item")) == item_name:
 			result.append(row)
 	return result
+
+func _nullable_int(row: Dictionary, key: String, default_value: int = 0) -> int:
+	if not row.has(key) or row[key] == null:
+		return default_value
+	return int(row[key])
 
 func _normalize_armor_item_name(value: String) -> String:
 	for suffix in ARMOR_SIDE_SUFFIXES:
@@ -490,7 +556,7 @@ func _build_item_long_description(item: Item, item_type: String) -> String:
 			var qualities := ""
 			if not weapon.qualities.is_empty():
 				qualities = " Qualities: %s." % ", ".join(weapon.qualities)
-			return "Deals %s damage at speed %s.%s" % [weapon.damage_profile.describe(), weapon.speed, qualities]
+			return "Deals %s damage. AP cost %s. Speed %s.%s" % [weapon.damage_profile.describe(), weapon.base_ap_cost, weapon.get_speed_category_name(), qualities]
 	return ""
 
 func _describe_item_slots(slots: Array[Item.ItemSlots]) -> String:

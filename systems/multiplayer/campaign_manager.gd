@@ -83,6 +83,8 @@ func server_register_player(playerData: PackedByteArray) -> void:
 
 		var loaded: Resource = ResourceLoader.load(tempPath)
 		if loaded is PlayerData:
+			_ensure_basic_actions(loaded)
+			_ensure_valid_player_vitals(loaded, true)
 			membersCharacters[peerId] = loaded
 
 	if not membersCharacters.has(peerId):
@@ -189,6 +191,37 @@ func _add_combat_log(combat_line: String) -> void:
 	else:
 		rpc_id(1, "_server_receive_combat", combat_line)
 
+func _append_combat_log_local(senderPeerId: int, combat_line: String, tooltip: String = "") -> void:
+	var _chat_log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/CombatLog")
+	var _log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/AllLogs")
+
+	var senderName: String
+	if membersByPeerId.has(senderPeerId):
+		senderName = str(membersByPeerId[senderPeerId])
+	else:
+		senderName = "Peer " + str(senderPeerId)
+
+	if senderPeerId == multiplayer.get_unique_id():
+		senderName += " (You)"
+
+	var message_text := _escape_bbcode_text(senderName + ": " + combat_line)
+	var _tooltip_text := _escape_bbcode_text(tooltip)
+	_append_log_line(_chat_log, message_text, _tooltip_text)
+	_append_log_line(_log, message_text, _tooltip_text)
+
+func _escape_bbcode_text(text: String) -> String:
+	return text.replace("[", "\\[").replace("]", "\\]")
+
+func _append_log_line(log_label: RichTextLabel, message_text: String, _tooltip_text: String) -> void:
+	if log_label == null:
+		return
+	if not _tooltip_text.is_empty():
+		log_label.push_hint(_tooltip_text)
+	log_label.append_text(message_text)
+	if not _tooltip_text.is_empty():
+		log_label.pop()
+	log_label.append_text("\n")
+
 func broadcast_combatant_spawn(combatant_payload: Dictionary) -> void:
 	if not multiplayer.is_server():
 		return
@@ -196,6 +229,7 @@ func broadcast_combatant_spawn(combatant_payload: Dictionary) -> void:
 
 func submit_local_player_combatant_update(combatant_payload: Dictionary) -> void:
 	if multiplayer.is_server():
+		_sync_player_from_combatant_payload(multiplayer.get_unique_id(), combatant_payload)
 		broadcast_combatant_update(combatant_payload)
 	else:
 		# Clients never write combatant state directly; they ask the host to vet and
@@ -270,8 +304,12 @@ func _apply_non_combat_game_event(game_event: GameEvent) -> void:
 	# Non-combat contexts will be applied here as the broader event system is implemented.
 	# For now, the authoritative event log is still preserved for review and replay.
 	if game_event.context == GameEvent.CONTEXT_SKILL_CHECK and not game_event.results.is_empty():
+		var sender_peer_id := 1
 		for result in game_event.results:
-			_add_combat_log(str(result))
+			if result is Dictionary:
+				_append_combat_log_local(sender_peer_id, str(result.get("text", "")), str(result.get("tooltip", "")))
+			else:
+				_append_combat_log_local(sender_peer_id, str(result))
 
 func apply_combat_request(combat_request: CombatRequest) -> void:
 	if combat_request == null:
@@ -332,9 +370,90 @@ func server_update_player_combatant(combatant_payload: Dictionary) -> void:
 		push_error("Rejected combatant update for mismatched peer %s" % sender_peer_id)
 		return
 
+	_sync_player_from_combatant_payload(sender_peer_id, combatant_payload)
+
 	# Once validated, the host treats this like any other authoritative combatant
 	# payload update and pushes it back out to every peer.
 	broadcast_combatant_update(combatant_payload)
+
+func _ensure_basic_actions(player_data: PlayerData) -> void:
+	if player_data == null or CampaignVariables.codex == null:
+		return
+	if player_data.actions == null:
+		player_data.actions = []
+	var existing_names: Array[String] = []
+	for action in player_data.actions:
+		if action is Action:
+			existing_names.append(action._name)
+	var action_names: Array = CampaignVariables.codex.Actions.keys()
+	action_names.sort()
+	for action_name_variant in action_names:
+		var action: Action = CampaignVariables.codex.Actions.get(str(action_name_variant), null)
+		if action == null or action.category != Action.CATEGORY_BASIC:
+			continue
+		if existing_names.has(action._name):
+			continue
+		player_data.actions.append(action.duplicate(true) as Action)
+
+func _sync_player_from_combatant_payload(peer_id: int, combatant_payload: Dictionary) -> void:
+	if not membersCharacters.has(peer_id):
+		return
+	var player_data := membersCharacters[peer_id] as PlayerData
+	if player_data == null:
+		return
+	_ensure_basic_actions(player_data)
+	_ensure_valid_player_vitals(player_data)
+	if combatant_payload.has("current_hp"):
+		player_data.currentHP = int(combatant_payload.get("current_hp", player_data.currentHP))
+	if combatant_payload.has("max_hp"):
+		player_data.maxHP = int(combatant_payload.get("max_hp", player_data.maxHP))
+	if combatant_payload.has("current_vitality"):
+		player_data.currentVitality = int(combatant_payload.get("current_vitality", player_data.currentVitality))
+	if combatant_payload.has("max_vitality"):
+		player_data.maxVitality = int(combatant_payload.get("max_vitality", player_data.maxVitality))
+	if combatant_payload.has("temporary_health"):
+		player_data.temporaryHealth = int(combatant_payload.get("temporary_health", player_data.temporaryHealth))
+	if combatant_payload.has("level"):
+		player_data.level = int(combatant_payload.get("level", player_data.level))
+	if combatant_payload.has("active_loadout"):
+		player_data.set_meta("active_loadout", int(combatant_payload.get("active_loadout", 1)))
+	if combatant_payload.has("equipment"):
+		player_data.equipment = _build_equipment_from_payload(combatant_payload.get("equipment", {}))
+	_ensure_valid_player_vitals(player_data)
+
+func _ensure_valid_player_vitals(player_data: PlayerData, refill_if_uninitialized: bool = false) -> void:
+	if player_data == null:
+		return
+	RuleEngine.normalizeVitals(player_data, refill_if_uninitialized)
+
+func _build_equipment_from_payload(equipment_payload: Variant) -> Equipment:
+	var equipment := Equipment.new()
+	if not (equipment_payload is Dictionary):
+		return equipment
+	var data := equipment_payload as Dictionary
+	equipment.head = _get_item_from_codex(str(data.get("head", ""))) as Armor
+	equipment.torso = _get_item_from_codex(str(data.get("torso", ""))) as Armor
+	equipment.leftArm = _get_item_from_codex(str(data.get("leftArm", ""))) as Armor
+	equipment.rightArm = _get_item_from_codex(str(data.get("rightArm", ""))) as Armor
+	equipment.leftLeg = _get_item_from_codex(str(data.get("leftLeg", ""))) as Armor
+	equipment.rightLeg = _get_item_from_codex(str(data.get("rightLeg", ""))) as Armor
+	equipment.weapon1Left = _get_item_from_codex(str(data.get("weapon1Left", ""))) as Weapon
+	equipment.weapon1Right = _get_item_from_codex(str(data.get("weapon1Right", ""))) as Weapon
+	equipment.weapon2Left = _get_item_from_codex(str(data.get("weapon2Left", ""))) as Weapon
+	equipment.weapon2Right = _get_item_from_codex(str(data.get("weapon2Right", ""))) as Weapon
+	equipment.quickItem1 = _get_item_from_codex(str(data.get("quickItem1", "")))
+	equipment.quickItem2 = _get_item_from_codex(str(data.get("quickItem2", "")))
+	equipment.quickItem3 = _get_item_from_codex(str(data.get("quickItem3", "")))
+	equipment.quickItem4 = _get_item_from_codex(str(data.get("quickItem4", "")))
+	return equipment
+
+func _get_item_from_codex(item_name: String) -> Item:
+	if item_name.is_empty() or CampaignVariables.codex == null:
+		return null
+	var template: Item = CampaignVariables.codex.Items.get(item_name, null)
+	if template == null:
+		return null
+	return template.duplicate(true) as Item
 
 @rpc("authority", "call_local", "reliable")
 func client_reset_combat_session() -> void:
@@ -358,20 +477,7 @@ func _server_receive_combat(combat_line: String) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _client_append_combat_line(senderPeerId: int, combat_line: String) -> void:
-	var _chat_log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/CombatLog")
-	var _log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/AllLogs")
-
-	var senderName: String
-	if membersByPeerId.has(senderPeerId):
-		senderName = str(membersByPeerId[senderPeerId])
-	else:
-		senderName = "Peer " + str(senderPeerId)
-
-	if senderPeerId == multiplayer.get_unique_id():
-		senderName += " (You)"
-
-	_chat_log.text += senderName + ": " + combat_line + "\n"
-	_log.text += senderName + ": " + combat_line + "\n"
+	_append_combat_log_local(senderPeerId, combat_line)
 
 func broadcast_dice(diceRolled: Array) -> void:
 	var message := ""

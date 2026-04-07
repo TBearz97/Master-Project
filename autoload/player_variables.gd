@@ -5,9 +5,17 @@ var expThreshold: int
 
 signal leveledUp()
 signal combat_loadout_changed()
+signal vitals_changed()
 
 func _ready() -> void:
 	data = PlayerData.new()
+	_ensure_valid_vitals(true)
+
+func _ensure_valid_vitals(refill_if_uninitialized: bool = false) -> void:
+	if data == null:
+		return
+	RuleEngine.normalizeVitals(data, refill_if_uninitialized)
+	vitals_changed.emit()
 
 # Character Info
 func setName(value: String) -> void:
@@ -55,6 +63,7 @@ func getBackstory() -> String:
 # Attributes
 func setAttributes(value: Array[Attribute]) -> void:
 	data.attributes = value
+	_ensure_valid_vitals(true)
 
 func getAttributes() -> Array[Attribute]:
 	return data.attributes
@@ -90,12 +99,14 @@ func addFatigue(value: int) -> void:
 
 func setNecroticDamage(value: int) -> void:
 	data.necroticDamage = value
+	_ensure_valid_vitals()
 
 func getNecroticDamage() -> int:
 	return data.necroticDamage
 
 func addNecroticDamage(value: int) -> void:
 	data.necroticDamage += value
+	_ensure_valid_vitals()
 
 func setConditions(value: Array[Condition]) -> void:
 	data.conditions = value
@@ -160,6 +171,44 @@ func getLevelAvailable() -> bool:
 
 func setLevel(value: int) -> void:
 	data.level = value
+	_ensure_valid_vitals(true)
+
+func setCurrentHP(value: int) -> void:
+	data.currentHP = clampi(value, 0, data.maxHP)
+	vitals_changed.emit()
+
+func getCurrentHP() -> int:
+	return data.currentHP
+
+func setMaxHP(value: int) -> void:
+	data.maxHP = maxi(value, 1)
+	data.currentHP = clampi(data.currentHP, 0, data.maxHP)
+	vitals_changed.emit()
+
+func getMaxHP() -> int:
+	return data.maxHP
+
+func setCurrentVitality(value: int) -> void:
+	data.currentVitality = clampi(value, 0, data.maxVitality)
+	vitals_changed.emit()
+
+func getCurrentVitality() -> int:
+	return data.currentVitality
+
+func setMaxVitality(value: int) -> void:
+	data.maxVitality = maxi(value, 1)
+	data.currentVitality = clampi(data.currentVitality, 0, data.maxVitality)
+	vitals_changed.emit()
+
+func getMaxVitality() -> int:
+	return data.maxVitality
+
+func setTemporaryHealth(value: int) -> void:
+	data.temporaryHealth = maxi(value, 0)
+	vitals_changed.emit()
+
+func getTemporaryHealth() -> int:
+	return data.temporaryHealth
 
 func getLevel() -> int:
 	return data.level
@@ -201,6 +250,7 @@ func level_Up() -> void:
 	data.attribute_points += 1
 	data.skill_points += 2
 	data.perk_points += 1
+	_ensure_valid_vitals(true)
 
 func save() -> void:
 	if not _ensure_character_directory():
@@ -225,6 +275,7 @@ func load(character_name: String) -> void:
 	var resource := ResourceLoader.load(file_path)
 	if resource is PlayerData:
 		data = resource
+		_ensure_valid_vitals(true)
 	else:
 		push_error("Save file %s is not a PlayerData resource" % file_path)
 

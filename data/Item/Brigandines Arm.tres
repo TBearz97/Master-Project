@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="Armor" load_steps=3 format=3 uid="uid://chshc4hj166ir"]
+[gd_resource type="Resource" script_class="Armor" load_steps=3 format=3]
 
-[ext_resource type="Texture2D" uid="uid://b1okustpael5g" path="res://Art/Icons/Items/default.png" id="1_34b41"]
-[ext_resource type="Script" uid="uid://cjmkj02j1jj00" path="res://content/codex/items/armor.gd" id="2_1bfvn"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/default.png" id="1_34b41"]
+[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="2_1bfvn"]
 
 [resource]
 script = ExtResource("2_1bfvn")

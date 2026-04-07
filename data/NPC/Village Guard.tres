@@ -1,48 +1,104 @@
-[gd_resource type="Resource" script_class="NPC" load_steps=48 format=3]
+[gd_resource type="Resource" script_class="NPC" load_steps=53 format=3 uid="uid://iegjq10fri1s"]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_yddtm"]
-[ext_resource type="Script" path="res://content/codex/character_options/attribute.gd" id="2_845f8"]
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="3_84ca2"]
-[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="4_ngxh8"]
-[ext_resource type="Script" path="res://content/codex/gameplay/condition.gd" id="5_sihlw"]
-[ext_resource type="Script" path="res://content/codex/items/armor.gd" id="6_0trme"]
-[ext_resource type="Script" path="res://content/codex/items/item.gd" id="7_pl6ty"]
-[ext_resource type="Script" path="res://content/codex/items/equipment.gd" id="8_2hdf5"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="9_vp0pp"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="10_p2w60"]
-[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="11_q8usd"]
-[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="12_888xf"]
-[ext_resource type="Script" path="res://content/actor_data/HumanoidData.gd" id="13_t5jjq"]
-[ext_resource type="Script" path="res://content/codex/character_options/skill.gd" id="14_0nrem"]
-[ext_resource type="Script" path="res://content/codex/NPC/NPC.gd" id="15_g8d0b"]
+[ext_resource type="Script" uid="uid://crmttwfuo7ahd" path="res://content/codex/gameplay/Action.gd" id="1_0trme"]
+[ext_resource type="Script" uid="uid://cjefm20dfgs57" path="res://content/codex/character_options/attribute.gd" id="2_pl6ty"]
+[ext_resource type="Script" uid="uid://oeqbli81j6x8" path="res://content/codex/character_options/perk.gd" id="3_2hdf5"]
+[ext_resource type="Script" uid="uid://d04lmqjjt3iiw" path="res://content/codex/character_options/background.gd" id="4_vp0pp"]
+[ext_resource type="Script" uid="uid://byidg23a3f70v" path="res://content/codex/gameplay/condition.gd" id="5_p2w60"]
+[ext_resource type="Script" uid="uid://pg784lc4ql0m" path="res://content/codex/character_options/defence.gd" id="6_q8usd"]
+[ext_resource type="Texture2D" uid="uid://du25jmr7kg60b" path="res://Art/Icons/Items/Chain Mail Head.png" id="7_888xf"]
+[ext_resource type="Script" uid="uid://cjmkj02j1jj00" path="res://content/codex/items/armor.gd" id="8_t5jjq"]
+[ext_resource type="Texture2D" uid="uid://b1okustpael5g" path="res://Art/Icons/Items/default.png" id="9_0nrem"]
+[ext_resource type="Script" uid="uid://dxf6c1i7rhs7y" path="res://content/codex/items/equipment.gd" id="10_g8d0b"]
+[ext_resource type="Texture2D" uid="uid://8vxukre84tdm" path="res://Art/Icons/Items/Chain Mail Torso.png" id="11_ih6cq"]
+[ext_resource type="Script" uid="uid://cxhkklnoiecu1" path="res://content/codex/gameplay/DamageProfile.gd" id="12_5u0fc"]
+[ext_resource type="Texture2D" uid="uid://3chvg22ipdam" path="res://Art/Icons/Items/Shield.png" id="13_q1ahd"]
+[ext_resource type="Script" uid="uid://oaiqtna85o4f" path="res://content/codex/items/weapon.gd" id="14_l0bhr"]
+[ext_resource type="Texture2D" uid="uid://dr7dh0mlo6k5h" path="res://Art/Icons/Items/Spear.png" id="15_2k8qh"]
+[ext_resource type="Script" uid="uid://cpljujvac5b1" path="res://content/codex/character_options/homeland.gd" id="16_qs5wm"]
+[ext_resource type="Script" uid="uid://dgq7obayulkcx" path="res://content/codex/character_options/race.gd" id="17_3g4em"]
+[ext_resource type="Script" uid="uid://cm4etkegxtixw" path="res://content/actor_data/HumanoidData.gd" id="18_87tc0"]
+[ext_resource type="Script" uid="uid://8ssps16vwf54" path="res://content/codex/character_options/skill.gd" id="19_nypsr"]
+[ext_resource type="Script" uid="uid://dlgprwdoc5clc" path="res://content/codex/NPC/NPC.gd" id="20_dy7hv"]
 
-[sub_resource type="Resource" id="Resource_ih6cq"]
-script = ExtResource("2_845f8")
-value = 1
+[sub_resource type="Resource" id="Resource_7o15v"]
+script = ExtResource("1_0trme")
+expressions = Array[String](["markDelayedAction(source, 1)"])
+category = "Basic"
+base_speed = 10
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
+_name = "Wait"
+short_description = "Delay your next action."
+long_description = "You hold back and act later, improving your timing on the next action."
+
+[sub_resource type="Resource" id="Resource_bvgwv"]
+script = ExtResource("1_0trme")
+expressions = Array[String](["addDefenceBonus(target, \"Deflection\", 1, \"round\")"])
+category = "Basic"
+ap_cost = 1
+base_speed = 15
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
+_name = "Guard"
+short_description = "Increase a target's Deflection."
+long_description = "You protect a target by raising their Deflection until the end of the round."
+
+[sub_resource type="Resource" id="Resource_buqew"]
+script = ExtResource("1_0trme")
+expressions = Array[String](["addDefenceBonus(target, chosenDefence, 1, \"round\")"])
+category = "Basic"
+ap_cost = 1
+base_speed = 20
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
+_name = "Bolster"
+short_description = "Increase a chosen defence."
+long_description = "You reinforce a target's chosen defence until the end of the round."
+
+[sub_resource type="Resource" id="Resource_55jq5"]
+script = ExtResource("1_0trme")
+expressions = Array[String](["swapActiveLoadout(source)"])
+category = "Basic"
+ap_cost = 1
+base_speed = 20
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
+_name = "Swap Loadout"
+short_description = "Swap to your other loadout."
+long_description = "You switch to your other prepared loadout."
+
+[sub_resource type="Resource" id="Resource_0k6p0"]
+script = ExtResource("2_pl6ty")
+value = 7
 bonus_1_prefix = "Damage & Healing:"
 bonus_2_prefix = "Carry Weight:"
-bonus_1_expression = "(x - 1) * 5"
-bonus_2_expression = "((x - 1) * 5) + 75"
+bonus_1_expression = "(x -  5) * 7"
+bonus_2_expression = "(x * 10) + 45"
 bonus_1_suffix = "%"
 bonus_2_suffix = "kg"
 _name = "Might"
 short_description = "Represents physical and spiritual strength."
 long_description = "Might measures the character’s raw physical and inner power. It influences both physical and magical damage as well as the effectiveness of healing abilities. Characters with higher Might deal and heal more damage and can carry heavier loads."
 
-[sub_resource type="Resource" id="Resource_5u0fc"]
-script = ExtResource("2_845f8")
-value = 1
+[sub_resource type="Resource" id="Resource_ow1sa"]
+script = ExtResource("2_pl6ty")
+value = 6
 bonus_1_prefix = "Action Points:"
 bonus_2_prefix = "Deflection:"
-bonus_1_expression = "x + 3"
+bonus_1_expression = "x + 6 - floor(x / 4)"
 bonus_2_expression = "x"
 _name = "Dexterity"
 short_description = "Represents speed, coordination, and reflexes."
 long_description = "Dexterity reflects a character’s agility and precision in both physical and mental actions. It governs how quickly and efficiently a character can move, attack, and react. High Dexterity grants additional action points, allowing more actions per turn, and improves deflection, helping to avoid incoming attacks."
 
-[sub_resource type="Resource" id="Resource_q1ahd"]
-script = ExtResource("2_845f8")
-value = 1
+[sub_resource type="Resource" id="Resource_ehw3p"]
+script = ExtResource("2_pl6ty")
+value = 7
 bonus_1_prefix = "Health:"
 bonus_2_prefix = "Vitality:"
 bonus_1_expression = "x + 5"
@@ -53,160 +109,256 @@ _name = "Constitution"
 short_description = "Represents endurance and overall toughness."
 long_description = "Constitution determines a character’s physical resilience and ability to withstand harm, fatigue, and disease. It directly affects maximum health and long-term vitality, influencing how long a character can endure in battle or harsh environments. Those with higher Constitution can take more punishment and recover faster from strain."
 
-[sub_resource type="Resource" id="Resource_l0bhr"]
-script = ExtResource("2_845f8")
-value = 1
+[sub_resource type="Resource" id="Resource_secv4"]
+script = ExtResource("2_pl6ty")
+value = 5
 bonus_1_prefix = "Accuracy:"
-bonus_2_prefix = "Critical Damage:"
-bonus_1_expression = "x"
-bonus_2_expression = "((x - 1) * 5) + 50"
-bonus_2_suffix = "%"
+bonus_2_prefix = "Crit Dice : d"
+bonus_1_expression = "x + 2"
+bonus_2_expression = "2 * ceil(x / 2.0) + 2"
 _name = "Perception"
 short_description = "Represents awareness and precision."
 long_description = "Perception measures a character’s ability to notice details, aim accurately, and react swiftly to subtle changes in their surroundings. High Perception increases accuracy with all attacks and improves the likelihood of striking vital points, resulting in more devastating critical hits."
 
-[sub_resource type="Resource" id="Resource_2k8qh"]
-script = ExtResource("2_845f8")
-value = 1
-bonus_1_prefix = "Bestiary Progress:"
-bonus_2_prefix = "Buff/Debuff Duration:"
-bonus_1_expression = "(x * 3)"
-bonus_2_expression = "(x * 5)"
-bonus_1_suffix = "%"
+[sub_resource type="Resource" id="Resource_oyv6i"]
+script = ExtResource("2_pl6ty")
+value = 4
+bonus_1_prefix = "Potency"
+bonus_2_prefix = "Bestiary Progress:"
+bonus_1_expression = "x + 2"
+bonus_2_expression = "x *  3"
+bonus_2_suffix = "%"
 _name = "Intelligence"
 short_description = "Represents reasoning and analytical ability."
 long_description = "Intelligence governs a character’s capacity for logic, learning, and understanding complex systems. It enhances awareness of enemies and the environment, improving bestiary knowledge and analysis. High Intelligence also refines control over magical and tactical effects, increasing the duration of buffs and debuffs applied in combat."
 
-[sub_resource type="Resource" id="Resource_qs5wm"]
-script = ExtResource("2_845f8")
-value = 1
-bonus_1_prefix = "Concentration:"
-bonus_2_prefix = "Debuff Resistance:"
-bonus_1_expression = "x"
-bonus_2_expression = "x * 5"
+[sub_resource type="Resource" id="Resource_2abm3"]
+script = ExtResource("2_pl6ty")
+value = 6
+bonus_1_prefix = "Mana Generation:"
+bonus_2_prefix = "Concentration:"
+bonus_1_expression = "floor(x / 2)"
+bonus_2_expression = "ceil(x / 2.0)"
 _name = "Resolve"
 short_description = "Represents mental fortitude and determination."
 long_description = "Resolve reflects a character’s strength of will, focus, and emotional stability under pressure. It determines how well a character maintains concentration during combat and how resistant they are to negative mental or magical effects. Characters with high Resolve can shrug off debilitating conditions and remain steadfast in challenging situations."
 
-[sub_resource type="Resource" id="Resource_3g4em"]
-script = ExtResource("3_84ca2")
-
-[sub_resource type="Resource" id="Resource_87tc0"]
-script = ExtResource("4_ngxh8")
-perk = SubResource("Resource_3g4em")
-
-[sub_resource type="Resource" id="Resource_nypsr"]
-script = ExtResource("6_0trme")
-
-[sub_resource type="Resource" id="Resource_dy7hv"]
-script = ExtResource("6_0trme")
-
-[sub_resource type="Resource" id="Resource_7o15v"]
-script = ExtResource("6_0trme")
-
-[sub_resource type="Resource" id="Resource_bvgwv"]
-script = ExtResource("7_pl6ty")
-
-[sub_resource type="Resource" id="Resource_buqew"]
-script = ExtResource("7_pl6ty")
-
-[sub_resource type="Resource" id="Resource_55jq5"]
-script = ExtResource("7_pl6ty")
-
-[sub_resource type="Resource" id="Resource_0k6p0"]
-script = ExtResource("7_pl6ty")
-
-[sub_resource type="Resource" id="Resource_ow1sa"]
-script = ExtResource("6_0trme")
-
-[sub_resource type="Resource" id="Resource_ehw3p"]
-script = ExtResource("6_0trme")
-
-[sub_resource type="Resource" id="Resource_secv4"]
-script = ExtResource("6_0trme")
-
-[sub_resource type="Resource" id="Resource_oyv6i"]
-script = ExtResource("9_vp0pp")
-
-[sub_resource type="Resource" id="Resource_2abm3"]
-script = ExtResource("10_p2w60")
-damage_profile = SubResource("Resource_oyv6i")
-qualities = Array[String]([""])
-allowed_slots = Array[int]([7])
-
 [sub_resource type="Resource" id="Resource_fcon8"]
-script = ExtResource("9_vp0pp")
+script = ExtResource("3_2hdf5")
 
 [sub_resource type="Resource" id="Resource_d024r"]
-script = ExtResource("10_p2w60")
-damage_profile = SubResource("Resource_fcon8")
-qualities = Array[String]([""])
-allowed_slots = Array[int]([7])
+script = ExtResource("4_vp0pp")
+perk = SubResource("Resource_fcon8")
 
 [sub_resource type="Resource" id="Resource_rh8vu"]
-script = ExtResource("9_vp0pp")
+script = ExtResource("8_t5jjq")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
+weight = 2.0
+value = 35
+icon = ExtResource("7_888xf")
+allowed_slots = Array[int]([0])
+_name = "Chain Mail Head"
+short_description = "Armor for the head."
+long_description = "Provides coverage for the head and grants 6 physical DT, 4 magical DT, and 1 necrotic DT."
 
 [sub_resource type="Resource" id="Resource_hpets"]
-script = ExtResource("10_p2w60")
-damage_profile = SubResource("Resource_rh8vu")
-qualities = Array[String]([""])
-allowed_slots = Array[int]([7])
+script = ExtResource("8_t5jjq")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
+weight = 3.0
+value = 38
+icon = ExtResource("9_0nrem")
+allowed_slots = Array[int]([2, 1])
+_name = "Chain Mail Arm"
+short_description = "Armor for the left arm and the right arm."
+long_description = "Provides coverage for the left arm and the right arm and grants 6 physical DT, 4 magical DT, and 1 necrotic DT."
 
 [sub_resource type="Resource" id="Resource_5jf5f"]
-script = ExtResource("9_vp0pp")
+script = ExtResource("8_t5jjq")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 2
+weight = 3.0
+value = 40
+icon = ExtResource("9_0nrem")
+allowed_slots = Array[int]([5, 4])
+_name = "Chain Mail Leg"
+short_description = "Armor for the left leg and the right leg."
+long_description = "Provides coverage for the left leg and the right leg and grants 6 physical DT, 4 magical DT, and 2 necrotic DT."
 
 [sub_resource type="Resource" id="Resource_tk6xb"]
-script = ExtResource("10_p2w60")
-damage_profile = SubResource("Resource_5jf5f")
-qualities = Array[String]([""])
-allowed_slots = Array[int]([7])
+script = ExtResource("8_t5jjq")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
+weight = 3.0
+value = 38
+icon = ExtResource("9_0nrem")
+allowed_slots = Array[int]([2, 1])
+_name = "Chain Mail Arm"
+short_description = "Armor for the left arm and the right arm."
+long_description = "Provides coverage for the left arm and the right arm and grants 6 physical DT, 4 magical DT, and 1 necrotic DT."
 
 [sub_resource type="Resource" id="Resource_eb1dg"]
-script = ExtResource("8_2hdf5")
-head = SubResource("Resource_nypsr")
-torso = SubResource("Resource_secv4")
-leftArm = SubResource("Resource_dy7hv")
-rightArm = SubResource("Resource_ow1sa")
-leftLeg = SubResource("Resource_7o15v")
-rightLeg = SubResource("Resource_ehw3p")
-weapon1Left = SubResource("Resource_2abm3")
-weapon1Right = SubResource("Resource_d024r")
-weapon2Left = SubResource("Resource_hpets")
-weapon2Right = SubResource("Resource_tk6xb")
-quickItem1 = SubResource("Resource_bvgwv")
-quickItem2 = SubResource("Resource_buqew")
-quickItem3 = SubResource("Resource_55jq5")
-quickItem4 = SubResource("Resource_0k6p0")
+script = ExtResource("8_t5jjq")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 2
+weight = 3.0
+value = 40
+icon = ExtResource("9_0nrem")
+allowed_slots = Array[int]([5, 4])
+_name = "Chain Mail Leg"
+short_description = "Armor for the left leg and the right leg."
+long_description = "Provides coverage for the left leg and the right leg and grants 6 physical DT, 4 magical DT, and 2 necrotic DT."
 
 [sub_resource type="Resource" id="Resource_w54sh"]
-script = ExtResource("3_84ca2")
+script = ExtResource("8_t5jjq")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 2
+weight = 4.0
+value = 45
+icon = ExtResource("11_ih6cq")
+allowed_slots = Array[int]([3])
+_name = "Chain Mail Torso"
+short_description = "Armor for the torso."
+long_description = "Provides coverage for the torso and grants 6 physical DT, 4 magical DT, and 2 necrotic DT."
 
 [sub_resource type="Resource" id="Resource_x7hqt"]
-script = ExtResource("11_q8usd")
-perk = SubResource("Resource_w54sh")
+script = ExtResource("1_0trme")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 24
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
+_name = "Bash"
+short_description = "An impact attack."
+long_description = "Driving the face of a shield or blunt weapon into the target."
 
 [sub_resource type="Resource" id="Resource_ge0n6"]
-script = ExtResource("3_84ca2")
+script = ExtResource("1_0trme")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 20
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
+_name = "Strike"
+short_description = "A basic attack."
+long_description = "A direct, unadorned blow."
 
 [sub_resource type="Resource" id="Resource_2qy2q"]
-script = ExtResource("12_888xf")
-perk = SubResource("Resource_ge0n6")
+script = ExtResource("12_5u0fc")
+damage_die = 6
 
 [sub_resource type="Resource" id="Resource_coiwv"]
-script = ExtResource("13_t5jjq")
-equipment = SubResource("Resource_eb1dg")
-race = SubResource("Resource_2qy2q")
-homeland = SubResource("Resource_x7hqt")
-background = SubResource("Resource_87tc0")
+script = ExtResource("14_l0bhr")
+damage_profile = SubResource("Resource_2qy2q")
+base_ap_cost = 2
+speed_category = 2
+qualities = Array[String](["Parry", "+2 Defense"])
+actions = Array[ExtResource("1_0trme")]([SubResource("Resource_x7hqt"), SubResource("Resource_ge0n6")])
+weight = 4.0
+value = 40
+icon = ExtResource("13_q1ahd")
+allowed_slots = Array[int]([7])
+_name = "Shield"
+short_description = "A weapon used in combat."
+long_description = "Deals d6 damage. AP cost 2. Speed Normal. Qualities: Parry, +2 Defense."
+
+[sub_resource type="Resource" id="Resource_hrwbn"]
+script = ExtResource("1_0trme")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 18
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
+_name = "Thrust"
+short_description = "A precise piercing attack."
+long_description = "A focused lunge driving the point into the target."
+
+[sub_resource type="Resource" id="Resource_egsip"]
+script = ExtResource("1_0trme")
+expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 20
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
+_name = "Strike"
+short_description = "A basic attack."
+long_description = "A direct, unadorned blow."
+
+[sub_resource type="Resource" id="Resource_wyjkb"]
+script = ExtResource("12_5u0fc")
+damage_die = 6
+
+[sub_resource type="Resource" id="Resource_wfd0m"]
+script = ExtResource("14_l0bhr")
+damage_profile = SubResource("Resource_wyjkb")
+base_ap_cost = 2
+speed_category = 2
+qualities = Array[String](["Accurate", "Reach"])
+actions = Array[ExtResource("1_0trme")]([SubResource("Resource_hrwbn"), SubResource("Resource_egsip")])
+weight = 2.0
+value = 22
+icon = ExtResource("15_2k8qh")
+allowed_slots = Array[int]([7])
+_name = "Spear"
+short_description = "A weapon used in combat."
+long_description = "Deals d6 damage. AP cost 2. Speed Normal. Qualities: Accurate, Reach."
+
+[sub_resource type="Resource" id="Resource_m5ris"]
+script = ExtResource("10_g8d0b")
+head = SubResource("Resource_rh8vu")
+torso = SubResource("Resource_w54sh")
+leftArm = SubResource("Resource_hpets")
+rightArm = SubResource("Resource_tk6xb")
+leftLeg = SubResource("Resource_5jf5f")
+rightLeg = SubResource("Resource_eb1dg")
+weapon1Left = SubResource("Resource_coiwv")
+weapon1Right = SubResource("Resource_wfd0m")
+
+[sub_resource type="Resource" id="Resource_piis4"]
+script = ExtResource("3_2hdf5")
+
+[sub_resource type="Resource" id="Resource_yk7sy"]
+script = ExtResource("16_qs5wm")
+perk = SubResource("Resource_piis4")
+
+[sub_resource type="Resource" id="Resource_ni8pd"]
+script = ExtResource("3_2hdf5")
+
+[sub_resource type="Resource" id="Resource_8cp2y"]
+script = ExtResource("17_3g4em")
+perk = SubResource("Resource_ni8pd")
+
+[sub_resource type="Resource" id="Resource_u1tto"]
+script = ExtResource("18_87tc0")
+equipment = SubResource("Resource_m5ris")
+race = SubResource("Resource_8cp2y")
+homeland = SubResource("Resource_yk7sy")
+background = SubResource("Resource_d024r")
 _name = "Village Guard"
-attributes = Array[ExtResource("2_845f8")]([SubResource("Resource_ih6cq"), SubResource("Resource_5u0fc"), SubResource("Resource_q1ahd"), SubResource("Resource_l0bhr"), SubResource("Resource_2k8qh"), SubResource("Resource_qs5wm")])
-maxHP = 12
-currentHP = 12
-level = 1
+attributes = Array[ExtResource("2_pl6ty")]([SubResource("Resource_0k6p0"), SubResource("Resource_ow1sa"), SubResource("Resource_ehw3p"), SubResource("Resource_secv4"), SubResource("Resource_oyv6i"), SubResource("Resource_2abm3")])
+maxHP = 18
+currentHP = 18
+actions = Array[ExtResource("1_0trme")]([SubResource("Resource_7o15v"), SubResource("Resource_bvgwv"), SubResource("Resource_buqew"), SubResource("Resource_55jq5")])
+level = 2
 
 [resource]
-script = ExtResource("15_g8d0b")
-data = SubResource("Resource_coiwv")
+script = ExtResource("20_dy7hv")
+data = SubResource("Resource_u1tto")
 _name = "Village Guard"
 short_description = "A trained town defender."
 long_description = "A local guard equipped for basic melee combat and watch duty."

@@ -8,6 +8,9 @@ class_name CreatureData
 # Conditions
 @export var maxHP: int
 @export var currentHP: int
+@export var maxVitality: int
+@export var currentVitality: int
+@export var temporaryHealth: int
 @export var fatigue: int
 @export var necroticDamage: int
 @export var conditions: Array[Condition]
@@ -25,6 +28,9 @@ func _init() -> void:
 	defences = []
 	maxHP = 0
 	currentHP = 0
+	maxVitality = 0
+	currentVitality = 0
+	temporaryHealth = 0
 	fatigue = 0
 	necroticDamage = 0
 	conditions = []

@@ -24,6 +24,4 @@ func describe() -> String:
 		parts.append(str(base_damage))
 	if damage_die > 0:
 		parts.append("d" + str(damage_die))
-	if crit_die > 0:
-		parts.append("crit d" + str(crit_die))
 	return ", ".join(parts)

@@ -5,6 +5,12 @@
 [resource]
 script = ExtResource("1_qr31w")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 26
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Smash"
 short_description = "A crushing blow."
 long_description = "A heavy strike that crushes bone and armour."

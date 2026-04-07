@@ -8,6 +8,12 @@
 [sub_resource type="Resource" id="Resource_2wrhj"]
 script = ExtResource("1_dcqph")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 26
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Smash"
 short_description = "A crushing blow."
 long_description = "A heavy strike that crushes bone and armour."
@@ -15,6 +21,12 @@ long_description = "A heavy strike that crushes bone and armour."
 [sub_resource type="Resource" id="Resource_2dnek"]
 script = ExtResource("1_dcqph")
 expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+category = "Attack"
+ap_cost = -1
+base_speed = 20
+tested_defence = "Deflection"
+default_target_location = 3
+accuracy_attribute = "Perception"
 _name = "Strike"
 short_description = "A basic attack."
 long_description = "A direct, unadorned blow."
@@ -22,12 +34,12 @@ long_description = "A direct, unadorned blow."
 [sub_resource type="Resource" id="Resource_eq0n4"]
 script = ExtResource("2_eaqhi")
 damage_die = 6
-crit_die = 6
 
 [resource]
 script = ExtResource("4_ts22u")
 damage_profile = SubResource("Resource_eq0n4")
-speed = 25
+base_ap_cost = 2
+speed_category = 2
 actions = Array[ExtResource("1_dcqph")]([SubResource("Resource_2wrhj"), SubResource("Resource_2dnek")])
 weight = 1.5
 value = 20
@@ -35,4 +47,4 @@ icon = ExtResource("3_ibe1y")
 allowed_slots = Array[int]([7])
 _name = "Club"
 short_description = "A weapon used in combat."
-long_description = "Deals d6, crit d6 damage at speed 25."
+long_description = "Deals d6 damage. AP cost 2. Speed Normal."

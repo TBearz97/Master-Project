@@ -6,8 +6,14 @@ class_name ItemSlot
 @onready var DTReference: VBoxContainer = %Equipment
 @onready var icon: TextureRect = $Icon
 
-var equipped: Item = Item.new()
+var equipped: Item = null
 var inventory: ItemList
+
+func _is_real_item(item: Variant) -> bool:
+	return item is Item and item._name != ""
+
+func _covers_multiple_slots(item: Item) -> bool:
+	return item is Clothing and item.allowed_slots.size() > 1
 
 func _ready() -> void:
 	var slots := Item.ItemSlots
@@ -36,6 +42,8 @@ func _ready() -> void:
 func set_item(item: Item, recursion: bool = false) -> void:
 	var slots := Item.ItemSlots
 	var equipment := PlayerVariables.getEquipment()
+	if not _is_real_item(item):
+		item = null
 	equipped = item
 	icon.texture = item.icon if item else null
 	icon.tooltip_text = item._print() if item else ""
@@ -52,21 +60,19 @@ func set_item(item: Item, recursion: bool = false) -> void:
 			equipment.rightLeg = item
 		slots.LeftLeg:
 			equipment.leftLeg = item
-	if item != null and not recursion:
-		if item is Armor:
-			if item.allowed_slots.size() > 1:
-				var other_slots = get_tree().get_nodes_in_group("Armor Slots")
-				for slot in other_slots:
-					for item_slots in item.allowed_slots:
-						if slot.item_slot == item_slots:
-							if slot.equipped != null and inventory != null:
-								if slot.equipped.allowed_slots.size() == 1:
-									inventory._add_item(slot.equipped)
-							slot.set_item(item, true)
+	if item != null and not recursion and _covers_multiple_slots(item):
+		var other_slots = get_tree().get_nodes_in_group("Armor Slots")
+		for slot in other_slots:
+			for item_slots in item.allowed_slots:
+				if slot.item_slot == item_slots:
+					if _is_real_item(slot.equipped) and inventory != null:
+						if not _covers_multiple_slots(slot.equipped):
+							inventory._add_item(slot.equipped)
+					slot.set_item(item, true)
 	DTReference.recalculateDTs()
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
-	if equipped == null:
+	if not _is_real_item(equipped):
 		return null
 
 	var data := {
@@ -90,7 +96,7 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 		return false
 
 	var item = data["item"]
-	if not item is Item:
+	if not _is_real_item(item):
 		return false
 
 	return item_slot in item.allowed_slots
@@ -114,13 +120,12 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 		inventory = data.get("inventory_list")
 		if inventory and "remove_item_from_inventory" in inventory:
 			inventory.remove_item_from_inventory(item, 1)
-		if previous != null:
+		if _is_real_item(previous):
 			inventory._add_item(previous)
-			if previous is Armor:
-				if previous.allowed_slots.size() > 1:
-					for slots in get_tree().get_nodes_in_group("Armor Slots"):
-						if previous.allowed_slots.has(slots.item_slot):
-							slots.set_item(null)
+			if _covers_multiple_slots(previous):
+				for slots in get_tree().get_nodes_in_group("Armor Slots"):
+					if previous.allowed_slots.has(slots.item_slot):
+						slots.set_item(null)
 			if previous is Weapon:
 				if previous.size == Weapon.WeaponSize.TWO_HANDED:
 					var other_slots = get_tree().get_nodes_in_group("Weapon Set 1") if get_tree().get_nodes_in_group("Weapon Set 1").has(self) else get_tree().get_nodes_in_group("Weapon Set 2")
@@ -130,16 +135,15 @@ func _drop_data(at_position: Vector2, data: Variant) -> void:
 
 		else:
 			var done = false
-			if item is Armor:
-				if item.allowed_slots.size() > 1:
-					for itemSlot in item.allowed_slots:
-						for slots in get_tree().get_nodes_in_group("Armor Slots"):
-							if itemSlot == slots.item_slot and slots.equipped != null and slots.equipped.allowed_slots.size() > 1:
-								inventory._add_item(slots.equipped)
-								done = true
-								break
-						if done:
+			if _covers_multiple_slots(item):
+				for itemSlot in item.allowed_slots:
+					for slots in get_tree().get_nodes_in_group("Armor Slots"):
+						if itemSlot == slots.item_slot and _is_real_item(slots.equipped) and _covers_multiple_slots(slots.equipped):
+							inventory._add_item(slots.equipped)
+							done = true
 							break
+					if done:
+						break
 			if item is Weapon:
 				if item.size == Weapon.WeaponSize.TWO_HANDED:
 					var other_slots = get_tree().get_nodes_in_group("Weapon Set 1") if get_tree().get_nodes_in_group("Weapon Set 1").has(self) else get_tree().get_nodes_in_group("Weapon Set 2")

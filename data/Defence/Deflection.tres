@@ -7,7 +7,7 @@
 script = ExtResource("1_dpmgv")
 bonus_1_prefix = "Action Points:"
 bonus_2_prefix = "Deflection:"
-bonus_1_expression = "x + 3"
+bonus_1_expression = "x + 6 - floor(x / 4)"
 bonus_2_expression = "x"
 _name = "Dexterity"
 short_description = "Represents speed, coordination, and reflexes."

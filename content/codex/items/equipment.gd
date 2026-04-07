@@ -22,22 +22,22 @@ class_name Equipment
 @export var quickItem4: Item
 
 func _init() -> void:
-	head = Armor.new()
-	torso = Armor.new()
-	leftArm = Armor.new()
-	rightArm = Armor.new()
-	leftLeg = Armor.new()
-	rightLeg = Armor.new()
+	head = null
+	torso = null
+	leftArm = null
+	rightArm = null
+	leftLeg = null
+	rightLeg = null
 
-	weapon1Left = Weapon.new()
-	weapon1Right = Weapon.new()
-	weapon2Left = Weapon.new()
-	weapon2Right = Weapon.new()
+	weapon1Left = null
+	weapon1Right = null
+	weapon2Left = null
+	weapon2Right = null
 
-	quickItem1 = Item.new()
-	quickItem2 = Item.new()
-	quickItem3 = Item.new()
-	quickItem4 = Item.new()
+	quickItem1 = null
+	quickItem2 = null
+	quickItem3 = null
+	quickItem4 = null
 
 func equipmentList() -> Array[Item]:
 	return [

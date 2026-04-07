@@ -156,7 +156,7 @@ func _handle_drop_from_slot(item: Item, data: Dictionary) -> void:
 
 	var from_slot = data.get("from_slot", null)
 	if from_slot and "set_item" in from_slot:
-		if item is Armor:
+		if item is Clothing and item.allowed_slots.size() > 1:
 			for itemSlot in item.allowed_slots:
 				for slot in get_tree().get_nodes_in_group("Armor Slots"):
 					if slot.item_slot == itemSlot:
