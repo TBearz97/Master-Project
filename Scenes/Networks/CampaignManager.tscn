@@ -40,23 +40,12 @@ grow_vertical = 2
 [node name="TabContainer" type="TabContainer" parent="Panel/Lobby/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 0
-
-[node name="Notifications" type="ScrollContainer" parent="Panel/Lobby/VBoxContainer/TabContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_vertical = 3
-metadata/_tab_index = 0
-
-[node name="Inbox" type="VBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Notifications"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
+current_tab = 1
 
 [node name="Logs" type="Control" parent="Panel/Lobby/VBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 1
+metadata/_tab_index = 0
 
 [node name="LogsTabContainer" type="TabContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Logs"]
 unique_name_in_owner = true
@@ -98,10 +87,53 @@ size_flags_vertical = 3
 bbcode_enabled = true
 metadata/_tab_index = 3
 
-[node name="Campaign" type="Control" parent="Panel/Lobby/VBoxContainer/TabContainer"]
+[node name="Notifications" type="ScrollContainer" parent="Panel/Lobby/VBoxContainer/TabContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_tab_index = 1
+
+[node name="Inbox" type="VBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Notifications"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Handouts" type="HSplitContainer" parent="Panel/Lobby/VBoxContainer/TabContainer"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 metadata/_tab_index = 2
+
+[node name="HandoutButtons" type="ScrollContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Handouts"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HandoutList" type="VBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Handouts/HandoutButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HandoutDetails" type="VBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Handouts"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="HandoutHelp" type="Label" parent="Panel/Lobby/VBoxContainer/TabContainer/Handouts/HandoutDetails"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Received handouts appear here. Click a handout button to read it."
+autowrap_mode = 3
+
+[node name="DeleteHandoutButton" type="Button" parent="Panel/Lobby/VBoxContainer/TabContainer/Handouts/HandoutDetails"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Delete Selected Handout"
+
+[node name="Campaign" type="Control" parent="Panel/Lobby/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
 
 [node name="CampaignTabContainer" type="TabContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Campaign"]
 unique_name_in_owner = true
@@ -188,6 +220,38 @@ text = "Use Steam"
 [node name="NetworkManager" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("2_xmlr4")
+
+[node name="HandoutViewerDialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Handout"
+size = Vector2i(700, 500)
+
+[node name="MarginContainer" type="MarginContainer" parent="HandoutViewerDialog"]
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="HandoutViewerContent" type="VBoxContainer" parent="HandoutViewerDialog/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HandoutMetaLabel" type="Label" parent="HandoutViewerDialog/MarginContainer/HandoutViewerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="HandoutBody" type="TextEdit" parent="HandoutViewerDialog/MarginContainer/HandoutViewerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+editable = false
+wrap_mode = 1
+
+[node name="DeleteViewedHandoutButton" type="Button" parent="HandoutViewerDialog/MarginContainer/HandoutViewerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Delete Handout"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_x03r7")

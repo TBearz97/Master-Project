@@ -1,5 +1,6 @@
 extends FoldableContainer
 
+const PLAYER_CACHE_ROOT := "user://temp/campaign_players"
 
 signal encounter_state_changed(started: bool)
 signal authority_role_changed(is_host: bool)
@@ -13,6 +14,14 @@ signal member_list_changed()
 @onready var chat_log: RichTextLabel = %ChatLog
 @onready var combat_log: RichTextLabel = %CombatLog
 @onready var skill_check_log: RichTextLabel = %SkillCheckLog
+@onready var handouts_tab: Control = %Handouts
+@onready var handout_list: VBoxContainer = %HandoutList
+@onready var handout_help: Label = %HandoutHelp
+@onready var delete_handout_button: Button = %DeleteHandoutButton
+@onready var handout_viewer_dialog: ConfirmationDialog = %HandoutViewerDialog
+@onready var handout_meta_label: Label = %HandoutMetaLabel
+@onready var handout_body: TextEdit = %HandoutBody
+@onready var delete_viewed_handout_button: Button = %DeleteViewedHandoutButton
 
 var membersByPeerId: Dictionary = {}
 var membersCharacters: Dictionary = {}
@@ -20,6 +29,7 @@ var pending_skill_check_requests: Dictionary = {}
 var pending_skill_check_offers: Dictionary = {}
 var encounter_started: bool = false
 var is_host_role: bool = false
+var selected_handout_id := ""
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -27,6 +37,12 @@ func _ready() -> void:
 	multiplayer.server_disconnected.connect(_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	RuleEngine.diceRolled.connect(broadcast_dice)
+	delete_handout_button.pressed.connect(_on_delete_handout_pressed)
+	delete_viewed_handout_button.pressed.connect(_on_delete_viewed_handout_pressed)
+	if PlayerVariables.has_signal("handouts_changed"):
+		PlayerVariables.handouts_changed.connect(_on_handouts_changed)
+	_refresh_handout_ui_visibility()
+	_rebuild_handout_buttons()
 	_rebuild_notifications()
 
 func use_enet() -> void:
@@ -43,6 +59,7 @@ func use_steam() -> void:
 func become_host() -> void:
 	is_host_role = true
 	authority_role_changed.emit(is_host_role)
+	_refresh_handout_ui_visibility()
 	%NetworkManager.become_host()
 
 	%JoinCampaign.hide()
@@ -55,6 +72,7 @@ func become_host() -> void:
 func become_client() -> void:
 	is_host_role = false
 	authority_role_changed.emit(is_host_role)
+	_refresh_handout_ui_visibility()
 	%NetworkManager.join_as_client(%CampaignCodeInput.text)
 
 	%JoinCampaign.hide()
@@ -77,7 +95,9 @@ func _on_peer_disconnected(peerId: int) -> void:
 
 	if membersByPeerId.has(peerId):
 		membersByPeerId.erase(peerId)
-		_broadcast_member_list()
+	if membersCharacters.has(peerId):
+		membersCharacters.erase(peerId)
+	_broadcast_member_list()
 
 @rpc("any_peer", "reliable")
 func server_register_player(playerData: PackedByteArray) -> void:
@@ -85,19 +105,24 @@ func server_register_player(playerData: PackedByteArray) -> void:
 		return
 
 	var peerId: int = multiplayer.get_remote_sender_id()
+	var staging_path := _get_player_registration_staging_path(peerId)
+	if not _write_buffer_to_path(staging_path, playerData):
+		return
 
-	var tempPath := "user://temp/net_player_" + str(peerId) + ".res"
-
-	var file := FileAccess.open(tempPath, FileAccess.WRITE)
-	if file != null:
-		file.store_buffer(playerData)
-		file.close()
-
-		var loaded: Resource = ResourceLoader.load(tempPath)
-		if loaded is PlayerData:
-			_ensure_basic_actions(loaded)
-			_ensure_valid_player_vitals(loaded, true)
-			membersCharacters[peerId] = loaded
+	var loaded: Resource = ResourceLoader.load(staging_path, "", ResourceLoader.CACHE_MODE_IGNORE)
+	_remove_file(staging_path)
+	if loaded is PlayerData:
+		var registered_player := loaded as PlayerData
+		var cache_path := _resolve_cached_player_path(registered_player)
+		registered_player.peer_id = peerId
+		_ensure_basic_actions(registered_player)
+		_ensure_valid_player_vitals(registered_player, true)
+		var save_result := ResourceSaver.save(registered_player, cache_path)
+		if save_result != OK:
+			push_error("Failed to cache player data for peer %s. Error code: %s" % [peerId, save_result])
+			return
+		membersCharacters[peerId] = registered_player
+		rpc_id(peerId, "client_confirm_registered_peer_id", peerId)
 
 	if not membersCharacters.has(peerId):
 		push_error("Failed to load player data for peer %s" % peerId)
@@ -105,6 +130,15 @@ func server_register_player(playerData: PackedByteArray) -> void:
 
 	membersByPeerId[peerId] = membersCharacters[peerId]._name
 	_broadcast_member_list()
+
+@rpc("authority", "call_local", "reliable")
+func client_confirm_registered_peer_id(peer_id: int) -> void:
+	if PlayerVariables.data == null:
+		return
+	PlayerVariables.data.peer_id = peer_id
+	if PlayerVariables.getName().strip_edges().is_empty():
+		return
+	PlayerVariables.save()
 
 func _broadcast_member_list() -> void:
 	rpc("client_set_member_list", membersByPeerId)
@@ -127,12 +161,15 @@ func _disconnected() -> void:
 	pending_skill_check_offers.clear()
 	encounter_started = false
 	is_host_role = false
+	selected_handout_id = ""
 	encounter_state_changed.emit(encounter_started)
 	authority_role_changed.emit(is_host_role)
 	member_list_changed.emit()
 
 	%JoinCampaign.show()
 	%LeaveCampaign.hide()
+	_refresh_handout_ui_visibility()
+	_rebuild_handout_buttons()
 	_rebuild_notifications()
 
 func _rebuild_member_list() -> void:
@@ -289,6 +326,31 @@ func get_selectable_player_peers() -> Array[Dictionary]:
 		})
 	return players
 
+func share_handout_to_peer(peer_id: int, _title: String, text: String) -> void:
+	if not is_host_role:
+		return
+	if peer_id <= 0 or peer_id == multiplayer.get_unique_id() or not membersByPeerId.has(peer_id):
+		return
+	var payload := _build_handout_payload(_title, text)
+	if payload.is_empty():
+		return
+	rpc_id(peer_id, "client_receive_handout", payload)
+	_append_combat_log_local(multiplayer.get_unique_id(), "Shared handout %s with %s." % [str(payload.get("title", "Handout")), str(membersByPeerId.get(peer_id, "Player"))])
+
+func share_handout_to_all(_title: String, text: String) -> void:
+	if not is_host_role:
+		return
+	var payload := _build_handout_payload(_title, text)
+	if payload.is_empty():
+		return
+	var recipients := get_selectable_player_peers()
+	for recipient in recipients:
+		var peer_id := int(recipient.get("peer_id", -1))
+		if peer_id > 0:
+			rpc_id(peer_id, "client_receive_handout", payload)
+	if not recipients.is_empty():
+		_append_combat_log_local(multiplayer.get_unique_id(), "Shared handout %s with all connected players." % str(payload.get("title", "Handout")))
+
 func has_active_gm_connection() -> bool:
 	return not is_host_role and multiplayer.multiplayer_peer != null and not membersByPeerId.is_empty()
 
@@ -347,6 +409,17 @@ func _show_player_choice_window(offer_payload: Dictionary) -> void:
 	window.option_chosen.connect(_submit_skill_check_choice.bind(str(offer_payload.get("request_id", ""))))
 	window.request_cancelled.connect(_rebuild_notifications)
 	window.popup_centered()
+
+func _build_handout_payload(_title: String, text: String) -> Dictionary:
+	var normalized_title := _title.strip_edges()
+	if normalized_title.is_empty():
+		return {}
+	return {
+		"title": normalized_title,
+		"text": text,
+		"shared_by": str(membersByPeerId.get(multiplayer.get_unique_id(), "GameMaster")),
+		"shared_at": Time.get_datetime_string_from_system(),
+	}
 
 func _approve_skill_check_offer(options: Array[Dictionary], request_payload: Dictionary) -> void:
 	var request_id := str(request_payload.get("request_id", ""))
@@ -659,8 +732,21 @@ func _rebuild_notifications() -> void:
 		button.pressed.connect(_open_player_notification.bind(request_id))
 		notification_inbox.add_child(button)
 
+	if not is_host_role:
+		var unread_handouts := _get_unread_handouts()
+		_add_notification_section("Handouts")
+		if unread_handouts.is_empty():
+			_add_notification_empty_state("No new handouts.")
+		for handout in unread_handouts:
+			notification_count += 1
+			var handout_button := Button.new()
+			handout_button.text = "Read handout: %s" % str(handout.get("title", "Handout"))
+			handout_button.pressed.connect(_open_handout_notification.bind(str(handout.get("id", ""))))
+			notification_inbox.add_child(handout_button)
+
 	_update_notifications_tab_title(notification_count)
 	_update_container_title(notification_count)
+	_update_handouts_tab_title()
 
 func _update_notifications_tab_title(notification_count: int) -> void:
 	if log_tabs == null:
@@ -712,6 +798,9 @@ func _open_player_notification(request_id: String) -> void:
 		return
 	_show_player_choice_window(pending_skill_check_offers[request_id])
 
+func _open_handout_notification(handout_id: String) -> void:
+	_open_handout(handout_id)
+
 @rpc("any_peer", "reliable")
 func server_broadcast_combat_request(request_data: Dictionary) -> void:
 	if not multiplayer.is_server():
@@ -728,6 +817,120 @@ func is_host_authority() -> bool:
 func client_set_encounter_started(started: bool) -> void:
 	encounter_started = started
 	encounter_state_changed.emit(encounter_started)
+
+@rpc("authority", "call_local", "reliable")
+func client_receive_handout(payload: Dictionary) -> void:
+	if payload.is_empty():
+		return
+	var _title := str(payload.get("title", "")).strip_edges()
+	if _title.is_empty():
+		return
+	PlayerVariables.addOrUpdateHandout(_title, str(payload.get("text", "")), str(payload.get("shared_by", "GameMaster")), str(payload.get("shared_at", "")))
+	PlayerVariables.save()
+	_rebuild_handout_buttons()
+	_rebuild_notifications()
+
+func _on_handouts_changed() -> void:
+	_rebuild_handout_buttons()
+	_rebuild_notifications()
+
+func _rebuild_handout_buttons() -> void:
+	if handout_list == null:
+		return
+	for child in handout_list.get_children():
+		child.queue_free()
+
+	var handouts := PlayerVariables.getHandouts()
+	handouts.sort_custom(_sort_handouts_by_title)
+
+	if handouts.is_empty():
+		handout_help.text = "No handouts received yet. New ones appear in notifications first."
+		delete_handout_button.disabled = true
+		selected_handout_id = ""
+		return
+
+	handout_help.text = "Received handouts are saved here. Click one to read it."
+	for handout in handouts:
+		var handout_id := str(handout.get("id", ""))
+		var button := Button.new()
+		var _title := str(handout.get("title", "Handout"))
+		if bool(handout.get("unread", false)):
+			_title += " *"
+		button.text = _title
+		button.pressed.connect(_open_handout.bind(handout_id))
+		handout_list.add_child(button)
+
+	if selected_handout_id.is_empty() or _find_handout_by_id(selected_handout_id).is_empty():
+		selected_handout_id = str(handouts[0].get("id", ""))
+	delete_handout_button.disabled = selected_handout_id.is_empty()
+
+func _refresh_handout_ui_visibility() -> void:
+	if handouts_tab == null:
+		return
+	handouts_tab.visible = not is_host_role
+	_update_handouts_tab_title()
+
+func _update_handouts_tab_title() -> void:
+	if log_tabs == null or handouts_tab == null:
+		return
+	var unread_count := _get_unread_handouts().size()
+	for idx in range(log_tabs.get_tab_count()):
+		if log_tabs.get_tab_control(idx) == handouts_tab:
+			if is_host_role:
+				log_tabs.set_tab_title(idx, "Handouts")
+			else:
+				log_tabs.set_tab_title(idx, "Handouts (%s)" % unread_count if unread_count > 0 else "Handouts")
+			return
+
+func _on_delete_handout_pressed() -> void:
+	if selected_handout_id.is_empty():
+		return
+	_delete_handout(selected_handout_id)
+
+func _on_delete_viewed_handout_pressed() -> void:
+	if selected_handout_id.is_empty():
+		return
+	_delete_handout(selected_handout_id)
+	handout_viewer_dialog.hide()
+
+func _delete_handout(handout_id: String) -> void:
+	if not PlayerVariables.deleteHandout(handout_id):
+		return
+	PlayerVariables.save()
+	if selected_handout_id == handout_id:
+		selected_handout_id = ""
+	_rebuild_handout_buttons()
+	_rebuild_notifications()
+
+func _open_handout(handout_id: String) -> void:
+	var handout := _find_handout_by_id(handout_id)
+	if handout.is_empty():
+		return
+	selected_handout_id = handout_id
+	handout_viewer_dialog.title = str(handout.get("title", "Handout"))
+	handout_meta_label.text = "Shared by %s on %s" % [str(handout.get("shared_by", "GameMaster")), str(handout.get("shared_at", ""))]
+	handout_body.text = str(handout.get("text", ""))
+	handout_viewer_dialog.popup_centered_ratio(0.7)
+	if PlayerVariables.markHandoutRead(handout_id):
+		PlayerVariables.save()
+	selected_handout_id = handout_id
+	delete_handout_button.disabled = false
+
+func _find_handout_by_id(handout_id: String) -> Dictionary:
+	for handout in PlayerVariables.getHandouts():
+		if str(handout.get("id", "")) == handout_id:
+			return handout
+	return {}
+
+func _get_unread_handouts() -> Array[Dictionary]:
+	var unread: Array[Dictionary] = []
+	for handout in PlayerVariables.getHandouts():
+		if bool(handout.get("unread", false)):
+			unread.append(handout)
+	return unread
+
+func _sort_handouts_by_title(a: Dictionary, b: Dictionary) -> bool:
+	return str(a.get("title", "")) < str(b.get("title", ""))
 
 @rpc("authority", "call_local", "reliable")
 func client_apply_game_event(event_data: Dictionary) -> void:
@@ -815,6 +1018,79 @@ func _ensure_valid_player_vitals(player_data: PlayerData, refill_if_uninitialize
 	if player_data == null:
 		return
 	RuleEngine.normalizeVitals(player_data, refill_if_uninitialized)
+
+func _get_campaign_player_cache_dir() -> String:
+	return "%s/%s" % [PLAYER_CACHE_ROOT, _sanitize_cache_name(CampaignVariables.getCampaignName())]
+
+func _get_player_registration_staging_path(peer_id: int) -> String:
+	return "%s/.incoming_%s_%s.res" % [_get_campaign_player_cache_dir(), str(peer_id), str(Time.get_ticks_msec())]
+
+func _resolve_cached_player_path(player_data: PlayerData) -> String:
+	var canonical_path := "%s/%s.res" % [_get_campaign_player_cache_dir(), _sanitize_cache_name(player_data._name)]
+	if FileAccess.file_exists(canonical_path):
+		return canonical_path
+	if player_data.peer_id > 0:
+		var previous_path := _find_cached_player_path_by_peer_id(player_data.peer_id)
+		if not previous_path.is_empty():
+			if previous_path == canonical_path:
+				return previous_path
+			var rename_result := DirAccess.rename_absolute(ProjectSettings.globalize_path(previous_path), ProjectSettings.globalize_path(canonical_path))
+			if rename_result == OK:
+				return canonical_path
+			return previous_path
+	return canonical_path
+
+func _find_cached_player_path_by_peer_id(previous_peer_id: int) -> String:
+	var campaign_cache_dir := _get_campaign_player_cache_dir()
+	if not _ensure_directory(campaign_cache_dir):
+		return ""
+	var directory := DirAccess.open(campaign_cache_dir)
+	if directory == null:
+		return ""
+	directory.list_dir_begin()
+	var file_name := directory.get_next()
+	while file_name != "":
+		if not directory.current_is_dir() and file_name.ends_with(".res") and not file_name.begins_with(".incoming_"):
+			var file_path := "%s/%s" % [campaign_cache_dir, file_name]
+			var resource := ResourceLoader.load(file_path, "", ResourceLoader.CACHE_MODE_IGNORE)
+			if resource is PlayerData and (resource as PlayerData).peer_id == previous_peer_id:
+				directory.list_dir_end()
+				return file_path
+		file_name = directory.get_next()
+	directory.list_dir_end()
+	return ""
+
+func _sanitize_cache_name(value: String) -> String:
+	var sanitized := value.strip_edges().validate_filename()
+	if sanitized.is_empty():
+		return "unnamed"
+	return sanitized
+
+func _ensure_directory(path: String) -> bool:
+	var result := DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(path))
+	if result != OK:
+		push_error("Failed to create directory at %s. Error code: %s" % [path, result])
+		return false
+	return true
+
+func _write_buffer_to_path(file_path: String, buffer: PackedByteArray) -> bool:
+	var directory_path := file_path.get_base_dir()
+	if not _ensure_directory(directory_path):
+		return false
+	var file := FileAccess.open(file_path, FileAccess.WRITE)
+	if file == null:
+		push_error("Failed to open %s for writing." % file_path)
+		return false
+	file.store_buffer(buffer)
+	file.close()
+	return true
+
+func _remove_file(file_path: String) -> void:
+	if not FileAccess.file_exists(file_path):
+		return
+	var result := DirAccess.remove_absolute(ProjectSettings.globalize_path(file_path))
+	if result != OK:
+		push_error("Failed to remove file at %s. Error code: %s" % [file_path, result])
 
 func _build_equipment_from_payload(equipment_payload: Variant) -> Equipment:
 	var equipment := Equipment.new()

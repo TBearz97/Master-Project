@@ -29,6 +29,207 @@ func setCampaignDescription(value: String) -> void:
 func getCampaignDescription() -> String:
 	return data.campaign_description
 
+func setVaultPath(value: String) -> void:
+	data.vault_path = value
+
+func getVaultPath() -> String:
+	return data.vault_path
+
+func setVaultId(value: String) -> void:
+	data.vault_id = value
+
+func getVaultId() -> String:
+	return data.vault_id
+
+func getNoteFolders() -> Array[String]:
+	var folders: Array[String] = []
+	if data.note_categories == null:
+		data.note_categories = []
+	if data.vault_path.is_empty() or not DirAccess.dir_exists_absolute(data.vault_path):
+		return folders
+	_collect_note_folders(data.vault_path, "", folders)
+	folders.sort()
+	return folders
+
+func createNoteFolder(parent_folder: String, folder_name: String) -> String:
+	if data.vault_path.is_empty():
+		return ""
+	var sanitized_name := _sanitize_note_name(folder_name)
+	if sanitized_name.is_empty():
+		return ""
+	var relative_path := sanitized_name
+	if not parent_folder.is_empty():
+		relative_path = "%s/%s" % [parent_folder, sanitized_name]
+	var absolute_path := _build_note_folder_path(data.vault_path, relative_path)
+	var result := DirAccess.make_dir_recursive_absolute(absolute_path)
+	if result != OK:
+		push_error("Failed to create notes folder at %s. Error code: %s" % [absolute_path, result])
+		return ""
+	return relative_path
+
+func renameNoteFolder(folder_path: String, folder_name: String) -> String:
+	if data.vault_path.is_empty() or folder_path.is_empty():
+		return ""
+	var sanitized_name := _sanitize_note_name(folder_name)
+	if sanitized_name.is_empty():
+		return ""
+	var parent_folder := _get_parent_note_folder(folder_path)
+	var renamed_relative_path := sanitized_name
+	if not parent_folder.is_empty():
+		renamed_relative_path = "%s/%s" % [parent_folder, sanitized_name]
+	var previous_path := _build_note_folder_path(data.vault_path, folder_path)
+	var renamed_path := _build_note_folder_path(data.vault_path, renamed_relative_path)
+	if previous_path == renamed_path:
+		return renamed_relative_path
+	if DirAccess.dir_exists_absolute(renamed_path):
+		push_error("Cannot rename folder. Destination already exists: %s" % renamed_path)
+		return ""
+	var result := DirAccess.rename_absolute(previous_path, renamed_path)
+	if result != OK:
+		push_error("Failed to rename notes folder from %s to %s. Error code: %s" % [previous_path, renamed_path, result])
+		return ""
+	return renamed_relative_path
+
+func deleteNoteFolder(folder_path: String) -> bool:
+	if data.vault_path.is_empty() or folder_path.is_empty():
+		return false
+	var absolute_path := _build_note_folder_path(data.vault_path, folder_path)
+	if not DirAccess.dir_exists_absolute(absolute_path):
+		return false
+	return _delete_note_folder_recursive(absolute_path)
+
+func ensureNotesVault(vault_path: String) -> bool:
+	if vault_path.is_empty():
+		push_error("Notes vault path cannot be empty.")
+		return false
+	if data.note_categories == null:
+		data.note_categories = []
+
+	var result := DirAccess.make_dir_recursive_absolute(vault_path)
+	if result != OK:
+		push_error("Failed to create notes vault at %s. Error code: %s" % [vault_path, result])
+		return false
+
+	for category in data.note_categories:
+		var category_path := _build_note_folder_path(vault_path, category)
+		result = DirAccess.make_dir_recursive_absolute(category_path)
+		if result != OK:
+			push_error("Failed to create notes category at %s. Error code: %s" % [category_path, result])
+			return false
+
+	return true
+
+func createDefaultVaultPath() -> String:
+	if data.vault_id.is_empty():
+		data.vault_id = _generate_vault_id()
+	return ProjectSettings.globalize_path("user://campaign_vaults/%s" % data.vault_id)
+
+func getVaultDisplayPath() -> String:
+	if data.vault_path.is_empty():
+		return "No vault selected"
+	return data.vault_path
+
+func listNotes(folder_path: String) -> Array[String]:
+	var notes: Array[String] = []
+	if data.vault_path.is_empty():
+		return notes
+
+	var absolute_folder_path := _build_note_folder_path(data.vault_path, folder_path)
+	var directory := DirAccess.open(absolute_folder_path)
+	if directory == null:
+		return notes
+
+	directory.list_dir_begin()
+	var file_name := directory.get_next()
+	while file_name != "":
+		if not directory.current_is_dir() and file_name.ends_with(".md"):
+			notes.append(file_name.left(file_name.length() - 3))
+		file_name = directory.get_next()
+	directory.list_dir_end()
+	notes.sort()
+	return notes
+
+func readNote(folder_path: String, note_name: String) -> String:
+	var note_path := _build_note_path(data.vault_path, folder_path, note_name)
+	if note_path.is_empty() or not FileAccess.file_exists(note_path):
+		return ""
+
+	var file := FileAccess.open(note_path, FileAccess.READ)
+	if file == null:
+		push_error("Failed to open note at %s" % note_path)
+		return ""
+	return file.get_as_text()
+
+func writeNote(folder_path: String, note_name: String, content: String) -> bool:
+	if data.vault_path.is_empty():
+		push_error("Cannot save note without a notes vault.")
+		return false
+
+	if not ensureNotesVault(data.vault_path):
+		return false
+
+	var note_path := _build_note_path(data.vault_path, folder_path, note_name)
+	if note_path.is_empty():
+		push_error("Cannot save note with an empty name.")
+		return false
+
+	var file := FileAccess.open(note_path, FileAccess.WRITE)
+	if file == null:
+		push_error("Failed to write note at %s" % note_path)
+		return false
+
+	file.store_string(content)
+	return true
+
+func renameNote(folder_path: String, previous_name: String, new_name: String) -> String:
+	if data.vault_path.is_empty():
+		return ""
+
+	var previous_path := _build_note_path(data.vault_path, folder_path, previous_name)
+	var new_path := _build_note_path(data.vault_path, folder_path, new_name)
+	if previous_path.is_empty() or new_path.is_empty():
+		return ""
+
+	if previous_path == new_path:
+		return _sanitize_note_name(new_name)
+
+	if FileAccess.file_exists(new_path):
+		push_error("Cannot rename note. Destination already exists: %s" % new_path)
+		return ""
+
+	var result := DirAccess.rename_absolute(previous_path, new_path)
+	if result != OK:
+		push_error("Failed to rename note from %s to %s. Error code: %s" % [previous_path, new_path, result])
+		return ""
+
+	return _sanitize_note_name(new_name)
+
+func deleteNote(folder_path: String, note_name: String) -> bool:
+	if data.vault_path.is_empty():
+		return false
+
+	var note_path := _build_note_path(data.vault_path, folder_path, note_name)
+	if note_path.is_empty() or not FileAccess.file_exists(note_path):
+		return false
+
+	var result := DirAccess.remove_absolute(note_path)
+	if result != OK:
+		push_error("Failed to delete note at %s. Error code: %s" % [note_path, result])
+		return false
+	return true
+
+func noteExists(folder_path: String, note_name: String) -> bool:
+	var note_path := _build_note_path(data.vault_path, folder_path, note_name)
+	return not note_path.is_empty() and FileAccess.file_exists(note_path)
+
+func sanitizeNoteName(note_name: String) -> String:
+	return _sanitize_note_name(note_name)
+
+func revealVaultInFileManager() -> void:
+	if data.vault_path.is_empty():
+		return
+	OS.shell_open(data.vault_path)
+
 # Players
 func setPlayersData(value: Array[PlayerData]) -> void:
 	data.playersData = value
@@ -193,3 +394,89 @@ func _ensure_campaign_directory() -> bool:
 		return false
 
 	return true
+
+func _build_note_folder_path(vault_path: String, folder_path: String) -> String:
+	if vault_path.is_empty():
+		return ""
+	if folder_path.is_empty():
+		return vault_path
+	return "%s/%s" % [vault_path, folder_path]
+
+func _build_note_path(vault_path: String, folder_path: String, note_name: String) -> String:
+	if vault_path.is_empty():
+		return ""
+
+	var sanitized_name := _sanitize_note_name(note_name)
+	if sanitized_name.is_empty():
+		return ""
+
+	return "%s/%s.md" % [_build_note_folder_path(vault_path, folder_path), sanitized_name]
+
+func _collect_note_folders(base_path: String, relative_path: String, folders: Array[String]) -> void:
+	var directory := DirAccess.open(base_path)
+	if directory == null:
+		return
+	directory.list_dir_begin()
+	var entry_name := directory.get_next()
+	while entry_name != "":
+		if directory.current_is_dir() and entry_name != "." and entry_name != "..":
+			var child_relative_path := entry_name if relative_path.is_empty() else "%s/%s" % [relative_path, entry_name]
+			folders.append(child_relative_path)
+			_collect_note_folders("%s/%s" % [base_path, entry_name], child_relative_path, folders)
+		entry_name = directory.get_next()
+	directory.list_dir_end()
+
+func _delete_note_folder_recursive(absolute_path: String) -> bool:
+	var directory := DirAccess.open(absolute_path)
+	if directory == null:
+		push_error("Failed to open notes folder at %s for deletion." % absolute_path)
+		return false
+	directory.list_dir_begin()
+	var entry_name := directory.get_next()
+	while entry_name != "":
+		if entry_name == "." or entry_name == "..":
+			entry_name = directory.get_next()
+			continue
+		var child_path := "%s/%s" % [absolute_path, entry_name]
+		if directory.current_is_dir():
+			if not _delete_note_folder_recursive(child_path):
+				directory.list_dir_end()
+				return false
+		else:
+			var remove_result := DirAccess.remove_absolute(child_path)
+			if remove_result != OK:
+				directory.list_dir_end()
+				push_error("Failed to delete note at %s. Error code: %s" % [child_path, remove_result])
+				return false
+		entry_name = directory.get_next()
+	directory.list_dir_end()
+	var result := DirAccess.remove_absolute(absolute_path)
+	if result != OK:
+		push_error("Failed to delete notes folder at %s. Error code: %s" % [absolute_path, result])
+		return false
+	return true
+
+func _get_parent_note_folder(folder_path: String) -> String:
+	var split_path := folder_path.split("/")
+	if split_path.size() <= 1:
+		return ""
+	split_path.remove_at(split_path.size() - 1)
+	return "/".join(split_path)
+
+func _sanitize_note_name(note_name: String) -> String:
+	var sanitized := note_name.strip_edges()
+	if sanitized.ends_with(".md"):
+		sanitized = sanitized.left(sanitized.length() - 3)
+
+	for token in ["/", "\\", ":", "*", "?", '"', "<", ">", "|", "\n", "\r", "\t"]:
+		sanitized = sanitized.replace(token, "_")
+
+	sanitized = sanitized.strip_edges()
+	while sanitized.ends_with("."):
+		sanitized = sanitized.left(sanitized.length() - 1)
+	if sanitized.is_empty():
+		return "Untitled"
+	return sanitized
+
+func _generate_vault_id() -> String:
+	return "%s_%s" % [str(Time.get_unix_time_from_system()), str(randi())]

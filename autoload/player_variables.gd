@@ -6,6 +6,7 @@ var expThreshold: int
 signal leveledUp()
 signal combat_loadout_changed()
 signal vitals_changed()
+signal handouts_changed()
 
 func _ready() -> void:
 	data = PlayerData.new()
@@ -59,6 +60,65 @@ func setBackstory(value: String) -> void:
 
 func getBackstory() -> String:
 	return data.backstory
+
+func getHandouts() -> Array[Dictionary]:
+	_ensure_handout_store()
+	return data.handouts.duplicate(true)
+
+func addOrUpdateHandout(title: String, text: String, shared_by: String, shared_at: String) -> Dictionary:
+	_ensure_handout_store()
+	var normalized_title := title.strip_edges()
+	if normalized_title.is_empty():
+		return {}
+
+	for index in range(data.handouts.size()):
+		var existing := data.handouts[index] as Dictionary
+		if str(existing.get("title", "")) != normalized_title:
+			continue
+		existing["text"] = text
+		existing["shared_by"] = shared_by
+		existing["shared_at"] = shared_at
+		existing["unread"] = true
+		data.handouts[index] = existing
+		handouts_changed.emit()
+		return existing.duplicate(true)
+
+	var handout := {
+		"id": "%s_%s" % [normalized_title, str(Time.get_ticks_msec())],
+		"title": normalized_title,
+		"text": text,
+		"shared_by": shared_by,
+		"shared_at": shared_at,
+		"unread": true,
+	}
+	data.handouts.append(handout)
+	handouts_changed.emit()
+	return handout.duplicate(true)
+
+func deleteHandout(id: String) -> bool:
+	_ensure_handout_store()
+	for index in range(data.handouts.size()):
+		var existing := data.handouts[index] as Dictionary
+		if str(existing.get("id", "")) != id:
+			continue
+		data.handouts.remove_at(index)
+		handouts_changed.emit()
+		return true
+	return false
+
+func markHandoutRead(id: String) -> bool:
+	_ensure_handout_store()
+	for index in range(data.handouts.size()):
+		var existing := data.handouts[index] as Dictionary
+		if str(existing.get("id", "")) != id:
+			continue
+		if not bool(existing.get("unread", false)):
+			return false
+		existing["unread"] = false
+		data.handouts[index] = existing
+		handouts_changed.emit()
+		return true
+	return false
 
 # Attributes
 func setAttributes(value: Array[Attribute]) -> void:
@@ -275,6 +335,7 @@ func load(character_name: String) -> void:
 	var resource := ResourceLoader.load(file_path)
 	if resource is PlayerData:
 		data = resource
+		_ensure_handout_store()
 		_ensure_valid_vitals(true)
 	else:
 		push_error("Save file %s is not a PlayerData resource" % file_path)
@@ -294,6 +355,10 @@ func _ensure_character_directory() -> bool:
 		return false
 
 	return true
+
+func _ensure_handout_store() -> void:
+	if data.handouts == null:
+		data.handouts = []
 
 func print_character_info() -> void:
 	print("Character Info")

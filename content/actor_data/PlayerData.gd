@@ -3,7 +3,9 @@ class_name PlayerData
 
 @export var gender: String
 @export var age: int
+@export var peer_id: int
 @export var backstory: String
+@export var handouts: Array[Dictionary]
 
 # Level Up
 @export var levelAvailable: bool
@@ -16,7 +18,9 @@ func _init() -> void:
 	super()
 	gender = ""
 	age = 0
+	peer_id = -1
 	backstory = ""
+	handouts = []
 
 	levelAvailable = false
 	experience = 0
