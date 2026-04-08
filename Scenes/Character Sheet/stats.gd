@@ -4,7 +4,6 @@ extends ScrollContainer
 @export var statGrid: GridContainer
 
 var atts: Array[Attribute] = PlayerVariables.getAttributes()
-var optionButton: OptionButton
 var btns: Array[Button]
 var displayed_stat_grid: GridContainer
 
@@ -13,7 +12,6 @@ func _ready() -> void:
 	var _statGrid := _setupStatHeader()
 	displayed_stat_grid = _statGrid
 	_setup(_attGrid, _statGrid)
-	_update_percentage(0)
 	if not PlayerVariables.vitals_changed.is_connected(_refresh_stat_values):
 		PlayerVariables.vitals_changed.connect(_refresh_stat_values)
 	_refresh_stat_values()
@@ -47,7 +45,8 @@ func _setupAttributes(main: VBoxContainer, _grid: GridContainer) -> void:
 		var btn := Button.new()
 		btn.text = child.get_child(1).text
 		btn.set_meta("Value", child.get_child(1).text)
-		btn.pressed.connect(func() -> void: print("Roll for " + child.get_child(0).text.split(']')[2].rstrip("[/color") + ": " + ("Succeeded" if skillCheck(int(child.get_child(1).text)) else "Failed")))
+		btn.disabled = true
+		btn.tooltip_text = "Attribute checks are not part of the GM skill-check flow."
 		child.remove_child(child.get_child(1))
 		child.add_child(btn)
 		btns.append(btn)
@@ -88,18 +87,11 @@ func _setupSkills(main: VBoxContainer) -> void:
 	attributeTitle.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
 	container.add_child(attributeTitle)
 
-	var difLable := Label.new()
-	difLable.text = "Difficulty"
-	difLable.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	difLable.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
-	container.add_child(difLable)
-
-	optionButton = OptionButton.new()
-	optionButton.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
-	optionButton.item_selected.connect(_update_percentage)
-	for type in RuleEngine.DiceType.values():
-		optionButton.add_item(str(type))
-	container.add_child(optionButton)
+	var info_label := Label.new()
+	info_label.text = "Click a skill to request or resolve a skill check."
+	info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	info_label.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
+	container.add_child(info_label)
 
 	for skill in PlayerVariables.getSkills():
 		var split := HSplitContainer.new()
@@ -115,11 +107,10 @@ func _setupSkills(main: VBoxContainer) -> void:
 		split.add_child(lbl)
 
 		var btn := Button.new()
-		btn.text = str(skill.value)
+		btn.text = "Check (%s)" % skill.value
 		btn.set_meta("Value", skill.value)
-		btn.pressed.connect(func() -> void:
-			%CampaignManager._add_combat_log("Roll for " + skill._name + ": " + ("Succeeded" if skillCheck(int(skill.value)) else "Failed"))
-			)
+		btn.pressed.connect(_request_skill_check.bind(skill._name))
+		_setSkillTooltip(btn, skill)
 		split.add_child(btn)
 		btns.append(btn)
 
@@ -174,18 +165,18 @@ func _refresh_stat_values(grid: GridContainer = displayed_stat_grid) -> void:
 			"LevelUp": child.disabled = !PlayerVariables.getLevelAvailable()
 			"NecroticDamage": child.get_child(1).text = str(PlayerVariables.getNecroticDamage())
 
-func skillCheck(skill: int) -> Variant:
-	var difficulty := int(optionButton.get_item_text(optionButton.selected))
-	return RuleEngine.evaluate(CampaignVariables.codex.Rules["Skill Check"].expression, ["difficulty", "skill"], [difficulty, skill])
+func _setSkillTooltip(btn: Button, skill: Skill) -> void:
+	var campaign_manager := _get_campaign_manager()
+	var is_gm_connected = campaign_manager != null and campaign_manager.has_method("has_active_gm_connection") and campaign_manager.has_active_gm_connection()
+	if is_gm_connected:
+		btn.tooltip_text = "Request a GM-reviewed skill check using %s (%s)." % [skill._name, skill.value]
+		return
+	btn.tooltip_text = "Open a local skill check using %s (%s)." % [skill._name, skill.value]
 
-func _update_percentage(idx: int) -> void:
-	var difficulty := int(optionButton.get_item_text(idx))
-	for btn in btns:
-		var value: Variant = btn.get_meta("Value")
-		_setTooltip(btn, str(value))
-		var percentage: int = min(int((float(btn.get_meta("Value")) / float(difficulty)) * 100), 100)
-		btn.text = str(value) + "	|	" + str(percentage) + "%"
+func _request_skill_check(skill_name: String) -> void:
+	var campaign_manager := _get_campaign_manager()
+	if campaign_manager != null and campaign_manager.has_method("begin_skill_check_request"):
+		campaign_manager.begin_skill_check_request(skill_name)
 
-func _setTooltip(btn: Button, value: String) -> void:
-	var difficulty := int(optionButton.get_item_text(optionButton.selected))
-	btn.tooltip_text = "You will roll a d" + str(difficulty) + ". If you roll lower or equal than you skill level of: " + str(value) + " then you succeed, else you fail."
+func _get_campaign_manager() -> Node:
+	return get_node_or_null("%CampaignManager")

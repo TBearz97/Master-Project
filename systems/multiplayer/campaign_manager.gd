@@ -1,12 +1,23 @@
 extends FoldableContainer
 
+
 signal encounter_state_changed(started: bool)
 signal authority_role_changed(is_host: bool)
+signal member_list_changed()
 
 @onready var member_list: VBoxContainer = %Members
+@onready var notification_inbox: VBoxContainer = %Inbox
+@onready var log_tabs: TabContainer = $Panel/Lobby/VBoxContainer/TabContainer
+@onready var nested_log_tabs: TabContainer = %LogsTabContainer
+@onready var all_logs: RichTextLabel = %AllLogs
+@onready var chat_log: RichTextLabel = %ChatLog
+@onready var combat_log: RichTextLabel = %CombatLog
+@onready var skill_check_log: RichTextLabel = %SkillCheckLog
 
 var membersByPeerId: Dictionary = {}
 var membersCharacters: Dictionary = {}
+var pending_skill_check_requests: Dictionary = {}
+var pending_skill_check_offers: Dictionary = {}
 var encounter_started: bool = false
 var is_host_role: bool = false
 
@@ -16,6 +27,7 @@ func _ready() -> void:
 	multiplayer.server_disconnected.connect(_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 	RuleEngine.diceRolled.connect(broadcast_dice)
+	_rebuild_notifications()
 
 func use_enet() -> void:
 	%NetworkManager.active_network_type = %NetworkManager.MULTIPLAYER_NETWORK_TYPE.ENET
@@ -101,20 +113,27 @@ func _broadcast_member_list() -> void:
 func client_set_member_list(server_list: Dictionary) -> void:
 	membersByPeerId = server_list.duplicate(true)
 	_rebuild_member_list()
+	member_list_changed.emit()
 
 func _disconnected() -> void:
 	for child in member_list.get_children():
 		child.queue_free()
+	for child in notification_inbox.get_children():
+		child.queue_free()
 
 	membersByPeerId.clear()
 	membersCharacters.clear()
+	pending_skill_check_requests.clear()
+	pending_skill_check_offers.clear()
 	encounter_started = false
 	is_host_role = false
 	encounter_state_changed.emit(encounter_started)
 	authority_role_changed.emit(is_host_role)
+	member_list_changed.emit()
 
 	%JoinCampaign.show()
 	%LeaveCampaign.hide()
+	_rebuild_notifications()
 
 func _rebuild_member_list() -> void:
 	for child in member_list.get_children():
@@ -170,9 +189,6 @@ func _server_receive_chat(messageText: String) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _client_append_chat_line(senderPeerId: int, messageText: String) -> void:
-	var _chat_log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/ChatLog")
-	var _log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/AllLogs")
-
 	var senderName: String
 	if membersByPeerId.has(senderPeerId):
 		senderName = str(membersByPeerId[senderPeerId])
@@ -182,8 +198,8 @@ func _client_append_chat_line(senderPeerId: int, messageText: String) -> void:
 	if senderPeerId == multiplayer.get_unique_id():
 		senderName += " (You)"
 
-	_chat_log.text += senderName + ": " + messageText + "\n"
-	_log.text += senderName + ": " + messageText + "\n"
+	chat_log.text += senderName + ": " + messageText + "\n"
+	all_logs.text += senderName + ": " + messageText + "\n"
 
 func _add_combat_log(combat_line: String) -> void:
 	if multiplayer.is_server():
@@ -191,10 +207,95 @@ func _add_combat_log(combat_line: String) -> void:
 	else:
 		rpc_id(1, "_server_receive_combat", combat_line)
 
-func _append_combat_log_local(senderPeerId: int, combat_line: String, tooltip: String = "") -> void:
-	var _chat_log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/CombatLog")
-	var _log: RichTextLabel = get_node("Panel/Lobby/VBoxContainer/TabContainer/AllLogs")
+func begin_skill_check_request(requested_skill_name: String) -> void:
+	var normalized_skill_name := requested_skill_name.strip_edges()
+	if normalized_skill_name.is_empty():
+		return
 
+	if has_active_gm_connection():
+		var payload := {
+			"request_id": _generate_skill_check_request_id(),
+			"requester_peer_id": multiplayer.get_unique_id(),
+			"requester_name": PlayerVariables.getName(),
+			"requested_skill": normalized_skill_name,
+		}
+		rpc_id(1, "server_receive_skill_check_request", payload)
+		_append_combat_log_local(multiplayer.get_unique_id(), "Requested a %s skill check from the GM." % normalized_skill_name)
+		return
+
+	_show_local_skill_check_window(normalized_skill_name)
+
+func begin_gm_skill_check_for_peer(peer_id: int) -> void:
+	if not is_host_role:
+		return
+	if peer_id <= 0 or peer_id == multiplayer.get_unique_id() or not membersByPeerId.has(peer_id):
+		return
+	var request_payload := {
+		"request_id": _generate_skill_check_request_id(),
+		"requester_peer_id": peer_id,
+		"requester_name": str(membersByPeerId.get(peer_id, "Player")),
+		"requested_skill": "",
+		"initiated_by_gm": true,
+	}
+	pending_skill_check_requests[str(request_payload["request_id"])] = request_payload
+	_rebuild_notifications()
+	_show_gm_skill_check_window(request_payload)
+
+func get_local_skill_names() -> Array[String]:
+	return get_skill_names_for_peer(multiplayer.get_unique_id())
+
+func get_local_skill_value_map() -> Dictionary:
+	return get_skill_value_map_for_peer(multiplayer.get_unique_id())
+
+func get_skill_names_for_peer(peer_id: int) -> Array[String]:
+	var source_player: PlayerData = PlayerVariables.data
+	if membersCharacters.has(peer_id):
+		source_player = membersCharacters[peer_id] as PlayerData
+	var skill_names: Array[String] = []
+	if source_player == null:
+		return skill_names
+	for skill: Skill in source_player.skills:
+		if skill != null and not skill._name.is_empty():
+			skill_names.append(skill._name)
+	skill_names.sort()
+	return skill_names
+
+func get_skill_value_map_for_peer(peer_id: int) -> Dictionary:
+	var source_player: PlayerData = PlayerVariables.data
+	if membersCharacters.has(peer_id):
+		source_player = membersCharacters[peer_id] as PlayerData
+	var skill_values := {}
+	if source_player == null:
+		return skill_values
+	for skill: Skill in source_player.skills:
+		if skill != null and not skill._name.is_empty():
+			skill_values[skill._name] = skill.value
+	return skill_values
+
+func get_selectable_player_peers() -> Array[Dictionary]:
+	var players: Array[Dictionary] = []
+	var peer_ids: Array = membersByPeerId.keys()
+	peer_ids.sort()
+	for peer_id_variant in peer_ids:
+		var peer_id := int(peer_id_variant)
+		if peer_id <= 0 or peer_id == multiplayer.get_unique_id():
+			continue
+		var peer_name := str(membersByPeerId.get(peer_id, "")).strip_edges()
+		if peer_name.is_empty() or peer_name == "Connecting..." or peer_name == "GameMaster":
+			continue
+		players.append({
+			"peer_id": peer_id,
+			"name": peer_name,
+		})
+	return players
+
+func has_active_gm_connection() -> bool:
+	return not is_host_role and multiplayer.multiplayer_peer != null and not membersByPeerId.is_empty()
+
+func _generate_skill_check_request_id() -> String:
+	return "%s_%s" % [multiplayer.get_unique_id(), Time.get_ticks_msec()]
+
+func _append_combat_log_local(senderPeerId: int, combat_line: String, tooltip: String = "") -> void:
 	var senderName: String
 	if membersByPeerId.has(senderPeerId):
 		senderName = str(membersByPeerId[senderPeerId])
@@ -206,8 +307,140 @@ func _append_combat_log_local(senderPeerId: int, combat_line: String, tooltip: S
 
 	var message_text := _escape_bbcode_text(senderName + ": " + combat_line)
 	var _tooltip_text := _escape_bbcode_text(tooltip)
-	_append_log_line(_chat_log, message_text, _tooltip_text)
-	_append_log_line(_log, message_text, _tooltip_text)
+	_append_log_line(combat_log, message_text, _tooltip_text)
+	_append_log_line(all_logs, message_text, _tooltip_text)
+
+func _append_skill_check_log_local(senderPeerId: int, combat_line: String, tooltip: String = "") -> void:
+	var senderName: String
+	if membersByPeerId.has(senderPeerId):
+		senderName = str(membersByPeerId[senderPeerId])
+	else:
+		senderName = "Peer " + str(senderPeerId)
+
+	if senderPeerId == multiplayer.get_unique_id():
+		senderName += " (You)"
+
+	var message_text := _escape_bbcode_text(senderName + ": " + combat_line)
+	var _tooltip_text := _escape_bbcode_text(tooltip)
+	_append_log_line(skill_check_log, message_text, _tooltip_text)
+	_append_log_line(all_logs, message_text, _tooltip_text)
+
+func _show_local_skill_check_window(requested_skill_name: String) -> void:
+	var window := SkillCheckWindow.new()
+	add_child(window)
+	window.configure_local_setup(get_local_skill_names(), requested_skill_name)
+	window.local_check_requested.connect(_resolve_local_skill_check)
+	window.popup_centered()
+
+func _show_gm_skill_check_window(request_payload: Dictionary) -> void:
+	var window := SkillCheckWindow.new()
+	add_child(window)
+	window.configure_gm_setup(get_skill_names_for_peer(int(request_payload.get("requester_peer_id", 0))), str(request_payload.get("requester_name", "Player")), str(request_payload.get("requested_skill", "")))
+	window.gm_offer_approved.connect(_approve_skill_check_offer.bind(request_payload))
+	window.request_cancelled.connect(_rebuild_notifications)
+	window.popup_centered()
+
+func _show_player_choice_window(offer_payload: Dictionary) -> void:
+	var window := SkillCheckWindow.new()
+	add_child(window)
+	window.configure_player_choice(str(offer_payload.get("requester_name", PlayerVariables.getName())), offer_payload.get("options", []), get_local_skill_value_map())
+	window.option_chosen.connect(_submit_skill_check_choice.bind(str(offer_payload.get("request_id", ""))))
+	window.request_cancelled.connect(_rebuild_notifications)
+	window.popup_centered()
+
+func _approve_skill_check_offer(options: Array[Dictionary], request_payload: Dictionary) -> void:
+	var request_id := str(request_payload.get("request_id", ""))
+	if request_id.is_empty():
+		return
+	var sanitized_options := _sanitize_skill_check_options(options)
+	if sanitized_options.is_empty():
+		return
+	var offer_payload := {
+		"request_id": request_id,
+		"requester_peer_id": int(request_payload.get("requester_peer_id", 0)),
+		"requester_name": str(request_payload.get("requester_name", "")),
+		"requested_skill": str(request_payload.get("requested_skill", "")),
+		"options": sanitized_options,
+	}
+	pending_skill_check_offers[request_id] = offer_payload
+	_rebuild_notifications()
+	var requester_peer_id := int(offer_payload.get("requester_peer_id", 0))
+	if requester_peer_id == multiplayer.get_unique_id():
+		client_receive_skill_check_offer(offer_payload)
+	else:
+		rpc_id(requester_peer_id, "client_receive_skill_check_offer", offer_payload)
+
+func _resolve_local_skill_check(options: Array[Dictionary], selected_skill_name: String) -> void:
+	var selected_option := _find_skill_check_option(options, selected_skill_name)
+	if selected_option.is_empty():
+		return
+	var result := RuleEngine.resolveSkillCheck(PlayerVariables.data, selected_skill_name, int(selected_option.get("difficulty", 0)), {"source_name": PlayerVariables.getName()})
+	if not bool(result.get("success", false)):
+		return
+	var game_event := _build_skill_check_game_event({
+		"request_id": _generate_skill_check_request_id(),
+		"requester_peer_id": multiplayer.get_unique_id(),
+		"requester_name": PlayerVariables.getName(),
+		"requested_skill": selected_skill_name,
+		"options": _sanitize_skill_check_options(options),
+	}, result)
+	CampaignVariables.appendGameEvent(game_event)
+	apply_game_event(game_event)
+
+func _submit_skill_check_choice(selected_skill_name: String, request_id: String) -> void:
+	if request_id.is_empty():
+		return
+	var payload := {
+		"request_id": request_id,
+		"selected_skill_name": selected_skill_name,
+	}
+	rpc_id(1, "server_receive_skill_check_choice", payload)
+
+func _sanitize_skill_check_options(options: Array[Dictionary]) -> Array[Dictionary]:
+	var sanitized: Array[Dictionary] = []
+	var used_skill_names: Array[String] = []
+	var found_primary := false
+	for option in options:
+		var skill_name := str(option.get("skill_name", "")).strip_edges()
+		if skill_name.is_empty() or used_skill_names.has(skill_name):
+			continue
+		var is_primary := bool(option.get("is_primary", false))
+		if is_primary and found_primary:
+			continue
+		found_primary = found_primary or is_primary
+		used_skill_names.append(skill_name)
+		sanitized.append({
+			"skill_name": skill_name,
+			"difficulty": maxi(int(option.get("difficulty", 0)), 0),
+			"is_primary": is_primary,
+		})
+	if not found_primary and not sanitized.is_empty():
+		sanitized[0]["is_primary"] = true
+	return sanitized
+
+func _find_skill_check_option(options: Variant, skill_name: String) -> Dictionary:
+	if not (options is Array):
+		return {}
+	for option in options:
+		if option is Dictionary and str(option.get("skill_name", "")) == skill_name:
+			return option
+	return {}
+
+func _build_skill_check_game_event(offer_payload: Dictionary, result: Dictionary) -> GameEvent:
+	var requester_peer_id := int(offer_payload.get("requester_peer_id", multiplayer.get_unique_id()))
+	var result_payload := result.duplicate(true)
+	result_payload["request_id"] = str(offer_payload.get("request_id", ""))
+	result_payload["requester_peer_id"] = requester_peer_id
+	result_payload["requester_name"] = str(offer_payload.get("requester_name", result.get("source_name", "")))
+	result_payload["requested_skill"] = str(offer_payload.get("requested_skill", result.get("skill_name", "")))
+	result_payload["options"] = offer_payload.get("options", [])
+	return GameEvent.new(
+		"skill_check_resolved",
+		GameEvent.CONTEXT_SKILL_CHECK,
+		result_payload,
+		[],
+		[{"text": str(result.get("text", "")), "tooltip": str(result.get("tooltip", "")), "requester_peer_id": requester_peer_id}]
+	)
 
 func _escape_bbcode_text(text: String) -> String:
 	return text.replace("[", "\\[").replace("]", "\\]")
@@ -304,12 +537,19 @@ func _apply_non_combat_game_event(game_event: GameEvent) -> void:
 	# Non-combat contexts will be applied here as the broader event system is implemented.
 	# For now, the authoritative event log is still preserved for review and replay.
 	if game_event.context == GameEvent.CONTEXT_SKILL_CHECK and not game_event.results.is_empty():
-		var sender_peer_id := 1
+		var request_id := str(game_event.payload.get("request_id", ""))
+		if not request_id.is_empty():
+			pending_skill_check_offers.erase(request_id)
+			pending_skill_check_requests.erase(request_id)
+		_rebuild_notifications()
+		var sender_peer_id := int(game_event.payload.get("requester_peer_id", 1))
 		for result in game_event.results:
 			if result is Dictionary:
-				_append_combat_log_local(sender_peer_id, str(result.get("text", "")), str(result.get("tooltip", "")))
+				var result_sender := int(result.get("requester_peer_id", sender_peer_id))
+				_append_skill_check_log_local(result_sender, str(result.get("text", "")), str(result.get("tooltip", "")))
 			else:
-				_append_combat_log_local(sender_peer_id, str(result))
+				_append_skill_check_log_local(sender_peer_id, str(result))
+		_focus_skill_check_log_for_local_request(game_event)
 
 func apply_combat_request(combat_request: CombatRequest) -> void:
 	if combat_request == null:
@@ -321,6 +561,156 @@ func apply_combat_request(combat_request: CombatRequest) -> void:
 		return
 	if combat_session.has_method("apply_combat_request"):
 		combat_session.apply_combat_request(combat_request)
+
+@rpc("any_peer", "reliable")
+func server_receive_skill_check_request(request_payload: Dictionary) -> void:
+	if not multiplayer.is_server():
+		return
+	var sender_peer_id := multiplayer.get_remote_sender_id()
+	if sender_peer_id == 0:
+		sender_peer_id = multiplayer.get_unique_id()
+	var normalized_payload := request_payload.duplicate(true)
+	normalized_payload["requester_peer_id"] = sender_peer_id
+	normalized_payload["requester_name"] = str(membersByPeerId.get(sender_peer_id, normalized_payload.get("requester_name", "Player")))
+	var request_id := str(normalized_payload.get("request_id", ""))
+	if request_id.is_empty():
+		return
+	pending_skill_check_requests[request_id] = normalized_payload
+	_rebuild_notifications()
+
+@rpc("authority", "call_local", "reliable")
+func client_receive_skill_check_offer(offer_payload: Dictionary) -> void:
+	var request_id := str(offer_payload.get("request_id", ""))
+	if request_id.is_empty():
+		return
+	pending_skill_check_offers[request_id] = offer_payload.duplicate(true)
+	_rebuild_notifications()
+
+@rpc("any_peer", "reliable")
+func server_receive_skill_check_choice(choice_payload: Dictionary) -> void:
+	if not multiplayer.is_server():
+		return
+	var sender_peer_id := multiplayer.get_remote_sender_id()
+	if sender_peer_id == 0:
+		sender_peer_id = multiplayer.get_unique_id()
+	var request_id := str(choice_payload.get("request_id", ""))
+	if request_id.is_empty() or not pending_skill_check_offers.has(request_id):
+		return
+	var offer_payload := pending_skill_check_offers[request_id] as Dictionary
+	if int(offer_payload.get("requester_peer_id", -1)) != sender_peer_id:
+		return
+	var selected_skill_name := str(choice_payload.get("selected_skill_name", ""))
+	var selected_option := _find_skill_check_option(offer_payload.get("options", []), selected_skill_name)
+	if selected_option.is_empty() or not membersCharacters.has(sender_peer_id):
+		return
+	var player_data := membersCharacters[sender_peer_id] as PlayerData
+	if player_data == null:
+		return
+	var result := RuleEngine.resolveSkillCheck(player_data, selected_skill_name, int(selected_option.get("difficulty", 0)), {
+		"source_name": str(offer_payload.get("requester_name", membersByPeerId.get(sender_peer_id, "Player"))),
+	})
+	if not bool(result.get("success", false)):
+		return
+	var game_event := _build_skill_check_game_event(offer_payload, result)
+	pending_skill_check_requests.erase(request_id)
+	pending_skill_check_offers.erase(request_id)
+	_rebuild_notifications()
+	broadcast_game_event(game_event)
+
+func _rebuild_notifications() -> void:
+	if notification_inbox == null:
+		return
+	for child in notification_inbox.get_children():
+		child.queue_free()
+	var notification_count := 0
+
+	var gm_request_ids: Array = pending_skill_check_requests.keys()
+	gm_request_ids.sort()
+	if is_host_role:
+		_add_notification_section("Skill Requests")
+		if gm_request_ids.is_empty():
+			_add_notification_empty_state("No skill requests waiting.")
+		for request_id_variant in gm_request_ids:
+			var request_id := str(request_id_variant)
+			var payload = pending_skill_check_requests.get(request_id, {})
+			if payload.is_empty():
+				continue
+			notification_count += 1
+			var button := Button.new()
+			button.text = "Review %s: %s" % [str(payload.get("requester_name", "Player")), str(payload.get("requested_skill", "Skill"))]
+			button.pressed.connect(_open_gm_notification.bind(request_id))
+			notification_inbox.add_child(button)
+
+	var offer_ids: Array = pending_skill_check_offers.keys()
+	offer_ids.sort()
+	_add_notification_section("Choices Waiting")
+	if offer_ids.is_empty():
+		_add_notification_empty_state("No skill choices waiting.")
+	for request_id_variant in offer_ids:
+		var request_id := str(request_id_variant)
+		var offer = pending_skill_check_offers.get(request_id, {})
+		if offer.is_empty():
+			continue
+		if is_host_role and int(offer.get("requester_peer_id", -1)) != multiplayer.get_unique_id():
+			continue
+		notification_count += 1
+		var button := Button.new()
+		button.text = "Choose skill for %s" % str(offer.get("requester_name", "Player"))
+		button.pressed.connect(_open_player_notification.bind(request_id))
+		notification_inbox.add_child(button)
+
+	_update_notifications_tab_title(notification_count)
+	_update_container_title(notification_count)
+
+func _update_notifications_tab_title(notification_count: int) -> void:
+	if log_tabs == null:
+		return
+	for idx in range(log_tabs.get_tab_count()):
+		if log_tabs.get_tab_control(idx) == notification_inbox.get_parent():
+			log_tabs.set_tab_title(idx, "Notifications (%s)" % notification_count if notification_count > 0 else "Notifications")
+			return
+
+func _update_container_title(notification_count: int) -> void:
+	title = "Log (%s)" % notification_count if notification_count > 0 else "Log"
+
+func _focus_skill_check_log_for_local_request(game_event: GameEvent) -> void:
+	if game_event == null:
+		return
+	var requester_peer_id := int(game_event.payload.get("requester_peer_id", -1))
+	if requester_peer_id != multiplayer.get_unique_id():
+		return
+	if log_tabs != null:
+		for idx in range(log_tabs.get_tab_count()):
+			var tab_control := log_tabs.get_tab_control(idx)
+			if tab_control != null and tab_control.name == "Logs":
+				log_tabs.current_tab = idx
+				break
+	if nested_log_tabs != null:
+		for idx in range(nested_log_tabs.get_tab_count()):
+			var tab_control := nested_log_tabs.get_tab_control(idx)
+			if tab_control != null and tab_control.name == "SkillCheckLog":
+				nested_log_tabs.current_tab = idx
+				break
+
+func _add_notification_section(title_text: String) -> void:
+	var label := Label.new()
+	label.text = title_text
+	notification_inbox.add_child(label)
+
+func _add_notification_empty_state(text_value: String) -> void:
+	var label := Label.new()
+	label.text = text_value
+	notification_inbox.add_child(label)
+
+func _open_gm_notification(request_id: String) -> void:
+	if not pending_skill_check_requests.has(request_id):
+		return
+	_show_gm_skill_check_window(pending_skill_check_requests[request_id])
+
+func _open_player_notification(request_id: String) -> void:
+	if not pending_skill_check_offers.has(request_id):
+		return
+	_show_player_choice_window(pending_skill_check_offers[request_id])
 
 @rpc("any_peer", "reliable")
 func server_broadcast_combat_request(request_data: Dictionary) -> void:

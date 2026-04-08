@@ -40,23 +40,49 @@ grow_vertical = 2
 [node name="TabContainer" type="TabContainer" parent="Panel/Lobby/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-current_tab = 1
+current_tab = 0
 
-[node name="AllLogs" type="RichTextLabel" parent="Panel/Lobby/VBoxContainer/TabContainer"]
+[node name="Notifications" type="ScrollContainer" parent="Panel/Lobby/VBoxContainer/TabContainer"]
 unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+metadata/_tab_index = 0
+
+[node name="Inbox" type="VBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Notifications"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Logs" type="Control" parent="Panel/Lobby/VBoxContainer/TabContainer"]
 visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="LogsTabContainer" type="TabContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Logs"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="AllLogs" type="RichTextLabel" parent="Panel/Lobby/VBoxContainer/TabContainer/Logs/LogsTabContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 metadata/_tab_index = 0
 
-[node name="ChatLog" type="RichTextLabel" parent="Panel/Lobby/VBoxContainer/TabContainer"]
+[node name="ChatLog" type="RichTextLabel" parent="Panel/Lobby/VBoxContainer/TabContainer/Logs/LogsTabContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 metadata/_tab_index = 1
 
-[node name="CombatLog" type="RichTextLabel" parent="Panel/Lobby/VBoxContainer/TabContainer"]
+[node name="CombatLog" type="RichTextLabel" parent="Panel/Lobby/VBoxContainer/TabContainer/Logs/LogsTabContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -64,37 +90,59 @@ size_flags_vertical = 3
 bbcode_enabled = true
 metadata/_tab_index = 2
 
-[node name="Members" type="VBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer"]
+[node name="SkillCheckLog" type="RichTextLabel" parent="Panel/Lobby/VBoxContainer/TabContainer/Logs/LogsTabContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
 metadata/_tab_index = 3
 
-[node name="Settings" type="VBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer"]
+[node name="Campaign" type="Control" parent="Panel/Lobby/VBoxContainer/TabContainer"]
 visible = false
 layout_mode = 2
-metadata/_tab_index = 4
+metadata/_tab_index = 2
 
-[node name="JoinCampaign" type="HBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Settings"]
+[node name="CampaignTabContainer" type="TabContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Campaign"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Members" type="VBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Campaign/CampaignTabContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="Settings" type="VBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Campaign/CampaignTabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="JoinCampaign" type="HBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Campaign/CampaignTabContainer/Settings"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="CampaignCodeInput" type="LineEdit" parent="Panel/Lobby/VBoxContainer/TabContainer/Settings/JoinCampaign"]
+[node name="CampaignCodeInput" type="LineEdit" parent="Panel/Lobby/VBoxContainer/TabContainer/Campaign/CampaignTabContainer/Settings/JoinCampaign"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Campaign Code"
 
-[node name="JoinCampaignButton" type="Button" parent="Panel/Lobby/VBoxContainer/TabContainer/Settings/JoinCampaign"]
+[node name="JoinCampaignButton" type="Button" parent="Panel/Lobby/VBoxContainer/TabContainer/Campaign/CampaignTabContainer/Settings/JoinCampaign"]
 layout_mode = 2
 text = "Join Campaign"
 
-[node name="LeaveCampaign" type="HBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Settings"]
+[node name="LeaveCampaign" type="HBoxContainer" parent="Panel/Lobby/VBoxContainer/TabContainer/Campaign/CampaignTabContainer/Settings"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="CampaignCode" type="Label" parent="Panel/Lobby/VBoxContainer/TabContainer/Settings/LeaveCampaign"]
+[node name="CampaignCode" type="Label" parent="Panel/Lobby/VBoxContainer/TabContainer/Campaign/CampaignTabContainer/Settings/LeaveCampaign"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
@@ -144,7 +192,7 @@ script = ExtResource("2_xmlr4")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_x03r7")
 
-[connection signal="pressed" from="Panel/Lobby/VBoxContainer/TabContainer/Settings/JoinCampaign/JoinCampaignButton" to="." method="become_client"]
+[connection signal="pressed" from="Panel/Lobby/VBoxContainer/TabContainer/Campaign/CampaignTabContainer/Settings/JoinCampaign/JoinCampaignButton" to="." method="become_client"]
 [connection signal="pressed" from="Panel/Lobby/VBoxContainer/SendMessage/SendChatButton" to="." method="sendMsg"]
 [connection signal="pressed" from="Panel/NetworkSelector/EnetButton" to="." method="use_enet"]
 [connection signal="pressed" from="Panel/NetworkSelector/SteamButton" to="." method="use_steam"]

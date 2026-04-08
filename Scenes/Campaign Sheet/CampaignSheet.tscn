@@ -68,6 +68,34 @@ current_tab = 0
 layout_mode = 2
 metadata/_tab_index = 0
 
+[node name="Skill Checks" type="MarginContainer" parent="Panel/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VBoxContainer/TabContainer/Skill Checks"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Instruction" type="Label" parent="Panel/VBoxContainer/TabContainer/Skill Checks/VBoxContainer"]
+layout_mode = 2
+text = "Select a connected player to send them a GM-created skill check."
+autowrap_mode = 3
+
+[node name="PlayerPicker" type="OptionButton" parent="Panel/VBoxContainer/TabContainer/Skill Checks/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="NoPlayersLabel" type="Label" parent="Panel/VBoxContainer/TabContainer/Skill Checks/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "No connected players available."
+
+[node name="CreateSkillCheckButton" type="Button" parent="Panel/VBoxContainer/TabContainer/Skill Checks/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Create Skill Check"
+
 [node name="CampaignManager" parent="Panel" instance=ExtResource("3_oi6iy")]
 unique_name_in_owner = true
 layout_mode = 1

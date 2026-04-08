@@ -4,6 +4,15 @@ enum DiceType { D4 = 4, D6 = 6, D8 = 8, D10 = 10, D12 = 12, D20 = 20 }
 
 signal diceRolled(diceArray)
 
+func getSkillValue(source: CreatureData, skill_name: String) -> int:
+	if source == null or not (source is HumanoidData):
+		return 0
+
+	for skill: Skill in (source as HumanoidData).skills:
+		if skill != null and skill._name == skill_name:
+			return skill.value
+	return 0
+
 func _get_attribute(source: CreatureData, attribute_name: String) -> Attribute:
 	if source == null:
 		return null
@@ -73,7 +82,7 @@ func getMaxVitality(source: CreatureData) -> int:
 	if attribute == null:
 		return max(source.maxVitality, 1)
 	var vitality_multiplier := _evaluate_attribute_bonus(attribute, "Vitality")
-	var max_vitality := (vitality_multiplier * getMaxHealth(source)) + source.necroticDamage
+	var max_vitality := vitality_multiplier * getMaxHealth(source)
 	return max(max_vitality, 1)
 
 func normalizeVitals(source: CreatureData, refill_if_uninitialized: bool = false) -> void:
@@ -312,6 +321,45 @@ func evaluate(command: String, variable_names: Array = [], variable_values: Arra
 		return result
 
 	return null
+
+func resolveSkillCheck(source: CreatureData, skill_name: String, difficulty: int, context: Dictionary = {}) -> Dictionary:
+	if source == null:
+		return {"success": false, "reason": "null_source"}
+
+	var normalized_skill_name := skill_name.strip_edges()
+	if normalized_skill_name.is_empty():
+		return {"success": false, "reason": "missing_skill"}
+
+	var skill_value := getSkillValue(source, normalized_skill_name)
+	var roll := rollDice(1, DiceType.D20)
+	var total := roll + skill_value + int(context.get("modifier", 0))
+	var normalized_difficulty := maxi(difficulty, 0)
+	var passed := total >= normalized_difficulty
+	var source_name := str(context.get("source_name", source._name))
+	var text := "%s rolled %s vs DC %s: %s + %s = %s, %s" % [
+		source_name,
+		normalized_skill_name,
+		normalized_difficulty,
+		roll,
+		skill_value,
+		total,
+		"Success" if passed else "Failure"
+	]
+	var tooltip := "d20 (%s) + %s (%s) = %s vs DC %s" % [roll, normalized_skill_name, skill_value, total, normalized_difficulty]
+
+	return {
+		"success": true,
+		"source_name": source_name,
+		"skill_name": normalized_skill_name,
+		"skill_value": skill_value,
+		"difficulty": normalized_difficulty,
+		"roll": roll,
+		"modifier": int(context.get("modifier", 0)),
+		"total": total,
+		"passed": passed,
+		"text": text,
+		"tooltip": tooltip,
+	}
 
 func rollDice(num: int, sides: int) -> int:
 	var diceArray: Array[int] = []

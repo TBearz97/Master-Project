@@ -1069,6 +1069,7 @@ func _build_combatant_entry(combatant_payload: Dictionary) -> CombatantEntry:
 	return entry
 
 func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
+	RuleEngine.normalizeVitals(player_data, true)
 	var details := [
 		"Peer ID: %s" % peer_id,
 		"Attributes: %s" % _format_attribute_values(player_data.attributes),
@@ -1101,6 +1102,7 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 	}
 
 func _build_npc_payload(npc: NPC) -> Dictionary:
+	RuleEngine.normalizeVitals(npc.data, true)
 	var details := [
 		npc.short_description,
 		"Attributes: %s" % _format_attribute_values(npc.data.attributes),
@@ -1283,6 +1285,7 @@ func _find_local_player_combatant(local_peer_id: int) -> Dictionary:
 func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary:
 	var payload := base_payload.duplicate(true)
 	var player_data := PlayerVariables.data
+	RuleEngine.normalizeVitals(player_data)
 	var active_loadout := int(payload.get("active_loadout", 1))
 	var action_points := RuleEngine.getActionPoints(player_data)
 	payload["current_hp"] = player_data.currentHP
@@ -1318,6 +1321,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		if campaign_manager == null or not campaign_manager.membersCharacters.has(peer_id):
 			return {}
 		var player_data: PlayerData = campaign_manager.membersCharacters[peer_id]
+		RuleEngine.normalizeVitals(player_data)
 		var player_action_points := RuleEngine.getActionPoints(player_data)
 		payload["current_hp"] = player_data.currentHP
 		payload["max_hp"] = player_data.maxHP
@@ -1342,6 +1346,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	var npc: NPC = CampaignVariables.codex.NPCs.get(str(payload.get("name", "")), null)
 	if npc == null:
 		return {}
+	RuleEngine.normalizeVitals(npc.data)
 	var npc_action_points := RuleEngine.getActionPoints(npc.data)
 	payload["current_hp"] = npc.data.currentHP
 	payload["max_hp"] = npc.data.maxHP
