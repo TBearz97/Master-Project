@@ -121,6 +121,9 @@ godot4.5 --path . --headless --scene "res://tools/test.tscn"
 - Use explicit casts on loaded resources when helpful, e.g. `as Codex`.
 - Use `:=` when the inferred type is obvious and stable.
 - Use explicit `: Type` when it improves clarity or catches mistakes.
+- Avoid `:=` when values come from dictionary lookups, array iteration, or vector math like `cell + offset`; prefer explicit local types in those cases.
+- In `Node` and `Control` scripts, avoid local variable names that shadow engine properties like `position`, `size`, `scale`, `rotation`, `visible`, or `name`.
+- Prefer domain-specific locals such as `grid_position`, `cell_position`, `panel_size`, or `token_name`.
 
 ### Naming
 - `class_name` types use PascalCase.

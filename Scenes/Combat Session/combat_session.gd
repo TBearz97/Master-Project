@@ -32,6 +32,13 @@ const ACTION_ENTRY_SCENE := preload("res://Scenes/Combat Session/action_entry.ts
 @onready var abortActionButton: Button = %AbortAction
 @onready var resolveActionButton: Button = %ResolveAction
 @onready var resolveAllActionsButton: Button = %ResolveAllActions
+@onready var combatGrid: CombatGrid = %CombatGrid
+@onready var gridWidthLabel: Label = %GridWidthLabel
+@onready var gridWidthInput: SpinBox = %GridWidth
+@onready var gridHeightLabel: Label = %GridHeightLabel
+@onready var gridHeightInput: SpinBox = %GridHeight
+@onready var resetPlacementsButton: Button = %ResetPlacements
+@onready var boardHintLabel: Label = %BoardHint
 
 var npc_picker: ConfirmationDialog
 var npc_picker_list: VBoxContainer
@@ -49,6 +56,9 @@ var next_combatant_id: int = 1
 var is_host_role: bool = false
 var round_number: int = 1
 var current_phase: String = GameEvent.PHASE_PLANNING
+var board_columns: int = 12
+var board_rows: int = 12
+var pending_gm_placement_id: String = ""
 
 func _ready() -> void:
 	_setup_npc_picker()
@@ -66,6 +76,12 @@ func _ready() -> void:
 	abortActionButton.pressed.connect(_abort_current_action_resolution)
 	resolveActionButton.pressed.connect(_resolve_current_action_resolution)
 	resolveAllActionsButton.pressed.connect(_resolve_all_action_resolutions)
+	gridWidthInput.value_changed.connect(_on_grid_width_changed)
+	gridHeightInput.value_changed.connect(_on_grid_height_changed)
+	resetPlacementsButton.pressed.connect(_reset_combatant_grid_positions)
+	combatGrid.cell_clicked.connect(_on_grid_cell_clicked)
+	combatGrid.token_clicked.connect(_on_grid_token_clicked)
+	combatGrid.token_dragged.connect(_on_grid_token_dragged)
 	var campaign_manager := _find_campaign_manager()
 	if campaign_manager != null:
 		campaign_manager.encounter_state_changed.connect(_on_encounter_state_changed)
@@ -78,6 +94,8 @@ func _ready() -> void:
 	_apply_encounter_visibility()
 	_refresh_queued_actions()
 	_refresh_player_actions()
+	_refresh_board_controls()
+	_refresh_combat_grid()
 
 func _update_round_ui() -> void:
 	roundLabel.text = "Round: %s" % round_number
@@ -101,6 +119,9 @@ func _configure_role_view() -> void:
 	inspectorContent.visible = is_host_role
 	playerActionsContent.visible = not is_host_role
 	inspectorSwapLoadout.visible = false
+	gridWidthInput.editable = is_host_role and not encounter_started
+	gridHeightInput.editable = is_host_role and not encounter_started
+	resetPlacementsButton.visible = is_host_role
 
 func _apply_encounter_visibility() -> void:
 	var is_tab_page := get_parent() is TabContainer
@@ -109,7 +130,27 @@ func _apply_encounter_visibility() -> void:
 	%EndEncounter.visible = is_host_role and encounter_started
 	%AddPlayers.visible = is_host_role
 	%AddNPCs.visible = is_host_role
+	_refresh_board_controls()
 	_update_phase_buttons()
+
+func _refresh_board_controls() -> void:
+	gridWidthLabel.visible = is_host_role
+	gridWidthInput.visible = is_host_role
+	gridHeightLabel.visible = is_host_role
+	gridHeightInput.visible = is_host_role
+	resetPlacementsButton.visible = is_host_role
+	boardHintLabel.text = _build_board_hint_text()
+	gridWidthInput.editable = is_host_role and not encounter_started
+	gridHeightInput.editable = is_host_role and not encounter_started
+	resetPlacementsButton.disabled = not is_host_role or encounter_started or encounter_combatants.is_empty()
+	combatGrid.set_placement_source(pending_gm_placement_id)
+
+func _build_board_hint_text() -> String:
+	if is_host_role and not encounter_started:
+		return "Drag tokens to place them before combat starts. Middle mouse pans. Wheel zooms."
+	if current_phase == GameEvent.PHASE_PLANNING:
+		return "Click a destination cell to preview movement. Middle mouse pans. Wheel zooms."
+	return "Middle mouse pans. Wheel zooms."
 
 func _on_encounter_state_changed(started: bool) -> void:
 	encounter_started = started
@@ -120,14 +161,66 @@ func _on_authority_role_changed(is_host: bool) -> void:
 	_configure_role_view()
 	_apply_encounter_visibility()
 	_refresh_player_actions()
+	_refresh_combat_grid()
+
+func _on_grid_width_changed(value: float) -> void:
+	_apply_board_dimensions(int(value), board_rows)
+
+func _on_grid_height_changed(value: float) -> void:
+	_apply_board_dimensions(board_columns, int(value))
+
+func _apply_board_dimensions(columns: int, rows: int, broadcast_change: bool = true) -> void:
+	columns = clampi(columns, 4, 128)
+	rows = clampi(rows, 4, 128)
+	if columns == board_columns and rows == board_rows:
+		_refresh_combat_grid()
+		return
+	board_columns = columns
+	board_rows = rows
+	gridWidthInput.set_value_no_signal(board_columns)
+	gridHeightInput.set_value_no_signal(board_rows)
+	_clear_invalid_grid_positions()
+	if broadcast_change and is_host_role:
+		_broadcast_all_combatant_positions()
+	_refresh_board_controls()
+	_refresh_combat_grid()
+	if broadcast_change and is_host_role:
+		_broadcast_board_config_update()
+
+func _broadcast_board_config_update() -> void:
+	var campaign_manager := _find_campaign_manager()
+	if campaign_manager == null:
+		return
+	var game_event := GameEvent.new(
+		"combat_board_updated",
+		GameEvent.CONTEXT_COMBAT,
+		{
+			"board_columns": board_columns,
+			"board_rows": board_rows,
+		}
+	)
+	campaign_manager.broadcast_game_event(game_event)
+
+func _broadcast_all_combatant_positions() -> void:
+	var campaign_manager := _find_campaign_manager()
+	if campaign_manager == null:
+		return
+	for combatant_id_variant in encounter_combatants.keys():
+		var payload: Dictionary = encounter_combatants[str(combatant_id_variant)]
+		campaign_manager.broadcast_combatant_update(payload)
 
 func _start_encounter() -> void:
 	if not is_host_role:
 		return
+	if not _all_combatants_have_grid_positions():
+		push_error("All combatants must be placed on the grid before starting the encounter.")
+		return
 	round_number = 1
 	current_phase = GameEvent.PHASE_PLANNING
+	pending_gm_placement_id = ""
 	_update_round_ui()
 	_refresh_queued_actions()
+	_refresh_board_controls()
 	var campaign_manager := _find_campaign_manager()
 	if campaign_manager == null:
 		push_error("Combat session could not find CampaignManager in the scene tree.")
@@ -210,28 +303,33 @@ func _add_combatant_entry(combatant_payload: Dictionary) -> void:
 
 func spawn_combatant_locally(combatant_payload: Dictionary) -> void:
 	var combatant_id := str(combatant_payload.get("id", ""))
-	encounter_combatants[combatant_id] = combatant_payload.duplicate(true)
+	var payload := combatant_payload.duplicate(true)
+	if not payload.has("grid_position") or not _is_valid_grid_position(_grid_position_from_payload(payload)):
+		payload["grid_position"] = _find_first_open_grid_position([combatant_id])
+	encounter_combatants[combatant_id] = payload
 
 	# Reuse the existing row when a payload update comes in so selection state and
 	# inspector updates survive combatant refreshes.
 	if combatant_entries.has(combatant_id):
 		var existing_entry: CombatantEntry = combatant_entries[combatant_id]
 		if is_instance_valid(existing_entry):
-			existing_entry.setup(combatant_payload)
-			_configure_combatant_entry_interaction(existing_entry, combatant_payload)
+			existing_entry.setup(payload)
+			_configure_combatant_entry_interaction(existing_entry, payload)
 		else:
 			combatant_entries.erase(combatant_id)
 
 	if not combatant_entries.has(combatant_id):
-		var entry := _build_combatant_entry(combatant_payload)
+		var entry := _build_combatant_entry(payload)
 		combatant_entries[combatant_id] = entry
 		combatantList.add_child(entry)
 
 	if selected_combatant_id == combatant_id:
-		_show_inspector(combatant_payload)
+		_show_inspector(payload)
 
 	_refresh_player_actions()
 	_refresh_queued_actions()
+	_refresh_board_controls()
+	_refresh_combat_grid()
 
 func update_combatant_locally(combatant_payload: Dictionary) -> void:
 	spawn_combatant_locally(combatant_payload)
@@ -239,6 +337,11 @@ func update_combatant_locally(combatant_payload: Dictionary) -> void:
 func apply_game_event(game_event: GameEvent) -> void:
 	if game_event == null:
 		return
+	if game_event.payload.has("board_columns") or game_event.payload.has("board_rows"):
+		board_columns = clampi(int(game_event.payload.get("board_columns", board_columns)), 4, 128)
+		board_rows = clampi(int(game_event.payload.get("board_rows", board_rows)), 4, 128)
+		gridWidthInput.set_value_no_signal(board_columns)
+		gridHeightInput.set_value_no_signal(board_rows)
 
 	if game_event.round_number > 0:
 		round_number = game_event.round_number
@@ -263,6 +366,8 @@ func apply_game_event(game_event: GameEvent) -> void:
 
 	_refresh_player_actions()
 	_refresh_queued_actions()
+	_refresh_board_controls()
+	_refresh_combat_grid()
 	_update_round_ui()
 
 func apply_combat_request(combat_request: CombatRequest) -> void:
@@ -390,19 +495,25 @@ func _resolve_queued_action(combat_request: CombatRequest) -> Dictionary:
 func _end_movement_phase() -> void:
 	if not is_host_role or current_phase != GameEvent.PHASE_PLANNING:
 		return
+	_queue_host_npc_movement_previews()
+	var resolution := _resolve_movement_phase()
 	var state_changes: Array[Dictionary] = []
-	var results: Array[Dictionary] = [{"text": "Movement phase ended."}]
-	for combatant_id_variant in encounter_combatants.keys():
-		var combatant_id := str(combatant_id_variant)
-		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
-		payload.erase("id")
-		payload["combatant_id"] = combatant_id
-		payload["pending_request"] = ""
-		state_changes.append(payload)
+	for state_change_variant in resolution.get("state_changes", []):
+		if state_change_variant is Dictionary:
+			state_changes.append(state_change_variant)
+	var results: Array[Dictionary] = []
+	for result_variant in resolution.get("results", []):
+		if result_variant is Dictionary:
+			results.append(result_variant)
+	if results.is_empty():
+		results.append({"text": "Movement phase ended."})
 	var game_event := GameEvent.new(
 		"movement_phase_ended",
 		GameEvent.CONTEXT_COMBAT,
-		{},
+		{
+			"board_columns": board_columns,
+			"board_rows": board_rows,
+		},
 		state_changes,
 		results,
 		round_number,
@@ -411,6 +522,192 @@ func _end_movement_phase() -> void:
 	var campaign_manager := _find_campaign_manager()
 	if campaign_manager != null:
 		campaign_manager.broadcast_game_event(game_event)
+
+func _queue_host_npc_movement_previews() -> void:
+	var combatant_ids: Array = encounter_combatants.keys()
+	combatant_ids.sort()
+	for combatant_id_variant in combatant_ids:
+		var combatant_id := str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants[combatant_id]
+		if str(payload.get("type", "")) != "NPC":
+			continue
+		if int(payload.get("current_hp", 0)) <= 0 or int(payload.get("remaining_action_points", payload.get("action_points", 0))) <= 0:
+			continue
+		var movement_choice_variant = payload.get("movement_choice", {})
+		if movement_choice_variant is Dictionary and not (movement_choice_variant as Dictionary).is_empty():
+			continue
+		var movement_payload := _build_npc_movement_payload(combatant_id)
+		if movement_payload.is_empty():
+			continue
+		_apply_combat_request_preview(CombatRequest.new(
+			CombatRequest.TYPE_MOVEMENT,
+			combatant_id,
+			combatant_id,
+			movement_payload
+		))
+
+func _resolve_movement_phase() -> Dictionary:
+	var results: Array[Dictionary] = []
+	var state_changes: Array[Dictionary] = []
+	var resolved_updates: Dictionary = {}
+	var occupied_lookup: Dictionary = {}
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id := str(combatant_id_variant)
+		var _position := _grid_position_from_payload(encounter_combatants[combatant_id])
+		if _is_valid_grid_position(_position):
+			occupied_lookup[_position] = combatant_id
+
+	var movement_entries: Array[Dictionary] = []
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id := str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants[combatant_id]
+		var movement_choice: Dictionary = {}
+		if payload.get("movement_choice", {}) is Dictionary:
+			movement_choice = payload.get("movement_choice", {})
+		if movement_choice.is_empty():
+			continue
+		movement_entries.append({
+			"combatant_id": combatant_id,
+			"timestamp": float(movement_choice.get("queued_timestamp", 0.0)),
+		})
+	movement_entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		var timestamp_a := float(a.get("timestamp", 0.0))
+		var timestamp_b := float(b.get("timestamp", 0.0))
+		if not is_equal_approx(timestamp_a, timestamp_b):
+			return timestamp_a < timestamp_b
+		return str(a.get("combatant_id", "")) < str(b.get("combatant_id", ""))
+	)
+
+	for movement_entry in movement_entries:
+		var combatant_id := str(movement_entry.get("combatant_id", ""))
+		if not encounter_combatants.has(combatant_id):
+			continue
+		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
+		var start := _grid_position_from_payload(payload)
+		var desired_path := _vector2i_array_from_variant_array(payload.get("movement_path", []))
+		var preview_cost := int(payload.get("movement_ap_cost", 0))
+		if occupied_lookup.get(start, "") == combatant_id:
+			occupied_lookup.erase(start)
+		var resolved_path: Array[Vector2i] = [start]
+		for step in desired_path:
+			if step == start:
+				continue
+			if not _is_valid_grid_position(step) or occupied_lookup.has(step):
+				break
+			resolved_path.append(step)
+		var final_position := resolved_path[resolved_path.size() - 1]
+		occupied_lookup[final_position] = combatant_id
+		var final_cost = max(resolved_path.size() - 1, 0)
+		var update := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
+		if update.is_empty():
+			continue
+		update["remaining_action_points"] = max(int(payload.get("remaining_action_points", payload.get("action_points", 0))) + preview_cost - final_cost, 0)
+		update["grid_position"] = final_position
+		update["planned_grid_position"] = final_position
+		update["movement_choice"] = {}
+		update["movement_path"] = []
+		update["movement_ap_cost"] = 0
+		update["pending_request"] = ""
+		update.erase("id")
+		update["combatant_id"] = combatant_id
+		resolved_updates[combatant_id] = update
+		if final_cost > 0:
+			results.append({
+				"text": "%s moves to (%s, %s)." % [payload.get("name", "Someone"), final_position.x + 1, final_position.y + 1],
+				"tooltip": "Path cost: %s AP." % final_cost,
+			})
+
+	var combatant_ids: Array = encounter_combatants.keys()
+	combatant_ids.sort()
+	for combatant_id_variant in combatant_ids:
+		var combatant_id := str(combatant_id_variant)
+		if resolved_updates.has(combatant_id):
+			state_changes.append(resolved_updates[combatant_id])
+			continue
+		var payload: Dictionary = encounter_combatants[combatant_id]
+		var update := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
+		if update.is_empty():
+			continue
+		var current_position := _grid_position_from_payload(payload)
+		update["grid_position"] = current_position
+		update["planned_grid_position"] = current_position
+		update["movement_choice"] = {}
+		update["movement_path"] = []
+		update["movement_ap_cost"] = 0
+		update["pending_request"] = ""
+		update.erase("id")
+		update["combatant_id"] = combatant_id
+		state_changes.append(update)
+
+	return {
+		"state_changes": state_changes,
+		"results": results,
+	}
+
+func _build_npc_movement_payload(combatant_id: String) -> Dictionary:
+	if not encounter_combatants.has(combatant_id):
+		return {}
+	var payload: Dictionary = encounter_combatants[combatant_id]
+	var start := _grid_position_from_payload(payload)
+	if not _is_valid_grid_position(start):
+		return {}
+	var available_ap := int(payload.get("remaining_action_points", payload.get("action_points", 0))) + int(payload.get("movement_ap_cost", 0))
+	if available_ap <= 0:
+		return {}
+	var blocked_cells := _get_occupied_grid_cells(combatant_id)
+	var target_path := _find_path_to_nearest_player_adjacency(start, blocked_cells)
+	if target_path.is_empty() or target_path.size() <= 1:
+		return {}
+	var limited_path: Array[Vector2i] = [target_path[0]]
+	for index in range(1, min(target_path.size(), available_ap + 1)):
+		limited_path.append(target_path[index])
+	var destination := limited_path[limited_path.size() - 1]
+	var ap_cost = max(limited_path.size() - 1, 0)
+	return {
+		"destination": destination,
+		"path": limited_path,
+		"ap_cost": ap_cost,
+		"preview_text": "Move -> (%s, %s) [%s AP]" % [destination.x + 1, destination.y + 1, ap_cost],
+	}
+
+func _find_path_to_nearest_player_adjacency(start: Vector2i, blocked_cells: Array[Vector2i]) -> Array[Vector2i]:
+	var player_ids: Array = encounter_combatants.keys()
+	player_ids.sort()
+	var best_path: Array[Vector2i] = []
+	for combatant_id_variant in player_ids:
+		var payload: Dictionary = encounter_combatants[str(combatant_id_variant)]
+		if str(payload.get("type", "")) != "Player" or int(payload.get("current_hp", 0)) <= 0:
+			continue
+		var player_position := _grid_position_from_payload(payload)
+		for adjacent in _get_adjacent_grid_cells(player_position):
+			if combatGrid.get_combatant_id_at_cell(adjacent) != "":
+				continue
+			var candidate_path := combatGrid.get_reachable_path(start, adjacent, blocked_cells)
+			if candidate_path.is_empty():
+				continue
+			if best_path.is_empty() or candidate_path.size() < best_path.size():
+				best_path = candidate_path
+	return best_path
+
+func _get_adjacent_grid_cells(cell: Vector2i) -> Array[Vector2i]:
+	var cells: Array[Vector2i] = []
+	for offset in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+		var candidate = cell + offset
+		if _is_valid_grid_position(candidate):
+			cells.append(candidate)
+	return cells
+
+func _vector2i_array_from_variant_array(values: Array) -> Array[Vector2i]:
+	var converted: Array[Vector2i] = []
+	for value in values:
+		if value is Vector2i:
+			converted.append(value)
+		elif value is Vector2:
+			var vector := value as Vector2
+			converted.append(Vector2i(int(vector.x), int(vector.y)))
+		elif value is Dictionary:
+			converted.append(Vector2i(int(value.get("x", -1)), int(value.get("y", -1))))
+	return converted
 
 func _end_action_phase() -> void:
 	if not is_host_role or current_phase != GameEvent.PHASE_EXECUTION:
@@ -934,6 +1231,7 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 		selected_combatant_entry = null
 		playerActionsHint.text = "Selected %s (%s AP). Choose a target." % [action_name, action_ap_cost]
 		_refresh_combatant_entry_interactions()
+		_refresh_combat_grid()
 
 func _queue_pending_player_action(target_payload: Dictionary) -> void:
 	if pending_player_action.is_empty():
@@ -947,6 +1245,7 @@ func _queue_pending_player_action(target_payload: Dictionary) -> void:
 	pending_player_action = {}
 	selected_combatant_id = str(target_payload.get("id", ""))
 	_refresh_combatant_entry_interactions()
+	_refresh_combat_grid()
 
 func _queue_player_action(action_payload: Dictionary, target_payload: Dictionary) -> void:
 	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
@@ -992,6 +1291,17 @@ func _apply_combat_request_preview(combat_request: CombatRequest) -> void:
 			payload["queued_actions"] = queued_actions
 			payload["queued_action_payloads"] = queued_action_payloads
 			payload["remaining_action_points"] = remaining_action_points - action_ap_cost
+	elif combat_request.request_type == CombatRequest.TYPE_MOVEMENT:
+		var previous_move_cost := int(payload.get("movement_ap_cost", 0))
+		var restored_ap := int(payload.get("remaining_action_points", payload.get("action_points", 0))) + previous_move_cost
+		var movement_ap_cost := int(combat_request.payload.get("ap_cost", 0))
+		var movement_choice := combat_request.payload.duplicate(true)
+		movement_choice["queued_timestamp"] = combat_request.timestamp
+		payload["movement_choice"] = movement_choice
+		payload["movement_path"] = combat_request.payload.get("path", []).duplicate(true)
+		payload["movement_ap_cost"] = movement_ap_cost
+		payload["planned_grid_position"] = combat_request.payload.get("destination", payload.get("grid_position", Vector2i(-1, -1)))
+		payload["remaining_action_points"] = max(restored_ap - movement_ap_cost, 0)
 	encounter_combatants[combatant_id] = payload
 	if combatant_entries.has(combatant_id):
 		var existing_entry: CombatantEntry = combatant_entries[combatant_id]
@@ -1003,6 +1313,7 @@ func _apply_combat_request_preview(combat_request: CombatRequest) -> void:
 
 	_refresh_player_actions()
 	_refresh_queued_actions()
+	_refresh_combat_grid()
 
 func _apply_combatant_state_change(change: Dictionary) -> void:
 	var combatant_id := str(change.get("combatant_id", ""))
@@ -1034,6 +1345,9 @@ func reset_combat_session_locally() -> void:
 	next_combatant_id = 1
 	round_number = 1
 	current_phase = GameEvent.PHASE_PLANNING
+	board_columns = 12
+	board_rows = 12
+	pending_gm_placement_id = ""
 	is_reviewing_action_phase = false
 	pending_resolution_requests.clear()
 	actionResolutionWindow.hide()
@@ -1046,6 +1360,266 @@ func reset_combat_session_locally() -> void:
 	if npc_picker != null:
 		npc_picker.hide()
 	_refresh_queued_actions()
+	gridWidthInput.set_value_no_signal(board_columns)
+	gridHeightInput.set_value_no_signal(board_rows)
+	_refresh_board_controls()
+	combatGrid.clear_preview_path()
+	_refresh_combat_grid()
+
+func apply_combat_snapshot(snapshot: Dictionary) -> void:
+	reset_combat_session_locally()
+	board_columns = clampi(int(snapshot.get("board_columns", 12)), 4, 128)
+	board_rows = clampi(int(snapshot.get("board_rows", 12)), 4, 128)
+	round_number = max(int(snapshot.get("round_number", 1)), 1)
+	current_phase = str(snapshot.get("current_phase", GameEvent.PHASE_PLANNING))
+	gridWidthInput.set_value_no_signal(board_columns)
+	gridHeightInput.set_value_no_signal(board_rows)
+	var combatants_variant: Variant = snapshot.get("combatants", [])
+	if combatants_variant is Array:
+		for combatant_payload_variant in combatants_variant:
+			if combatant_payload_variant is Dictionary:
+				spawn_combatant_locally(combatant_payload_variant)
+	_refresh_board_controls()
+	_update_round_ui()
+	_refresh_player_actions()
+	_refresh_queued_actions()
+	_refresh_combat_grid()
+
+func _refresh_combat_grid() -> void:
+	combatGrid.setup(board_columns, board_rows, encounter_combatants)
+	combatGrid.set_selected_combatant(selected_combatant_id)
+	combatGrid.set_placement_source(pending_gm_placement_id)
+	if not pending_player_action.is_empty() or current_phase != GameEvent.PHASE_PLANNING:
+		combatGrid.clear_preview_path()
+
+func _on_grid_token_clicked(combatant_id: String, _cell: Vector2i) -> void:
+	if combatant_id.is_empty() or not encounter_combatants.has(combatant_id):
+		return
+	var payload: Dictionary = encounter_combatants[combatant_id]
+	_select_combatant_payload(payload)
+	if not is_host_role and current_phase == GameEvent.PHASE_EXECUTION and not pending_player_action.is_empty():
+		var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
+		var local_id := str(local_payload.get("id", ""))
+		var can_target_self := str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK
+		if combatant_id != local_id or can_target_self:
+			_queue_pending_player_action(payload)
+			return
+	if is_host_role and not encounter_started:
+		pending_gm_placement_id = combatant_id
+		_refresh_board_controls()
+		_refresh_combat_grid()
+		return
+	if current_phase == GameEvent.PHASE_PLANNING and _can_issue_movement_for_combatant(combatant_id):
+		pending_gm_placement_id = combatant_id
+		_refresh_board_controls()
+		_refresh_combat_grid()
+
+func _on_grid_token_dragged(combatant_id: String, cell: Vector2i) -> void:
+	if not _is_valid_grid_position(cell):
+		return
+	if is_host_role and not encounter_started:
+		_move_combatant_pre_encounter(combatant_id, cell)
+
+func _on_grid_cell_clicked(cell: Vector2i) -> void:
+	if not _is_valid_grid_position(cell):
+		return
+	if is_host_role and not encounter_started and not pending_gm_placement_id.is_empty():
+		_move_combatant_pre_encounter(pending_gm_placement_id, cell)
+		return
+	if current_phase != GameEvent.PHASE_PLANNING:
+		return
+	var moving_combatant_id: String = _get_active_movement_combatant_id()
+	if moving_combatant_id.is_empty():
+		return
+	_queue_movement_for_combatant(moving_combatant_id, cell)
+
+func _select_combatant_payload(combatant_payload: Dictionary) -> void:
+	var combatant_id := str(combatant_payload.get("id", ""))
+	selected_combatant_id = combatant_id
+	if combatant_entries.has(combatant_id):
+		var entry: CombatantEntry = combatant_entries[combatant_id]
+		if is_instance_valid(entry):
+			if selected_combatant_entry != null and is_instance_valid(selected_combatant_entry) and selected_combatant_entry != entry:
+				selected_combatant_entry.set_selected(false)
+			selected_combatant_entry = entry
+			selected_combatant_entry.set_selected(true)
+	_show_inspector(combatant_payload)
+	_refresh_combatant_entry_interactions()
+	_refresh_combat_grid()
+
+func _move_combatant_pre_encounter(combatant_id: String, destination: Vector2i) -> void:
+	if not encounter_combatants.has(combatant_id):
+		return
+	var occupied_id := combatGrid.get_combatant_id_at_cell(destination)
+	if not occupied_id.is_empty() and occupied_id != combatant_id:
+		return
+	var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
+	payload["grid_position"] = destination
+	payload["planned_grid_position"] = destination
+	payload["movement_choice"] = {}
+	payload["movement_path"] = []
+	payload["movement_ap_cost"] = 0
+	payload["pending_request"] = ""
+	encounter_combatants[combatant_id] = payload
+	pending_gm_placement_id = ""
+	_refresh_board_controls()
+	_refresh_combat_grid()
+	var campaign_manager := _find_campaign_manager()
+	if campaign_manager != null:
+		campaign_manager.broadcast_combatant_update(payload)
+
+func _queue_movement_for_combatant(combatant_id: String, destination: Vector2i) -> void:
+	if not encounter_combatants.has(combatant_id):
+		return
+	var local_payload: Dictionary = encounter_combatants[combatant_id]
+	if not _can_issue_movement_for_combatant(combatant_id):
+		playerActionsHint.text = "You cannot move that token."
+		return
+	var start := _grid_position_from_payload(local_payload)
+	if not _is_valid_grid_position(start):
+		playerActionsHint.text = "Your token is not on the grid."
+		return
+	var blocked_cells := _get_occupied_grid_cells(combatant_id)
+	var available_ap := int(local_payload.get("remaining_action_points", local_payload.get("action_points", 0))) + int(local_payload.get("movement_ap_cost", 0))
+	var path := combatGrid.get_reachable_path(start, destination, blocked_cells, available_ap)
+	if path.is_empty():
+		playerActionsHint.text = "No path to that square."
+		combatGrid.clear_preview_path()
+		return
+	var ap_cost = max(path.size() - 1, 0)
+	combatGrid.set_preview_path(path, destination)
+	playerActionsHint.text = "Planned move to (%s, %s) for %s AP." % [destination.x + 1, destination.y + 1, ap_cost]
+	var preview_text := "Move -> (%s, %s) [%s AP]" % [destination.x + 1, destination.y + 1, ap_cost]
+	var payload := {
+		"destination": destination,
+		"path": path,
+		"ap_cost": ap_cost,
+		"preview_text": preview_text,
+	}
+	var campaign_manager := _find_campaign_manager()
+	if campaign_manager == null:
+		return
+	campaign_manager.broadcast_combat_request(CombatRequest.new(
+		CombatRequest.TYPE_MOVEMENT,
+		combatant_id,
+		combatant_id,
+		payload
+	))
+
+func _get_active_movement_combatant_id() -> String:
+	if not pending_gm_placement_id.is_empty() and _can_issue_movement_for_combatant(pending_gm_placement_id):
+		return pending_gm_placement_id
+	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
+	if local_payload.is_empty():
+		playerActionsHint.text = "You are not currently in this encounter."
+		return ""
+	return str(local_payload.get("id", ""))
+
+func _can_issue_movement_for_combatant(combatant_id: String) -> bool:
+	if combatant_id.is_empty() or not encounter_combatants.has(combatant_id):
+		return false
+	var payload: Dictionary = encounter_combatants[combatant_id]
+	var controller_peer_id: int = int(payload.get("controller_peer_id", 0))
+	if controller_peer_id == 0:
+		return false
+	return controller_peer_id == multiplayer.get_unique_id()
+
+func _grid_position_from_payload(payload: Dictionary) -> Vector2i:
+	var value = payload.get("grid_position", Vector2i(-1, -1))
+	if value is Vector2i:
+		return value
+	if value is Vector2:
+		var vector := value as Vector2
+		return Vector2i(int(vector.x), int(vector.y))
+	if value is Dictionary:
+		return Vector2i(int(value.get("x", -1)), int(value.get("y", -1)))
+	return Vector2i(-1, -1)
+
+func _is_valid_grid_position(_position: Vector2i) -> bool:
+	return _position.x >= 0 and _position.y >= 0 and _position.x < board_columns and _position.y < board_rows
+
+func _all_combatants_have_grid_positions() -> bool:
+	var occupied: Dictionary = {}
+	for combatant_id_variant in encounter_combatants.keys():
+		var payload: Dictionary = encounter_combatants[str(combatant_id_variant)]
+		var grid_position: Vector2i = _grid_position_from_payload(payload)
+		if not _is_valid_grid_position(grid_position) or occupied.has(grid_position):
+			return false
+		occupied[grid_position] = true
+	return true
+
+func _find_first_open_grid_position(excluded_ids: Array[String] = [], occupied_positions: Dictionary = {}) -> Vector2i:
+	for row in range(board_rows):
+		for column in range(board_columns):
+			var candidate := Vector2i(column, row)
+			if occupied_positions.has(candidate):
+				continue
+			if not occupied_positions.is_empty():
+				return candidate
+			var occupied := false
+			for combatant_id_variant in encounter_combatants.keys():
+				var combatant_id := str(combatant_id_variant)
+				if combatant_id in excluded_ids:
+					continue
+				var payload: Dictionary = encounter_combatants[combatant_id]
+				if _grid_position_from_payload(payload) == candidate:
+					occupied = true
+					break
+			if not occupied:
+				return candidate
+	return Vector2i(-1, -1)
+
+func _get_occupied_grid_cells(excluded_combatant_id: String = "") -> Array[Vector2i]:
+	var occupied: Array[Vector2i] = []
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id := str(combatant_id_variant)
+		if combatant_id == excluded_combatant_id:
+			continue
+		var payload: Dictionary = encounter_combatants[combatant_id]
+		var _position := _grid_position_from_payload(payload)
+		if _is_valid_grid_position(_position):
+			occupied.append(_position)
+	return occupied
+
+func _clear_invalid_grid_positions() -> void:
+	var assigned_positions: Dictionary = {}
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id := str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
+		var current_position := _grid_position_from_payload(payload)
+		if _is_valid_grid_position(current_position) and not assigned_positions.has(current_position):
+			assigned_positions[current_position] = combatant_id
+			continue
+		var new_position := _find_first_open_grid_position(assigned_positions.values(), assigned_positions)
+		payload["grid_position"] = new_position
+		payload["planned_grid_position"] = new_position
+		encounter_combatants[combatant_id] = payload
+		assigned_positions[new_position] = combatant_id
+
+func _reset_combatant_grid_positions() -> void:
+	if not is_host_role or encounter_started:
+		return
+	var combatant_ids: Array = encounter_combatants.keys()
+	combatant_ids.sort()
+	var campaign_manager := _find_campaign_manager()
+	var assigned_ids: Array[String] = []
+	var assigned_positions: Dictionary = {}
+	for combatant_id_variant in combatant_ids:
+		var combatant_id := str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
+		payload["grid_position"] = _find_first_open_grid_position(assigned_ids, assigned_positions)
+		payload["planned_grid_position"] = payload["grid_position"]
+		payload["movement_choice"] = {}
+		payload["movement_path"] = []
+		payload["movement_ap_cost"] = 0
+		payload["pending_request"] = ""
+		encounter_combatants[combatant_id] = payload
+		assigned_ids.append(combatant_id)
+		assigned_positions[payload["grid_position"]] = combatant_id
+		if campaign_manager != null:
+			campaign_manager.broadcast_combatant_update(payload)
+	_refresh_board_controls()
+	_refresh_combat_grid()
 
 func _build_combatant_entry(combatant_payload: Dictionary) -> CombatantEntry:
 	var entry := COMBATANT_ENTRY_SCENE.instantiate() as CombatantEntry
@@ -1065,6 +1639,7 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 		"Conditions: %s" % _format_name_list(player_data.conditions),
 	]
 	var action_points := player_data.getActionPoints()
+	var grid_position := _find_first_open_grid_position()
 	return {
 		"id": _create_combatant_id("player_%s" % peer_id),
 		"name": player_data._name,
@@ -1076,6 +1651,10 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 		"queued_actions": [],
 		"queued_action_payloads": [],
 		"movement_choice": {},
+		"movement_path": [],
+		"movement_ap_cost": 0,
+		"grid_position": grid_position,
+		"planned_grid_position": grid_position,
 		"current_hp": player_data.currentHP,
 		"max_hp": player_data.maxHP,
 		"current_vitality": player_data.currentVitality,
@@ -1098,6 +1677,7 @@ func _build_npc_payload(npc: NPC) -> Dictionary:
 		"Conditions: %s" % _format_name_list(npc.data.conditions),
 	]
 	var action_points := npc.data.getActionPoints()
+	var grid_position := _find_first_open_grid_position()
 	return {
 		"id": _create_combatant_id("npc_%s" % npc._name.to_snake_case()),
 		"name": npc._name,
@@ -1109,6 +1689,10 @@ func _build_npc_payload(npc: NPC) -> Dictionary:
 		"queued_actions": [],
 		"queued_action_payloads": [],
 		"movement_choice": {},
+		"movement_path": [],
+		"movement_ap_cost": 0,
+		"grid_position": grid_position,
+		"planned_grid_position": grid_position,
 		"current_hp": npc.data.currentHP,
 		"max_hp": npc.data.maxHP,
 		"current_vitality": npc.data.currentVitality,
@@ -1130,14 +1714,10 @@ func _build_combatant_node_name(combatant_payload: Dictionary) -> String:
 	return base_name.replace("/", "_").replace("\\", "_").replace(":", "")
 
 func _on_combatant_selected(entry: CombatantEntry, combatant_payload: Dictionary) -> void:
-	if selected_combatant_entry != null and is_instance_valid(selected_combatant_entry):
-		selected_combatant_entry.set_selected(false)
-
+	_select_combatant_payload(combatant_payload)
 	selected_combatant_entry = entry
-	selected_combatant_id = str(combatant_payload.get("id", ""))
-	selected_combatant_entry.set_selected(true)
-	_show_inspector(combatant_payload)
-	_refresh_combatant_entry_interactions()
+	if selected_combatant_entry != null and is_instance_valid(selected_combatant_entry):
+		selected_combatant_entry.set_selected(true)
 
 func _on_combatant_target_selected(entry: CombatantEntry, combatant_payload: Dictionary) -> void:
 	if pending_player_action.is_empty():
@@ -1188,6 +1768,12 @@ func _show_inspector(combatant_payload: Dictionary) -> void:
 	var pending_request := str(combatant_payload.get("pending_request", ""))
 	if not pending_request.is_empty():
 		details_text += "\nPending Request: %s" % pending_request
+	var grid_position := _grid_position_from_payload(combatant_payload)
+	if _is_valid_grid_position(grid_position):
+		details_text += "\nGrid: (%s, %s)" % [grid_position.x + 1, grid_position.y + 1]
+	var planned_position := _grid_position_from_payload({"grid_position": combatant_payload.get("planned_grid_position", Vector2i(-1, -1))})
+	if _is_valid_grid_position(planned_position) and planned_position != grid_position:
+		details_text += "\nPlanned Move: (%s, %s) [%s AP]" % [planned_position.x + 1, planned_position.y + 1, combatant_payload.get("movement_ap_cost", 0)]
 	inspectorDetails.text = details_text
 	_populate_action_list(inspectorActionsList, combatant_payload.get("actions", []), false)
 
@@ -1224,6 +1810,13 @@ func _refresh_player_actions() -> void:
 	playerSwapLoadout.disabled = false
 	if not pending_player_action.is_empty():
 		playerActionsHint.text = "Selected %s (%s AP). Choose a target." % [pending_player_action.get("action_name", "Action"), pending_player_action.get("ap_cost", 0)]
+	elif current_phase == GameEvent.PHASE_PLANNING:
+		var move_cost := int(runtime_payload.get("movement_ap_cost", 0))
+		if move_cost > 0:
+			var destination := _grid_position_from_payload({"grid_position": runtime_payload.get("planned_grid_position", Vector2i(-1, -1))})
+			playerActionsHint.text = "Planned move to (%s, %s) for %s AP." % [destination.x + 1, destination.y + 1, move_cost]
+		else:
+			playerActionsHint.text = "Click a destination on the grid to move."
 	elif current_phase == GameEvent.PHASE_EXECUTION:
 		playerActionsHint.text = "Queue actions now."
 	else:
@@ -1287,6 +1880,11 @@ func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary
 	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", action_points)), action_points)
 	payload["queued_actions"] = base_payload.get("queued_actions", []).duplicate(true)
 	payload["queued_action_payloads"] = base_payload.get("queued_action_payloads", []).duplicate(true)
+	payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
+	payload["movement_path"] = base_payload.get("movement_path", []).duplicate(true)
+	payload["movement_ap_cost"] = int(base_payload.get("movement_ap_cost", 0))
+	payload["grid_position"] = base_payload.get("grid_position", Vector2i(-1, -1))
+	payload["planned_grid_position"] = base_payload.get("planned_grid_position", payload["grid_position"])
 	payload["details"] = "\n".join([
 		"Peer ID: %s" % multiplayer.get_unique_id(),
 		"Attributes: %s" % _format_attribute_values(player_data.attributes),
@@ -1330,6 +1928,11 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", player_action_points)), player_action_points)
 		payload["queued_actions"] = base_payload.get("queued_actions", []).duplicate(true)
 		payload["queued_action_payloads"] = base_payload.get("queued_action_payloads", []).duplicate(true)
+		payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
+		payload["movement_path"] = base_payload.get("movement_path", []).duplicate(true)
+		payload["movement_ap_cost"] = int(base_payload.get("movement_ap_cost", 0))
+		payload["grid_position"] = base_payload.get("grid_position", Vector2i(-1, -1))
+		payload["planned_grid_position"] = base_payload.get("planned_grid_position", payload["grid_position"])
 		return payload
 	var npc: NPC = CampaignVariables.codex.NPCs.get(str(payload.get("name", "")), null)
 	if npc == null:
@@ -1354,6 +1957,11 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", npc_action_points)), npc_action_points)
 	payload["queued_actions"] = base_payload.get("queued_actions", []).duplicate(true)
 	payload["queued_action_payloads"] = base_payload.get("queued_action_payloads", []).duplicate(true)
+	payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
+	payload["movement_path"] = base_payload.get("movement_path", []).duplicate(true)
+	payload["movement_ap_cost"] = int(base_payload.get("movement_ap_cost", 0))
+	payload["grid_position"] = base_payload.get("grid_position", Vector2i(-1, -1))
+	payload["planned_grid_position"] = base_payload.get("planned_grid_position", payload["grid_position"])
 	return payload
 
 func _serialize_equipment(equipment: Equipment) -> Dictionary:

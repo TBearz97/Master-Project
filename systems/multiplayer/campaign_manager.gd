@@ -573,6 +573,8 @@ func broadcast_encounter_started(started: bool) -> void:
 	if not multiplayer.is_server():
 		return
 	rpc("client_set_encounter_started", started)
+	if started:
+		_broadcast_combat_snapshot()
 
 func broadcast_game_event(game_event: GameEvent) -> void:
 	if not multiplayer.is_server() or game_event == null:
@@ -605,6 +607,32 @@ func apply_game_event(game_event: GameEvent) -> void:
 			_apply_non_combat_game_event(game_event)
 		_:
 			push_error("Unhandled GameEvent context: %s" % game_event.context)
+
+func _broadcast_combat_snapshot(target_peer_id: int = 0) -> void:
+	if not multiplayer.is_server():
+		return
+	var combat_session := _find_node_by_name(get_tree().root, "CombatSession")
+	if combat_session == null:
+		return
+	var combatants: Array[Dictionary] = []
+	var combatant_ids: Array = combat_session.encounter_combatants.keys()
+	combatant_ids.sort()
+	for combatant_id_variant in combatant_ids:
+		var combatant_id := str(combatant_id_variant)
+		var payload_variant: Variant = combat_session.encounter_combatants.get(combatant_id, {})
+		if payload_variant is Dictionary:
+			combatants.append((payload_variant as Dictionary).duplicate(true))
+	var snapshot := {
+		"board_columns": int(combat_session.board_columns),
+		"board_rows": int(combat_session.board_rows),
+		"round_number": int(combat_session.round_number),
+		"current_phase": str(combat_session.current_phase),
+		"combatants": combatants,
+	}
+	if target_peer_id > 0:
+		rpc_id(target_peer_id, "client_receive_combat_snapshot", snapshot)
+	else:
+		rpc("client_receive_combat_snapshot", snapshot)
 
 func _apply_non_combat_game_event(game_event: GameEvent) -> void:
 	# Non-combat contexts will be applied here as the broader event system is implemented.
@@ -805,6 +833,20 @@ func _open_handout_notification(handout_id: String) -> void:
 func server_broadcast_combat_request(request_data: Dictionary) -> void:
 	if not multiplayer.is_server():
 		return
+	var sender_peer_id := multiplayer.get_remote_sender_id()
+	if sender_peer_id == 0:
+		sender_peer_id = multiplayer.get_unique_id()
+	var combatant_id := str(request_data.get("combatant_id", ""))
+	if not combatant_id.is_empty():
+		var combat_session := _find_node_by_name(get_tree().root, "CombatSession")
+		if combat_session != null:
+			var encounter_combatants: Dictionary = combat_session.encounter_combatants
+			if encounter_combatants.has(combatant_id):
+				var payload: Dictionary = encounter_combatants[combatant_id]
+				var controller_peer_id := int(payload.get("controller_peer_id", 0))
+				if controller_peer_id == 0 or controller_peer_id != sender_peer_id:
+					push_error("Rejected combat request for mismatched peer %s" % sender_peer_id)
+					return
 	rpc("client_apply_combat_request", request_data)
 
 func has_started_encounter() -> bool:
@@ -949,6 +991,15 @@ func client_spawn_combatant(combatant_payload: Dictionary) -> void:
 		push_error("Could not find CombatSession to spawn combatant.")
 		return
 	combat_session.spawn_combatant_locally(combatant_payload)
+
+@rpc("authority", "call_local", "reliable")
+func client_receive_combat_snapshot(snapshot: Dictionary) -> void:
+	var combat_session := _find_node_by_name(get_tree().root, "CombatSession")
+	if combat_session == null:
+		push_error("Could not find CombatSession to apply combat snapshot.")
+		return
+	if combat_session.has_method("apply_combat_snapshot"):
+		combat_session.apply_combat_snapshot(snapshot)
 
 @rpc("any_peer", "reliable")
 func server_update_player_combatant(combatant_payload: Dictionary) -> void:

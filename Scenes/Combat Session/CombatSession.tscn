@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bot2agb1y18ax"]
+[gd_scene load_steps=3 format=3 uid="uid://bot2agb1y18ax"]
 
 [ext_resource type="Script" uid="uid://bnbair3100yl1" path="res://Scenes/Combat Session/combat_session.gd" id="1_wqdn2"]
+[ext_resource type="PackedScene" path="res://Scenes/Combat Session/combat_grid.tscn" id="2_ij7xk"]
 
 [node name="CombatSession" type="Control"]
 layout_mode = 3
@@ -98,6 +99,7 @@ grow_vertical = 2
 [node name="VSplitContainer" type="VSplitContainer" parent="Panel/HSplitContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+split_offset = 370
 
 [node name="CombatantsSection" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer"]
 layout_mode = 2
@@ -204,12 +206,71 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Panel" type="Panel" parent="Panel/HSplitContainer"]
-unique_name_in_owner = true
+[node name="RightColumn" type="VBoxContainer" parent="Panel/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BoardSection" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="BoardToolbar" type="HBoxContainer" parent="Panel/HSplitContainer/RightColumn/BoardSection"]
+layout_mode = 2
+
+[node name="BoardTitle" type="Label" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+layout_mode = 2
+text = "Combat Grid"
+
+[node name="BoardSpacer" type="Control" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="InspectorContent" type="VBoxContainer" parent="Panel/HSplitContainer/Panel"]
+[node name="GridWidthLabel" type="Label" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "W"
+
+[node name="GridWidth" type="SpinBox" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+min_value = 4.0
+max_value = 128.0
+value = 12.0
+
+[node name="GridHeightLabel" type="Label" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "H"
+
+[node name="GridHeight" type="SpinBox" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+min_value = 4.0
+max_value = 128.0
+value = 12.0
+
+[node name="ResetPlacements" type="Button" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reset Placements"
+
+[node name="BoardHint" type="Label" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Middle mouse pans. Wheel zooms."
+horizontal_alignment = 2
+
+[node name="BoardPanel" type="Panel" parent="Panel/HSplitContainer/RightColumn/BoardSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CombatGrid" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardPanel" instance=ExtResource("2_ij7xk")]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -218,52 +279,68 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="InspectorTitle" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+[node name="InspectorPanel" type="Panel" parent="Panel/HSplitContainer/RightColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(320, 240)
+size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="InspectorContent" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn/InspectorPanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="InspectorTitle" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Combatant Inspector"
 
-[node name="InspectorType" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+[node name="InspectorType" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Type:"
 
-[node name="InspectorHP" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+[node name="InspectorHP" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "HP:"
 
-[node name="InspectorLevel" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+[node name="InspectorLevel" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Level:"
 
-[node name="InspectorDetails" type="RichTextLabel" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+[node name="InspectorDetails" type="RichTextLabel" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 
-[node name="InspectorActionsTitle" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+[node name="InspectorActionsTitle" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Available Actions"
 
-[node name="InspectorLoadout" type="Label" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+[node name="InspectorLoadout" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Loadout: 1"
 
-[node name="InspectorSwapLoadout" type="Button" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+[node name="InspectorSwapLoadout" type="Button" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Swap Loadout"
 
-[node name="InspectorActionsList" type="VBoxContainer" parent="Panel/HSplitContainer/Panel/InspectorContent"]
+[node name="InspectorActionsList" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PlayerActionsContent" type="VBoxContainer" parent="Panel/HSplitContainer/Panel"]
+[node name="PlayerActionsContent" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn/InspectorPanel"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -273,31 +350,31 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PlayerActionsTitle" type="Label" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+[node name="PlayerActionsTitle" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Available Actions"
 
-[node name="PlayerCombatantName" type="Label" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+[node name="PlayerCombatantName" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "No combatant selected."
 
-[node name="PlayerLoadout" type="Label" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+[node name="PlayerLoadout" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Loadout: 1"
 
-[node name="PlayerSwapLoadout" type="Button" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+[node name="PlayerSwapLoadout" type="Button" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Swap Loadout"
 
-[node name="PlayerActionsList" type="VBoxContainer" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+[node name="PlayerActionsList" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PlayerActionsHint" type="Label" parent="Panel/HSplitContainer/Panel/PlayerActionsContent"]
+[node name="PlayerActionsHint" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "You are not currently in this encounter."
