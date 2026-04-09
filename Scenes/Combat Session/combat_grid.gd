@@ -13,6 +13,24 @@ const BASE_CELL_SIZE := 56.0
 const GRID_PADDING := 24.0
 const MIN_CELL_SIZE := 6.0
 const MOVE_ANIMATION_DURATION := 0.12
+const LOCAL_PLAYER_TOKEN_COLOR := Color(0.96, 0.88, 0.48)
+const ALLY_TOKEN_COLOR := Color(0.33, 0.72, 0.95)
+const ENEMY_TOKEN_COLOR := Color(0.91, 0.44, 0.38)
+const NEUTRAL_TOKEN_COLOR := Color(0.70, 0.70, 0.74)
+const PLAYER_INDICATOR_COLOR := Color(0.98, 0.98, 1.0, 0.92)
+
+const TEAM_TOKEN_COLORS := {
+	1: Color(0.33, 0.72, 0.95),
+	2: Color(0.91, 0.44, 0.38),
+	3: Color(0.38, 0.80, 0.48),
+	4: Color(0.95, 0.64, 0.28),
+	5: Color(0.76, 0.46, 0.92),
+	6: Color(0.30, 0.84, 0.84),
+	7: Color(0.92, 0.36, 0.63),
+	8: Color(0.62, 0.78, 0.28),
+	9: Color(0.86, 0.84, 0.38),
+	10: Color(0.70, 0.56, 0.43),
+}
 
 var board_columns: int = 12
 var board_rows: int = 12
@@ -291,12 +309,14 @@ func _draw_combatants(board_origin: Vector2, cell_size: float) -> void:
 			continue
 		var center: Vector2 = _get_display_center(board_origin, cell_size, combatant_id, grid_position)
 		var radius: float = max(cell_size * 0.3, 8.0)
-		var token_color := Color(0.91, 0.44, 0.38) if str(payload.get("type", "")) == "NPC" else Color(0.33, 0.72, 0.95)
+		var token_color: Color = _get_token_color(payload)
 		if combatant_id == selected_combatant_id:
 			draw_circle(center, radius + 4.0, Color(0.96, 0.88, 0.48, 0.7))
 		if combatant_id == placement_source_id:
 			draw_circle(center, radius + 8.0, Color(0.72, 0.95, 0.74, 0.25))
 		draw_circle(center, radius, token_color)
+		if int(payload.get("controller_peer_id", 0)) != 0:
+			draw_arc(center, radius + 2.0, 0.0, TAU, 20, PLAYER_INDICATOR_COLOR, max(2.0, cell_size * 0.05), true)
 		if not payload.get("movement_path", []).is_empty():
 			draw_circle(center, max(radius - 6.0, 5.0), Color(1.0, 1.0, 1.0, 0.28))
 		var initial := str(payload.get("name", "?")).left(1).to_upper()
@@ -365,6 +385,32 @@ func _ensure_board_visible() -> void:
 		pan_offset.y = (size.y - board_pixel_size.y) * 0.5
 	else:
 		pan_offset.y = clampf(pan_offset.y, size.y - board_pixel_size.y - GRID_PADDING, GRID_PADDING)
+
+func _get_token_color(payload: Dictionary) -> Color:
+	var controller_peer_id: int = int(payload.get("controller_peer_id", 0))
+	if controller_peer_id != 0 and controller_peer_id == multiplayer.get_unique_id():
+		return LOCAL_PLAYER_TOKEN_COLOR
+	if multiplayer.is_server():
+		var gm_team_id: int = clampi(int(payload.get("team_id", 0)), 0, 10)
+		if TEAM_TOKEN_COLORS.has(gm_team_id):
+			return TEAM_TOKEN_COLORS[gm_team_id]
+		return NEUTRAL_TOKEN_COLOR
+	var local_team_id: int = _get_local_team_id()
+	var team_id: int = clampi(int(payload.get("team_id", 0)), 0, 10)
+	if local_team_id <= 0 or team_id <= 0:
+		return NEUTRAL_TOKEN_COLOR
+	if team_id == local_team_id:
+		return ALLY_TOKEN_COLOR
+	return ENEMY_TOKEN_COLOR
+
+func _get_local_team_id() -> int:
+	for combatant_id_variant in combatants.keys():
+		var combatant_id: String = str(combatant_id_variant)
+		var payload: Dictionary = combatants[combatant_id]
+		var controller_peer_id: int = int(payload.get("controller_peer_id", 0))
+		if controller_peer_id != 0 and controller_peer_id == multiplayer.get_unique_id():
+			return clampi(int(payload.get("team_id", 0)), 0, 10)
+	return 0
 
 func _get_display_center(board_origin: Vector2, cell_size: float, combatant_id: String, fallback_cell: Vector2i) -> Vector2:
 	if not _movement_animation_active or not _movement_animation_paths.has(combatant_id):
