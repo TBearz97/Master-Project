@@ -60,6 +60,8 @@ var board_columns: int = 12
 var board_rows: int = 12
 var pending_gm_placement_id: String = ""
 
+const DISENGAGE_STEP_AP_COST := 3
+
 func _ready() -> void:
 	_setup_npc_picker()
 	_clear_inspector()
@@ -337,6 +339,7 @@ func update_combatant_locally(combatant_payload: Dictionary) -> void:
 func apply_game_event(game_event: GameEvent) -> void:
 	if game_event == null:
 		return
+	var resolved_movement_paths: Dictionary = {}
 	if game_event.payload.has("board_columns") or game_event.payload.has("board_rows"):
 		board_columns = clampi(int(game_event.payload.get("board_columns", board_columns)), 4, 128)
 		board_rows = clampi(int(game_event.payload.get("board_rows", board_rows)), 4, 128)
@@ -352,6 +355,15 @@ func apply_game_event(game_event: GameEvent) -> void:
 
 	for change_variant in game_event.state_changes:
 		if change_variant is Dictionary:
+			var movement_path_variant: Variant = change_variant.get("resolved_movement_path", [])
+			if movement_path_variant is Array:
+				var resolved_path: Array[Vector2i] = []
+				for path_point_variant in movement_path_variant:
+					var grid_cell: Vector2i = _grid_position_from_payload({"grid_position": path_point_variant})
+					if _is_valid_grid_position(grid_cell):
+						resolved_path.append(grid_cell)
+				if resolved_path.size() > 1:
+					resolved_movement_paths[str(change_variant.get("combatant_id", ""))] = resolved_path
 			_apply_combatant_state_change(change_variant)
 
 	if not game_event.results.is_empty():
@@ -368,6 +380,8 @@ func apply_game_event(game_event: GameEvent) -> void:
 	_refresh_queued_actions()
 	_refresh_board_controls()
 	_refresh_combat_grid()
+	if game_event.event_type == "movement_phase_ended" and not resolved_movement_paths.is_empty():
+		combatGrid.play_movement_animation(resolved_movement_paths)
 	_update_round_ui()
 
 func apply_combat_request(combat_request: CombatRequest) -> void:
@@ -550,13 +564,6 @@ func _resolve_movement_phase() -> Dictionary:
 	var results: Array[Dictionary] = []
 	var state_changes: Array[Dictionary] = []
 	var resolved_updates: Dictionary = {}
-	var occupied_lookup: Dictionary = {}
-	for combatant_id_variant in encounter_combatants.keys():
-		var combatant_id := str(combatant_id_variant)
-		var _position := _grid_position_from_payload(encounter_combatants[combatant_id])
-		if _is_valid_grid_position(_position):
-			occupied_lookup[_position] = combatant_id
-
 	var movement_entries: Array[Dictionary] = []
 	for combatant_id_variant in encounter_combatants.keys():
 		var combatant_id := str(combatant_id_variant)
@@ -568,6 +575,7 @@ func _resolve_movement_phase() -> Dictionary:
 			continue
 		movement_entries.append({
 			"combatant_id": combatant_id,
+			"dexterity_score": int(payload.get("dexterity_score", 0)),
 			"timestamp": float(movement_choice.get("queued_timestamp", 0.0)),
 		})
 	movement_entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
@@ -577,27 +585,29 @@ func _resolve_movement_phase() -> Dictionary:
 			return timestamp_a < timestamp_b
 		return str(a.get("combatant_id", "")) < str(b.get("combatant_id", ""))
 	)
+	var resolution_data: Dictionary = _resolve_movement_paths_simultaneously(movement_entries)
+	var resolved_paths: Dictionary = resolution_data.get("resolved_paths", {})
+	var final_positions: Dictionary = resolution_data.get("final_positions", {})
+	var spent_action_points: Dictionary = resolution_data.get("spent_action_points", {})
 
 	for movement_entry in movement_entries:
 		var combatant_id := str(movement_entry.get("combatant_id", ""))
 		if not encounter_combatants.has(combatant_id):
 			continue
 		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
-		var start := _grid_position_from_payload(payload)
-		var desired_path := _vector2i_array_from_variant_array(payload.get("movement_path", []))
+		var start: Vector2i = _grid_position_from_payload(payload)
 		var preview_cost := int(payload.get("movement_ap_cost", 0))
-		if occupied_lookup.get(start, "") == combatant_id:
-			occupied_lookup.erase(start)
 		var resolved_path: Array[Vector2i] = [start]
-		for step in desired_path:
-			if step == start:
-				continue
-			if not _is_valid_grid_position(step) or occupied_lookup.has(step):
-				break
-			resolved_path.append(step)
-		var final_position := resolved_path[resolved_path.size() - 1]
-		occupied_lookup[final_position] = combatant_id
-		var final_cost = max(resolved_path.size() - 1, 0)
+		if resolved_paths.has(combatant_id):
+			var existing_path_variant: Variant = resolved_paths[combatant_id]
+			if existing_path_variant is Array:
+				resolved_path = _vector2i_array_from_variant_array(existing_path_variant)
+		var final_position: Vector2i = start
+		if final_positions.has(combatant_id):
+			var final_position_variant: Variant = final_positions[combatant_id]
+			if final_position_variant is Vector2i:
+				final_position = final_position_variant
+		var final_cost: int = int(spent_action_points.get(combatant_id, 0))
 		var update := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
 		if update.is_empty():
 			continue
@@ -608,6 +618,7 @@ func _resolve_movement_phase() -> Dictionary:
 		update["movement_path"] = []
 		update["movement_ap_cost"] = 0
 		update["pending_request"] = ""
+		update["resolved_movement_path"] = resolved_path.duplicate(true)
 		update.erase("id")
 		update["combatant_id"] = combatant_id
 		resolved_updates[combatant_id] = update
@@ -635,6 +646,7 @@ func _resolve_movement_phase() -> Dictionary:
 		update["movement_path"] = []
 		update["movement_ap_cost"] = 0
 		update["pending_request"] = ""
+		update["resolved_movement_path"] = []
 		update.erase("id")
 		update["combatant_id"] = combatant_id
 		state_changes.append(update)
@@ -644,6 +656,237 @@ func _resolve_movement_phase() -> Dictionary:
 		"results": results,
 	}
 
+func _resolve_movement_paths_simultaneously(movement_entries: Array[Dictionary]) -> Dictionary:
+	var current_positions: Dictionary = {}
+	var desired_paths: Dictionary = {}
+	var resolved_paths: Dictionary = {}
+	var active_movers: Dictionary = {}
+	var spent_action_points: Dictionary = {}
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id: String = str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants[combatant_id]
+		var grid_position: Vector2i = _grid_position_from_payload(payload)
+		if _is_valid_grid_position(grid_position):
+			current_positions[combatant_id] = grid_position
+	for movement_entry in movement_entries:
+		var combatant_id: String = str(movement_entry.get("combatant_id", ""))
+		if not encounter_combatants.has(combatant_id):
+			continue
+		var payload: Dictionary = encounter_combatants[combatant_id]
+		var start: Vector2i = _grid_position_from_payload(payload)
+		if current_positions.has(combatant_id):
+			var start_variant: Variant = current_positions[combatant_id]
+			if start_variant is Vector2i:
+				start = start_variant
+		var desired_path: Array[Vector2i] = _vector2i_array_from_variant_array(payload.get("movement_path", []))
+		if desired_path.is_empty() or desired_path[0] != start:
+			desired_path.push_front(start)
+		desired_paths[combatant_id] = desired_path
+		resolved_paths[combatant_id] = [start]
+		active_movers[combatant_id] = 1
+		spent_action_points[combatant_id] = 0
+
+	while not active_movers.is_empty():
+		var occupied_cells: Dictionary = {}
+		var proposed_step_costs: Dictionary = {}
+		for combatant_id_variant in current_positions.keys():
+			var combatant_id: String = str(combatant_id_variant)
+			var occupied_cell: Variant = current_positions[combatant_id]
+			occupied_cells[occupied_cell] = combatant_id
+		var proposals: Dictionary = {}
+		var next_cells: Dictionary = {}
+		var movers_this_round: Array[String] = []
+		for combatant_id_variant in active_movers.keys():
+			var combatant_id: String = str(combatant_id_variant)
+			var path: Array[Vector2i] = []
+			if desired_paths.has(combatant_id):
+				var desired_path_variant: Variant = desired_paths[combatant_id]
+				if desired_path_variant is Array:
+					path = _vector2i_array_from_variant_array(desired_path_variant)
+			var next_index: int = int(active_movers[combatant_id])
+			if next_index >= path.size():
+				active_movers.erase(combatant_id)
+				continue
+			var next_cell: Vector2i = path[next_index]
+			var current_cell: Vector2i = path[next_index - 1]
+			next_cells[combatant_id] = next_cell
+			proposed_step_costs[combatant_id] = _get_movement_step_cost(combatant_id, current_cell, next_cell, current_positions)
+			if not proposals.has(next_cell):
+				proposals[next_cell] = []
+			(proposals[next_cell] as Array).append(combatant_id)
+			movers_this_round.append(combatant_id)
+		if movers_this_round.is_empty():
+			break
+
+		var blocked_movers: Dictionary = {}
+		for target_cell_variant in proposals.keys():
+			var target_cell: Vector2i = target_cell_variant
+			var claimants: Array = proposals[target_cell]
+			if claimants.size() > 1:
+				var winner_id: String = _select_contested_move_winner(claimants, movement_entries)
+				for claimant_variant in claimants:
+					var claimant_id: String = str(claimant_variant)
+					if claimant_id != winner_id:
+						blocked_movers[claimant_id] = true
+
+		for combatant_id in movers_this_round:
+			if blocked_movers.has(combatant_id):
+				continue
+			var next_cell: Vector2i = next_cells[combatant_id]
+			var step_cost: int = int(proposed_step_costs.get(combatant_id, 1))
+			var available_ap: int = _get_available_movement_ap(combatant_id)
+			var spent_ap: int = int(spent_action_points.get(combatant_id, 0))
+			if spent_ap + step_cost > available_ap:
+				blocked_movers[combatant_id] = true
+				continue
+			var occupant_id: String = str(occupied_cells.get(next_cell, ""))
+			if occupant_id.is_empty():
+				continue
+			if occupant_id == combatant_id:
+				continue
+			if not active_movers.has(occupant_id):
+				blocked_movers[combatant_id] = true
+				continue
+			var occupant_next: Vector2i = Vector2i(-1, -1)
+			var occupant_current_variant: Variant = current_positions[occupant_id]
+			if occupant_current_variant is Vector2i:
+				occupant_next = occupant_current_variant
+			if next_cells.has(occupant_id):
+				var occupant_next_variant: Variant = next_cells[occupant_id]
+				if occupant_next_variant is Vector2i:
+					occupant_next = occupant_next_variant
+			var mover_current_cell: Vector2i = Vector2i(-1, -1)
+			var mover_current_variant: Variant = current_positions[combatant_id]
+			if mover_current_variant is Vector2i:
+				mover_current_cell = mover_current_variant
+			if occupant_next == mover_current_cell:
+				blocked_movers[combatant_id] = true
+				blocked_movers[occupant_id] = true
+
+		var moved_any: bool = false
+		for combatant_id in movers_this_round:
+			if blocked_movers.has(combatant_id):
+				active_movers.erase(combatant_id)
+				continue
+			var next_cell: Vector2i = next_cells[combatant_id]
+			current_positions[combatant_id] = next_cell
+			var resolved_path: Array[Vector2i] = []
+			if resolved_paths.has(combatant_id):
+				var resolved_path_variant: Variant = resolved_paths[combatant_id]
+				if resolved_path_variant is Array:
+					resolved_path = _vector2i_array_from_variant_array(resolved_path_variant)
+			resolved_path.append(next_cell)
+			resolved_paths[combatant_id] = resolved_path
+			spent_action_points[combatant_id] = int(spent_action_points.get(combatant_id, 0)) + int(proposed_step_costs.get(combatant_id, 1))
+			active_movers[combatant_id] = int(active_movers[combatant_id]) + 1
+			moved_any = true
+		var contact_locked_ids: Array[String] = []
+		for combatant_id in movers_this_round:
+			if not active_movers.has(combatant_id):
+				continue
+			var mover_position_variant: Variant = current_positions.get(combatant_id, null)
+			if not (mover_position_variant is Vector2i):
+				continue
+			if _is_adjacent_to_hostile_in_positions(combatant_id, mover_position_variant, current_positions):
+				contact_locked_ids.append(combatant_id)
+		for combatant_id in contact_locked_ids:
+			active_movers.erase(combatant_id)
+		if not moved_any:
+			break
+
+	for combatant_id_variant in desired_paths.keys():
+		var combatant_id: String = str(combatant_id_variant)
+		if not current_positions.has(combatant_id):
+			continue
+		if not resolved_paths.has(combatant_id):
+			resolved_paths[combatant_id] = [current_positions[combatant_id]]
+	return {
+		"resolved_paths": resolved_paths,
+		"final_positions": current_positions,
+		"spent_action_points": spent_action_points,
+	}
+
+func _get_available_movement_ap(combatant_id: String) -> int:
+	if not encounter_combatants.has(combatant_id):
+		return 0
+	var payload: Dictionary = encounter_combatants[combatant_id]
+	return int(payload.get("remaining_action_points", payload.get("action_points", 0))) + int(payload.get("movement_ap_cost", 0))
+
+func _get_path_movement_cost(combatant_id: String, path: Array[Vector2i], positions: Dictionary) -> int:
+	if path.size() <= 1:
+		return 0
+	var total_cost: int = 0
+	for step_index in range(path.size() - 1):
+		var from_cell: Vector2i = path[step_index]
+		var to_cell: Vector2i = path[step_index + 1]
+		total_cost += _get_movement_step_cost(combatant_id, from_cell, to_cell, positions)
+	return total_cost
+
+func _trim_path_to_available_ap(combatant_id: String, path: Array[Vector2i], positions: Dictionary, available_ap: int) -> Array[Vector2i]:
+	if path.is_empty():
+		return []
+	var limited_path: Array[Vector2i] = [path[0]]
+	var spent_ap: int = 0
+	for step_index in range(path.size() - 1):
+		var from_cell: Vector2i = path[step_index]
+		var to_cell: Vector2i = path[step_index + 1]
+		var step_cost: int = _get_movement_step_cost(combatant_id, from_cell, to_cell, positions)
+		if spent_ap + step_cost > available_ap:
+			break
+		spent_ap += step_cost
+		limited_path.append(to_cell)
+	return limited_path
+
+func _get_movement_step_cost(combatant_id: String, from_cell: Vector2i, to_cell: Vector2i, positions: Dictionary) -> int:
+	var current_engagers: Array[String] = _get_engaging_enemy_ids(combatant_id, from_cell, positions)
+	if current_engagers.is_empty():
+		return 1
+	var next_engagers: Array[String] = _get_engaging_enemy_ids(combatant_id, to_cell, positions)
+	if next_engagers.is_empty():
+		return DISENGAGE_STEP_AP_COST
+	return 1
+
+func _get_engaging_enemy_ids(combatant_id: String, grid_position: Vector2i, positions: Dictionary) -> Array[String]:
+	var engaging_ids: Array[String] = []
+	for other_combatant_id_variant in positions.keys():
+		var other_combatant_id: String = str(other_combatant_id_variant)
+		if other_combatant_id == combatant_id:
+			continue
+		if not encounter_combatants.has(combatant_id) or not encounter_combatants.has(other_combatant_id):
+			continue
+		var mover_payload: Dictionary = encounter_combatants[combatant_id]
+		var other_payload: Dictionary = encounter_combatants[other_combatant_id]
+		if not _are_hostile_combatants(mover_payload, other_payload):
+			continue
+		if int(other_payload.get("current_hp", 0)) <= 0:
+			continue
+		var other_grid_position: Vector2i = Vector2i(-1, -1)
+		var other_grid_position_variant: Variant = positions[other_combatant_id]
+		if other_grid_position_variant is Vector2i:
+			other_grid_position = other_grid_position_variant
+		if _are_grid_positions_adjacent(grid_position, other_grid_position):
+			engaging_ids.append(other_combatant_id)
+	return engaging_ids
+
+func _is_adjacent_to_hostile_in_positions(combatant_id: String, grid_position: Vector2i, positions: Dictionary) -> bool:
+	return not _get_engaging_enemy_ids(combatant_id, grid_position, positions).is_empty()
+
+func _are_hostile_combatants(first_payload: Dictionary, second_payload: Dictionary) -> bool:
+	var first_team_id: int = clampi(int(first_payload.get("team_id", 0)), 0, 10)
+	var second_team_id: int = clampi(int(second_payload.get("team_id", 0)), 0, 10)
+	if first_team_id <= 0 or second_team_id <= 0:
+		return false
+	return first_team_id != second_team_id
+
+func _build_current_position_lookup() -> Dictionary:
+	var positions: Dictionary = {}
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id: String = str(combatant_id_variant)
+		var grid_position: Vector2i = _grid_position_from_payload(encounter_combatants[combatant_id])
+		if _is_valid_grid_position(grid_position):
+			positions[combatant_id] = grid_position
+	return positions
+
 func _build_npc_movement_payload(combatant_id: String) -> Dictionary:
 	if not encounter_combatants.has(combatant_id):
 		return {}
@@ -651,18 +894,21 @@ func _build_npc_movement_payload(combatant_id: String) -> Dictionary:
 	var start := _grid_position_from_payload(payload)
 	if not _is_valid_grid_position(start):
 		return {}
+	if _is_adjacent_to_hostile_combatant(combatant_id, start):
+		return {}
 	var available_ap := int(payload.get("remaining_action_points", payload.get("action_points", 0))) + int(payload.get("movement_ap_cost", 0))
 	if available_ap <= 0:
 		return {}
 	var blocked_cells := _get_occupied_grid_cells(combatant_id)
-	var target_path := _find_path_to_nearest_player_adjacency(start, blocked_cells)
+	var current_positions: Dictionary = _build_current_position_lookup()
+	var target_path := _find_path_to_nearest_hostile_adjacency(combatant_id, start, blocked_cells)
 	if target_path.is_empty() or target_path.size() <= 1:
 		return {}
-	var limited_path: Array[Vector2i] = [target_path[0]]
-	for index in range(1, min(target_path.size(), available_ap + 1)):
-		limited_path.append(target_path[index])
+	var limited_path: Array[Vector2i] = _trim_path_to_available_ap(combatant_id, target_path, current_positions, available_ap)
+	if limited_path.size() <= 1:
+		return {}
 	var destination := limited_path[limited_path.size() - 1]
-	var ap_cost = max(limited_path.size() - 1, 0)
+	var ap_cost: int = _get_path_movement_cost(combatant_id, limited_path, current_positions)
 	return {
 		"destination": destination,
 		"path": limited_path,
@@ -670,16 +916,55 @@ func _build_npc_movement_payload(combatant_id: String) -> Dictionary:
 		"preview_text": "Move -> (%s, %s) [%s AP]" % [destination.x + 1, destination.y + 1, ap_cost],
 	}
 
-func _find_path_to_nearest_player_adjacency(start: Vector2i, blocked_cells: Array[Vector2i]) -> Array[Vector2i]:
-	var player_ids: Array = encounter_combatants.keys()
-	player_ids.sort()
+func _select_contested_move_winner(claimants: Array, movement_entries: Array[Dictionary]) -> String:
+	var best_combatant_id: String = ""
+	for claimant_variant in claimants:
+		var claimant_id: String = str(claimant_variant)
+		if best_combatant_id.is_empty() or _does_mover_outrank(claimant_id, best_combatant_id, movement_entries):
+			best_combatant_id = claimant_id
+	return best_combatant_id
+
+func _does_mover_outrank(candidate_id: String, current_winner_id: String, movement_entries: Array[Dictionary]) -> bool:
+	var candidate_priority: Dictionary = _get_movement_priority(candidate_id, movement_entries)
+	var winner_priority: Dictionary = _get_movement_priority(current_winner_id, movement_entries)
+	var candidate_dexterity: int = int(candidate_priority.get("dexterity_score", 0))
+	var winner_dexterity: int = int(winner_priority.get("dexterity_score", 0))
+	if candidate_dexterity != winner_dexterity:
+		return candidate_dexterity > winner_dexterity
+	var candidate_timestamp: float = float(candidate_priority.get("timestamp", 0.0))
+	var winner_timestamp: float = float(winner_priority.get("timestamp", 0.0))
+	if not is_equal_approx(candidate_timestamp, winner_timestamp):
+		return candidate_timestamp < winner_timestamp
+	return candidate_id < current_winner_id
+
+func _get_movement_priority(combatant_id: String, movement_entries: Array[Dictionary]) -> Dictionary:
+	for movement_entry in movement_entries:
+		if str(movement_entry.get("combatant_id", "")) == combatant_id:
+			return movement_entry
+	return {
+		"combatant_id": combatant_id,
+		"dexterity_score": 0,
+		"timestamp": 0.0,
+	}
+
+func _find_path_to_nearest_hostile_adjacency(combatant_id: String, start: Vector2i, blocked_cells: Array[Vector2i]) -> Array[Vector2i]:
+	var candidate_ids: Array = encounter_combatants.keys()
+	candidate_ids.sort()
 	var best_path: Array[Vector2i] = []
-	for combatant_id_variant in player_ids:
-		var payload: Dictionary = encounter_combatants[str(combatant_id_variant)]
-		if str(payload.get("type", "")) != "Player" or int(payload.get("current_hp", 0)) <= 0:
+	if not encounter_combatants.has(combatant_id):
+		return best_path
+	var mover_payload: Dictionary = encounter_combatants[combatant_id]
+	for target_id_variant in candidate_ids:
+		var target_id: String = str(target_id_variant)
+		if target_id == combatant_id:
 			continue
-		var player_position := _grid_position_from_payload(payload)
-		for adjacent in _get_adjacent_grid_cells(player_position):
+		var payload: Dictionary = encounter_combatants[target_id]
+		if int(payload.get("current_hp", 0)) <= 0:
+			continue
+		if not _are_hostile_combatants(mover_payload, payload):
+			continue
+		var target_position: Vector2i = _grid_position_from_payload(payload)
+		for adjacent in _get_adjacent_grid_cells(target_position):
 			if combatGrid.get_combatant_id_at_cell(adjacent) != "":
 				continue
 			var candidate_path := combatGrid.get_reachable_path(start, adjacent, blocked_cells)
@@ -689,13 +974,47 @@ func _find_path_to_nearest_player_adjacency(start: Vector2i, blocked_cells: Arra
 				best_path = candidate_path
 	return best_path
 
+func _is_adjacent_to_hostile_combatant(combatant_id: String, grid_position: Vector2i) -> bool:
+	if not encounter_combatants.has(combatant_id):
+		return false
+	var mover_payload: Dictionary = encounter_combatants[combatant_id]
+	for other_combatant_id_variant in encounter_combatants.keys():
+		var other_combatant_id: String = str(other_combatant_id_variant)
+		if other_combatant_id == combatant_id:
+			continue
+		var payload: Dictionary = encounter_combatants[other_combatant_id]
+		if int(payload.get("current_hp", 0)) <= 0:
+			continue
+		if not _are_hostile_combatants(mover_payload, payload):
+			continue
+		var other_grid_position: Vector2i = _grid_position_from_payload(payload)
+		if _are_grid_positions_adjacent(grid_position, other_grid_position):
+			return true
+	return false
+
 func _get_adjacent_grid_cells(cell: Vector2i) -> Array[Vector2i]:
 	var cells: Array[Vector2i] = []
-	for offset in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
-		var candidate = cell + offset
+	for offset in [
+		Vector2i.LEFT,
+		Vector2i.RIGHT,
+		Vector2i.UP,
+		Vector2i.DOWN,
+		Vector2i(-1, -1),
+		Vector2i(1, -1),
+		Vector2i(-1, 1),
+		Vector2i(1, 1),
+	]:
+		var candidate: Vector2i = cell + offset
 		if _is_valid_grid_position(candidate):
 			cells.append(candidate)
 	return cells
+
+func _are_grid_positions_adjacent(first_position: Vector2i, second_position: Vector2i) -> bool:
+	if first_position == second_position:
+		return false
+	var x_delta: int = absi(first_position.x - second_position.x)
+	var y_delta: int = absi(first_position.y - second_position.y)
+	return x_delta <= 1 and y_delta <= 1
 
 func _vector2i_array_from_variant_array(values: Array) -> Array[Vector2i]:
 	var converted: Array[Vector2i] = []
@@ -1323,7 +1642,7 @@ func _apply_combatant_state_change(change: Dictionary) -> void:
 	var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
 	payload.erase("pending_request")
 	for key in change.keys():
-		if key == "combatant_id":
+		if key == "combatant_id" or key == "resolved_movement_path":
 			continue
 		payload[key] = change[key]
 
@@ -1386,11 +1705,58 @@ func apply_combat_snapshot(snapshot: Dictionary) -> void:
 	_refresh_combat_grid()
 
 func _refresh_combat_grid() -> void:
+	_refresh_host_npc_movement_previews()
 	combatGrid.setup(board_columns, board_rows, encounter_combatants)
 	combatGrid.set_selected_combatant(selected_combatant_id)
 	combatGrid.set_placement_source(pending_gm_placement_id)
 	if not pending_player_action.is_empty() or current_phase != GameEvent.PHASE_PLANNING:
 		combatGrid.clear_preview_path()
+
+func _refresh_host_npc_movement_previews() -> void:
+	if not is_host_role or not encounter_started or current_phase != GameEvent.PHASE_PLANNING:
+		_clear_host_npc_movement_previews()
+		return
+	var combatant_ids: Array = encounter_combatants.keys()
+	combatant_ids.sort()
+	for combatant_id_variant in combatant_ids:
+		var combatant_id: String = str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
+		if str(payload.get("type", "")) != "NPC":
+			continue
+		var movement_payload: Dictionary = _build_npc_movement_payload(combatant_id)
+		if movement_payload.is_empty():
+			payload["movement_choice"] = {}
+			payload["movement_path"] = []
+			payload["movement_ap_cost"] = 0
+			payload["planned_grid_position"] = payload.get("grid_position", Vector2i(-1, -1))
+			payload["pending_request"] = ""
+			payload["remaining_action_points"] = int(payload.get("action_points", 0))
+			encounter_combatants[combatant_id] = payload
+			continue
+		var preview_cost: int = int(movement_payload.get("ap_cost", 0))
+		payload["movement_choice"] = movement_payload.duplicate(true)
+		payload["movement_path"] = movement_payload.get("path", []).duplicate(true)
+		payload["movement_ap_cost"] = preview_cost
+		payload["planned_grid_position"] = movement_payload.get("destination", payload.get("grid_position", Vector2i(-1, -1)))
+		payload["pending_request"] = movement_payload.get("preview_text", "")
+		payload["remaining_action_points"] = max(int(payload.get("action_points", 0)) - preview_cost, 0)
+		encounter_combatants[combatant_id] = payload
+
+func _clear_host_npc_movement_previews() -> void:
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id: String = str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants[combatant_id]
+		if str(payload.get("type", "")) != "NPC":
+			continue
+		if not payload.get("movement_path", []).is_empty() or int(payload.get("movement_ap_cost", 0)) > 0:
+			var updated_payload: Dictionary = payload.duplicate(true)
+			updated_payload["movement_choice"] = {}
+			updated_payload["movement_path"] = []
+			updated_payload["movement_ap_cost"] = 0
+			updated_payload["planned_grid_position"] = payload.get("grid_position", Vector2i(-1, -1))
+			updated_payload["pending_request"] = ""
+			updated_payload["remaining_action_points"] = int(updated_payload.get("action_points", 0))
+			encounter_combatants[combatant_id] = updated_payload
 
 func _on_grid_token_clicked(combatant_id: String, _cell: Vector2i) -> void:
 	if combatant_id.is_empty() or not encounter_combatants.has(combatant_id):
@@ -1480,19 +1846,26 @@ func _queue_movement_for_combatant(combatant_id: String, destination: Vector2i) 
 		playerActionsHint.text = "Your token is not on the grid."
 		return
 	var blocked_cells := _get_occupied_grid_cells(combatant_id)
-	var available_ap := int(local_payload.get("remaining_action_points", local_payload.get("action_points", 0))) + int(local_payload.get("movement_ap_cost", 0))
+	var available_ap: int = _get_available_movement_ap(combatant_id)
 	var path := combatGrid.get_reachable_path(start, destination, blocked_cells, available_ap)
 	if path.is_empty():
 		playerActionsHint.text = "No path to that square."
 		combatGrid.clear_preview_path()
 		return
-	var ap_cost = max(path.size() - 1, 0)
-	combatGrid.set_preview_path(path, destination)
+	var current_positions: Dictionary = _build_current_position_lookup()
+	var limited_path: Array[Vector2i] = _trim_path_to_available_ap(combatant_id, path, current_positions, available_ap)
+	if limited_path.is_empty() or limited_path[limited_path.size() - 1] != destination:
+		var required_ap: int = _get_path_movement_cost(combatant_id, path, current_positions)
+		playerActionsHint.text = "That move costs %s AP." % required_ap
+		combatGrid.clear_preview_path()
+		return
+	var ap_cost: int = _get_path_movement_cost(combatant_id, limited_path, current_positions)
+	combatGrid.set_preview_path(limited_path, destination)
 	playerActionsHint.text = "Planned move to (%s, %s) for %s AP." % [destination.x + 1, destination.y + 1, ap_cost]
 	var preview_text := "Move -> (%s, %s) [%s AP]" % [destination.x + 1, destination.y + 1, ap_cost]
 	var payload := {
 		"destination": destination,
-		"path": path,
+		"path": limited_path,
 		"ap_cost": ap_cost,
 		"preview_text": preview_text,
 	}
@@ -1626,6 +1999,8 @@ func _build_combatant_entry(combatant_payload: Dictionary) -> CombatantEntry:
 	entry.setup(combatant_payload)
 	entry.selected.connect(_on_combatant_selected)
 	entry.target_selected.connect(_on_combatant_target_selected)
+	entry.team_changed.connect(_on_combatant_team_changed)
+	entry.set_team_selector_visible(is_host_role)
 	entry.name = _build_combatant_node_name(combatant_payload)
 	_configure_combatant_entry_interaction(entry, combatant_payload)
 	return entry
@@ -1644,6 +2019,8 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 		"id": _create_combatant_id("player_%s" % peer_id),
 		"name": player_data._name,
 		"type": "Player",
+		"team_id": 1,
+		"dexterity_score": _get_attribute_score(player_data.attributes, "Dexterity"),
 		"controller_peer_id": peer_id,
 		"active_loadout": 1,
 		"action_points": action_points,
@@ -1682,6 +2059,8 @@ func _build_npc_payload(npc: NPC) -> Dictionary:
 		"id": _create_combatant_id("npc_%s" % npc._name.to_snake_case()),
 		"name": npc._name,
 		"type": "NPC",
+		"team_id": 2,
+		"dexterity_score": _get_attribute_score(npc.data.attributes, "Dexterity"),
 		"controller_peer_id": 0,
 		"active_loadout": 1,
 		"action_points": action_points,
@@ -1730,6 +2109,7 @@ func _on_combatant_target_selected(entry: CombatantEntry, combatant_payload: Dic
 func _configure_combatant_entry_interaction(entry: CombatantEntry, combatant_payload: Dictionary) -> void:
 	if entry == null or not is_instance_valid(entry):
 		return
+	entry.set_team_selector_visible(is_host_role)
 	if is_host_role:
 		entry.set_player_target_mode(false, false, selected_combatant_id == str(combatant_payload.get("id", "")))
 		return
@@ -1755,6 +2135,19 @@ func _refresh_combatant_entry_interactions() -> void:
 			continue
 		_configure_combatant_entry_interaction(entry, payload)
 
+func _on_combatant_team_changed(_entry: CombatantEntry, combatant_id: String, team_id: int) -> void:
+	if not is_host_role or not encounter_combatants.has(combatant_id):
+		return
+	var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
+	payload["team_id"] = clampi(team_id, 1, 10)
+	encounter_combatants[combatant_id] = payload
+	var campaign_manager := _find_campaign_manager()
+	if campaign_manager != null:
+		campaign_manager.broadcast_combatant_update(payload)
+	_refresh_queued_actions()
+	_refresh_player_actions()
+	_refresh_combat_grid()
+
 func _show_inspector(combatant_payload: Dictionary) -> void:
 	inspectorTitle.text = str(combatant_payload.get("name", "Combatant Inspector"))
 	inspectorType.text = "Type: %s" % combatant_payload.get("type", "NA")
@@ -1762,6 +2155,7 @@ func _show_inspector(combatant_payload: Dictionary) -> void:
 	inspectorLevel.text = "Level: %s" % combatant_payload.get("level", 0)
 	inspectorLoadout.text = "Loadout: %s" % combatant_payload.get("active_loadout", 1)
 	var details_text := str(combatant_payload.get("details", "No details available."))
+	details_text += "\nTeam: %s" % clampi(int(combatant_payload.get("team_id", 1)), 1, 10)
 	var queued_actions: Array = combatant_payload.get("queued_actions", [])
 	if not queued_actions.is_empty():
 		details_text += "\nQueued Actions: %s" % ", ".join(queued_actions)
@@ -1883,6 +2277,7 @@ func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary
 	payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
 	payload["movement_path"] = base_payload.get("movement_path", []).duplicate(true)
 	payload["movement_ap_cost"] = int(base_payload.get("movement_ap_cost", 0))
+	payload["team_id"] = clampi(int(base_payload.get("team_id", 1)), 1, 10)
 	payload["grid_position"] = base_payload.get("grid_position", Vector2i(-1, -1))
 	payload["planned_grid_position"] = base_payload.get("planned_grid_position", payload["grid_position"])
 	payload["details"] = "\n".join([
@@ -1891,6 +2286,7 @@ func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary
 		"Actions: %s" % _format_player_action_names(player_data, active_loadout),
 		"Conditions: %s" % _format_name_list(player_data.conditions),
 	])
+	payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 	payload["equipment"] = _serialize_equipment(player_data.equipment)
 	payload["actions"] = _get_player_action_entries(player_data, active_loadout)
 	payload["action_names"] = _get_player_action_names(player_data, active_loadout)
@@ -1922,6 +2318,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 			"Actions: %s" % _format_player_action_names(player_data, active_loadout),
 			"Conditions: %s" % _format_name_list(player_data.conditions),
 		])
+		payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 		payload["equipment"] = _serialize_equipment(player_data.equipment)
 		payload["actions"] = _get_player_action_entries(player_data, active_loadout)
 		payload["action_names"] = _get_player_action_names(player_data, active_loadout)
@@ -1931,6 +2328,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
 		payload["movement_path"] = base_payload.get("movement_path", []).duplicate(true)
 		payload["movement_ap_cost"] = int(base_payload.get("movement_ap_cost", 0))
+		payload["team_id"] = clampi(int(base_payload.get("team_id", 1)), 1, 10)
 		payload["grid_position"] = base_payload.get("grid_position", Vector2i(-1, -1))
 		payload["planned_grid_position"] = base_payload.get("planned_grid_position", payload["grid_position"])
 		return payload
@@ -1952,6 +2350,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		"Actions: %s" % _format_name_list(npc.data.actions),
 		"Conditions: %s" % _format_name_list(npc.data.conditions),
 	])
+	payload["dexterity_score"] = _get_attribute_score(npc.data.attributes, "Dexterity")
 	payload["actions"] = _get_npc_action_entries(npc, active_loadout)
 	payload["action_names"] = _get_npc_action_names(npc, active_loadout)
 	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", npc_action_points)), npc_action_points)
@@ -1960,6 +2359,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
 	payload["movement_path"] = base_payload.get("movement_path", []).duplicate(true)
 	payload["movement_ap_cost"] = int(base_payload.get("movement_ap_cost", 0))
+	payload["team_id"] = clampi(int(base_payload.get("team_id", 2)), 1, 10)
 	payload["grid_position"] = base_payload.get("grid_position", Vector2i(-1, -1))
 	payload["planned_grid_position"] = base_payload.get("planned_grid_position", payload["grid_position"])
 	return payload
@@ -2124,6 +2524,14 @@ func _format_attribute_values(attributes: Array) -> String:
 	if parts.is_empty():
 		return "None"
 	return ", ".join(parts)
+
+func _get_attribute_score(attributes: Array, attribute_name: String) -> int:
+	for attribute_variant in attributes:
+		if attribute_variant is Attribute:
+			var attribute: Attribute = attribute_variant
+			if attribute._name == attribute_name:
+				return int(attribute.value)
+	return 0
 
 func _format_player_action_names(player_data: PlayerData, loadout: int = 0) -> String:
 	var action_names := _get_player_action_names(player_data, loadout)

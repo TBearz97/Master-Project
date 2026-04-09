@@ -3,13 +3,17 @@ class_name CombatantEntry
 
 signal selected(entry: CombatantEntry, combatant_data: Dictionary)
 signal target_selected(entry: CombatantEntry, combatant_data: Dictionary)
+signal team_changed(entry: CombatantEntry, combatant_id: String, team_id: int)
 
 var data: Dictionary = {}
 var is_player_target_mode := false
+var show_team_selector := false
 
 func _ready() -> void:
 	%Inspect.pressed.connect(_inspect)
 	%Target.toggled.connect(_on_target_toggled)
+	%TeamSelector.item_selected.connect(_on_team_selected)
+	_populate_team_selector()
 	_refresh()
 
 func setup(combatant_data: Dictionary) -> void:
@@ -30,6 +34,11 @@ func set_player_target_mode(enabled: bool, can_target: bool, is_targeted: bool) 
 	%Target.set_pressed_no_signal(is_targeted)
 	set_selected(is_targeted if enabled else is_targeted)
 
+func set_team_selector_visible(visible_state: bool) -> void:
+	show_team_selector = visible_state
+	if is_node_ready():
+		_refresh()
+
 func _inspect() -> void:
 	selected.emit(self, data)
 
@@ -38,6 +47,16 @@ func _on_target_toggled(pressed: bool) -> void:
 		return
 	if pressed:
 		target_selected.emit(self, data)
+
+func _on_team_selected(index: int) -> void:
+	var combatant_id: String = str(data.get("id", ""))
+	if combatant_id.is_empty():
+		return
+	var selected_team_id: int = index + 1
+	if int(data.get("team_id", 1)) == selected_team_id:
+		return
+	data["team_id"] = selected_team_id
+	team_changed.emit(self, combatant_id, selected_team_id)
 
 func _refresh() -> void:
 	var display_name := str(data.get("name", "Unknown"))
@@ -69,3 +88,15 @@ func _refresh() -> void:
 		%Status.text = "%s queued" % queued_actions.size()
 	else:
 		%Status.text = "Ready"
+
+	%TeamLabel.visible = show_team_selector
+	%TeamSelector.visible = show_team_selector
+	%TeamSelector.disabled = not show_team_selector
+	var team_id: int = clampi(int(data.get("team_id", 1)), 1, 10)
+	if %TeamSelector.selected != team_id - 1:
+		%TeamSelector.select(team_id - 1)
+
+func _populate_team_selector() -> void:
+	%TeamSelector.clear()
+	for team_id in range(1, 11):
+		%TeamSelector.add_item(str(team_id))

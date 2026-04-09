@@ -12,6 +12,7 @@ const ZOOM_STEP := 1.1
 const BASE_CELL_SIZE := 56.0
 const GRID_PADDING := 24.0
 const MIN_CELL_SIZE := 6.0
+const MOVE_ANIMATION_DURATION := 0.12
 
 var board_columns: int = 12
 var board_rows: int = 12
@@ -28,10 +29,15 @@ var _is_panning := false
 var _pan_pointer_index := -1
 var _last_pan_position := Vector2.ZERO
 var _dragging_token_id: String = ""
+var _movement_animation_paths: Dictionary = {}
+var _movement_animation_step: int = 0
+var _movement_animation_elapsed: float = 0.0
+var _movement_animation_active: bool = false
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	clip_contents = true
+	set_process(false)
 
 func setup(columns: int, rows: int, combatant_payloads: Dictionary) -> void:
 	board_columns = maxi(columns, 1)
@@ -55,6 +61,31 @@ func set_preview_path(path: Array, destination: Vector2i = Vector2i(-1, -1)) -> 
 func clear_preview_path() -> void:
 	preview_path.clear()
 	preview_destination = Vector2i(-1, -1)
+	queue_redraw()
+
+func play_movement_animation(paths_by_combatant: Dictionary) -> void:
+	_movement_animation_paths.clear()
+	for combatant_id_variant in paths_by_combatant.keys():
+		var combatant_id: String = str(combatant_id_variant)
+		var path_variant: Variant = paths_by_combatant[combatant_id]
+		if not (path_variant is Array):
+			continue
+		var converted_path: Array[Vector2i] = []
+		for point_variant in path_variant:
+			var grid_cell: Vector2i = _vector2i_from_variant(point_variant)
+			if _is_valid_cell(grid_cell):
+				converted_path.append(grid_cell)
+		if converted_path.size() > 1:
+			_movement_animation_paths[combatant_id] = converted_path
+	if _movement_animation_paths.is_empty():
+		_movement_animation_active = false
+		set_process(false)
+		queue_redraw()
+		return
+	_movement_animation_step = 0
+	_movement_animation_elapsed = 0.0
+	_movement_animation_active = true
+	set_process(true)
 	queue_redraw()
 
 func set_placement_source(combatant_id: String) -> void:
@@ -198,6 +229,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not event.pressed:
 		_dragging_token_id = ""
 
+func _process(delta: float) -> void:
+	if not _movement_animation_active:
+		set_process(false)
+		return
+	_movement_animation_elapsed += delta
+	if _movement_animation_elapsed >= MOVE_ANIMATION_DURATION:
+		_movement_animation_elapsed = 0.0
+		_movement_animation_step += 1
+		if not _has_remaining_animation_steps():
+			_movement_animation_active = false
+			_movement_animation_paths.clear()
+			set_process(false)
+	queue_redraw()
+
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO, size), Color(0.08, 0.09, 0.11), true)
 	var cell_size: float = _get_cell_size()
@@ -244,7 +289,7 @@ func _draw_combatants(board_origin: Vector2, cell_size: float) -> void:
 		var grid_position := _vector2i_from_variant(payload.get("grid_position", Vector2i(-1, -1)))
 		if not _is_valid_cell(grid_position):
 			continue
-		var center := _cell_center(board_origin, cell_size, grid_position)
+		var center: Vector2 = _get_display_center(board_origin, cell_size, combatant_id, grid_position)
 		var radius: float = max(cell_size * 0.3, 8.0)
 		var token_color := Color(0.91, 0.44, 0.38) if str(payload.get("type", "")) == "NPC" else Color(0.33, 0.72, 0.95)
 		if combatant_id == selected_combatant_id:
@@ -282,8 +327,17 @@ func _cell_center(board_origin: Vector2, cell_size: float, cell: Vector2i) -> Ve
 
 func _get_neighbors(cell: Vector2i) -> Array[Vector2i]:
 	var neighbors: Array[Vector2i] = []
-	for offset in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
-		var candidate = cell + offset
+	for offset in [
+		Vector2i.LEFT,
+		Vector2i.RIGHT,
+		Vector2i.UP,
+		Vector2i.DOWN,
+		Vector2i(-1, -1),
+		Vector2i(1, -1),
+		Vector2i(-1, 1),
+		Vector2i(1, 1),
+	]:
+		var candidate: Vector2i = cell + offset
 		if _is_valid_cell(candidate):
 			neighbors.append(candidate)
 	return neighbors
@@ -311,6 +365,29 @@ func _ensure_board_visible() -> void:
 		pan_offset.y = (size.y - board_pixel_size.y) * 0.5
 	else:
 		pan_offset.y = clampf(pan_offset.y, size.y - board_pixel_size.y - GRID_PADDING, GRID_PADDING)
+
+func _get_display_center(board_origin: Vector2, cell_size: float, combatant_id: String, fallback_cell: Vector2i) -> Vector2:
+	if not _movement_animation_active or not _movement_animation_paths.has(combatant_id):
+		return _cell_center(board_origin, cell_size, fallback_cell)
+	var path: Array[Vector2i] = _movement_animation_paths[combatant_id]
+	if path.is_empty():
+		return _cell_center(board_origin, cell_size, fallback_cell)
+	var from_index: int = mini(_movement_animation_step, path.size() - 1)
+	var to_index: int = mini(from_index + 1, path.size() - 1)
+	var from_center: Vector2 = _cell_center(board_origin, cell_size, path[from_index])
+	var to_center: Vector2 = _cell_center(board_origin, cell_size, path[to_index])
+	if from_index == to_index:
+		return to_center
+	var weight: float = clampf(_movement_animation_elapsed / MOVE_ANIMATION_DURATION, 0.0, 1.0)
+	return from_center.lerp(to_center, weight)
+
+func _has_remaining_animation_steps() -> bool:
+	for combatant_id_variant in _movement_animation_paths.keys():
+		var combatant_id: String = str(combatant_id_variant)
+		var path: Array[Vector2i] = _movement_animation_paths[combatant_id]
+		if _movement_animation_step < path.size() - 1:
+			return true
+	return false
 
 func _vector2i_from_variant(value: Variant) -> Vector2i:
 	if value is Vector2i:

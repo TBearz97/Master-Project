@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b0655ah5jch3j" path="res://Scenes/Combat Session/combatant_entry.gd" id="1_wo2xt"]
 
 [node name="CombatantEntry" type="Control"]
-custom_minimum_size = Vector2(200, 34)
+custom_minimum_size = Vector2(200, 38)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,7 +38,7 @@ theme_override_constants/margin_bottom = 4
 
 [node name="Row" type="GridContainer" parent="Panel/MarginContainer"]
 layout_mode = 2
-columns = 6
+columns = 8
 
 [node name="Name" type="Label" parent="Panel/MarginContainer/Row"]
 unique_name_in_owner = true
@@ -63,6 +63,20 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
 horizontal_alignment = 1
+
+[node name="TeamLabel" type="Label" parent="Panel/MarginContainer/Row"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+text = "T"
+horizontal_alignment = 1
+
+[node name="TeamSelector" type="OptionButton" parent="Panel/MarginContainer/Row"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
 
 [node name="Inspect" type="Button" parent="Panel/MarginContainer/Row"]
 unique_name_in_owner = true
