@@ -15,13 +15,14 @@ func _ready() -> void:
 	_setup()
 
 func _setup() -> void:
-	if PlayerVariables.getName() != "":
-		character_name.text = PlayerVariables.getName()
-	if PlayerVariables.getGender() != "":
+	var player := PlayerVariables.current()
+	if player._name != "":
+		character_name.text = player._name
+	if player.gender != "":
 		for i in range(genderOb.item_count):
-			if PlayerVariables.getGender() == genderOb.get_item_text(i):
+			if player.gender == genderOb.get_item_text(i):
 				genderOb.select(i)
-	age.value = PlayerVariables.getAge()
+	age.value = player.age
 
 	_race()
 	_homeland()
@@ -55,7 +56,7 @@ func _race() -> void:
 		)
 
 	for i in range(ob.item_count):
-		if PlayerVariables.getRace()._name == ob.get_item_text(i):
+		if PlayerVariables.current().race._name == ob.get_item_text(i):
 			ob.select(i)
 			var race: Race = popup.get_item_metadata(i)
 			description.text = CampaignVariables.replaceText(race.long_description)
@@ -97,7 +98,7 @@ func _homeland() -> void:
 		)
 
 	for i in range(ob.item_count):
-		if PlayerVariables.getHomeland()._name == ob.get_item_text(i):
+		if PlayerVariables.current().homeland._name == ob.get_item_text(i):
 			ob.select(i)
 			var homeland: Homeland = popup.get_item_metadata(i)
 			description.text = CampaignVariables.replaceText(homeland.long_description)
@@ -139,7 +140,7 @@ func _background() -> void:
 		)
 
 	for i in range(ob.item_count):
-		if PlayerVariables.getBackground()._name == ob.get_item_text(i):
+		if PlayerVariables.current().background._name == ob.get_item_text(i):
 			ob.select(i)
 			var background: Background = popup.get_item_metadata(i)
 			description.text = CampaignVariables.replaceText(background.long_description)

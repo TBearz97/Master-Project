@@ -9,15 +9,15 @@ var _selected_click_connected: bool = false
 func _ready() -> void:
 	_setup()
 	visibility_changed.connect(_save)
-	if not PlayerVariables.getPerks().is_empty():
-		for perk in PlayerVariables.getPerks():
+	if not PlayerVariables.current().perks.is_empty():
+		for perk in PlayerVariables.current().perks:
 			var idx := selected.add_item(perk._name)
 			selected.set_item_metadata(idx, perk)
 			selected.set_item_tooltip(idx, perk.short_description)
 	_connect_selected_item_clicked()
 
 func _setup() -> void:
-	points.value = PlayerVariables.getPerkPoints()
+	points.value = PlayerVariables.current().perk_points
 	var categories: Array = (func() -> Array:
 		var excluded := ["Race", "Homeland", "Background"]
 		var temp: Array = []

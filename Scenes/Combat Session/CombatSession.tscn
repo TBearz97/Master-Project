@@ -99,14 +99,110 @@ grow_vertical = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Combatants" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer"]
+[node name="CombatantsSection" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CombatantsTitle" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection"]
+layout_mode = 2
+text = "Combatants"
+
+[node name="CombatantsHeader" type="GridContainer" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection"]
+layout_mode = 2
+columns = 6
+
+[node name="NameHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(180, 0)
+text = "Name"
+
+[node name="HPHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(170, 0)
+text = "HP/Vit"
+
+[node name="APHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 0)
+horizontal_alignment = 1
+text = "AP"
+
+[node name="StatusHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(90, 0)
+horizontal_alignment = 1
+text = "Status"
+
+[node name="InspectHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+horizontal_alignment = 1
+text = "Inspect"
+
+[node name="TargetHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+horizontal_alignment = 1
+text = "Target"
+
+[node name="CombatantsScroll" type="ScrollContainer" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Combatants" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="QueuedActions" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer"]
+[node name="QueuedActionsSection" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="QueuedActionsTitle" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection"]
+layout_mode = 2
+text = "Queued Actions"
+
+[node name="QueuedActionsHeader" type="GridContainer" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection"]
+layout_mode = 2
+columns = 5
+
+[node name="QueuedActorHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(110, 0)
+text = "Actor"
+
+[node name="QueuedActionHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(200, 0)
+text = "Action"
+
+[node name="QueuedTargetHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(110, 0)
+text = "Target"
+
+[node name="QueuedLocationHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+layout_mode = 2
+custom_minimum_size = Vector2(90, 0)
+text = "Location"
+
+[node name="QueuedSpeedHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Speed"
+horizontal_alignment = 2
+
+[node name="QueuedActionsScroll" type="ScrollContainer" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="QueuedActions" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsScroll"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="Panel" type="Panel" parent="Panel/HSplitContainer"]
 unique_name_in_owner = true

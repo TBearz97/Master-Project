@@ -4,12 +4,12 @@ extends VBoxContainer
 @export var selected: ItemList
 @export var grid: GridContainer
 
-var inventory: Dictionary[String, Array] = PlayerVariables.getInventory()
+var inventory: Dictionary[String, Array] = PlayerVariables.current().inventory
 
 func _ready() -> void:
 	_setup()
 	visibility_changed.connect(_save)
-	points.value = PlayerVariables.getMoney()
+	points.value = PlayerVariables.current().money
 	if not inventory.is_empty():
 		for item in inventory.keys():
 			var idx := selected.add_item(str(item), inventory[item][0].icon)

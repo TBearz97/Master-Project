@@ -5,25 +5,27 @@ extends ScrollContainer
 func _ready() -> void:
 	%CampaignManager.use_enet()
 	_setup()
+	var player := PlayerVariables.current()
 	for child in grid.get_children():
 		match child.name:
-			"Name": child.get_child(1).text = PlayerVariables.getName()
-			"Gender": child.get_child(1).text = PlayerVariables.getGender()
-			"Age": child.get_child(1).text = str(PlayerVariables.getAge())
+			"Name": child.get_child(1).text = player._name
+			"Gender": child.get_child(1).text = player.gender
+			"Age": child.get_child(1).text = str(player.age)
 			"Race":
 				var rt := CampaignVariables.prepareLabel(RichTextLabel.new())
-				rt.text = CampaignVariables.replaceText(PlayerVariables.getRace()._name)
+				rt.text = CampaignVariables.replaceText(player.race._name)
 				child.add_child(rt)
 			"Homeland":
 				var rt := CampaignVariables.prepareLabel(RichTextLabel.new())
-				rt.text = CampaignVariables.replaceText(PlayerVariables.getHomeland()._name)
+				rt.text = CampaignVariables.replaceText(player.homeland._name)
 				child.add_child(rt)
 			"Background":
 				var rt := CampaignVariables.prepareLabel(RichTextLabel.new())
-				rt.text = CampaignVariables.replaceText(PlayerVariables.getBackground()._name)
+				rt.text = CampaignVariables.replaceText(player.background._name)
 				child.add_child(rt)
 
 func _setup() -> void:
+	var player := PlayerVariables.current()
 	var box := VBoxContainer.new()
 	box.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
 	box.size_flags_vertical = Control.SIZE_EXPAND | Control.SIZE_SHRINK_BEGIN
@@ -31,11 +33,11 @@ func _setup() -> void:
 	box.add_theme_constant_override("separation", 50)
 	add_child(box)
 
-	_add_info(box, "Character Name: ", PlayerVariables.getName())
-	_add_info(box, "Gender: ", PlayerVariables.getGender())
-	_add_info(box, "Race: ", PlayerVariables.getRace())
-	_add_info(box, "Homeland: ", PlayerVariables.getHomeland())
-	_add_info(box, "Background: ", PlayerVariables.getBackground())
+	_add_info(box, "Character Name: ", player._name)
+	_add_info(box, "Gender: ", player.gender)
+	_add_info(box, "Race: ", player.race)
+	_add_info(box, "Homeland: ", player.homeland)
+	_add_info(box, "Background: ", player.background)
 
 	var backstoryContainer := VBoxContainer.new()
 	var backstoryLabel := Label.new()
@@ -44,7 +46,7 @@ func _setup() -> void:
 	backstoryContainer.add_child(backstoryLabel)
 
 	var backstoryValue := CampaignVariables.prepareLabel(RichTextLabel.new(), false)
-	backstoryValue.text = PlayerVariables.getBackstory()
+	backstoryValue.text = player.backstory
 	backstoryContainer.add_child(backstoryValue)
 	box.add_child(backstoryContainer)
 

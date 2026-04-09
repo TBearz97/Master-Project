@@ -303,7 +303,7 @@ func _make_npc_creature_data(row: Dictionary, attribute_templates: Dictionary[St
 	creature_data.actions = _build_npc_actions(_text(row, "actions"), action_templates)
 	if creature_data is HumanoidData:
 		(creature_data as HumanoidData).equipment = _build_npc_equipment(_text(row, "equipment"), item_templates)
-	RuleEngine.normalizeVitals(creature_data, true)
+	creature_data.normalizeVitals(true)
 	return creature_data
 
 func _build_npc_actions(actions_json: String, action_templates: Dictionary[String, Action]) -> Array[Action]:

@@ -4,7 +4,7 @@ extends VBoxContainer
 @export var points: SpinBox
 @export var defBox: HBoxContainer
 
-var attributes: Array[Attribute] = PlayerVariables.getAttributes()
+var attributes: Array[Attribute] = PlayerVariables.current().attributes
 var spinBoxes: Array[SpinBox] = []
 var prev: Dictionary = {}
 
@@ -17,7 +17,7 @@ func _ready() -> void:
 	setupDefences()
 
 func _setup() -> void:
-	points.value = PlayerVariables.getAttributePoints()
+	points.value = PlayerVariables.current().attribute_points
 	var _attributes := CampaignVariables.codex.Attributes
 
 	for attribute: Attribute in _attributes.values():
@@ -88,7 +88,7 @@ func _save() -> void:
 			att.value = int(sb.value)
 			attributes.append(att)
 	PlayerVariables.setAttributes(attributes)
-	PlayerVariables.data.defences = _build_preview_defences()
+	PlayerVariables.current().defences = _build_preview_defences()
 	PlayerVariables.setAttributePoints(int(points.value))
 
 func _on_value_changed(new_value: int, bonus1: RichTextLabel, bonus2: RichTextLabel, rows: Attribute, sb: SpinBox) -> void:

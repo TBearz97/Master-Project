@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/Combat Session/action_entry.gd" id="1_vx6pq"]
 
 [node name="ActionEntry" type="Control"]
-custom_minimum_size = Vector2(200, 32)
+custom_minimum_size = Vector2(200, 30)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,30 +22,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+[node name="GridContainer" type="GridContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+columns = 5
 
-[node name="Actor" type="Label" parent="Panel/HBoxContainer"]
+[node name="Actor" type="Label" parent="Panel/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+custom_minimum_size = Vector2(110, 0)
 
-[node name="Action" type="Label" parent="Panel/HBoxContainer"]
+[node name="Action" type="Label" parent="Panel/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+custom_minimum_size = Vector2(200, 0)
 
-[node name="Target" type="Label" parent="Panel/HBoxContainer"]
+[node name="Target" type="Label" parent="Panel/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+custom_minimum_size = Vector2(110, 0)
 
-[node name="Location" type="Label" parent="Panel/HBoxContainer"]
+[node name="Location" type="Label" parent="Panel/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 2
+custom_minimum_size = Vector2(90, 0)
+
+[node name="Speed" type="Label" parent="Panel/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(70, 0)
+horizontal_alignment = 2

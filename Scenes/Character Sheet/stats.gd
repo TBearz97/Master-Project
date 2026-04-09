@@ -3,7 +3,7 @@ extends ScrollContainer
 @export var attGrid: GridContainer
 @export var statGrid: GridContainer
 
-var atts: Array[Attribute] = PlayerVariables.getAttributes()
+var atts: Array[Attribute] = PlayerVariables.current().attributes
 var btns: Array[Button]
 var displayed_stat_grid: GridContainer
 
@@ -93,7 +93,7 @@ func _setupSkills(main: VBoxContainer) -> void:
 	info_label.size_flags_horizontal = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER
 	container.add_child(info_label)
 
-	for skill in PlayerVariables.getSkills():
+	for skill in PlayerVariables.current().skills:
 		var split := HSplitContainer.new()
 		split.dragging_enabled = false
 		split.dragger_visibility = SplitContainer.DRAGGER_HIDDEN
@@ -140,30 +140,33 @@ func _setupStatHeader() -> GridContainer:
 	var grid := statGrid.duplicate()
 	for child in grid.get_children():
 		if child.name == "LevelUp":
-			PlayerVariables.leveledUp.connect(func() -> void: child.disabled = !PlayerVariables.getLevelAvailable())
+			PlayerVariables.leveledUp.connect(func() -> void: child.disabled = !PlayerVariables.current().levelAvailable)
 			child.pressed.connect(func() -> void: get_tree().change_scene_to_file("res://Scenes/Character Sheet/Character_Sheet.tscn"))
-			child.disabled = !PlayerVariables.getLevelAvailable()
+			child.disabled = !PlayerVariables.current().levelAvailable
 	_refresh_stat_values(grid)
 	return grid
 
 func _refresh_stat_values(grid: GridContainer = displayed_stat_grid) -> void:
 	if grid == null:
 		return
-	var max_health := RuleEngine.getMaxHealth(PlayerVariables.data)
-	var max_vitality := RuleEngine.getMaxVitality(PlayerVariables.data)
+	var player := PlayerVariables.current()
+	if player == null:
+		return
+	var max_health := player.getMaxHealth()
+	var max_vitality := player.getMaxVitality()
 	for child in grid.get_children():
 		match child.name:
-			"Level": child.get_child(1).text = str(PlayerVariables.getLevel())
+			"Level": child.get_child(1).text = str(player.level)
 			"Health":
-				child.get_child(1).text = str(PlayerVariables.data.currentHP) + "/" + str(max_health)
+				child.get_child(1).text = str(player.currentHP) + "/" + str(max_health)
 			"ActionPoints":
-				child.get_child(1).text = str(RuleEngine.getActionPoints(PlayerVariables.data))
-			"Experience": child.get_child(1).text = str(PlayerVariables.getExperience())
+				child.get_child(1).text = str(player.getActionPoints())
+			"Experience": child.get_child(1).text = str(player.experience)
 			"Vitality":
-				child.get_child(1).text = str(PlayerVariables.data.currentVitality) + "/" + str(max_vitality)
-			"Fatigue": child.get_child(1).text = str(PlayerVariables.getFatigue())
-			"LevelUp": child.disabled = !PlayerVariables.getLevelAvailable()
-			"NecroticDamage": child.get_child(1).text = str(PlayerVariables.getNecroticDamage())
+				child.get_child(1).text = str(player.currentVitality) + "/" + str(max_vitality)
+			"Fatigue": child.get_child(1).text = str(player.fatigue)
+			"LevelUp": child.disabled = !player.levelAvailable
+			"NecroticDamage": child.get_child(1).text = str(player.necroticDamage)
 
 func _setSkillTooltip(btn: Button, skill: Skill) -> void:
 	var campaign_manager := _get_campaign_manager()

@@ -13,9 +13,7 @@ func _ready() -> void:
 
 func _refresh() -> void:
 	%Actor.text = str(data.get("actor_name", "Unknown"))
-	var action_text := str(data.get("action_name", "Action"))
-	if data.has("resolve_speed"):
-		action_text += " @ " + str(data.get("resolve_speed", 0))
-	%Action.text = action_text
+	%Action.text = str(data.get("action_name", "Action"))
 	%Target.text = str(data.get("target_name", "Target"))
 	%Location.text = str(data.get("target_location_name", "Torso"))
+	%Speed.text = str(data.get("resolve_speed", data.get("speed", 0)))

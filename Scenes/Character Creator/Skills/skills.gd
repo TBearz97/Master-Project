@@ -3,7 +3,7 @@ extends VBoxContainer
 @export var grid: GridContainer
 @export var points: SpinBox
 
-var skills: Array[Skill] = PlayerVariables.getSkills()
+var skills: Array[Skill] = PlayerVariables.current().skills
 var spinBoxes: Array[SpinBox] = []
 var prev: Dictionary = {}
 
@@ -12,7 +12,7 @@ func _ready() -> void:
 	_setup()
 
 func _setup() -> void:
-	points.value = PlayerVariables.getSkillPoints()
+	points.value = PlayerVariables.current().skill_points
 	var _skills := CampaignVariables.codex.Skills
 
 	for skill: Skill in _skills.values():

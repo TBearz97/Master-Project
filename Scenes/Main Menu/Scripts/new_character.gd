@@ -4,12 +4,7 @@ func _ready() -> void:
 	pressed.connect(_on_pressed)
 
 func _on_pressed() -> void:
-	PlayerVariables.data = PlayerData.new()
-	PlayerVariables.data.actions = _get_basic_actions()
-	PlayerVariables.setAttributePoints(29)
-	PlayerVariables.setSkillPoints(12)
-	PlayerVariables.setPerkPoints(3)
-	PlayerVariables.setMoney(300)
+	PlayerVariables.start_new_character(_get_basic_actions())
 	get_tree().change_scene_to_file("res://Scenes/Character Creator/character_creator.tscn")
 
 func _get_basic_actions() -> Array[Action]:

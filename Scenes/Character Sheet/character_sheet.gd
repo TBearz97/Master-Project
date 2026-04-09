@@ -48,23 +48,26 @@ func _get_combat_tab_index() -> int:
 	return -1
 
 func _refresh_quick_stats() -> void:
-	var max_health := RuleEngine.getMaxHealth(PlayerVariables.data)
-	var max_vitality := RuleEngine.getMaxVitality(PlayerVariables.data)
+	var player := PlayerVariables.current()
+	if player == null:
+		return
+	var max_health := player.getMaxHealth()
+	var max_vitality := player.getMaxVitality()
 	for child in quick_stats.get_children():
 		match child.name:
 			"Level":
-				child.get_child(1).text = str(PlayerVariables.getLevel())
+				child.get_child(1).text = str(player.level)
 			"Health":
-				child.get_child(1).text = "%s/%s" % [PlayerVariables.data.currentHP, max_health]
+				child.get_child(1).text = "%s/%s" % [player.currentHP, max_health]
 			"ActionPoints":
-				child.get_child(1).text = str(RuleEngine.getActionPoints(PlayerVariables.data))
+				child.get_child(1).text = str(player.getActionPoints())
 			"Experience":
-				child.get_child(1).text = str(PlayerVariables.getExperience())
+				child.get_child(1).text = str(player.experience)
 			"Vitality":
-				child.get_child(1).text = "%s/%s" % [PlayerVariables.data.currentVitality, max_vitality]
+				child.get_child(1).text = "%s/%s" % [player.currentVitality, max_vitality]
 			"Fatigue":
-				child.get_child(1).text = str(PlayerVariables.getFatigue())
+				child.get_child(1).text = str(player.fatigue)
 			"NecroticDamage":
-				child.get_child(1).text = str(PlayerVariables.getNecroticDamage())
+				child.get_child(1).text = str(player.necroticDamage)
 			"LevelUp":
-				child.disabled = !PlayerVariables.getLevelAvailable()
+				child.disabled = !player.levelAvailable

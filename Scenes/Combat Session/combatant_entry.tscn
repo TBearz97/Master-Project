@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://b0655ah5jch3j" path="res://Scenes/Combat Session/combatant_entry.gd" id="1_wo2xt"]
 
 [node name="CombatantEntry" type="Control"]
-custom_minimum_size = Vector2(200, 56)
+custom_minimum_size = Vector2(200, 34)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -600.0
-offset_bottom = -560.0
+offset_bottom = -582.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
@@ -32,57 +32,48 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 6
+theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 6
+theme_override_constants/margin_bottom = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+[node name="Row" type="GridContainer" parent="Panel/MarginContainer"]
 layout_mode = 2
+columns = 6
 
-[node name="TopRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="Name" type="Label" parent="Panel/MarginContainer/VBoxContainer/TopRow"]
+[node name="Name" type="Label" parent="Panel/MarginContainer/Row"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-clip_text = true
+custom_minimum_size = Vector2(180, 0)
 
-[node name="Type" type="Label" parent="Panel/MarginContainer/VBoxContainer/TopRow"]
+[node name="HP" type="Label" parent="Panel/MarginContainer/Row"]
 unique_name_in_owner = true
 layout_mode = 2
-horizontal_alignment = 2
-size_flags_horizontal = 3
-clip_text = true
-
-[node name="Inspect" type="Button" parent="Panel/MarginContainer/VBoxContainer/TopRow"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Inspect"
-
-[node name="Target" type="CheckButton" parent="Panel/MarginContainer/VBoxContainer/TopRow"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Target"
-
-[node name="BottomRow" type="HBoxContainer" parent="Panel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-
-[node name="HP" type="Label" parent="Panel/MarginContainer/VBoxContainer/BottomRow"]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 3
+custom_minimum_size = Vector2(170, 0)
 theme_override_colors/font_color = Color(0.84, 0.24, 0.24, 1)
 
-[node name="AP" type="Label" parent="Panel/MarginContainer/VBoxContainer/BottomRow"]
+[node name="AP" type="Label" parent="Panel/MarginContainer/Row"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
+custom_minimum_size = Vector2(60, 0)
 theme_override_colors/font_color = Color(0.24, 0.48, 0.84, 1)
+horizontal_alignment = 1
 
-[node name="Status" type="Label" parent="Panel/MarginContainer/VBoxContainer/BottomRow"]
+[node name="Status" type="Label" parent="Panel/MarginContainer/Row"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-horizontal_alignment = 2
-clip_text = true
+custom_minimum_size = Vector2(90, 0)
+horizontal_alignment = 1
+
+[node name="Inspect" type="Button" parent="Panel/MarginContainer/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Inspect"
+
+[node name="Target" type="CheckButton" parent="Panel/MarginContainer/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(56, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Target"

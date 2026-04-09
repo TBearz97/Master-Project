@@ -133,9 +133,9 @@ func server_register_player(playerData: PackedByteArray) -> void:
 
 @rpc("authority", "call_local", "reliable")
 func client_confirm_registered_peer_id(peer_id: int) -> void:
-	if PlayerVariables.data == null:
+	if PlayerVariables.current() == null:
 		return
-	PlayerVariables.data.peer_id = peer_id
+	PlayerVariables.current().peer_id = peer_id
 	if PlayerVariables.getName().strip_edges().is_empty():
 		return
 	PlayerVariables.save()
@@ -193,7 +193,7 @@ func _rebuild_member_list() -> void:
 
 		button.pressed.connect(func() -> void:
 			if multiplayer.is_server():
-				PlayerVariables.data = membersCharacters[peerId]
+				PlayerVariables.replace_data(membersCharacters[peerId])
 				PlayerVariables.print_character_info()
 		)
 
@@ -1017,7 +1017,7 @@ func _sync_player_from_combatant_payload(peer_id: int, combatant_payload: Dictio
 func _ensure_valid_player_vitals(player_data: PlayerData, refill_if_uninitialized: bool = false) -> void:
 	if player_data == null:
 		return
-	RuleEngine.normalizeVitals(player_data, refill_if_uninitialized)
+	player_data.normalizeVitals(refill_if_uninitialized)
 
 func _get_campaign_player_cache_dir() -> String:
 	return "%s/%s" % [PLAYER_CACHE_ROOT, _sanitize_cache_name(CampaignVariables.getCampaignName())]

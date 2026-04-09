@@ -13,23 +13,6 @@ func getSkillValue(source: CreatureData, skill_name: String) -> int:
 			return skill.value
 	return 0
 
-func _get_attribute(source: CreatureData, attribute_name: String) -> Attribute:
-	if source == null:
-		return null
-	for attribute: Attribute in source.attributes:
-		if attribute != null and attribute._name == attribute_name:
-			return attribute
-	return null
-
-func _evaluate_attribute_bonus(attribute: Attribute, bonus_label: String) -> int:
-	if attribute == null:
-		return 0
-	if attribute.bonus_1_prefix.contains(bonus_label) and not attribute.bonus_1_expression.is_empty():
-		return int(evaluate(attribute.bonus_1_expression, ["x"], [attribute.value]))
-	if attribute.bonus_2_prefix.contains(bonus_label) and not attribute.bonus_2_expression.is_empty():
-		return int(evaluate(attribute.bonus_2_expression, ["x"], [attribute.value]))
-	return 0
-
 func getAccuracy(source: CreatureData, action: Action = null) -> int:
 	if source == null:
 		return 0
@@ -38,8 +21,8 @@ func getAccuracy(source: CreatureData, action: Action = null) -> int:
 	if action != null and not action.accuracy_attribute.is_empty():
 		attribute_name = action.accuracy_attribute
 
-	var attribute := _get_attribute(source, attribute_name)
-	var accuracy := _evaluate_attribute_bonus(attribute, "Accuracy")
+	var attribute := source._get_attribute(attribute_name)
+	var accuracy := source._evaluate_attribute_bonus(attribute, "Accuracy")
 	var bonuses: Dictionary = source.get_meta("temporary_accuracy_bonuses", {})
 	accuracy += int(bonuses.get("amount", 0))
 	return accuracy
@@ -48,8 +31,8 @@ func getCritDie(source: CreatureData, _action: Action = null) -> int:
 	if source == null:
 		return 0
 
-	var attribute := _get_attribute(source, "Perception")
-	var crit_die := _evaluate_attribute_bonus(attribute, "Crit Dice")
+	var attribute := source._get_attribute("Perception")
+	var crit_die := source._evaluate_attribute_bonus(attribute, "Crit Dice")
 	var bonuses: Dictionary = source.get_meta("temporary_crit_die_bonuses", {})
 	crit_die += int(bonuses.get("amount", 0))
 	return max(crit_die, 0)
@@ -57,68 +40,27 @@ func getCritDie(source: CreatureData, _action: Action = null) -> int:
 func getActionPoints(source: CreatureData) -> int:
 	if source == null:
 		return 0
-
-	var attribute := _get_attribute(source, "Dexterity")
-	var action_points := _evaluate_attribute_bonus(attribute, "Action Points")
-	action_points -= source.fatigue
-	var bonuses: Dictionary = source.get_meta("temporary_action_point_bonuses", {})
-	action_points += int(bonuses.get("amount", 0))
-	return max(action_points, 0)
+	return source.getActionPoints()
 
 func getMaxHealth(source: CreatureData) -> int:
 	if source == null:
 		return 1
-	var attribute := _get_attribute(source, "Constitution")
-	if attribute == null:
-		return max(source.maxHP, 1)
-	var health_per_level := _evaluate_attribute_bonus(attribute, "Health")
-	var max_health = (health_per_level * max(source.level, 1)) - source.necroticDamage
-	return max(max_health, 1)
+	return source.getMaxHealth()
 
 func getMaxVitality(source: CreatureData) -> int:
 	if source == null:
 		return 1
-	var attribute := _get_attribute(source, "Constitution")
-	if attribute == null:
-		return max(source.maxVitality, 1)
-	var vitality_multiplier := _evaluate_attribute_bonus(attribute, "Vitality")
-	var max_vitality := vitality_multiplier * getMaxHealth(source)
-	return max(max_vitality, 1)
+	return source.getMaxVitality()
 
 func normalizeVitals(source: CreatureData, refill_if_uninitialized: bool = false) -> void:
 	if source == null:
 		return
-	var previous_max_hp := source.maxHP
-	var previous_max_vitality := source.maxVitality
-	source.maxHP = getMaxHealth(source)
-	source.maxVitality = getMaxVitality(source)
-	if refill_if_uninitialized and (source.currentHP <= 0 or previous_max_hp <= 1):
-		source.currentHP = source.maxHP
-	else:
-		source.currentHP = clampi(source.currentHP, 0, source.maxHP)
-	if refill_if_uninitialized and (source.currentVitality <= 0 or previous_max_vitality <= 1):
-		source.currentVitality = source.maxVitality
-	else:
-		source.currentVitality = clampi(source.currentVitality, 0, source.maxVitality)
-	source.temporaryHealth = maxi(source.temporaryHealth, 0)
+	source.normalizeVitals(refill_if_uninitialized)
 
 func healHealth(target: CreatureData, amount: int) -> Dictionary:
 	if target == null:
 		return {"success": false, "reason": "null_target"}
-	if target.currentVitality <= 0:
-		return {"success": false, "reason": "target_dead"}
-	var healed_amount := maxi(amount, 0)
-	var previous_hp := target.currentHP
-	target.currentHP = clampi(target.currentHP + healed_amount, 0, target.maxHP)
-	return {
-		"success": true,
-		"target_name": target._name,
-		"healed_amount": target.currentHP - previous_hp,
-		"remaining_hp": target.currentHP,
-		"remaining_vitality": target.currentVitality,
-		"is_unconscious": target.currentHP <= 0 and target.currentVitality > 0,
-		"is_dead": target.currentVitality <= 0,
-	}
+	return target.healHealth(amount)
 
 func getActionAPCost(action: Action, weapon: Weapon = null) -> int:
 	if action == null:

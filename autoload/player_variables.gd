@@ -12,10 +12,49 @@ func _ready() -> void:
 	data = PlayerData.new()
 	_ensure_valid_vitals(true)
 
+func current() -> PlayerData:
+	return data
+
+func replace_data(value: PlayerData, refill_if_uninitialized: bool = true) -> void:
+	data = value if value != null else PlayerData.new()
+	data._ensure_handout_store()
+	_ensure_valid_vitals(refill_if_uninitialized)
+	handouts_changed.emit()
+	combat_loadout_changed.emit()
+
+func reset_current_player() -> void:
+	replace_data(PlayerData.new())
+
+func start_new_character(basic_actions: Array[Action] = []) -> void:
+	var player := PlayerData.new()
+	player.actions = basic_actions
+	player.attribute_points = 29
+	player.skill_points = 12
+	player.perk_points = 3
+	player.money = 300
+	replace_data(player)
+
+func apply_combatant_payload(payload: Dictionary) -> void:
+	if data == null:
+		return
+	if payload.has("current_hp"):
+		data.currentHP = int(payload.get("current_hp", data.currentHP))
+	if payload.has("max_hp"):
+		data.maxHP = int(payload.get("max_hp", data.maxHP))
+	if payload.has("current_vitality"):
+		data.currentVitality = int(payload.get("current_vitality", data.currentVitality))
+	if payload.has("max_vitality"):
+		data.maxVitality = int(payload.get("max_vitality", data.maxVitality))
+	if payload.has("temporary_health"):
+		data.temporaryHealth = int(payload.get("temporary_health", data.temporaryHealth))
+	if payload.has("level"):
+		data.level = int(payload.get("level", data.level))
+	vitals_changed.emit()
+
 func _ensure_valid_vitals(refill_if_uninitialized: bool = false) -> void:
 	if data == null:
 		return
-	RuleEngine.normalizeVitals(data, refill_if_uninitialized)
+	data.normalizeVitals(refill_if_uninitialized)
 	vitals_changed.emit()
 
 # Character Info
@@ -62,63 +101,24 @@ func getBackstory() -> String:
 	return data.backstory
 
 func getHandouts() -> Array[Dictionary]:
-	_ensure_handout_store()
-	return data.handouts.duplicate(true)
+	return data.getHandouts()
 
 func addOrUpdateHandout(title: String, text: String, shared_by: String, shared_at: String) -> Dictionary:
-	_ensure_handout_store()
-	var normalized_title := title.strip_edges()
-	if normalized_title.is_empty():
-		return {}
-
-	for index in range(data.handouts.size()):
-		var existing := data.handouts[index] as Dictionary
-		if str(existing.get("title", "")) != normalized_title:
-			continue
-		existing["text"] = text
-		existing["shared_by"] = shared_by
-		existing["shared_at"] = shared_at
-		existing["unread"] = true
-		data.handouts[index] = existing
-		handouts_changed.emit()
-		return existing.duplicate(true)
-
-	var handout := {
-		"id": "%s_%s" % [normalized_title, str(Time.get_ticks_msec())],
-		"title": normalized_title,
-		"text": text,
-		"shared_by": shared_by,
-		"shared_at": shared_at,
-		"unread": true,
-	}
-	data.handouts.append(handout)
+	var handout := data.addOrUpdateHandout(title, text, shared_by, shared_at)
 	handouts_changed.emit()
-	return handout.duplicate(true)
+	return handout
 
 func deleteHandout(id: String) -> bool:
-	_ensure_handout_store()
-	for index in range(data.handouts.size()):
-		var existing := data.handouts[index] as Dictionary
-		if str(existing.get("id", "")) != id:
-			continue
-		data.handouts.remove_at(index)
+	var deleted := data.deleteHandout(id)
+	if deleted:
 		handouts_changed.emit()
-		return true
-	return false
+	return deleted
 
 func markHandoutRead(id: String) -> bool:
-	_ensure_handout_store()
-	for index in range(data.handouts.size()):
-		var existing := data.handouts[index] as Dictionary
-		if str(existing.get("id", "")) != id:
-			continue
-		if not bool(existing.get("unread", false)):
-			return false
-		existing["unread"] = false
-		data.handouts[index] = existing
+	var marked := data.markHandoutRead(id)
+	if marked:
 		handouts_changed.emit()
-		return true
-	return false
+	return marked
 
 # Attributes
 func setAttributes(value: Array[Attribute]) -> void:
@@ -280,10 +280,9 @@ func getExperience() -> int:
 	return data.experience
 
 func addExperience(value: int) -> void:
-	data.experience += value
-	if data.experience > expThreshold:
-		data.experience -= expThreshold
-		level_Up()
+	if data.addExperienceWithThreshold(value, expThreshold):
+		leveledUp.emit()
+		vitals_changed.emit()
 
 func setAttributePoints(value: int) -> void:
 	data.attribute_points = value
@@ -305,12 +304,8 @@ func getPerkPoints() -> int:
 
 func level_Up() -> void:
 	leveledUp.emit()
-	data.levelAvailable = true
-	data.level += 1
-	data.attribute_points += 1
-	data.skill_points += 2
-	data.perk_points += 1
-	_ensure_valid_vitals(true)
+	data.levelUp()
+	vitals_changed.emit()
 
 func save() -> void:
 	if not _ensure_character_directory():
@@ -334,9 +329,7 @@ func load(character_name: String) -> void:
 
 	var resource := ResourceLoader.load(file_path)
 	if resource is PlayerData:
-		data = resource
-		_ensure_handout_store()
-		_ensure_valid_vitals(true)
+		replace_data(resource)
 	else:
 		push_error("Save file %s is not a PlayerData resource" % file_path)
 
@@ -357,8 +350,8 @@ func _ensure_character_directory() -> bool:
 	return true
 
 func _ensure_handout_store() -> void:
-	if data.handouts == null:
-		data.handouts = []
+	if data != null:
+		data._ensure_handout_store()
 
 func print_character_info() -> void:
 	print("Character Info")

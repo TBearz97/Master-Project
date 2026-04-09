@@ -1024,21 +1024,9 @@ func _sync_local_player_from_combatant_payload(payload: Dictionary) -> void:
 	var controller_peer_id := int(payload.get("controller_peer_id", 0))
 	if controller_peer_id == 0 or controller_peer_id != multiplayer.get_unique_id():
 		return
-	if PlayerVariables.data == null:
+	if PlayerVariables.current() == null:
 		return
-	if payload.has("current_hp"):
-		PlayerVariables.data.currentHP = int(payload.get("current_hp", PlayerVariables.data.currentHP))
-	if payload.has("max_hp"):
-		PlayerVariables.data.maxHP = int(payload.get("max_hp", PlayerVariables.data.maxHP))
-	if payload.has("current_vitality"):
-		PlayerVariables.data.currentVitality = int(payload.get("current_vitality", PlayerVariables.data.currentVitality))
-	if payload.has("max_vitality"):
-		PlayerVariables.data.maxVitality = int(payload.get("max_vitality", PlayerVariables.data.maxVitality))
-	if payload.has("temporary_health"):
-		PlayerVariables.data.temporaryHealth = int(payload.get("temporary_health", PlayerVariables.data.temporaryHealth))
-	if payload.has("level"):
-		PlayerVariables.data.level = int(payload.get("level", PlayerVariables.data.level))
-	PlayerVariables.vitals_changed.emit()
+	PlayerVariables.apply_combatant_payload(payload)
 
 func reset_combat_session_locally() -> void:
 	encounter_combatants.clear()
@@ -1069,14 +1057,14 @@ func _build_combatant_entry(combatant_payload: Dictionary) -> CombatantEntry:
 	return entry
 
 func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
-	RuleEngine.normalizeVitals(player_data, true)
+	player_data.normalizeVitals(true)
 	var details := [
 		"Peer ID: %s" % peer_id,
 		"Attributes: %s" % _format_attribute_values(player_data.attributes),
 		"Actions: %s" % _format_player_action_names(player_data),
 		"Conditions: %s" % _format_name_list(player_data.conditions),
 	]
-	var action_points := RuleEngine.getActionPoints(player_data)
+	var action_points := player_data.getActionPoints()
 	return {
 		"id": _create_combatant_id("player_%s" % peer_id),
 		"name": player_data._name,
@@ -1102,14 +1090,14 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 	}
 
 func _build_npc_payload(npc: NPC) -> Dictionary:
-	RuleEngine.normalizeVitals(npc.data, true)
+	npc.data.normalizeVitals(true)
 	var details := [
 		npc.short_description,
 		"Attributes: %s" % _format_attribute_values(npc.data.attributes),
 		"Actions: %s" % _format_name_list(npc.data.actions),
 		"Conditions: %s" % _format_name_list(npc.data.conditions),
 	]
-	var action_points := RuleEngine.getActionPoints(npc.data)
+	var action_points := npc.data.getActionPoints()
 	return {
 		"id": _create_combatant_id("npc_%s" % npc._name.to_snake_case()),
 		"name": npc._name,
@@ -1285,9 +1273,9 @@ func _find_local_player_combatant(local_peer_id: int) -> Dictionary:
 func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary:
 	var payload := base_payload.duplicate(true)
 	var player_data := PlayerVariables.data
-	RuleEngine.normalizeVitals(player_data)
+	player_data.normalizeVitals()
 	var active_loadout := int(payload.get("active_loadout", 1))
-	var action_points := RuleEngine.getActionPoints(player_data)
+	var action_points := player_data.getActionPoints()
 	payload["current_hp"] = player_data.currentHP
 	payload["max_hp"] = player_data.maxHP
 	payload["current_vitality"] = player_data.currentVitality
@@ -1321,8 +1309,8 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		if campaign_manager == null or not campaign_manager.membersCharacters.has(peer_id):
 			return {}
 		var player_data: PlayerData = campaign_manager.membersCharacters[peer_id]
-		RuleEngine.normalizeVitals(player_data)
-		var player_action_points := RuleEngine.getActionPoints(player_data)
+		player_data.normalizeVitals()
+		var player_action_points := player_data.getActionPoints()
 		payload["current_hp"] = player_data.currentHP
 		payload["max_hp"] = player_data.maxHP
 		payload["current_vitality"] = player_data.currentVitality
@@ -1346,8 +1334,8 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	var npc: NPC = CampaignVariables.codex.NPCs.get(str(payload.get("name", "")), null)
 	if npc == null:
 		return {}
-	RuleEngine.normalizeVitals(npc.data)
-	var npc_action_points := RuleEngine.getActionPoints(npc.data)
+	npc.data.normalizeVitals()
+	var npc_action_points := npc.data.getActionPoints()
 	payload["current_hp"] = npc.data.currentHP
 	payload["max_hp"] = npc.data.maxHP
 	payload["current_vitality"] = npc.data.currentVitality
@@ -1396,10 +1384,6 @@ func _item_name_or_empty(item: Item) -> String:
 func _refresh_queued_actions() -> void:
 	for child in queuedActionsList.get_children():
 		child.queue_free()
-
-	var title := Label.new()
-	title.text = "Queued Actions"
-	queuedActionsList.add_child(title)
 
 	var has_entries := false
 	for queued_entry in _get_sorted_queued_action_entries():

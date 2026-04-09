@@ -44,12 +44,6 @@ func _refresh() -> void:
 	if int(data.get("controller_peer_id", 0)) == multiplayer.get_unique_id() and int(data.get("controller_peer_id", 0)) != 0:
 		display_name += " (You)"
 	%Name.text = display_name
-	var type_text := str(data.get("type", "NA"))
-	var loadout := int(data.get("active_loadout", 1))
-	type_text += "  L%s" % loadout
-	if int(data.get("level", 0)) > 0:
-		type_text += "  Lv%s" % int(data.get("level", 0))
-	%Type.text = type_text
 
 	var current_hp := int(data.get("current_hp", 0))
 	var max_hp := maxi(int(data.get("max_hp", 0)), 1)
@@ -58,10 +52,10 @@ func _refresh() -> void:
 	var temporary_health := int(data.get("temporary_health", 0))
 	var remaining_ap := int(data.get("remaining_action_points", 0))
 	var action_points := int(data.get("action_points", 0))
-	%HP.text = "HP %s/%s  V %s/%s" % [current_hp, max_hp, current_vitality, max_vitality]
+	%HP.text = "HP %s/%s | Vit %s/%s" % [current_hp, max_hp, current_vitality, max_vitality]
 	if temporary_health > 0:
 		%HP.text += "  T %s" % temporary_health
-	%AP.text = "AP %s/%s" % [remaining_ap, action_points]
+	%AP.text = "%s/%s" % [remaining_ap, action_points]
 
 	var pending_request := str(data.get("pending_request", ""))
 	var queued_actions: Array = data.get("queued_actions", [])
