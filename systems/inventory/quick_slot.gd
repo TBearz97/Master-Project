@@ -1,7 +1,7 @@
 extends ItemSlot
 
 
-@export_enum("1", "2", "3", "4") var slot: int = 1
+@export_enum("0", "1", "2", "3") var slot: int = 1
 
 func _ready() -> void:
 	var slots = Item.ItemSlots
@@ -9,12 +9,27 @@ func _ready() -> void:
 		return
 	var equipment = PlayerVariables.getEquipment()
 	match item_slot:
-		slots.QuickItem :
-			match slot :
-				0 : set_item(equipment.quickItem1) 
-				1 : set_item(equipment.quickItem2)
-				2 : set_item(equipment.quickItem3)
-				3 : set_item(equipment.quickItem4)
+		slots.QuickItem:
+			match slot:
+				0:
+					set_item(equipment.quickItem1)
+				1:
+					set_item(equipment.quickItem2)
+				2:
+					set_item(equipment.quickItem3)
+				3:
+					set_item(equipment.quickItem4)
+
+func _apply_item_to_projected_equipment(equipment: Equipment, item: Item) -> void:
+	match slot:
+		0:
+			equipment.quickItem1 = item
+		1:
+			equipment.quickItem2 = item
+		2:
+			equipment.quickItem3 = item
+		3:
+			equipment.quickItem4 = item
 
 @warning_ignore("unused_parameter")
 func set_item(item: Item, recursion: bool = false) -> void:
@@ -24,9 +39,14 @@ func set_item(item: Item, recursion: bool = false) -> void:
 		return
 	var equipment = PlayerVariables.getEquipment()
 	match item_slot:
-		slots.QuickItem :
-			match slot :
-				0 : equipment.quickItem1 = item
-				1 : equipment.quickItem2 = item
-				2 : equipment.quickItem3 = item
-				3 : equipment.quickItem4 = item
+		slots.QuickItem:
+			match slot:
+				0:
+					equipment.quickItem1 = item
+				1:
+					equipment.quickItem2 = item
+				2:
+					equipment.quickItem3 = item
+				3:
+					equipment.quickItem4 = item
+	PlayerVariables.notify_combat_loadout_changed()

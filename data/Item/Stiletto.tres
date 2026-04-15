@@ -1,51 +1,50 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_qv45q"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_vfnhb"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Stiletto.png" id="3_kpatq"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_0q0eh"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_vfnhb"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_kpatq"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_0q0eh"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Stiletto.png" id="4_fuo2f"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_fax4v"]
 
-[sub_resource type="Resource" id="Resource_tf4da"]
-script = ExtResource("1_qv45q")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_a4pgp"]
+script = ExtResource("2_kpatq")
+attack_power = 100
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 18
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Thrust"
 short_description = "A precise piercing attack."
 long_description = "A focused lunge driving the point into the target."
 
-[sub_resource type="Resource" id="Resource_24s3x"]
-script = ExtResource("1_qv45q")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_uyjgj"]
+script = ExtResource("2_kpatq")
+attack_power = 90
+mana_cost = 1
+condition = "Bleed"
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 24
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Rend"
 short_description = "A tearing attack."
 long_description = "A vicious strike intended to tear and wound."
 
-[sub_resource type="Resource" id="Resource_fuo2f"]
-script = ExtResource("2_vfnhb")
+[sub_resource type="Resource" id="Resource_5wsg4"]
+script = ExtResource("3_0q0eh")
 damage_die = 4
 
 [resource]
-script = ExtResource("4_0q0eh")
-damage_profile = SubResource("Resource_fuo2f")
-base_ap_cost = 1
+script = ExtResource("5_fax4v")
+damage_profile = SubResource("Resource_5wsg4")
+base_ap_cost = 3
 speed_category = 1
 qualities = Array[String](["Concealed", "Brutal", "Thrown (C)"])
-actions = Array[ExtResource("1_qv45q")]([SubResource("Resource_tf4da"), SubResource("Resource_24s3x")])
+actions = Array[ExtResource("1_vfnhb")]([SubResource("Resource_a4pgp"), SubResource("Resource_uyjgj")])
 weight = 0.5
 value = 20
-icon = ExtResource("3_kpatq")
+icon = ExtResource("4_fuo2f")
 allowed_slots = Array[int]([7])
 _name = "Stiletto"
 short_description = "A weapon used in combat."
-long_description = "Deals d4 damage. AP cost 1. Speed Fast. Qualities: Concealed, Brutal, Thrown (C)."
+long_description = "Deals d4 damage. AP cost 3. Speed Fast. Qualities: Concealed, Brutal, Thrown (C)."

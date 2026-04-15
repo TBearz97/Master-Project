@@ -116,8 +116,12 @@ homeland = SubResource("Resource_mjhn8")
 background = SubResource("Resource_afiqi")
 _name = "Cult Adept"
 attributes = Array[ExtResource("2_x8sid")]([SubResource("Resource_ktqj2"), SubResource("Resource_n0rb5"), SubResource("Resource_popr1"), SubResource("Resource_evyte"), SubResource("Resource_g7a3f"), SubResource("Resource_tin0y")])
-maxHP = 10
-currentHP = 10
+maxHP = 6.0
+currentHP = 6.0
+maxVitality = 18.0
+currentVitality = 18.0
+maxConcentration = 1
+currentConcentration = 1
 level = 1
 
 [resource]

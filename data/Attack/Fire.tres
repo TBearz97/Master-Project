@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_ak7vd"]
+
+[resource]
+script = ExtResource("1_ak7vd")
+attack_power = 100
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 20
+_name = "Fire"
+short_description = "A ranged attack."
+long_description = "Releasing a projectile at the target."

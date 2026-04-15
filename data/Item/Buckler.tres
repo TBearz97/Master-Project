@@ -1,38 +1,39 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_gqd5n"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_1doue"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Buckler.png" id="3_reni2"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_11lqp"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_1doue"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_reni2"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_11lqp"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Buckler.png" id="4_g23ef"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_jjj8g"]
 
-[sub_resource type="Resource" id="Resource_g23ef"]
-script = ExtResource("1_gqd5n")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_qtm0o"]
+script = ExtResource("2_reni2")
+attack_power = 80
+mana_cost = 1
+condition = "Prone"
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 24
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Bash"
 short_description = "An impact attack."
 long_description = "Driving the face of a shield or blunt weapon into the target."
 
-[sub_resource type="Resource" id="Resource_jjj8g"]
-script = ExtResource("2_1doue")
+[sub_resource type="Resource" id="Resource_gywbf"]
+script = ExtResource("3_11lqp")
 damage_die = 6
 
 [resource]
-script = ExtResource("4_11lqp")
-damage_profile = SubResource("Resource_jjj8g")
-base_ap_cost = 1
+script = ExtResource("5_jjj8g")
+damage_profile = SubResource("Resource_gywbf")
+base_ap_cost = 3
 speed_category = 1
 qualities = Array[String](["Parry", "+1 Defense", "Accurate"])
-actions = Array[ExtResource("1_gqd5n")]([SubResource("Resource_g23ef")])
+actions = Array[ExtResource("1_1doue")]([SubResource("Resource_qtm0o")])
 weight = 2.0
 value = 25
-icon = ExtResource("3_reni2")
+icon = ExtResource("4_g23ef")
 allowed_slots = Array[int]([7])
 _name = "Buckler"
 short_description = "A weapon used in combat."
-long_description = "Deals d6 damage. AP cost 1. Speed Fast. Qualities: Parry, +1 Defense, Accurate."
+long_description = "Deals d6 damage. AP cost 3. Speed Fast. Qualities: Parry, +1 Defense, Accurate."

@@ -10,15 +10,11 @@
 
 [sub_resource type="Resource" id="Resource_jhync"]
 script = ExtResource("1_rtcv0")
-expressions = Array[String](["markDelayedAction(source, 1)"])
 category = "Basic"
 base_speed = 10
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Wait"
 short_description = "Delay your next action."
-long_description = "You hold back and act later, improving your timing on the next action."
+long_description = "Delay your next action by 10."
 
 [sub_resource type="Resource" id="Resource_yfwsq"]
 script = ExtResource("2_sn830")
@@ -95,8 +91,12 @@ long_description = "Resolve reflects a character’s strength of will, focus, an
 script = ExtResource("6_xx030")
 _name = "Zombie"
 attributes = Array[ExtResource("2_sn830")]([SubResource("Resource_yfwsq"), SubResource("Resource_x2hn7"), SubResource("Resource_lllv3"), SubResource("Resource_5x85w"), SubResource("Resource_6t1gp"), SubResource("Resource_r3x0w")])
-maxHP = 16
-currentHP = 16
+maxHP = 14.0
+currentHP = 14.0
+maxVitality = 70.0
+currentVitality = 70.0
+maxConcentration = 6
+currentConcentration = 6
 actions = Array[ExtResource("1_rtcv0")]([SubResource("Resource_jhync")])
 level = 1
 

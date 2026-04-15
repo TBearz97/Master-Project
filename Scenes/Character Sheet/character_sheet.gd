@@ -51,20 +51,22 @@ func _refresh_quick_stats() -> void:
 	var player := PlayerVariables.current()
 	if player == null:
 		return
-	var max_health := player.getMaxHealth()
-	var max_vitality := player.getMaxVitality()
+	var max_health: float = player.getMaxHealth()
+	var max_vitality: float = player.getMaxVitality()
 	for child in quick_stats.get_children():
 		match child.name:
 			"Level":
 				child.get_child(1).text = str(player.level)
 			"Health":
-				child.get_child(1).text = "%s/%s" % [player.currentHP, max_health]
+				child.get_child(1).text = "%s/%s" % [ceili(player.currentHP), ceili(max_health)]
+				child.get_child(1).tooltip_text = "%.2f / %.2f" % [player.currentHP, max_health]
 			"ActionPoints":
 				child.get_child(1).text = str(player.getActionPoints())
 			"Experience":
 				child.get_child(1).text = str(player.experience)
 			"Vitality":
-				child.get_child(1).text = "%s/%s" % [player.currentVitality, max_vitality]
+				child.get_child(1).text = "%s/%s" % [ceili(player.currentVitality), ceili(max_vitality)]
+				child.get_child(1).tooltip_text = "%.2f / %.2f" % [player.currentVitality, max_vitality]
 			"Fatigue":
 				child.get_child(1).text = str(player.fatigue)
 			"NecroticDamage":

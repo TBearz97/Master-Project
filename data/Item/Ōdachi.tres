@@ -1,64 +1,61 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_2x5rd"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_rk2pa"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Ōdachi.png" id="3_blpme"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_8bb48"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_rk2pa"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_blpme"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_8bb48"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Ōdachi.png" id="4_ebob4"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_wliin"]
 
-[sub_resource type="Resource" id="Resource_cxayk"]
-script = ExtResource("1_2x5rd")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_o7663"]
+script = ExtResource("2_blpme")
+attack_power = 100
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 22
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Slash"
 short_description = "A broad cutting attack."
 long_description = "A wide swinging cut aimed at exposed flesh."
 
-[sub_resource type="Resource" id="Resource_bsemk"]
-script = ExtResource("1_2x5rd")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_2vcwm"]
+script = ExtResource("2_blpme")
+attack_power = 85
+mana_cost = 1
+target = "multi_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 28
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Sweep"
 short_description = "A wide sweeping attack."
 long_description = "A broad arc that can catch multiple foes."
 
-[sub_resource type="Resource" id="Resource_cq4f0"]
-script = ExtResource("1_2x5rd")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_8iq16"]
+script = ExtResource("2_blpme")
+attack_power = 120
+mana_cost = 1
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 32
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Cleave"
 short_description = "A powerful chopping blow."
 long_description = "A downward chop with full force behind it."
 
-[sub_resource type="Resource" id="Resource_ebob4"]
-script = ExtResource("2_rk2pa")
+[sub_resource type="Resource" id="Resource_mkopg"]
+script = ExtResource("3_8bb48")
 damage_die = 10
 
 [resource]
-script = ExtResource("4_8bb48")
-damage_profile = SubResource("Resource_ebob4")
-base_ap_cost = 3
+script = ExtResource("5_wliin")
+damage_profile = SubResource("Resource_mkopg")
+base_ap_cost = 5
 speed_category = 3
 size = 1
-actions = Array[ExtResource("1_2x5rd")]([SubResource("Resource_cxayk"), SubResource("Resource_bsemk"), SubResource("Resource_cq4f0")])
+actions = Array[ExtResource("1_rk2pa")]([SubResource("Resource_o7663"), SubResource("Resource_2vcwm"), SubResource("Resource_8iq16")])
 weight = 5.5
 value = 46
-icon = ExtResource("3_blpme")
+icon = ExtResource("4_ebob4")
 allowed_slots = Array[int]([7])
 _name = "Ōdachi"
 short_description = "A weapon used in combat."
-long_description = "Deals d10 damage. AP cost 3. Speed Slow."
+long_description = "Deals d10 damage. AP cost 5. Speed Slow."

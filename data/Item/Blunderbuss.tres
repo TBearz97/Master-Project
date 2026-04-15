@@ -1,38 +1,37 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_ixmla"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_ix4sk"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Blunderbuss.png" id="3_fygy0"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_vi5qt"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_ix4sk"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_fygy0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_vi5qt"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Blunderbuss.png" id="4_s6yan"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_0waq7"]
 
-[sub_resource type="Resource" id="Resource_s6yan"]
-script = ExtResource("1_ixmla")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_ovdym"]
+script = ExtResource("2_fygy0")
+attack_power = 100
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 20
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Fire"
 short_description = "A ranged attack."
 long_description = "Releasing a projectile at the target."
 
-[sub_resource type="Resource" id="Resource_0waq7"]
-script = ExtResource("2_ix4sk")
+[sub_resource type="Resource" id="Resource_y8ujc"]
+script = ExtResource("3_vi5qt")
 damage_die = 12
 
 [resource]
-script = ExtResource("4_vi5qt")
-damage_profile = SubResource("Resource_0waq7")
-base_ap_cost = 1
+script = ExtResource("5_0waq7")
+damage_profile = SubResource("Resource_y8ujc")
+base_ap_cost = 3
 qualities = Array[String](["Brutal", "Close Quarters"])
 weaponRange = 1
-actions = Array[ExtResource("1_ixmla")]([SubResource("Resource_s6yan")])
+actions = Array[ExtResource("1_ix4sk")]([SubResource("Resource_ovdym")])
 weight = 2.0
 value = 40
-icon = ExtResource("3_fygy0")
+icon = ExtResource("4_s6yan")
 allowed_slots = Array[int]([7])
 _name = "Blunderbuss"
 short_description = "A weapon used in combat."
-long_description = "Deals d12 damage. AP cost 1. Speed Very Fast. Qualities: Brutal, Close Quarters."
+long_description = "Deals d12 damage. AP cost 3. Speed Very Fast. Qualities: Brutal, Close Quarters."

@@ -36,7 +36,6 @@ func _ready() -> void:
 	multiplayer.peer_disconnected.connect(_on_peer_disconnected)
 	multiplayer.server_disconnected.connect(_disconnected)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
-	RuleEngine.diceRolled.connect(broadcast_dice)
 	delete_handout_button.pressed.connect(_on_delete_handout_pressed)
 	delete_viewed_handout_button.pressed.connect(_on_delete_viewed_handout_pressed)
 	if PlayerVariables.has_signal("handouts_changed"):
@@ -1048,15 +1047,43 @@ func _sync_player_from_combatant_payload(peer_id: int, combatant_payload: Dictio
 	_ensure_basic_actions(player_data)
 	_ensure_valid_player_vitals(player_data)
 	if combatant_payload.has("current_hp"):
-		player_data.currentHP = int(combatant_payload.get("current_hp", player_data.currentHP))
+		player_data.currentHP = float(combatant_payload.get("current_hp", player_data.currentHP))
 	if combatant_payload.has("max_hp"):
-		player_data.maxHP = int(combatant_payload.get("max_hp", player_data.maxHP))
+		player_data.maxHP = float(combatant_payload.get("max_hp", player_data.maxHP))
 	if combatant_payload.has("current_vitality"):
-		player_data.currentVitality = int(combatant_payload.get("current_vitality", player_data.currentVitality))
+		player_data.currentVitality = float(combatant_payload.get("current_vitality", player_data.currentVitality))
 	if combatant_payload.has("max_vitality"):
-		player_data.maxVitality = int(combatant_payload.get("max_vitality", player_data.maxVitality))
+		player_data.maxVitality = float(combatant_payload.get("max_vitality", player_data.maxVitality))
 	if combatant_payload.has("temporary_health"):
-		player_data.temporaryHealth = int(combatant_payload.get("temporary_health", player_data.temporaryHealth))
+		player_data.temporaryHealth = float(combatant_payload.get("temporary_health", player_data.temporaryHealth))
+	if combatant_payload.has("current_concentration"):
+		player_data.currentConcentration = int(combatant_payload.get("current_concentration", player_data.currentConcentration))
+	if combatant_payload.has("max_concentration"):
+		player_data.maxConcentration = int(combatant_payload.get("max_concentration", player_data.maxConcentration))
+	if combatant_payload.has("conditions"):
+		var runtime_conditions: Array[Condition] = []
+		for condition_name_variant in combatant_payload.get("conditions", []):
+			var condition_name := str(condition_name_variant)
+			if condition_name.is_empty():
+				continue
+			var condition: Condition = CampaignVariables.codex.Conditions.get(condition_name, null) if CampaignVariables.codex != null else null
+			if condition != null:
+				runtime_conditions.append(condition.duplicate(true) as Condition)
+			else:
+				runtime_conditions.append(Condition.new(condition_name))
+		player_data.conditions = runtime_conditions
+	if combatant_payload.has("stunned_round"):
+		var stunned_round := int(combatant_payload.get("stunned_round", -1))
+		if stunned_round > 0:
+			player_data.set_meta("stunned_round", stunned_round)
+		else:
+			player_data.remove_meta("stunned_round")
+	if combatant_payload.has("stunned_resolve_speed"):
+		var stunned_resolve_speed := int(combatant_payload.get("stunned_resolve_speed", 0))
+		if stunned_resolve_speed > 0:
+			player_data.set_meta("stunned_resolve_speed", stunned_resolve_speed)
+		else:
+			player_data.remove_meta("stunned_resolve_speed")
 	if combatant_payload.has("level"):
 		player_data.level = int(combatant_payload.get("level", player_data.level))
 	if combatant_payload.has("active_loadout"):
@@ -1195,12 +1222,6 @@ func _server_receive_combat(combat_line: String) -> void:
 @rpc("authority", "call_local", "reliable")
 func _client_append_combat_line(senderPeerId: int, combat_line: String) -> void:
 	_append_combat_log_local(senderPeerId, combat_line)
-
-func broadcast_dice(diceRolled: Array) -> void:
-	var message := ""
-	for dice in diceRolled:
-		message += "\nRolled a: " + str(dice)
-	_add_combat_log(message)
 
 func _find_node_by_name(node: Node, target_name: String) -> Node:
 	if node.name == target_name:

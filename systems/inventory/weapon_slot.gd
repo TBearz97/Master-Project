@@ -28,6 +28,37 @@ func _ready() -> void:
 					add_to_group("Weapon Set 2")
 					set_item(equipment.weapon2Right)
 
+func _get_weapon_set_slots(equipment: Equipment) -> Array[Weapon]:
+	if weaponSet == WeaponSets.Primary:
+		return [equipment.weapon1Left, equipment.weapon1Right]
+	return [equipment.weapon2Left, equipment.weapon2Right]
+
+func _set_weapon_set_slots(equipment: Equipment, left_weapon: Weapon, right_weapon: Weapon) -> void:
+	if weaponSet == WeaponSets.Primary:
+		equipment.weapon1Left = left_weapon
+		equipment.weapon1Right = right_weapon
+		return
+	equipment.weapon2Left = left_weapon
+	equipment.weapon2Right = right_weapon
+
+func _apply_item_to_projected_equipment(equipment: Equipment, item: Item) -> void:
+	var set_slots := _get_weapon_set_slots(equipment)
+	var left_weapon := set_slots[0]
+	var right_weapon := set_slots[1]
+	var current_weapon: Weapon = left_weapon if slot == WeaponSlot.Left else right_weapon
+	if current_weapon != null and current_weapon.size == Weapon.WeaponSize.TWO_HANDED:
+		left_weapon = null
+		right_weapon = null
+	if item is Weapon and item.size == Weapon.WeaponSize.TWO_HANDED:
+		left_weapon = item
+		right_weapon = item
+	else:
+		if slot == WeaponSlot.Left:
+			left_weapon = item as Weapon
+		else:
+			right_weapon = item as Weapon
+	_set_weapon_set_slots(equipment, left_weapon, right_weapon)
+
 @warning_ignore("unused_parameter")
 func set_item(item: Item, recursion: bool = false) -> void:
 	super.set_item(item)

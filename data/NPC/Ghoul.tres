@@ -83,8 +83,12 @@ long_description = "Resolve reflects a character’s strength of will, focus, an
 script = ExtResource("6_ax6c7")
 _name = "Ghoul"
 attributes = Array[ExtResource("2_bbsa2")]([SubResource("Resource_hj71q"), SubResource("Resource_bn0dp"), SubResource("Resource_efdn6"), SubResource("Resource_247ah"), SubResource("Resource_0456o"), SubResource("Resource_g7pfd")])
-maxHP = 12
-currentHP = 12
+maxHP = 6.0
+currentHP = 6.0
+maxVitality = 18.0
+currentVitality = 18.0
+maxConcentration = 1
+currentConcentration = 1
 level = 1
 
 [resource]

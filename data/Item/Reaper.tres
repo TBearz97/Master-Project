@@ -1,64 +1,62 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_k1v5v"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_fc4ch"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Reaper.png" id="3_1ka76"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_hn7au"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_fc4ch"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_1ka76"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_hn7au"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Reaper.png" id="4_bsemk"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_dy2i2"]
 
-[sub_resource type="Resource" id="Resource_cxayk"]
-script = ExtResource("1_k1v5v")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_o7663"]
+script = ExtResource("2_1ka76")
+attack_power = 100
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 22
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Slash"
 short_description = "A broad cutting attack."
 long_description = "A wide swinging cut aimed at exposed flesh."
 
-[sub_resource type="Resource" id="Resource_bsemk"]
-script = ExtResource("1_k1v5v")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_2vcwm"]
+script = ExtResource("2_1ka76")
+attack_power = 85
+mana_cost = 1
+target = "multi_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 28
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Sweep"
 short_description = "A wide sweeping attack."
 long_description = "A broad arc that can catch multiple foes."
 
-[sub_resource type="Resource" id="Resource_24s3x"]
-script = ExtResource("1_k1v5v")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_uyjgj"]
+script = ExtResource("2_1ka76")
+attack_power = 90
+mana_cost = 1
+condition = "Bleed"
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 24
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Rend"
 short_description = "A tearing attack."
 long_description = "A vicious strike intended to tear and wound."
 
-[sub_resource type="Resource" id="Resource_dy2i2"]
-script = ExtResource("2_fc4ch")
+[sub_resource type="Resource" id="Resource_e3qom"]
+script = ExtResource("3_hn7au")
 damage_die = 8
 
 [resource]
-script = ExtResource("4_hn7au")
-damage_profile = SubResource("Resource_dy2i2")
-base_ap_cost = 2
+script = ExtResource("5_dy2i2")
+damage_profile = SubResource("Resource_e3qom")
+base_ap_cost = 4
 speed_category = 2
 size = 1
-actions = Array[ExtResource("1_k1v5v")]([SubResource("Resource_cxayk"), SubResource("Resource_bsemk"), SubResource("Resource_24s3x")])
+actions = Array[ExtResource("1_fc4ch")]([SubResource("Resource_o7663"), SubResource("Resource_2vcwm"), SubResource("Resource_uyjgj")])
 weight = 4.0
 value = 34
-icon = ExtResource("3_1ka76")
+icon = ExtResource("4_bsemk")
 allowed_slots = Array[int]([7])
 _name = "Reaper"
 short_description = "A weapon used in combat."
-long_description = "Deals d8 damage. AP cost 2. Speed Normal."
+long_description = "Deals d8 damage. AP cost 4. Speed Normal."

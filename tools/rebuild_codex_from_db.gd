@@ -8,6 +8,7 @@ const ARMOR_SIDE_SUFFIXES := [" Left", " Right"]
 
 const OUTPUT_FOLDERS := {
 	"Action": "Action",
+	"Attack": "Attack",
 	"Attribute": "Attribute",
 	"Background": "Background",
 	"Condition": "Condition",
@@ -210,7 +211,7 @@ func _build_defences(db: SQLite, keywords: Dictionary, attributes: Dictionary[St
 
 func _build_actions(db: SQLite) -> Dictionary[String, Action]:
 	var result: Dictionary[String, Action] = {}
-	for row in _query(db, "SELECT name, short_description, long_description, category, ap_cost, base_speed, expressions FROM Action ORDER BY ID"):
+	for row in _query(db, "SELECT ID, name, short_description, long_description, ap_cost, base_speed FROM Action ORDER BY ID"):
 		var action_name := _text(row, "name")
 		if result.has(action_name):
 			continue
@@ -218,33 +219,72 @@ func _build_actions(db: SQLite) -> Dictionary[String, Action]:
 		action._name = action_name
 		action.short_description = _text(row, "short_description")
 		action.long_description = _text(row, "long_description")
-		action.category = _text(row, "category")
+		action.category = Action.CATEGORY_BASIC
 		action.ap_cost = _nullable_int(row, "ap_cost", -1)
 		action.base_speed = _int(row, "base_speed")
-		var expressions_json := _text(row, "expressions")
-		if not expressions_json.is_empty():
-			var parsed: Variant = JSON.parse_string(expressions_json)
-			if parsed is Array:
-				action.expressions.assign(parsed)
 		_save_tres(action, "Action", action._name)
 		result[action._name] = action
+	for row in _query(db, "SELECT ID, name, short_description, long_description, attack_power, ap_cost, mana_cost, base_speed, condition, target FROM Attack ORDER BY ID"):
+		var attack_name := _text(row, "name")
+		if result.has(attack_name):
+			continue
+		var attack := Attack.new()
+		attack._name = attack_name
+		attack.short_description = _text(row, "short_description")
+		attack.long_description = _text(row, "long_description")
+		attack.ap_cost = _nullable_int(row, "ap_cost", -1)
+		attack.mana_cost = _int(row, "mana_cost")
+		attack.base_speed = _int(row, "base_speed")
+		attack.attack_power = _int(row, "attack_power")
+		attack.condition = _text(row, "condition")
+		attack.target = _text(row, "target")
+		if attack.target.is_empty():
+			attack.target = Action.TARGET_SINGLE
+		_save_tres(attack, "Attack", attack._name)
+		result[attack._name] = attack
 	return result
 
 func _build_items(db: SQLite, keywords: Dictionary, actions: Dictionary[String, Action]) -> Dictionary[String, Item]:
 	var result: Dictionary[String, Item] = {}
 	var armor_rows := _query(db, "SELECT item, armor_slot, physical_dt, magical_dt, necrotic_dt FROM Armor")
 	var clothing_rows := _rows_by_key(_query(db, "SELECT item, locations_covered, type FROM Clothing"), "item")
-	var consumable_rows := _rows_by_key(_query(db, "SELECT item, type, hp_healed, effect, duration, addiction_threshold, alcoholic FROM Consumable"), "item")
-	var utility_rows := _rows_by_key(_query(db, "SELECT item, category, effect FROM Utility"), "item")
 	var weapon_rows := _rows_by_key(_query(db, "SELECT item, damage_die, base_ap_cost, speed_category, qualities, size, range, actions FROM Weapon"), "item")
 
 	for row in _query(db, "SELECT name, weight, cost, type FROM Item ORDER BY ID"):
 		var item_name := _text(row, "name")
 		var item_type := _text(row, "type")
-		var item := _make_item_resource(item_name, item_type, row, keywords, armor_rows, clothing_rows, consumable_rows, utility_rows, weapon_rows, actions)
+		if item_type in ["Consumable", "Utility"]:
+			continue
+		var item := _make_item_resource(item_name, item_type, row, keywords, armor_rows, clothing_rows, weapon_rows, actions)
 		if item != null:
 			_save_tres(item, "Item", item._name)
 			result[item._name] = item
+
+	for row in _query(db, "SELECT ID, name, short_description, long_description, expression, weight, cost FROM Utility ORDER BY ID"):
+		var utility := Utility.new()
+		utility._name = _text(row, "name")
+		utility.short_description = _text(row, "short_description")
+		utility.long_description = _text(row, "long_description")
+		utility.expression = _text(row, "expression")
+		utility.weight = _float(row, "weight")
+		utility.value = _int(row, "cost")
+		utility.allowed_slots = [Item.ItemSlots.QuickItem]
+		utility._load_icon_from_name()
+		_save_tres(utility, "Item", utility._name)
+		result[utility._name] = utility
+
+	for row in _query(db, "SELECT ID, name, short_description, long_description, expression, weight, cost FROM Consumable ORDER BY ID"):
+		var consumable := Consumable.new()
+		consumable._name = _text(row, "name")
+		consumable.short_description = _text(row, "short_description")
+		consumable.long_description = _text(row, "long_description")
+		consumable.expression = _text(row, "expression")
+		consumable.weight = _float(row, "weight")
+		consumable.value = _int(row, "cost")
+		consumable.allowed_slots = [Item.ItemSlots.QuickItem]
+		consumable._load_icon_from_name()
+		_save_tres(consumable, "Item", consumable._name)
+		result[consumable._name] = consumable
 	return result
 
 func _build_npcs(db: SQLite, attributes: Dictionary[String, Attribute], action_templates: Dictionary[String, Action], item_templates: Dictionary[String, Item]) -> Dictionary[String, NPC]:
@@ -372,7 +412,7 @@ func _build_npc_attributes(attributes_json: String, attribute_templates: Diction
 			result.append(attribute)
 	return result
 
-func _make_item_resource(item_name: String, item_type: String, item_row: Dictionary, keywords: Dictionary, armor_rows: Array, clothing_rows: Dictionary, consumable_rows: Dictionary, utility_rows: Dictionary, weapon_rows: Dictionary, actions: Dictionary[String, Action]) -> Item:
+func _make_item_resource(item_name: String, item_type: String, item_row: Dictionary, keywords: Dictionary, armor_rows: Array, clothing_rows: Dictionary, weapon_rows: Dictionary, actions: Dictionary[String, Action]) -> Item:
 	var item: Item = null
 	match item_type:
 		"Armor":
@@ -391,31 +431,6 @@ func _make_item_resource(item_name: String, item_type: String, item_row: Diction
 			_ensure_item_descriptions(clothing, item_type)
 			clothing._load_icon_from_name()
 			item = clothing
-		"Consumable":
-			var consumable := Consumable.new()
-			var extra: Dictionary = consumable_rows.get(item_name, {})
-			_apply_item_metadata(consumable, item_name, item_row, keywords)
-			consumable.allowed_slots = [Item.ItemSlots.QuickItem]
-			consumable.category = "Consumable"
-			consumable.consumable_type = _text(extra, "type")
-			consumable.healing = _int(extra, "hp_healed")
-			consumable.effect = _text(extra, "effect")
-			consumable.duration = _text(extra, "duration")
-			consumable.addiction = _int(extra, "addiction_threshold")
-			consumable.alcoholic = _bool(extra, "alcoholic")
-			_ensure_item_descriptions(consumable, item_type)
-			consumable._load_icon_from_name()
-			item = consumable
-		"Utility":
-			var utility := Utility.new()
-			var extra: Dictionary = utility_rows.get(item_name, {})
-			_apply_item_metadata(utility, item_name, item_row, keywords)
-			utility.allowed_slots = [Item.ItemSlots.QuickItem]
-			utility.category = _text(extra, "category")
-			utility.effect = _text(extra, "effect")
-			_ensure_item_descriptions(utility, item_type)
-			utility._load_icon_from_name()
-			item = utility
 		"Weapon":
 			var weapon := Weapon.new()
 			var extra: Dictionary = weapon_rows.get(item_name, {})
@@ -493,14 +508,8 @@ func _build_item_short_description(item: Item, item_type: String) -> String:
 		"Clothing":
 			return "Clothing for %s." % _describe_item_slots(item.allowed_slots)
 		"Consumable":
-			var consumable := item as Consumable
-			if consumable != null and not consumable.consumable_type.is_empty():
-				return "%s consumable." % consumable.consumable_type
 			return "A consumable item."
 		"Utility":
-			var utility := item as Utility
-			if utility != null and not utility.category.is_empty():
-				return "%s item." % utility.category
 			return "A utility item."
 		"Weapon":
 			return "A weapon used in combat."
@@ -525,30 +534,16 @@ func _build_item_long_description(item: Item, item_type: String) -> String:
 			var consumable := item as Consumable
 			if consumable == null:
 				return ""
-			var parts: Array[String] = []
-			if not consumable.consumable_type.is_empty():
-				parts.append("Type: %s." % consumable.consumable_type)
-			if consumable.healing > 0:
-				parts.append("Restores %s HP." % consumable.healing)
-			if not consumable.effect.is_empty():
-				parts.append("Effect: %s." % consumable.effect)
-			if not consumable.duration.is_empty():
-				parts.append("Duration: %s." % consumable.duration)
-			if consumable.addiction > 0:
-				parts.append("Addiction threshold: %s." % consumable.addiction)
-			if consumable.alcoholic:
-				parts.append("This item is alcoholic.")
-			return " ".join(parts)
+			if consumable.expression.strip_edges().is_empty():
+				return "A consumable with no configured combat effect yet."
+			return "Expression: %s" % consumable.expression
 		"Utility":
 			var utility := item as Utility
 			if utility == null:
 				return ""
-			var utility_parts: Array[String] = []
-			if not utility.category.is_empty():
-				utility_parts.append("Category: %s." % utility.category)
-			if not utility.effect.is_empty():
-				utility_parts.append("Effect: %s." % utility.effect)
-			return " ".join(utility_parts)
+			if utility.expression.strip_edges().is_empty():
+				return "A utility item with no configured combat effect yet."
+			return "Expression: %s" % utility.expression
 		"Weapon":
 			var weapon := item as Weapon
 			if weapon == null:

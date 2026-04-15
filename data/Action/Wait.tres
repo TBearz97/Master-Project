@@ -4,12 +4,8 @@
 
 [resource]
 script = ExtResource("1_x05su")
-expressions = Array[String](["markDelayedAction(source, 1)"])
 category = "Basic"
 base_speed = 10
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Wait"
 short_description = "Delay your next action."
-long_description = "You hold back and act later, improving your timing on the next action."
+long_description = "Delay your next action by 10."

@@ -11,6 +11,14 @@ const ACTION_ENTRY_SCENE := preload("res://Scenes/Combat Session/action_entry.ts
 @onready var autoQueueNPCsButton: Button = %AutoQueueNPCs
 @onready var queuedActionsList: VBoxContainer = %QueuedActions
 @onready var inspectorContent: VBoxContainer = %InspectorContent
+@onready var playerSummaryPanel: Panel = %PlayerSummaryPanel
+@onready var playerSummaryTitle: Label = %PlayerSummaryTitle
+@onready var playerSummaryHP: Label = %PlayerSummaryHP
+@onready var playerSummaryAP: Label = %PlayerSummaryAP
+@onready var playerSummaryConcentration: Label = %PlayerSummaryConcentration
+@onready var playerSummaryDefences: Label = %PlayerSummaryDefences
+@onready var playerSummaryMana: Label = %PlayerSummaryMana
+@onready var playerSummaryConditions: RichTextLabel = %PlayerSummaryConditions
 @onready var inspectorTitle: Label = %InspectorTitle
 @onready var inspectorType: Label = %InspectorType
 @onready var inspectorHP: Label = %InspectorHP
@@ -23,13 +31,29 @@ const ACTION_ENTRY_SCENE := preload("res://Scenes/Combat Session/action_entry.ts
 @onready var playerCombatantName: Label = %PlayerCombatantName
 @onready var playerLoadout: Label = %PlayerLoadout
 @onready var playerSwapLoadout: Button = %PlayerSwapLoadout
-@onready var playerActionsList: VBoxContainer = %PlayerActionsList
+@onready var hitLocationLabel: Label = %HitLocationLabel
+@onready var hitLocationSelector: OptionButton = %HitLocationSelector
+@onready var hitLocationHint: Label = %HitLocationHint
+@onready var playerBasicActionsSection: VBoxContainer = %PlayerBasicActionsSection
+@onready var playerBasicActionsList: VBoxContainer = %PlayerBasicActionsList
+@onready var playerAttacksSection: VBoxContainer = %PlayerAttacksSection
+@onready var playerAttacksList: VBoxContainer = %PlayerAttacksList
 @onready var playerActionsHint: Label = %PlayerActionsHint
 @onready var actionResolutionWindow: Window = %ActionResolutionWindow
 @onready var resolutionTitle: Label = %ResolutionTitle
 @onready var resolutionProgress: Label = %ResolutionProgress
+@onready var resolutionEditPanel: PanelContainer = %ResolutionEditPanel
+@onready var resolutionEditForm: GridContainer = %ResolutionEditForm
+@onready var resolutionEditFormPanel: PanelContainer = %ResolutionEditFormPanel
+@onready var resolutionOutcomeSelector: OptionButton = %ResolutionOutcomeSelector
+@onready var resolutionLocationSelector: OptionButton = %ResolutionLocationSelector
+@onready var resolutionSkillDifficultyLabel: Label = %ResolutionSkillDifficultyLabel
+@onready var resolutionSkillDifficultyInput: SpinBox = %ResolutionSkillDifficultyInput
+@onready var resolutionApplyEditsButton: Button = %ResolutionApplyEdits
+@onready var resolutionEditDetails: RichTextLabel = %ResolutionEditDetails
 @onready var resolutionDetails: RichTextLabel = %ResolutionDetails
 @onready var abortActionButton: Button = %AbortAction
+@onready var editActionButton: Button = %EditAction
 @onready var resolveActionButton: Button = %ResolveAction
 @onready var resolveAllActionsButton: Button = %ResolveAllActions
 @onready var combatGrid: CombatGrid = %CombatGrid
@@ -39,13 +63,35 @@ const ACTION_ENTRY_SCENE := preload("res://Scenes/Combat Session/action_entry.ts
 @onready var gridHeightInput: SpinBox = %GridHeight
 @onready var resetPlacementsButton: Button = %ResetPlacements
 @onready var boardHintLabel: Label = %BoardHint
+@onready var statusWindow: AcceptDialog = %StatusWindow
+@onready var statusWindowName: Label = %StatusWindowName
+@onready var statusWindowState: Label = %StatusWindowState
+@onready var statusWindowVitals: Label = %StatusWindowVitals
+@onready var statusWindowAP: Label = %StatusWindowAP
+@onready var statusWindowConcentration: Label = %StatusWindowConcentration
+@onready var statusWindowConditions: RichTextLabel = %StatusWindowConditions
+@onready var quickItemPicker: ConfirmationDialog = %QuickItemPicker
+@onready var quickItemPickerLabel: Label = %QuickItemPickerLabel
+@onready var quickItemSlotSelector: OptionButton = %QuickItemSlotSelector
+@onready var skillTestPicker: ConfirmationDialog = %SkillTestPicker
+@onready var skillTestPickerLabel: Label = %SkillTestPickerLabel
+@onready var skillTestSkillSelector: OptionButton = %SkillTestSkillSelector
+@onready var skillTestAPInput: SpinBox = %SkillTestAPInput
+@onready var skillTestSpeedInput: SpinBox = %SkillTestSpeedInput
+@onready var skillTestDescriptionInput: LineEdit = %SkillTestDescriptionInput
+@onready var skillTestNoTargetToggle: CheckBox = %SkillTestNoTargetToggle
 
 var npc_picker: ConfirmationDialog
 var npc_picker_list: VBoxContainer
 var selected_combatant_entry: CombatantEntry = null
 var selected_combatant_id: String = ""
 var pending_player_action: Dictionary = {}
+var pending_quick_item_action: Dictionary = {}
+var pending_skill_test_action: Dictionary = {}
 var pending_resolution_requests: Array[CombatRequest] = []
+var current_review_request: CombatRequest = null
+var current_review_resolution: Dictionary = {}
+var is_editing_review_action: bool = false
 var is_reviewing_action_phase: bool = false
 var encounter_started: bool = false
 # Encounter state is mirrored locally from CampaignManager so this scene can
@@ -61,6 +107,15 @@ var board_rows: int = 12
 var pending_gm_placement_id: String = ""
 
 const DISENGAGE_STEP_AP_COST := 3
+const TARGET_LOCATION_MODE_RANDOM := "random"
+const TARGET_LOCATION_MODE_CALLED := "called"
+const CALLED_SHOT_ACCURACY_PENALTY := -4
+const REVIEW_BOOLEAN_FIELDS := ["hit", "did_crit", "is_unconscious", "is_dead", "cancelled_actions", "already_stunned"]
+const REVIEW_NUMERIC_FIELDS := ["to_hit_total", "defence_value", "damage_roll", "crit_roll", "location_dt", "absorbed_by_temporary_health", "health_damage", "vitality_damage", "total_damage", "remaining_hp", "remaining_vitality", "remaining_concentration", "ap_cost", "action_speed"]
+const REVIEW_DAMAGE_FIELDS := ["damage_roll", "crit_roll", "location_dt", "absorbed_by_temporary_health", "health_damage", "vitality_damage", "total_damage"]
+const REVIEW_ZERO_ON_MISS_FIELDS := ["raw_damage", "damage_roll", "crit_roll", "location_dt", "absorbed_by_temporary_health", "health_damage", "vitality_damage", "total_damage"]
+
+var review_edit_controls: Dictionary = {}
 
 func _ready() -> void:
 	_setup_npc_picker()
@@ -74,10 +129,21 @@ func _ready() -> void:
 	autoQueueNPCsButton.pressed.connect(_auto_queue_npc_actions)
 	playerSwapLoadout.pressed.connect(_swap_local_player_loadout)
 	playerSwapLoadout.visible = false
+	hitLocationSelector.item_selected.connect(_on_hit_location_selected)
+	_populate_hit_location_selector()
+	_build_resolution_edit_form()
 	actionResolutionWindow.close_requested.connect(_on_action_resolution_window_close_requested)
 	abortActionButton.pressed.connect(_abort_current_action_resolution)
+	editActionButton.pressed.connect(_toggle_current_review_edit_mode)
 	resolveActionButton.pressed.connect(_resolve_current_action_resolution)
 	resolveAllActionsButton.pressed.connect(_resolve_all_action_resolutions)
+	resolutionApplyEditsButton.pressed.connect(_apply_current_review_edits)
+	quickItemPicker.confirmed.connect(_confirm_quick_item_selection)
+	quickItemPicker.canceled.connect(_cancel_quick_item_selection)
+	quickItemPicker.get_ok_button().text = "Use Item"
+	skillTestPicker.confirmed.connect(_confirm_skill_test_selection)
+	skillTestPicker.canceled.connect(_cancel_skill_test_selection)
+	skillTestPicker.get_ok_button().text = "Queue Skill Test"
 	gridWidthInput.value_changed.connect(_on_grid_width_changed)
 	gridHeightInput.value_changed.connect(_on_grid_height_changed)
 	resetPlacementsButton.pressed.connect(_reset_combatant_grid_positions)
@@ -119,11 +185,14 @@ func _update_phase_buttons() -> void:
 
 func _configure_role_view() -> void:
 	inspectorContent.visible = is_host_role
+	playerSummaryPanel.visible = not is_host_role
 	playerActionsContent.visible = not is_host_role
 	inspectorSwapLoadout.visible = false
 	gridWidthInput.editable = is_host_role and not encounter_started
 	gridHeightInput.editable = is_host_role and not encounter_started
 	resetPlacementsButton.visible = is_host_role
+	if not is_host_role:
+		_refresh_player_summary()
 
 func _apply_encounter_visibility() -> void:
 	var is_tab_page := get_parent() is TabContainer
@@ -236,6 +305,21 @@ func _end_encounter() -> void:
 	if campaign_manager == null:
 		push_error("Combat session could not find CampaignManager in the scene tree.")
 		return
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id := str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants.get(combatant_id, {}).duplicate(true)
+		if payload.is_empty():
+			continue
+		var actor := _get_actor_data_from_payload(payload)
+		if actor == null:
+			continue
+		actor.normalizeVitals()
+		actor.currentHP = clampf(minf(actor.maxHP, actor.currentVitality), 0.0, actor.maxHP)
+		var updated_payload := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
+		if updated_payload.is_empty():
+			continue
+		encounter_combatants[combatant_id] = updated_payload
+		campaign_manager.broadcast_combatant_update(updated_payload)
 	campaign_manager.broadcast_combat_reset()
 
 
@@ -442,6 +526,18 @@ func _resolve_instant_action_request(combat_request: CombatRequest) -> void:
 		campaign_manager.broadcast_game_event(game_event)
 
 func _resolve_queued_action(combat_request: CombatRequest) -> Dictionary:
+	return _resolve_queued_action_preview(combat_request)
+
+func _cancel_pending_actions_for_queue(queue: Array[CombatRequest], combatant_id: String) -> int:
+	var removed_count := 0
+	for index in range(queue.size() - 1, -1, -1):
+		var request := queue[index]
+		if request != null and request.combatant_id == combatant_id:
+			queue.remove_at(index)
+			removed_count += 1
+	return removed_count
+
+func _resolve_queued_action_preview(combat_request: CombatRequest) -> Dictionary:
 	var source_id := combat_request.combatant_id
 	var target_id := combat_request.target_id
 	if source_id.is_empty() or target_id.is_empty():
@@ -451,14 +547,40 @@ func _resolve_queued_action(combat_request: CombatRequest) -> Dictionary:
 
 	var source_payload: Dictionary = encounter_combatants[source_id].duplicate(true)
 	var target_payload: Dictionary = encounter_combatants[target_id].duplicate(true)
-	var source_actor := _get_actor_data_from_payload(source_payload)
-	var target_actor := _get_actor_data_from_payload(target_payload)
+	var official_source_actor := _get_actor_data_from_payload(source_payload)
+	var official_target_actor := _get_actor_data_from_payload(target_payload)
+	var source_actor: CreatureData = null
+	var target_actor: CreatureData = null
+	if official_source_actor != null:
+		source_actor = official_source_actor.duplicate(true) as CreatureData
+	if target_id == source_id:
+		target_actor = source_actor
+	elif official_target_actor != null:
+		target_actor = official_target_actor.duplicate(true) as CreatureData
 	if source_actor == null or target_actor == null:
 		return {"state_changes": [], "results": []}
 
 	var action_name := str(combat_request.payload.get("action_name", ""))
 	var action_source := str(combat_request.payload.get("action_source", "Innate"))
 	var action_hand := str(combat_request.payload.get("action_hand", "Innate"))
+	if action_name == "Stunned":
+		var stunned_speed := int(combat_request.payload.get("action_speed", 0))
+		var stunned_result := {
+			"success": true,
+			"source_name": str(source_payload.get("name", source_id)),
+			"target_name": str(target_payload.get("name", target_id)),
+			"action_name": "Stunned",
+			"ap_cost": 0,
+			"action_speed": stunned_speed,
+		}
+		var stunned_source_update := _rebuild_combatant_payload_for_actor(source_payload, source_actor, int(source_payload.get("active_loadout", 1)))
+		var stunned_state_changes: Array[Dictionary] = []
+		if not stunned_source_update.is_empty():
+			stunned_source_update["pending_request"] = ""
+			stunned_source_update.erase("id")
+			stunned_source_update["combatant_id"] = source_id
+			stunned_state_changes.append(stunned_source_update)
+		return {"state_changes": stunned_state_changes, "results": [_build_action_narration_entries(stunned_result)], "resolved_result": stunned_result, "request": CombatRequest.from_dict(combat_request.to_dict()), "source_payload": source_payload, "target_payload": target_payload}
 	var active_loadout := int(source_payload.get("active_loadout", 1))
 	var action_entry := _find_action_entry_for_actor(source_actor, active_loadout, action_name, action_source, action_hand)
 	if action_entry.is_empty():
@@ -473,10 +595,25 @@ func _resolve_queued_action(combat_request: CombatRequest) -> Dictionary:
 
 	var action_context := {
 		"target_location": int(combat_request.payload.get("target_location", Item.ItemSlots.Torso)),
+		"target_location_mode": str(combat_request.payload.get("target_location_mode", TARGET_LOCATION_MODE_RANDOM)),
+		"targeting_mode": str(combat_request.payload.get("targeting_mode", "single")),
+		"accuracy_bonus": int(combat_request.payload.get("accuracy_bonus", 0)),
+		"quick_slot_index": int(combat_request.payload.get("quick_slot_index", -1)),
+		"quick_item_name": str(combat_request.payload.get("quick_item_name", "")),
+		"skill_name": str(combat_request.payload.get("skill_name", "")),
+		"skill_test_description": str(combat_request.payload.get("skill_test_description", "")),
+		"skill_difficulty": int(combat_request.payload.get("skill_difficulty", 0)),
+		"no_target": bool(combat_request.payload.get("no_target", false)),
+		"source_name": str(source_payload.get("name", source_id)),
+		"target_name": str(target_payload.get("name", target_id)),
+		"forced_outcome": str(combat_request.payload.get("forced_outcome", "")),
+		"weapon": weapon,
+		"grid_distance": _get_combatant_grid_distance(source_payload, target_payload),
+		"source_engaged": _is_adjacent_to_hostile_combatant(source_id, _grid_position_from_payload(source_payload)),
 	}
 	var result = action.use(target_actor, source_actor, weapon.damage_profile if weapon != null else null, action_context)
-	var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
-	var action_speed := RuleEngine.getActionSpeed(action, weapon)
+	var action_ap_cost := int(combat_request.payload.get("ap_cost", RuleEngine.getActionAPCost(action, weapon)))
+	var action_speed := int(combat_request.payload.get("action_speed", RuleEngine.getActionSpeed(action, weapon)))
 	if result is Dictionary:
 		result["ap_cost"] = action_ap_cost
 		result["action_speed"] = action_speed
@@ -485,7 +622,7 @@ func _resolve_queued_action(combat_request: CombatRequest) -> Dictionary:
 	var resolved_loadout := active_loadout
 	if result is Dictionary and result.has("active_loadout"):
 		resolved_loadout = int(result.get("active_loadout", active_loadout))
-	var source_update := _rebuild_combatant_payload(source_payload, resolved_loadout)
+	var source_update := _rebuild_combatant_payload_for_actor(source_payload, source_actor, resolved_loadout)
 	if not source_update.is_empty():
 		source_update["pending_request"] = ""
 		source_update.erase("id")
@@ -493,7 +630,56 @@ func _resolve_queued_action(combat_request: CombatRequest) -> Dictionary:
 		state_changes.append(source_update)
 
 	if target_id != source_id:
-		var target_update := _rebuild_combatant_payload(target_payload, int(target_payload.get("active_loadout", 1)))
+		var target_update := _rebuild_combatant_payload_for_actor(target_payload, target_actor, int(target_payload.get("active_loadout", 1)))
+		var remaining_preview_queue: Array[CombatRequest] = []
+		for pending_request in pending_resolution_requests:
+			if pending_request != null and pending_request.combatant_id == combat_request.combatant_id and pending_request.target_id == combat_request.target_id and is_equal_approx(pending_request.timestamp, combat_request.timestamp):
+				continue
+			remaining_preview_queue.append(pending_request)
+		if result is Dictionary and (bool((result as Dictionary).get("is_unconscious", false)) or bool((result as Dictionary).get("is_dead", false))):
+			if _has_remaining_turn_actions(target_payload):
+				var cancelled_actions := _cancel_pending_actions_for_queue(remaining_preview_queue, target_id)
+				if target_update.is_empty():
+					target_update = _rebuild_combatant_payload_for_actor(target_payload, target_actor, int(target_payload.get("active_loadout", 1)))
+				if not target_update.is_empty():
+					target_update["remaining_action_points"] = 0
+					target_update["queued_actions"] = []
+					target_update["queued_action_payloads"] = []
+					target_update["movement_choice"] = {}
+					target_update["movement_path"] = []
+					target_update["movement_ap_cost"] = 0
+					target_update["pending_request"] = ""
+					result["cancelled_actions"] = true
+					result["cancelled_action_count"] = cancelled_actions
+		elif result is Dictionary and str((result as Dictionary).get("condition_name", "")) == "Stunned" and (bool((result as Dictionary).get("condition_applied", false)) or bool((result as Dictionary).get("condition_already_present", false))):
+			var already_stunned := bool((result as Dictionary).get("condition_already_present", false)) or _has_pending_stun(target_actor)
+			result["already_stunned"] = already_stunned
+			if not already_stunned:
+				if _has_remaining_turn_actions(target_payload):
+					var stunned_cancelled_actions := _cancel_pending_actions_for_queue(remaining_preview_queue, target_id)
+					if target_update.is_empty():
+						target_update = _rebuild_combatant_payload_for_actor(target_payload, target_actor, int(target_payload.get("active_loadout", 1)))
+					if not target_update.is_empty():
+						target_update["remaining_action_points"] = 0
+						target_update["queued_actions"] = []
+						target_update["queued_action_payloads"] = []
+						target_update["movement_choice"] = {}
+						target_update["movement_path"] = []
+						target_update["movement_ap_cost"] = 0
+						target_update["pending_request"] = ""
+						result["cancelled_actions"] = true
+						result["cancelled_action_count"] = stunned_cancelled_actions
+				var stunned_resolve_speed := int(combat_request.payload.get("resolve_speed", (result as Dictionary).get("action_speed", 0)))
+				_apply_stunned(target_actor, round_number + 1, stunned_resolve_speed)
+				result["stunned_round"] = round_number + 1
+				result["stunned_resolve_speed"] = stunned_resolve_speed
+				result["remaining_conditions"] = _serialize_condition_names(target_actor.conditions)
+				if target_update.is_empty():
+					target_update = _rebuild_combatant_payload_for_actor(target_payload, target_actor, int(target_payload.get("active_loadout", 1)))
+				if not target_update.is_empty():
+					target_update["stunned_round"] = _get_stunned_round(target_actor)
+					target_update["stunned_resolve_speed"] = _get_stunned_resolve_speed(target_actor)
+					target_update["conditions"] = _serialize_condition_names(target_actor.conditions)
 		if not target_update.is_empty():
 			target_update.erase("id")
 			target_update["combatant_id"] = target_id
@@ -503,8 +689,30 @@ func _resolve_queued_action(combat_request: CombatRequest) -> Dictionary:
 	if result is Dictionary:
 		var narration := _build_action_narration_entries(result as Dictionary)
 		results.append(narration)
+		if bool((result as Dictionary).get("cancelled_actions", false)):
+			var cancel_reason := "loses concentration"
+			if str((result as Dictionary).get("condition_name", "")) == "Stunned":
+				cancel_reason = "is stunned"
+			if bool((result as Dictionary).get("is_dead", false)):
+				cancel_reason = "dies"
+			elif bool((result as Dictionary).get("is_unconscious", false)):
+				cancel_reason = "falls unconscious"
+			results.append({
+				"text": "%s %s and their remaining actions are cancelled." % [target_payload.get("name", target_id), cancel_reason],
+				"tooltip": "%s queued actions were removed." % int((result as Dictionary).get("cancelled_action_count", 0)),
+			})
+		elif bool((result as Dictionary).get("concentration_broken", false)):
+			results.append({
+				"text": "%s loses concentration and all stored mana." % target_payload.get("name", target_id),
+				"tooltip": "Mana drops to %s." % int((result as Dictionary).get("remaining_mana", 0)),
+			})
+		if bool((result as Dictionary).get("already_stunned", false)):
+			results.append({
+				"text": "%s is already stunned." % target_payload.get("name", target_id),
+				"tooltip": "Additional stun effects do not stack until the current stun clears.",
+			})
 
-	return {"state_changes": state_changes, "results": results}
+	return {"state_changes": state_changes, "results": results, "resolved_result": result, "request": CombatRequest.from_dict(combat_request.to_dict()), "source_payload": source_payload, "target_payload": target_payload}
 
 func _end_movement_phase() -> void:
 	if not is_host_role or current_phase != GameEvent.PHASE_PLANNING:
@@ -545,7 +753,7 @@ func _queue_host_npc_movement_previews() -> void:
 		var payload: Dictionary = encounter_combatants[combatant_id]
 		if str(payload.get("type", "")) != "NPC":
 			continue
-		if int(payload.get("current_hp", 0)) <= 0 or int(payload.get("remaining_action_points", payload.get("action_points", 0))) <= 0:
+		if float(payload.get("current_hp", 0.0)) <= 0.0 or int(payload.get("remaining_action_points", payload.get("action_points", 0))) <= 0:
 			continue
 		var movement_choice_variant = payload.get("movement_choice", {})
 		if movement_choice_variant is Dictionary and not (movement_choice_variant as Dictionary).is_empty():
@@ -858,7 +1066,7 @@ func _get_engaging_enemy_ids(combatant_id: String, grid_position: Vector2i, posi
 		var other_payload: Dictionary = encounter_combatants[other_combatant_id]
 		if not _are_hostile_combatants(mover_payload, other_payload):
 			continue
-		if int(other_payload.get("current_hp", 0)) <= 0:
+		if float(other_payload.get("current_hp", 0.0)) <= 0.0:
 			continue
 		var other_grid_position: Vector2i = Vector2i(-1, -1)
 		var other_grid_position_variant: Variant = positions[other_combatant_id]
@@ -877,6 +1085,117 @@ func _are_hostile_combatants(first_payload: Dictionary, second_payload: Dictiona
 	if first_team_id <= 0 or second_team_id <= 0:
 		return false
 	return first_team_id != second_team_id
+
+func _is_hostile_target(source_combatant_id: String, target_payload: Dictionary) -> bool:
+	if not encounter_combatants.has(source_combatant_id):
+		return false
+	return _are_hostile_combatants(encounter_combatants[source_combatant_id], target_payload)
+
+func _get_combatant_grid_distance(source_payload: Dictionary, target_payload: Dictionary) -> int:
+	var source_grid_position: Vector2i = _grid_position_from_payload(source_payload)
+	var target_grid_position: Vector2i = _grid_position_from_payload(target_payload)
+	if not _is_valid_grid_position(source_grid_position) or not _is_valid_grid_position(target_grid_position):
+		return 0
+	return RuleEngine.get_grid_attack_distance(source_grid_position, target_grid_position)
+
+func _is_attack_target_reasonable(source_combatant_id: String, target_combatant_id: String, weapon: Weapon) -> bool:
+	if not encounter_combatants.has(source_combatant_id) or not encounter_combatants.has(target_combatant_id):
+		return false
+	var grid_distance: int = _get_combatant_grid_distance(encounter_combatants[source_combatant_id], encounter_combatants[target_combatant_id])
+	var source_grid_position: Vector2i = _grid_position_from_payload(encounter_combatants[source_combatant_id])
+	var source_engaged: bool = _is_adjacent_to_hostile_combatant(source_combatant_id, source_grid_position)
+	var range_evaluation: Dictionary = RuleEngine.evaluate_weapon_range(weapon, grid_distance, source_engaged)
+	return bool(range_evaluation.get("legal", true))
+
+func _get_attack_range_preview(source_payload: Dictionary, target_payload: Dictionary, action_payload: Dictionary) -> Dictionary:
+	if source_payload.is_empty() or target_payload.is_empty():
+		return {}
+	if str(action_payload.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK:
+		return {}
+	var source_actor: CreatureData = _get_source_actor_for_preview(source_payload)
+	if source_actor == null:
+		return {}
+	var active_loadout: int = int(source_payload.get("active_loadout", 1))
+	var action_name: String = str(action_payload.get("action_name", ""))
+	var action_source: String = str(action_payload.get("action_source", "Innate"))
+	var action_hand: String = str(action_payload.get("action_hand", "Innate"))
+	var action_entry: Dictionary = _find_action_entry_for_actor(source_actor, active_loadout, action_name, action_source, action_hand)
+	if action_entry.is_empty():
+		return {}
+	var weapon: Weapon = action_entry.get("weapon", null)
+	var distance: int = _get_combatant_grid_distance(source_payload, target_payload)
+	var source_combatant_id: String = str(source_payload.get("id", ""))
+	var source_engaged: bool = false
+	if not source_combatant_id.is_empty():
+		var source_grid_position: Vector2i = _grid_position_from_payload(source_payload)
+		source_engaged = _is_adjacent_to_hostile_combatant(source_combatant_id, source_grid_position)
+	var range_evaluation: Dictionary = RuleEngine.evaluate_weapon_range(weapon, distance, source_engaged)
+	var state_label: String = _format_range_state_label(str(range_evaluation.get("range_state", "standard")))
+	var accuracy_modifier: int = int(range_evaluation.get("accuracy_modifier", 0))
+	var legal: bool = bool(range_evaluation.get("legal", true))
+	var modifier_text: String = "0"
+	if accuracy_modifier > 0:
+		modifier_text = "+%s" % accuracy_modifier
+	else:
+		modifier_text = str(accuracy_modifier)
+	var summary: String = "Range %s: %s" % [distance, state_label]
+	if bool(range_evaluation.get("engaged_penalty", false)) and str(range_evaluation.get("range_state", "")) != "engaged_penalty":
+		summary += ", pressured"
+	if accuracy_modifier != 0:
+		summary += " (%s accuracy)" % modifier_text
+	var short_text: String = "%s %s" % [distance, state_label]
+	if bool(range_evaluation.get("engaged_penalty", false)) and str(range_evaluation.get("range_state", "")) != "engaged_penalty":
+		short_text += " pressured"
+	if accuracy_modifier != 0:
+		short_text += " %s" % modifier_text
+	return {
+		"legal": legal,
+		"distance": distance,
+		"range_state": str(range_evaluation.get("range_state", "standard")),
+		"engaged_penalty": bool(range_evaluation.get("engaged_penalty", false)),
+		"accuracy_modifier": accuracy_modifier,
+		"summary": summary,
+		"short": short_text,
+	}
+
+func _get_source_actor_for_preview(source_payload: Dictionary) -> CreatureData:
+	var controller_peer_id: int = int(source_payload.get("controller_peer_id", 0))
+	if controller_peer_id != 0 and controller_peer_id == multiplayer.get_unique_id() and PlayerVariables.data != null:
+		return PlayerVariables.data
+	return _get_actor_data_from_payload(source_payload)
+
+func _is_attack_target_selectable(source_payload: Dictionary, target_payload: Dictionary, action_payload: Dictionary) -> bool:
+	if source_payload.is_empty() or target_payload.is_empty():
+		return false
+	var target_id: String = str(target_payload.get("id", ""))
+	var source_id: String = str(source_payload.get("id", ""))
+	if target_id.is_empty() or source_id.is_empty():
+		return false
+	if not _are_hostile_combatants(source_payload, target_payload):
+		return false
+	var range_preview: Dictionary = _get_attack_range_preview(source_payload, target_payload, action_payload)
+	if range_preview.is_empty():
+		return false
+	return bool(range_preview.get("legal", true))
+
+func _format_range_state_label(range_state: String) -> String:
+	match range_state:
+		"engaged_penalty":
+			return "engaged"
+		"adjacent":
+			return "adjacent"
+		"optimal":
+			return "optimal"
+		"beyond_max_penalty":
+			return "beyond 12"
+		"standard":
+			return "standard"
+		"melee":
+			return "melee"
+		"out_of_melee":
+			return "out of melee"
+		_:
+			return range_state.replace("_", " ")
 
 func _build_current_position_lookup() -> Dictionary:
 	var positions: Dictionary = {}
@@ -959,7 +1278,7 @@ func _find_path_to_nearest_hostile_adjacency(combatant_id: String, start: Vector
 		if target_id == combatant_id:
 			continue
 		var payload: Dictionary = encounter_combatants[target_id]
-		if int(payload.get("current_hp", 0)) <= 0:
+		if float(payload.get("current_hp", 0.0)) <= 0.0:
 			continue
 		if not _are_hostile_combatants(mover_payload, payload):
 			continue
@@ -983,7 +1302,7 @@ func _is_adjacent_to_hostile_combatant(combatant_id: String, grid_position: Vect
 		if other_combatant_id == combatant_id:
 			continue
 		var payload: Dictionary = encounter_combatants[other_combatant_id]
-		if int(payload.get("current_hp", 0)) <= 0:
+		if float(payload.get("current_hp", 0.0)) <= 0.0:
 			continue
 		if not _are_hostile_combatants(mover_payload, payload):
 			continue
@@ -1032,11 +1351,13 @@ func _end_action_phase() -> void:
 	if not is_host_role or current_phase != GameEvent.PHASE_EXECUTION:
 		return
 	pending_resolution_requests = _get_sorted_queued_requests()
+	current_review_request = null
+	current_review_resolution = {}
 	if pending_resolution_requests.is_empty():
 		_finalize_action_phase_review()
 		return
 	is_reviewing_action_phase = true
-	_refresh_action_resolution_window()
+	_start_current_action_review()
 	actionResolutionWindow.popup_centered()
 
 func _auto_queue_npc_actions() -> void:
@@ -1084,11 +1405,13 @@ func _build_npc_queue_payload(combatant_id: String) -> Dictionary:
 	var npc: NPC = CampaignVariables.codex.NPCs.get(str(payload.get("name", "")), null)
 	if npc == null:
 		return {}
+	if not RuleEngine.canAct(npc.data):
+		return {}
 
 	var action_entry := _find_npc_attack_entry(npc, int(payload.get("active_loadout", 1)))
 	if action_entry.is_empty():
 		return {}
-	var target_payload := _choose_npc_target_payload()
+	var target_payload := _choose_npc_target_payload(combatant_id, action_entry.get("weapon", null))
 	if target_payload.is_empty():
 		return {}
 
@@ -1097,47 +1420,73 @@ func _build_npc_queue_payload(combatant_id: String) -> Dictionary:
 	var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
 	if action_ap_cost <= 0 or action_ap_cost > int(payload.get("remaining_action_points", payload.get("action_points", 0))):
 		return {}
+	var action_speed := RuleEngine.getActionSpeed(action, weapon)
 	var action_source := "Innate"
 	if weapon != null and not weapon._name.is_empty():
 		action_source = weapon._name
 	var target_name := str(target_payload.get("name", "target"))
+	var range_preview: Dictionary = _get_attack_range_preview(payload, target_payload, {
+		"action_name": action._name,
+		"action_source": action_source,
+		"action_hand": str(action_entry.get("hand", "Innate")),
+	})
+	var preview_suffix: String = ""
+	if not range_preview.is_empty():
+		preview_suffix = " [%s]" % str(range_preview.get("short", ""))
 	return {
 		"action_name": action._name,
 		"action_source": action_source,
 		"action_hand": str(action_entry.get("hand", "Innate")),
+		"targeting_mode": "single",
 		"target_id": str(target_payload.get("id", "")),
 		"target_location": int(Item.ItemSlots.Torso),
+		"target_location_mode": TARGET_LOCATION_MODE_RANDOM,
+		"target_location_label": "Random",
+		"called_shot_penalty": 0,
+		"accuracy_bonus": 0,
 		"ap_cost": action_ap_cost,
-		"action_speed": RuleEngine.getActionSpeed(action, weapon),
-		"preview_text": "%s -> %s (%s)" % [action._name, target_name, "Torso"],
+		"action_speed": action_speed,
+		"preview_text": "%s -> %s (%s)%s" % [action._name, target_name, "Random", preview_suffix],
 	}
 
 func _find_npc_attack_entry(npc: NPC, loadout: int) -> Dictionary:
 	for entry in _get_npc_action_entries(npc, loadout):
-		var action_name := str(entry.get("name", ""))
-		if action_name in ["Wait", "Guard", "Bolster", "Swap Loadout"]:
-			continue
 		var resolved_entry := _get_action_resource_for_entry(npc.data, loadout, entry)
 		if resolved_entry.is_empty():
+			continue
+		var action: Action = resolved_entry.get("action", null)
+		if action == null or not action.is_attack_action():
 			continue
 		return resolved_entry
 	for entry in _get_npc_action_entries(npc, loadout):
 		return _get_action_resource_for_entry(npc.data, loadout, entry)
 	return {}
 
-func _choose_npc_target_payload() -> Dictionary:
+func _choose_npc_target_payload(source_combatant_id: String, weapon: Weapon = null) -> Dictionary:
 	if not selected_combatant_id.is_empty() and encounter_combatants.has(selected_combatant_id):
 		var selected_payload: Dictionary = encounter_combatants[selected_combatant_id]
-		if str(selected_payload.get("type", "")) == "Player" and int(selected_payload.get("current_hp", 0)) > 0:
-			return selected_payload
+		if float(selected_payload.get("current_hp", 0.0)) > 0.0 and _is_hostile_target(source_combatant_id, selected_payload):
+			if _is_attack_target_reasonable(source_combatant_id, str(selected_payload.get("id", "")), weapon):
+				return selected_payload
 
 	var combatant_ids: Array = encounter_combatants.keys()
 	combatant_ids.sort()
+	var best_payload: Dictionary = {}
+	var best_distance: int = 999999
 	for combatant_id_variant in combatant_ids:
-		var payload: Dictionary = encounter_combatants[str(combatant_id_variant)]
-		if str(payload.get("type", "")) == "Player" and int(payload.get("current_hp", 0)) > 0:
-			return payload
-	return {}
+		var target_payload: Dictionary = encounter_combatants[str(combatant_id_variant)]
+		if float(target_payload.get("current_hp", 0.0)) <= 0.0:
+			continue
+		if not _is_hostile_target(source_combatant_id, target_payload):
+			continue
+		var target_id: String = str(target_payload.get("id", ""))
+		if not _is_attack_target_reasonable(source_combatant_id, target_id, weapon):
+			continue
+		var grid_distance: int = _get_combatant_grid_distance(encounter_combatants.get(source_combatant_id, {}), target_payload)
+		if best_payload.is_empty() or grid_distance < best_distance:
+			best_payload = target_payload
+			best_distance = grid_distance
+	return best_payload
 
 func _get_action_resource_for_entry(actor: CreatureData, loadout: int, action_entry: Dictionary) -> Dictionary:
 	var action_name := str(action_entry.get("name", ""))
@@ -1147,6 +1496,117 @@ func _get_action_resource_for_entry(actor: CreatureData, loadout: int, action_en
 
 func _format_action_result(result: Dictionary) -> String:
 	if result.get("hit", null) == null:
+		if str(result.get("action_name", "")) == "Stunned":
+			return "%s loses time to Stunned, acting at speed %s before recovering." % [
+				result.get("source_name", "Someone"),
+				result.get("action_speed", 0),
+			]
+		if str(result.get("action_name", "")) == "Perform Skill Test":
+			var description := str(result.get("skill_test_description", "")).strip_edges()
+			var skill_name := str(result.get("skill_name", "Skill"))
+			if bool(result.get("contested", false)):
+				return "%s tested %s against %s in a contested check%s: %s vs %s, %s." % [
+					result.get("source_name", "Someone"),
+					skill_name,
+					result.get("target_name", "target"),
+					" (%s)" % description if not description.is_empty() else "",
+					result.get("source_total", 0),
+					result.get("target_total", 0),
+					"success" if bool(result.get("passed", false)) else "failure",
+				]
+			return "%s attempted %s%s: %s vs DC %s, %s." % [
+				result.get("source_name", "Someone"),
+				skill_name,
+				" (%s)" % description if not description.is_empty() else "",
+				result.get("total", 0),
+				result.get("difficulty", 0),
+				"success" if bool(result.get("passed", false)) else "failure",
+			]
+		if str(result.get("reason", "")) == "out_of_range":
+			return "%s could not use %s on %s: target is out of melee range at distance %s." % [
+				result.get("source_name", "Someone"),
+				result.get("action_name", "an action"),
+				result.get("target_name", "target"),
+				result.get("distance", 0),
+			]
+		if str(result.get("reason", "")) == "insufficient_mana":
+			return "%s tried to use %s on %s, but the attack fizzled for lack of mana (%s needed, %s available)." % [
+				result.get("source_name", "Someone"),
+				result.get("action_name", "an action"),
+				result.get("target_name", "target"),
+				result.get("mana_cost", 0),
+				result.get("remaining_mana", 0),
+			]
+		if str(result.get("reason", "")) == "round_limit_reached":
+			return "%s cannot use %s again this round." % [
+				result.get("source_name", "Someone"),
+				result.get("action_name", "that action"),
+			]
+		if str(result.get("reason", "")) == "target_dead":
+			return "%s cannot use %s on %s because they are already dead." % [
+				result.get("source_name", "Someone"),
+				result.get("action_name", "that action"),
+				result.get("target_name", "target"),
+			]
+		if str(result.get("reason", "")) == "empty_quick_slot":
+			return "%s tried to use a quick item, but that slot was empty." % result.get("source_name", "Someone")
+		if str(result.get("reason", "")) in ["unsupported_quick_item", "unsupported_consumable", "unsupported_utility"]:
+			return "%s tried to use %s, but that quick item is not supported yet." % [
+				result.get("source_name", "Someone"),
+				result.get("quick_item_name", "that item"),
+			]
+		if result.has("applied_bonuses") and result.get("applied_bonuses", {}).has("physical"):
+			return "%s braces and gains +%s Physical and Magical DT for the round." % [
+				result.get("source_name", "Someone"),
+				result.get("amount", 0),
+			]
+		if result.has("defence_names"):
+			return "%s bolstered all defences on %s by %s for the round." % [
+				result.get("source_name", "Someone"),
+				result.get("target_name", "target"),
+				result.get("amount", 0),
+			]
+		if result.has("healed_amount"):
+			if str(result.get("action_name", "")) == "Use Quick Item":
+				return "%s used %s, restoring %s HP." % [
+					result.get("source_name", "Someone"),
+					result.get("quick_item_name", "a quick item"),
+					_format_exact_float(result.get("healed_amount", 0.0)),
+				]
+			return "%s used %s on %s, restoring %s HP." % [
+				result.get("source_name", "Someone"),
+				result.get("action_name", "First Aid"),
+				result.get("target_name", "target"),
+				_format_exact_float(result.get("healed_amount", 0.0)),
+			]
+		if str(result.get("resource", "")) == "mana":
+			return "%s used %s, restoring %s mana." % [
+				result.get("source_name", "Someone"),
+				result.get("quick_item_name", "a quick item"),
+				int(result.get("restored_amount", 0)),
+			]
+		if bool(result.get("already_stunned", false)):
+			return "%s used %s on %s: effect roll %s + %s vs %s %s, but %s is already stunned." % [
+				result.get("source_name", "Someone"),
+				result.get("action_name", "an action"),
+				result.get("target_name", "target"),
+				result.get("condition_roll", 0),
+				result.get("potency", 0),
+				result.get("condition_defence", "Defence"),
+				result.get("condition_defence_value", 0),
+				result.get("target_name", "target"),
+			]
+		if not str(result.get("condition_name", "")).is_empty():
+			return "%s used %s on %s: effect roll %s + %s vs %s %s, %s." % [
+				result.get("source_name", "Someone"),
+				result.get("action_name", "an action"),
+				result.get("target_name", "target"),
+				result.get("condition_roll", 0),
+				result.get("potency", 0),
+				result.get("condition_defence", "Defence"),
+				result.get("condition_defence_value", 0),
+				("applied %s" % result.get("condition_name", "the effect")) if bool(result.get("condition_applied", false)) else ("%s resisted" % result.get("target_name", "target")),
+			]
 		if result.has("active_loadout"):
 			return "%s swapped to loadout %s (%s AP)." % [result.get("source_name", "Someone"), result.get("active_loadout", 1), result.get("ap_cost", 1)]
 		if result.has("defence_name"):
@@ -1159,6 +1619,13 @@ func _format_action_result(result: Dictionary) -> String:
 			status_suffix = " Target is dead."
 		elif bool(result.get("is_unconscious", false)):
 			status_suffix = " Target is unconscious."
+		if not str(result.get("condition_name", "")).is_empty():
+			if bool(result.get("already_stunned", false)):
+				status_suffix += " Already stunned." 
+			elif bool(result.get("condition_applied", false)):
+				status_suffix += " %s applied (%s + %s vs %s %s)." % [result.get("condition_name", "Effect"), result.get("condition_roll", 0), result.get("potency", 0), result.get("condition_defence", "Defence"), result.get("condition_defence_value", 0)]
+			else:
+				status_suffix += " %s resisted (%s + %s vs %s %s)." % [result.get("target_name", "Target"), result.get("condition_roll", 0), result.get("potency", 0), result.get("condition_defence", "Defence"), result.get("condition_defence_value", 0)]
 		return "%s used %s on %s's %s: %s vs %s, %s damage after %s DT, %s temp absorbed, HP %s, VIT %s, %s AP, speed %s.%s" % [
 			result.get("source_name", "Someone"),
 			result.get("action_name", "an action"),
@@ -1166,22 +1633,24 @@ func _format_action_result(result: Dictionary) -> String:
 			result.get("target_location_name", "body"),
 			result.get("to_hit_total", 0),
 			result.get("defence_value", 0),
-			result.get("total_damage", 0),
-			result.get("location_dt", 0),
-			result.get("absorbed_by_temporary_health", 0),
-			result.get("remaining_hp", 0),
-			result.get("remaining_vitality", 0),
+			_format_exact_float(result.get("total_damage", 0.0)),
+			_format_exact_float(result.get("location_dt", 0.0)),
+			_format_exact_float(result.get("absorbed_by_temporary_health", 0.0)),
+			_display_vital(result.get("remaining_hp", 0.0)),
+			_display_vital(result.get("remaining_vitality", 0.0)),
 			result.get("ap_cost", 0),
 			result.get("action_speed", 0),
 			status_suffix,
 		]
-	return "%s used %s on %s's %s but missed: %s vs %s, %s AP, speed %s." % [
+	return "%s used %s on %s's %s but missed: %s vs %s, range %s (%s), %s AP, speed %s." % [
 		result.get("source_name", "Someone"),
 		result.get("action_name", "an action"),
 		result.get("target_name", "target"),
 		result.get("target_location_name", "body"),
 		result.get("to_hit_total", 0),
 		result.get("defence_value", 0),
+		result.get("distance", 0),
+		_format_range_state_label(str(result.get("range_state", "standard"))),
 		result.get("ap_cost", 0),
 		result.get("action_speed", 0),
 	]
@@ -1191,9 +1660,42 @@ func _build_action_flavor_text(result: Dictionary) -> String:
 	var target_name := str(result.get("target_name", "target"))
 	var action_name := str(result.get("action_name", "an action"))
 	var location_name := str(result.get("target_location_name", "body"))
-	var total_damage := int(result.get("total_damage", 0))
-	var location_dt := int(result.get("location_dt", 0))
+	var total_damage: float = float(result.get("total_damage", 0.0))
+	var location_dt: float = float(result.get("location_dt", 0.0))
 	if result.get("hit", null) == null:
+		if str(result.get("action_name", "")) == "Stunned":
+			return "%s reels, wasting precious moments before they can act again." % source_name
+		if str(result.get("action_name", "")) == "Perform Skill Test":
+			var skill_description := str(result.get("skill_test_description", "")).strip_edges()
+			if bool(result.get("contested", false)):
+				if bool(result.get("passed", false)):
+					return "%s outmaneuvers %s in a contested %s test%s." % [source_name, target_name, str(result.get("skill_name", "skill")).to_lower(), " while %s" % skill_description if not skill_description.is_empty() else ""]
+				return "%s holds firm against %s in a contested %s test%s." % [target_name, source_name, str(result.get("skill_name", "skill")).to_lower(), " while %s" % skill_description if not skill_description.is_empty() else ""]
+			return "%s attempts %s%s." % [source_name, str(result.get("skill_name", "skill")).to_lower(), " to %s" % skill_description if not skill_description.is_empty() else ""]
+		if str(result.get("reason", "")) == "out_of_range":
+			return "%s cannot bring %s to bear on %s from this distance." % [source_name, action_name.to_lower(), target_name]
+		if str(result.get("reason", "")) == "insufficient_mana":
+			return "%s reaches for power to fuel %s, but the technique fizzles before it lands." % [source_name, action_name.to_lower()]
+		if str(result.get("reason", "")) == "round_limit_reached":
+			return "%s has already used %s this round." % [source_name, action_name.to_lower()]
+		if str(result.get("reason", "")) == "target_dead":
+			return "%s tries to apply first aid, but it is already too late for %s." % [source_name, target_name]
+		if str(result.get("reason", "")) == "empty_quick_slot":
+			return "%s reaches for a quick item, but the chosen slot is empty." % source_name
+		if str(result.get("reason", "")) in ["unsupported_quick_item", "unsupported_consumable", "unsupported_utility"]:
+			return "%s produces %s, but cannot make effective use of it yet." % [source_name, str(result.get("quick_item_name", "the item")).to_lower()]
+		if result.has("healed_amount"):
+			if str(result.get("action_name", "")) == "Use Quick Item":
+				return "%s quickly uses %s and gets immediate relief." % [source_name, str(result.get("quick_item_name", "the item")).to_lower()]
+			return "%s patches up %s and restores some of their strength." % [source_name, target_name]
+		if str(result.get("resource", "")) == "mana":
+			return "%s drinks %s and feels power surge back into them." % [source_name, str(result.get("quick_item_name", "the item")).to_lower()]
+		if bool(result.get("already_stunned", false)):
+			return "%s rattles %s, but they are already stunned." % [source_name, target_name]
+		if not str(result.get("condition_name", "")).is_empty():
+			if bool(result.get("condition_applied", false)):
+				return "%s's technique takes hold, leaving %s %s." % [source_name, target_name, str(result.get("condition_name", "affected")).to_lower()]
+			return "%s tries to inflict %s, but %s resists the effect." % [source_name, str(result.get("condition_name", "the effect")).to_lower(), target_name]
 		if result.has("active_loadout"):
 			return "%s shifts stance and changes loadouts." % source_name
 		if result.has("defence_name"):
@@ -1209,6 +1711,8 @@ func _build_action_flavor_text(result: Dictionary) -> String:
 		return "%s's %s drops %s unconscious." % [source_name, action_name.to_lower(), target_name]
 	if total_damage <= 0 and location_dt > 0:
 		return "%s's %s strikes %s's %s, but the armor turns the blow aside." % [source_name, action_name.to_lower(), target_name, location_name.to_lower()]
+	if not str(result.get("condition_name", "")).is_empty() and bool(result.get("condition_applied", false)):
+		return "%s's %s slips through and leaves %s %s." % [source_name, action_name.to_lower(), target_name, str(result.get("condition_name", "affected")).to_lower()]
 	return "%s's %s slips through and bites into %s's %s." % [source_name, action_name.to_lower(), target_name, location_name.to_lower()]
 
 func _build_action_narration_entries(result: Dictionary) -> Dictionary:
@@ -1223,8 +1727,11 @@ func _build_action_preview(current_request: CombatRequest) -> Dictionary:
 	var source_name := str(source_payload.get("name", current_request.combatant_id))
 	var target_name := str(target_payload.get("name", current_request.target_id))
 	var action_name := str(current_request.payload.get("action_name", "Pending Action"))
-	var location_name := _location_name_from_slot(int(current_request.payload.get("target_location", Item.ItemSlots.Torso)))
+	var location_name := str(current_request.payload.get("target_location_label", _location_name_from_slot(int(current_request.payload.get("target_location", Item.ItemSlots.Torso)))))
+	if int(current_request.payload.get("called_shot_penalty", 0)) != 0:
+		location_name += " (%s)" % int(current_request.payload.get("called_shot_penalty", 0))
 	var category := str(current_request.payload.get("category", Action.CATEGORY_ATTACK))
+	var range_preview: Dictionary = _get_attack_range_preview(source_payload, target_payload, current_request.payload)
 	var preview_result := {
 		"source_name": source_name,
 		"target_name": target_name,
@@ -1243,81 +1750,346 @@ func _build_action_preview(current_request: CombatRequest) -> Dictionary:
 			flavor = "%s braces defensively, ready to weather the next blow." % source_name
 		"Bolster":
 			flavor = "%s focuses and prepares a measured supporting action." % source_name
+		"Brace":
+			flavor = "%s sets themselves against the coming impact." % source_name
+		"First Aid":
+			flavor = "%s prepares to tend %s's wounds." % [source_name, target_name]
+		"Use Quick Item":
+			flavor = "%s readies %s for immediate use." % [source_name, str(current_request.payload.get("quick_item_name", "a quick item")).to_lower()]
+		"Perform Skill Test":
+			var skill_description := str(current_request.payload.get("skill_test_description", "")).strip_edges()
+			if bool(current_request.payload.get("no_target", false)):
+				flavor = "%s prepares a %s test%s." % [source_name, str(current_request.payload.get("skill_name", "skill")).to_lower(), " to %s" % skill_description if not skill_description.is_empty() else ""]
+			else:
+				flavor = "%s prepares to contest %s with %s%s." % [source_name, target_name, str(current_request.payload.get("skill_name", "skill")).to_lower(), " to %s" % skill_description if not skill_description.is_empty() else ""]
+		"Stunned":
+			flavor = "%s reels from the blow, losing precious initiative." % source_name
 		"Wait":
 			flavor = "%s pauses, watching the field for the right moment." % source_name
 		_:
 			if category != Action.CATEGORY_ATTACK:
 				flavor = "%s prepares %s." % [source_name, action_name.to_lower()]
+	var mechanics_text := "%s targets %s's %s with %s (%s AP, speed %s)." % [preview_result["source_name"], preview_result["target_name"], preview_result["target_location_name"], preview_result["action_name"], preview_result["ap_cost"], preview_result["action_speed"]]
+	if action_name == "Use Quick Item":
+		mechanics_text = "%s uses %s on self (%s AP, speed %s)." % [preview_result["source_name"], current_request.payload.get("quick_item_name", "a quick item"), preview_result["ap_cost"], preview_result["action_speed"]]
+	elif action_name == "Perform Skill Test":
+		if bool(current_request.payload.get("no_target", false)):
+			mechanics_text = "%s attempts %s (%s AP, speed %s). GM sets difficulty on review." % [preview_result["source_name"], current_request.payload.get("skill_name", "a skill test"), preview_result["ap_cost"], preview_result["action_speed"]]
+		else:
+			mechanics_text = "%s contests %s with %s (%s AP, speed %s)." % [preview_result["source_name"], preview_result["target_name"], current_request.payload.get("skill_name", "a skill test"), preview_result["ap_cost"], preview_result["action_speed"]]
+	elif action_name == "Stunned":
+		mechanics_text = "%s loses the initiative to Stunned (%s AP, speed %s)." % [preview_result["source_name"], preview_result["ap_cost"], preview_result["action_speed"]]
+	if not range_preview.is_empty():
+		mechanics_text += " %s" % str(range_preview.get("summary", ""))
 	return {
 		"flavor": flavor,
-		"mechanics": "%s targets %s's %s with %s (%s AP, speed %s)." % [preview_result["source_name"], preview_result["target_name"], preview_result["target_location_name"], preview_result["action_name"], preview_result["ap_cost"], preview_result["action_speed"]],
+		"mechanics": mechanics_text,
 	}
 
-func _refresh_action_resolution_window() -> void:
+func _start_current_action_review() -> void:
+	current_review_request = null
+	current_review_resolution = {}
+	is_editing_review_action = false
 	if pending_resolution_requests.is_empty():
-		resolutionTitle.text = "No Pending Actions"
-		resolutionProgress.text = "0 remaining"
-		resolutionDetails.text = "All queued actions have been handled."
+		_refresh_action_resolution_window()
 		return
-	var current_request := pending_resolution_requests[0]
-	var total_remaining := pending_resolution_requests.size()
-	var source_payload: Dictionary = encounter_combatants.get(current_request.combatant_id, {})
-	var target_payload: Dictionary = encounter_combatants.get(current_request.target_id, {})
-	var preview := _build_action_preview(current_request)
-	resolutionTitle.text = "%s -> %s" % [source_payload.get("name", current_request.combatant_id), target_payload.get("name", current_request.target_id)]
-	resolutionProgress.text = "%s actions remaining" % total_remaining
-	resolutionDetails.text = "[b]Flavor[/b]\n%s\n\n[b]Mechanics[/b]\n%s\n\n[b]Action[/b] %s\n[b]Actor[/b] %s\n[b]Target[/b] %s\n[b]Source[/b] %s (%s)\n[b]Location[/b] %s\n[b]AP[/b] %s\n[b]Speed[/b] %s" % [
-		preview.get("flavor", ""),
-		preview.get("mechanics", ""),
-		current_request.payload.get("action_name", "Pending Action"),
-		source_payload.get("name", current_request.combatant_id),
-		target_payload.get("name", current_request.target_id),
-		current_request.payload.get("action_source", "Innate"),
-		current_request.payload.get("action_hand", "Innate"),
-		_location_name_from_slot(int(current_request.payload.get("target_location", Item.ItemSlots.Torso))),
-		current_request.payload.get("ap_cost", 0),
-		current_request.payload.get("action_speed", 0),
+	current_review_request = pending_resolution_requests[0]
+	current_review_resolution = _resolve_queued_action_preview(current_review_request)
+	_refresh_action_resolution_window()
+
+func _build_current_review_header() -> String:
+	if current_review_request == null or current_review_resolution.is_empty():
+		return "No Pending Actions"
+	var preview_request: CombatRequest = current_review_resolution.get("request", current_review_request)
+	var source_payload: Dictionary = current_review_resolution.get("source_payload", {})
+	var target_payload: Dictionary = current_review_resolution.get("target_payload", {})
+	if str(preview_request.payload.get("action_name", "")) == "Perform Skill Test" and bool(preview_request.payload.get("no_target", false)):
+		return "%s uses %s (No Target)" % [
+			source_payload.get("name", preview_request.combatant_id),
+			preview_request.payload.get("action_name", "Pending Action"),
+		]
+	return "%s uses %s on %s" % [
+		source_payload.get("name", preview_request.combatant_id),
+		preview_request.payload.get("action_name", "Pending Action"),
+		target_payload.get("name", preview_request.target_id),
 	]
 
+func _build_current_review_details() -> String:
+	if current_review_request == null or current_review_resolution.is_empty():
+		return "No resolved action to review."
+	var resolved_result: Dictionary = current_review_resolution.get("resolved_result", {})
+	return _format_action_result(resolved_result)
+
+func _build_current_review_edit_details() -> String:
+	if current_review_request == null or current_review_resolution.is_empty():
+		return ""
+	var resolved_result: Dictionary = current_review_resolution.get("resolved_result", {})
+	if _current_review_is_skill_test():
+		var description := str(current_review_request.payload.get("skill_test_description", "")).strip_edges()
+		var skill_test_lines: Array[String] = [
+			"[b]Skill[/b] %s" % str(current_review_request.payload.get("skill_name", "Skill")),
+			"[b]AP / Speed[/b] %s / %s" % [current_review_request.payload.get("ap_cost", 0), current_review_request.payload.get("action_speed", 0)],
+		]
+		if not description.is_empty():
+			skill_test_lines.append("[b]Description[/b] %s" % description)
+		if _current_review_is_skill_test_no_target():
+			skill_test_lines.append("[b]Difficulty[/b] %s" % int(current_review_request.payload.get("skill_difficulty", 10)))
+		else:
+			skill_test_lines.append("[b]Contested[/b] Yes")
+		return "\n".join(skill_test_lines)
+	var target_payload: Dictionary = current_review_resolution.get("target_payload", {})
+	var status_suffix := "None"
+	if bool(resolved_result.get("is_dead", false)):
+		status_suffix = "Dead"
+	elif bool(resolved_result.get("is_unconscious", false)):
+		status_suffix = "Unconscious"
+	var lines: Array[String] = [
+		"[b]Roll vs Defence[/b] %s vs %s %s" % [resolved_result.get("to_hit_total", 0), resolved_result.get("defence_name", "Defence"), resolved_result.get("defence_value", 0)],
+	]
+	if bool(resolved_result.get("hit", false)):
+		lines.append("[b]Damage after DT[/b] %s" % _format_exact_float(resolved_result.get("total_damage", 0.0)))
+		lines.append("[b]Temp absorbed[/b] %s" % _format_exact_float(resolved_result.get("absorbed_by_temporary_health", 0.0)))
+		lines.append("[b]HP / VIT result[/b] %s -> %s | %s -> %s" % [
+			_display_vital(target_payload.get("current_hp", 0.0)),
+			_display_vital(resolved_result.get("remaining_hp", 0.0)),
+			_display_vital(target_payload.get("current_vitality", 0.0)),
+			_display_vital(resolved_result.get("remaining_vitality", 0.0)),
+		])
+	lines.append("[b]AP[/b] %s" % resolved_result.get("ap_cost", 0))
+	lines.append("[b]Speed[/b] %s" % resolved_result.get("action_speed", 0))
+	lines.append("[b]Status[/b] %s" % status_suffix)
+	return "\n".join(lines)
+
+func _normalize_review_resolved_result(resolved_result: Dictionary) -> Dictionary:
+	var normalized := resolved_result.duplicate(true)
+	var target_payload: Dictionary = current_review_resolution.get("target_payload", {})
+	if not bool(normalized.get("hit", false)):
+		normalized["did_crit"] = false
+		for field_name in REVIEW_ZERO_ON_MISS_FIELDS:
+			normalized[field_name] = 0.0
+		normalized["remaining_hp"] = float(target_payload.get("current_hp", normalized.get("remaining_hp", 0.0)))
+		normalized["remaining_vitality"] = float(target_payload.get("current_vitality", normalized.get("remaining_vitality", 0.0)))
+		normalized["remaining_temporary_health"] = float(target_payload.get("temporary_health", normalized.get("remaining_temporary_health", 0.0)))
+		normalized["remaining_concentration"] = int(target_payload.get("current_concentration", normalized.get("remaining_concentration", 0)))
+		normalized["remaining_mana"] = int(target_payload.get("current_mana", normalized.get("remaining_mana", 0)))
+		normalized["cancelled_actions"] = false
+		normalized["cancelled_action_count"] = 0
+		normalized["already_stunned"] = false
+		normalized["stunned_round"] = -1
+		normalized["stunned_resolve_speed"] = 0
+		normalized["condition_applied"] = false
+		normalized["condition_name"] = ""
+		normalized["remaining_conditions"] = target_payload.get("conditions", []).duplicate(true)
+	elif normalized.get("remaining_conditions", null) is Array:
+		normalized["remaining_conditions"] = _serialize_condition_names(normalized.get("remaining_conditions", []))
+	else:
+		normalized["remaining_conditions"] = target_payload.get("conditions", []).duplicate(true)
+	if float(normalized.get("remaining_vitality", 0.0)) <= 0.0:
+		normalized["is_dead"] = true
+		normalized["is_unconscious"] = false
+	elif float(normalized.get("remaining_hp", 0.0)) <= 0.0:
+		normalized["is_unconscious"] = true
+		normalized["is_dead"] = false
+	else:
+		normalized["is_unconscious"] = false
+		normalized["is_dead"] = false
+	if bool(normalized.get("is_dead", false)):
+		normalized["is_unconscious"] = false
+	return normalized
+
+func _get_review_state_change_by_combatant(state_changes: Array, combatant_id: String) -> Dictionary:
+	for state_change in state_changes:
+		if state_change is Dictionary and str((state_change as Dictionary).get("combatant_id", "")) == combatant_id:
+			return (state_change as Dictionary)
+	return {}
+
+func _rebuild_review_resolution_from_resolved_result(resolved_result: Dictionary) -> Dictionary:
+	if current_review_request == null or current_review_resolution.is_empty():
+		return current_review_resolution
+	var rebuilt := current_review_resolution.duplicate(true)
+	var normalized_result := _normalize_review_resolved_result(resolved_result)
+	rebuilt["resolved_result"] = normalized_result
+	var target_payload: Dictionary = rebuilt.get("target_payload", {}).duplicate(true)
+	var source_change := _get_review_state_change_by_combatant(rebuilt.get("state_changes", []), current_review_request.combatant_id).duplicate(true)
+	if not source_change.is_empty():
+		source_change["pending_request"] = ""
+	var target_change: Dictionary = {}
+	if current_review_request.target_id != current_review_request.combatant_id:
+		target_change = _get_review_state_change_by_combatant(rebuilt.get("state_changes", []), current_review_request.target_id).duplicate(true)
+		if target_change.is_empty():
+			target_change = target_payload.duplicate(true)
+			target_change.erase("id")
+			target_change["combatant_id"] = current_review_request.target_id
+		target_change["current_hp"] = float(normalized_result.get("remaining_hp", target_change.get("current_hp", 0.0)))
+		target_change["current_vitality"] = float(normalized_result.get("remaining_vitality", target_change.get("current_vitality", 0.0)))
+		target_change["temporary_health"] = float(normalized_result.get("remaining_temporary_health", target_change.get("temporary_health", 0.0)))
+		target_change["current_concentration"] = int(normalized_result.get("remaining_concentration", target_change.get("current_concentration", 0)))
+		target_change["current_mana"] = int(normalized_result.get("remaining_mana", target_change.get("current_mana", 0)))
+		if bool(normalized_result.get("cancelled_actions", false)):
+			target_change["remaining_action_points"] = 0
+			target_change["queued_actions"] = []
+			target_change["queued_action_payloads"] = []
+			target_change["movement_choice"] = {}
+			target_change["movement_path"] = []
+			target_change["movement_ap_cost"] = 0
+			target_change["pending_request"] = ""
+		else:
+			target_change["remaining_action_points"] = target_payload.get("remaining_action_points", target_change.get("remaining_action_points", 0))
+			target_change["queued_actions"] = target_payload.get("queued_actions", []).duplicate(true)
+			target_change["queued_action_payloads"] = target_payload.get("queued_action_payloads", []).duplicate(true)
+			target_change["movement_choice"] = target_payload.get("movement_choice", {}).duplicate(true)
+			target_change["movement_path"] = target_payload.get("movement_path", []).duplicate(true)
+			target_change["movement_ap_cost"] = int(target_payload.get("movement_ap_cost", 0))
+			target_change["pending_request"] = target_payload.get("pending_request", "")
+		target_change["conditions"] = normalized_result.get("remaining_conditions", target_payload.get("conditions", [])).duplicate(true)
+		target_change["stunned_round"] = int(normalized_result.get("stunned_round", target_payload.get("stunned_round", -1)))
+		target_change["stunned_resolve_speed"] = int(normalized_result.get("stunned_resolve_speed", target_payload.get("stunned_resolve_speed", 0)))
+	var rebuilt_state_changes: Array[Dictionary] = []
+	if not source_change.is_empty():
+		rebuilt_state_changes.append(source_change)
+	if not target_change.is_empty():
+		rebuilt_state_changes.append(target_change)
+	rebuilt["state_changes"] = rebuilt_state_changes
+	var rebuilt_results: Array[Dictionary] = []
+	rebuilt_results.append(_build_action_narration_entries(normalized_result))
+	if bool(normalized_result.get("cancelled_actions", false)):
+		var cancel_reason := "loses concentration"
+		if bool(normalized_result.get("is_dead", false)):
+			cancel_reason = "dies"
+		elif bool(normalized_result.get("is_unconscious", false)):
+			cancel_reason = "falls unconscious"
+		elif str(normalized_result.get("condition_name", "")) == "Stunned":
+			cancel_reason = "is stunned"
+		rebuilt_results.append({
+			"text": "%s %s and their remaining actions are cancelled." % [target_payload.get("name", current_review_request.target_id), cancel_reason],
+			"tooltip": "%s queued actions were removed." % int(normalized_result.get("cancelled_action_count", 0)),
+		})
+	elif bool(normalized_result.get("concentration_broken", false)):
+		rebuilt_results.append({
+			"text": "%s loses concentration and all stored mana." % target_payload.get("name", current_review_request.target_id),
+			"tooltip": "Mana drops to %s." % int(normalized_result.get("remaining_mana", 0)),
+		})
+	if bool(normalized_result.get("already_stunned", false)):
+		rebuilt_results.append({
+			"text": "%s is already stunned." % target_payload.get("name", current_review_request.target_id),
+			"tooltip": "Additional stun effects do not stack until the current stun clears.",
+		})
+	rebuilt["results"] = rebuilt_results
+	return rebuilt
+
+func _set_review_edit_mode(active: bool) -> void:
+	is_editing_review_action = active
+	resolutionEditPanel.visible = active
+	editActionButton.text = "Close Edit" if active else "Edit"
+	if active:
+		_set_review_edit_form_values(current_review_resolution.get("resolved_result", {}))
+		if _current_review_is_skill_test_no_target():
+			resolutionSkillDifficultyInput.set_value_no_signal(float(current_review_request.payload.get("skill_difficulty", 10)))
+	resolutionEditFormPanel.visible = active and not _current_review_is_skill_test_no_target()
+
+func _toggle_current_review_edit_mode() -> void:
+	_set_review_edit_mode(not is_editing_review_action)
+	_refresh_action_resolution_window()
+
+func _current_review_is_skill_test() -> bool:
+	return current_review_request != null and str(current_review_request.payload.get("action_name", "")) == "Perform Skill Test"
+
+func _current_review_is_skill_test_no_target() -> bool:
+	return _current_review_is_skill_test() and bool(current_review_request.payload.get("no_target", false))
+
+func _refresh_action_resolution_window() -> void:
+	if pending_resolution_requests.is_empty() or current_review_request == null:
+		resolutionTitle.text = "No Pending Actions"
+		resolutionProgress.text = "0 remaining"
+		abortActionButton.disabled = true
+		editActionButton.disabled = true
+		resolveActionButton.disabled = true
+		resolveAllActionsButton.disabled = true
+		resolutionEditPanel.visible = false
+		resolutionEditFormPanel.visible = false
+		resolutionOutcomeSelector.disabled = true
+		resolutionLocationSelector.disabled = true
+		resolutionSkillDifficultyLabel.visible = false
+		resolutionSkillDifficultyInput.visible = false
+		resolutionSkillDifficultyInput.editable = false
+		resolutionApplyEditsButton.disabled = true
+		resolutionEditDetails.text = ""
+		resolutionDetails.text = "All queued actions have been handled."
+		return
+	abortActionButton.disabled = false
+	editActionButton.disabled = false
+	resolveActionButton.disabled = false
+	resolveAllActionsButton.disabled = false
+	resolutionTitle.text = _build_current_review_header()
+	resolutionProgress.text = "Reviewing 1 of %s pending actions" % pending_resolution_requests.size()
+	var is_attack := str(current_review_request.payload.get("category", Action.CATEGORY_ATTACK)) == Action.CATEGORY_ATTACK
+	var is_skill_test_no_target := _current_review_is_skill_test_no_target()
+	editActionButton.disabled = not (is_attack or is_skill_test_no_target)
+	resolutionOutcomeSelector.disabled = true
+	resolutionLocationSelector.disabled = true
+	resolutionSkillDifficultyLabel.visible = is_editing_review_action and is_skill_test_no_target
+	resolutionSkillDifficultyInput.visible = is_editing_review_action and is_skill_test_no_target
+	resolutionSkillDifficultyInput.editable = is_editing_review_action and is_skill_test_no_target
+	resolutionApplyEditsButton.disabled = not (is_attack or is_skill_test_no_target)
+	_set_review_edit_mode(is_editing_review_action and (is_attack or is_skill_test_no_target))
+	resolutionDetails.text = _build_current_review_details()
+	resolutionEditDetails.text = _build_current_review_edit_details() if resolutionEditPanel.visible else ""
+
 func _resolve_current_action_resolution() -> void:
-	if pending_resolution_requests.is_empty():
+	if pending_resolution_requests.is_empty() or current_review_request == null:
 		_finalize_action_phase_review()
 		return
-	var current_request = pending_resolution_requests.pop_front()
-	var resolution := _resolve_queued_action(current_request)
-	_broadcast_resolution_event("queued_action_resolved", current_request, resolution)
+	_commit_current_review_form_to_resolution()
+	pending_resolution_requests.pop_front()
+	var approved_request: CombatRequest = current_review_resolution.get("request", current_review_request)
+	_apply_approved_review_queue_changes()
+	_broadcast_resolution_event("queued_action_resolved", approved_request, current_review_resolution)
 	_apply_review_queue_state()
 	if pending_resolution_requests.is_empty():
 		_finalize_action_phase_review()
 	else:
-		_refresh_action_resolution_window()
+		_start_current_action_review()
 
 func _abort_current_action_resolution() -> void:
-	if pending_resolution_requests.is_empty():
+	if pending_resolution_requests.is_empty() or current_review_request == null:
 		_finalize_action_phase_review()
 		return
-	var current_request = pending_resolution_requests.pop_front()
-	var source_payload: Dictionary = encounter_combatants.get(current_request.combatant_id, {})
-	var target_payload: Dictionary = encounter_combatants.get(current_request.target_id, {})
-	var preview := _build_action_preview(current_request)
+	pending_resolution_requests.pop_front()
+	var rejected_request: CombatRequest = current_review_resolution.get("request", current_review_request)
+	var preview := _build_action_preview(rejected_request)
 	var results: Array[Dictionary] = [{
-		"text": "%s aborted %s targeting %s." % [
-			source_payload.get("name", current_request.combatant_id),
-			current_request.payload.get("action_name", "an action"),
-			target_payload.get("name", current_request.target_id),
+		"text": "%s rejected %s targeting %s." % [
+			current_review_resolution.get("source_payload", {}).get("name", rejected_request.combatant_id),
+			rejected_request.payload.get("action_name", "an action"),
+			current_review_resolution.get("target_payload", {}).get("name", rejected_request.target_id),
 		],
 		"tooltip": str(preview.get("mechanics", "")),
 	}]
-	_broadcast_resolution_event("queued_action_aborted", current_request, {"state_changes": [], "results": results})
+	_broadcast_resolution_event("queued_action_aborted", rejected_request, {"state_changes": [], "results": results})
 	_apply_review_queue_state()
 	if pending_resolution_requests.is_empty():
 		_finalize_action_phase_review()
 	else:
-		_refresh_action_resolution_window()
+		_start_current_action_review()
 
 func _resolve_all_action_resolutions() -> void:
 	while not pending_resolution_requests.is_empty():
 		_resolve_current_action_resolution()
+
+func _apply_current_review_edits() -> void:
+	if current_review_request == null or current_review_resolution.is_empty():
+		return
+	_commit_current_review_form_to_resolution()
+	_set_review_edit_mode(true)
+	_refresh_action_resolution_window()
+
+func _apply_approved_review_queue_changes() -> void:
+	var resolved_result: Dictionary = current_review_resolution.get("resolved_result", {})
+	if not bool(resolved_result.get("cancelled_actions", false)):
+		return
+	if current_review_request == null:
+		return
+	_cancel_pending_actions_for_combatant(current_review_request.target_id)
 
 func _broadcast_resolution_event(event_name: String, combat_request: CombatRequest, resolution: Dictionary) -> void:
 	var state_changes: Array[Dictionary] = []
@@ -1356,18 +2128,18 @@ func _apply_review_queue_state() -> void:
 		remaining_payloads_by_combatant[combatant_id].append(queued_payload)
 	var state_changes: Array[Dictionary] = []
 	for combatant_id in encounter_combatants.keys():
-		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
 		var queued_payloads: Array = remaining_payloads_by_combatant.get(combatant_id, [])
 		var queued_texts: Array[String] = []
 		for queued_payload_variant in queued_payloads:
 			if queued_payload_variant is Dictionary:
 				queued_texts.append(str((queued_payload_variant as Dictionary).get("preview_text", "Action")))
-		payload["queued_action_payloads"] = queued_payloads
-		payload["queued_actions"] = queued_texts
-		payload["pending_request"] = ""
-		payload.erase("id")
-		payload["combatant_id"] = str(combatant_id)
-		state_changes.append(payload)
+		var state_change := {
+			"combatant_id": str(combatant_id),
+			"queued_action_payloads": queued_payloads,
+			"queued_actions": queued_texts,
+			"pending_request": "",
+		}
+		state_changes.append(state_change)
 	var campaign_manager := _find_campaign_manager()
 	if campaign_manager == null:
 		return
@@ -1385,6 +2157,8 @@ func _apply_review_queue_state() -> void:
 func _finalize_action_phase_review() -> void:
 	is_reviewing_action_phase = false
 	pending_resolution_requests.clear()
+	current_review_request = null
+	current_review_resolution = {}
 	actionResolutionWindow.hide()
 	var state_changes: Array[Dictionary] = []
 	var combatant_ids: Array = encounter_combatants.keys()
@@ -1394,6 +2168,14 @@ func _finalize_action_phase_review() -> void:
 		if not encounter_combatants.has(combatant_id):
 			continue
 		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
+		var actor := _get_actor_data_from_payload(payload)
+		if actor != null:
+			if actor.hasCondition("Stunned") and _get_stunned_round(actor) == round_number:
+				_clear_stunned(actor)
+			RuleEngine.clearRoundBonuses(actor)
+			RuleEngine.restoreConcentration(actor)
+			if RuleEngine.canAct(actor):
+				RuleEngine.generateMana(actor)
 		var reset_payload := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
 		if reset_payload.is_empty():
 			continue
@@ -1437,6 +2219,181 @@ func _get_actor_data_from_payload(payload: Dictionary) -> CreatureData:
 		return null
 	return npc.data
 
+func _action_targets_ally(action_name: String) -> bool:
+	return action_name == "Guard"
+
+func _action_targets_self_or_ally(action_name: String) -> bool:
+	return action_name == "First Aid"
+
+func _action_allows_any_target(action_name: String) -> bool:
+	return action_name == "Perform Skill Test"
+
+func _get_actor_skill_names(actor: CreatureData) -> Array[String]:
+	var names: Array[String] = []
+	if actor is HumanoidData:
+		for skill in (actor as HumanoidData).skills:
+			if skill == null or skill._name.is_empty():
+				continue
+			names.append(skill._name)
+	names.sort()
+	return names
+
+func _get_quick_slot_item(equipment: Equipment, slot_index: int) -> Item:
+	if equipment == null:
+		return null
+	match slot_index:
+		0:
+			return equipment.quickItem1
+		1:
+			return equipment.quickItem2
+		2:
+			return equipment.quickItem3
+		3:
+			return equipment.quickItem4
+		_:
+			return null
+
+func _open_quick_item_picker(action_payload: Dictionary, _local_payload: Dictionary) -> void:
+	pending_quick_item_action = action_payload.duplicate(true)
+	quickItemSlotSelector.clear()
+	quickItemPickerLabel.text = "Choose a quick slot."
+	var humanoid_data := PlayerVariables.data as HumanoidData
+	if humanoid_data == null or humanoid_data.equipment == null:
+		playerActionsHint.text = "You have no quick items equipped."
+		pending_quick_item_action = {}
+		return
+	var has_any_item := false
+	for slot_index in range(4):
+		var slot_item := _get_quick_slot_item(humanoid_data.equipment, slot_index)
+		var slot_label := "%s - %s" % [slot_index + 1, slot_item._name if slot_item != null and not slot_item._name.is_empty() else "Empty"]
+		quickItemSlotSelector.add_item(slot_label)
+		quickItemSlotSelector.set_item_metadata(slot_index, slot_index)
+		var item_available := slot_item != null and not slot_item._name.is_empty()
+		quickItemSlotSelector.set_item_disabled(slot_index, not item_available)
+		if item_available and not has_any_item:
+			has_any_item = true
+			quickItemSlotSelector.select(slot_index)
+	if not has_any_item:
+		playerActionsHint.text = "All quick item slots are empty."
+		pending_quick_item_action = {}
+		return
+	quickItemPicker.popup_centered()
+
+func _open_skill_test_picker(action_payload: Dictionary) -> void:
+	pending_skill_test_action = action_payload.duplicate(true)
+	skillTestPickerLabel.text = "Set the skill test details."
+	skillTestSkillSelector.clear()
+	var skill_names := _get_actor_skill_names(PlayerVariables.data)
+	for skill_name in skill_names:
+		skillTestSkillSelector.add_item(skill_name)
+	if skill_names.is_empty():
+		playerActionsHint.text = "You have no skills available for a skill test."
+		pending_skill_test_action = {}
+		return
+	skillTestSkillSelector.select(0)
+	skillTestAPInput.value = max(float(action_payload.get("ap_cost", 1)), 1.0)
+	skillTestSpeedInput.value = max(float(action_payload.get("action_speed", 20)), 1.0)
+	skillTestDescriptionInput.text = ""
+	skillTestNoTargetToggle.button_pressed = true
+	skillTestPicker.popup_centered()
+
+func _confirm_quick_item_selection() -> void:
+	if pending_quick_item_action.is_empty():
+		return
+	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
+	if local_payload.is_empty():
+		pending_quick_item_action = {}
+		return
+	var selected_index := quickItemSlotSelector.get_selected()
+	if selected_index < 0:
+		playerActionsHint.text = "Choose a quick slot first."
+		quickItemPicker.popup_centered()
+		return
+	var slot_index_variant = quickItemSlotSelector.get_item_metadata(selected_index)
+	var slot_index := int(slot_index_variant)
+	var humanoid_data := PlayerVariables.data as HumanoidData
+	var slot_item := _get_quick_slot_item(humanoid_data.equipment if humanoid_data != null else null, slot_index)
+	if slot_item == null or slot_item._name.is_empty():
+		playerActionsHint.text = "That quick slot is empty."
+		quickItemPicker.popup_centered()
+		return
+	var action_payload := pending_quick_item_action.duplicate(true)
+	action_payload["quick_slot_index"] = slot_index
+	action_payload["quick_item_name"] = slot_item._name
+	pending_quick_item_action = {}
+	selected_combatant_id = str(local_payload.get("id", ""))
+	_queue_player_action(action_payload, local_payload)
+
+func _cancel_quick_item_selection() -> void:
+	pending_quick_item_action = {}
+
+func _confirm_skill_test_selection() -> void:
+	if pending_skill_test_action.is_empty():
+		return
+	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
+	if local_payload.is_empty():
+		pending_skill_test_action = {}
+		return
+	var selected_index := skillTestSkillSelector.get_selected()
+	if selected_index < 0:
+		playerActionsHint.text = "Choose a skill first."
+		skillTestPicker.popup_centered()
+		return
+	var skill_name := skillTestSkillSelector.get_item_text(selected_index)
+	if skill_name.strip_edges().is_empty():
+		playerActionsHint.text = "Choose a skill first."
+		skillTestPicker.popup_centered()
+		return
+	var action_payload := pending_skill_test_action.duplicate(true)
+	action_payload["skill_name"] = skill_name
+	action_payload["skill_test_description"] = skillTestDescriptionInput.text.strip_edges()
+	action_payload["ap_cost"] = int(skillTestAPInput.value)
+	action_payload["action_speed"] = int(skillTestSpeedInput.value)
+	action_payload["no_target"] = skillTestNoTargetToggle.button_pressed
+	action_payload["skill_difficulty"] = int(action_payload.get("skill_difficulty", 10))
+	if int(action_payload.get("ap_cost", 1)) > int(local_payload.get("remaining_action_points", local_payload.get("action_points", 0))):
+		playerActionsHint.text = "Not enough AP for Perform Skill Test."
+		skillTestPicker.popup_centered()
+		return
+	pending_skill_test_action = {}
+	if bool(action_payload.get("no_target", false)):
+		selected_combatant_id = str(local_payload.get("id", ""))
+		_queue_player_action(action_payload, local_payload)
+		return
+	pending_player_action = action_payload
+	selected_combatant_id = ""
+	selected_combatant_entry = null
+	playerActionsHint.text = "Selected Perform Skill Test (%s AP). Choose any target or yourself." % action_payload.get("ap_cost", 1)
+	_refresh_combatant_entry_interactions()
+	_refresh_combat_grid()
+
+func _cancel_skill_test_selection() -> void:
+	pending_skill_test_action = {}
+
+func _has_queued_action_named(payload: Dictionary, action_name: String) -> bool:
+	for queued_payload_variant in payload.get("queued_action_payloads", []):
+		if queued_payload_variant is Dictionary and str((queued_payload_variant as Dictionary).get("action_name", "")) == action_name:
+			return true
+	return false
+
+func _is_guard_target_selectable(local_payload: Dictionary, target_payload: Dictionary) -> bool:
+	if local_payload.is_empty() or target_payload.is_empty():
+		return false
+	var local_id := str(local_payload.get("id", ""))
+	var target_id := str(target_payload.get("id", ""))
+	if target_id.is_empty() or target_id == local_id:
+		return false
+	if float(target_payload.get("current_hp", 0.0)) <= 0.0:
+		return false
+	return not _are_hostile_combatants(local_payload, target_payload)
+
+func _is_support_target_selectable(local_payload: Dictionary, target_payload: Dictionary) -> bool:
+	if local_payload.is_empty() or target_payload.is_empty():
+		return false
+	if float(target_payload.get("current_vitality", 0.0)) <= 0.0:
+		return false
+	return not _are_hostile_combatants(local_payload, target_payload)
+
 func _find_action_entry_for_actor(actor: CreatureData, loadout: int, action_name: String, action_source: String, action_hand: String) -> Dictionary:
 	var entries: Array[Dictionary] = []
 	if actor is HumanoidData:
@@ -1463,6 +2420,107 @@ func _find_action_entry_for_actor(actor: CreatureData, loadout: int, action_name
 			continue
 		return entry
 	return name_only_match
+
+func _get_action_entries_for_actor(actor: CreatureData, loadout: int) -> Array[Dictionary]:
+	if actor == null:
+		return []
+	if actor is HumanoidData:
+		return (actor as HumanoidData).get_available_actions(loadout)
+	var entries: Array[Dictionary] = []
+	for actor_action in actor.actions:
+		if actor_action is Action:
+			entries.append({"action": actor_action, "weapon": null, "hand": "Innate"})
+	return entries
+
+func _get_action_names_for_actor(actor: CreatureData, loadout: int) -> Array[String]:
+	var names: Array[String] = []
+	for entry in _get_action_entries_for_actor(actor, loadout):
+		var action: Action = entry.get("action", null)
+		if action == null:
+			continue
+		names.append(action._name)
+	return names
+
+func _split_action_entries(action_entries: Array) -> Dictionary:
+	var basic_actions: Array = []
+	var attacks: Array = []
+	for action_entry_variant in action_entries:
+		if not (action_entry_variant is Dictionary):
+			continue
+		var action_entry := action_entry_variant as Dictionary
+		if bool(action_entry.get("is_attack", false)):
+			attacks.append(action_entry)
+		else:
+			basic_actions.append(action_entry)
+	return {
+		"actions": basic_actions,
+		"attacks": attacks,
+	}
+
+func _get_serialized_action_entries_for_actor(actor: CreatureData, loadout: int) -> Array[Dictionary]:
+	var action_entries: Array[Dictionary] = []
+	for entry in _get_action_entries_for_actor(actor, loadout):
+		var action: Action = entry.get("action", null)
+		if action == null:
+			continue
+		var weapon: Weapon = entry.get("weapon", null)
+		var source := "Innate"
+		if weapon != null and not weapon._name.is_empty():
+			source = weapon._name
+		action_entries.append({
+			"name": action._name,
+			"source": source,
+			"hand": str(entry.get("hand", "Innate")),
+			"category": action.category,
+			"is_attack": action.is_attack_action(),
+			"ap_cost": RuleEngine.getActionAPCost(action, weapon),
+			"mana_cost": (action as Attack).mana_cost if action is Attack else 0,
+			"speed": RuleEngine.getActionSpeed(action, weapon),
+		})
+	return action_entries
+
+func _rebuild_combatant_payload_for_actor(base_payload: Dictionary, actor: CreatureData, active_loadout: int) -> Dictionary:
+	if actor == null:
+		return {}
+	var payload := base_payload.duplicate(true)
+	payload["active_loadout"] = active_loadout
+	actor.normalizeVitals()
+	var action_points := actor.getActionPoints()
+	payload["current_hp"] = actor.currentHP
+	payload["max_hp"] = actor.maxHP
+	payload["current_vitality"] = actor.currentVitality
+	payload["max_vitality"] = actor.maxVitality
+	payload["temporary_health"] = actor.temporaryHealth
+	payload["current_concentration"] = actor.currentConcentration
+	payload["max_concentration"] = actor.maxConcentration
+	payload["current_mana"] = actor.currentMana
+	payload["level"] = actor.level
+	payload["action_points"] = action_points
+	payload["details"] = "\n".join([
+		"Attributes: %s" % _format_attribute_values(actor.attributes),
+		"Actions: %s" % _format_name_list(_get_action_names_for_actor(actor, active_loadout)),
+		"Concentration: %s/%s" % [actor.currentConcentration, actor.maxConcentration],
+		"Mana: %s" % actor.currentMana,
+		"Conditions: %s" % _format_name_list(actor.conditions),
+	])
+	payload["conditions"] = _serialize_condition_names(actor.conditions)
+	payload["stunned_round"] = _get_stunned_round(actor)
+	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(actor)
+	payload["dexterity_score"] = _get_attribute_score(actor.attributes, "Dexterity")
+	if actor is HumanoidData:
+		payload["equipment"] = _serialize_equipment((actor as HumanoidData).equipment)
+	payload["actions"] = _get_serialized_action_entries_for_actor(actor, active_loadout)
+	payload["action_names"] = _get_action_names_for_actor(actor, active_loadout)
+	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", action_points)), action_points)
+	payload["queued_actions"] = base_payload.get("queued_actions", []).duplicate(true)
+	payload["queued_action_payloads"] = base_payload.get("queued_action_payloads", []).duplicate(true)
+	payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
+	payload["movement_path"] = base_payload.get("movement_path", []).duplicate(true)
+	payload["movement_ap_cost"] = int(base_payload.get("movement_ap_cost", 0))
+	payload["team_id"] = clampi(int(base_payload.get("team_id", 1)), 1, 10)
+	payload["grid_position"] = base_payload.get("grid_position", Vector2i(-1, -1))
+	payload["planned_grid_position"] = base_payload.get("planned_grid_position", payload["grid_position"])
+	return payload
 
 func _build_action_resolution_debug_message(source_payload: Dictionary, actor: CreatureData, loadout: int, action_name: String, action_source: String, action_hand: String) -> String:
 	var actor_name := str(source_payload.get("name", "Someone"))
@@ -1501,6 +2559,163 @@ func _item_name_for_debug(item: Item) -> String:
 		return "none"
 	return item._name
 
+func _serialize_condition_names(conditions: Array) -> Array[String]:
+	var condition_names: Array[String] = []
+	for condition_variant in conditions:
+		if condition_variant is Condition:
+			var condition := condition_variant as Condition
+			if condition != null and not condition._name.is_empty():
+				condition_names.append(condition._name)
+	return condition_names
+
+func _get_stunned_round(actor: CreatureData) -> int:
+	if actor == null:
+		return -1
+	return int(actor.get_meta("stunned_round", -1))
+
+func _get_stunned_resolve_speed(actor: CreatureData) -> int:
+	if actor == null:
+		return 0
+	return int(actor.get_meta("stunned_resolve_speed", 0))
+
+func _is_stunned_active(actor: CreatureData) -> bool:
+	return actor != null and actor.hasCondition("Stunned") and _get_stunned_round(actor) == round_number
+
+func _has_pending_stun(actor: CreatureData) -> bool:
+	return actor != null and _get_stunned_round(actor) > 0 and actor.hasCondition("Stunned")
+
+func _clear_stunned(actor: CreatureData) -> void:
+	if actor == null:
+		return
+	RuleEngine.removeCondition(actor, "Stunned")
+	actor.remove_meta("stunned_round")
+	actor.remove_meta("stunned_resolve_speed")
+
+func _apply_stunned(actor: CreatureData, stunned_round: int, stunned_resolve_speed: int) -> bool:
+	if actor == null:
+		return false
+	if _has_pending_stun(actor):
+		return false
+	var added := RuleEngine.addCondition(actor, "Stunned")
+	actor.set_meta("stunned_round", stunned_round)
+	actor.set_meta("stunned_resolve_speed", stunned_resolve_speed)
+	return added or actor.hasCondition("Stunned")
+
+func _has_remaining_turn_actions(payload: Dictionary) -> bool:
+	if not payload.get("queued_action_payloads", []).is_empty():
+		return true
+	return int(payload.get("remaining_action_points", payload.get("action_points", 0))) > 0
+
+func _cancel_pending_actions_for_combatant(combatant_id: String) -> int:
+	var removed_count := 0
+	var remaining_requests: Array[CombatRequest] = []
+	for request in pending_resolution_requests:
+		if request.combatant_id == combatant_id:
+			removed_count += 1
+			continue
+		remaining_requests.append(request)
+	pending_resolution_requests = remaining_requests
+	return removed_count
+
+func _get_combatant_status_text(combatant_payload: Dictionary) -> String:
+	var pending_request := str(combatant_payload.get("pending_request", ""))
+	var queued_actions: Array = combatant_payload.get("queued_actions", [])
+	var conditions: Array = combatant_payload.get("conditions", [])
+	var current_hp: float = float(combatant_payload.get("current_hp", 0.0))
+	var current_vitality: float = float(combatant_payload.get("current_vitality", 0.0))
+	if not pending_request.is_empty():
+		return "Pending"
+	if current_vitality <= 0.0:
+		return "Dead"
+	if current_hp <= 0.0:
+		return "Unconscious"
+	if conditions.has("Stunned"):
+		return "Stunned"
+	if not queued_actions.is_empty():
+		return "%s queued" % queued_actions.size()
+	return "Ready"
+
+func _format_condition_names(conditions: Array) -> String:
+	var names: Array[String] = []
+	for condition_variant in conditions:
+		var condition_name := str(condition_variant)
+		if condition_variant is Condition:
+			condition_name = (condition_variant as Condition)._name
+		if condition_name.is_empty():
+			continue
+		names.append(condition_name)
+	if names.is_empty():
+		return "None"
+	return ", ".join(names)
+
+func _format_condition_details(conditions: Array) -> String:
+	var lines: Array[String] = []
+	for condition_variant in conditions:
+		var condition_name := str(condition_variant)
+		if condition_variant is Condition:
+			condition_name = (condition_variant as Condition)._name
+		if condition_name.is_empty():
+			continue
+		match condition_name:
+			"Stunned":
+				lines.append("- Stunned: remaining actions are cancelled and next round actions start at a minimum stored speed.")
+			_:
+				lines.append("- %s" % condition_name)
+	if lines.is_empty():
+		return "None"
+	return "\n".join(lines)
+
+func _refresh_player_summary() -> void:
+	if is_host_role:
+		return
+	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
+	if local_payload.is_empty():
+		playerSummaryTitle.text = "Character Summary"
+		playerSummaryHP.text = "HP / Vit: --"
+		playerSummaryAP.text = "AP: --"
+		playerSummaryConcentration.text = "Concentration: --"
+		playerSummaryDefences.text = "Defences: --"
+		playerSummaryMana.text = "Mana: --"
+		playerSummaryConditions.text = "Conditions: None"
+		return
+	var runtime_payload := _build_local_player_runtime_payload(local_payload)
+	playerSummaryTitle.text = str(runtime_payload.get("name", "Character Summary"))
+	playerSummaryHP.text = "HP / Vit: %s/%s | %s/%s" % [
+		_display_vital(runtime_payload.get("current_hp", 0.0)),
+		_display_vital(runtime_payload.get("max_hp", 0.0)),
+		_display_vital(runtime_payload.get("current_vitality", 0.0)),
+		_display_vital(runtime_payload.get("max_vitality", 0.0)),
+	]
+	playerSummaryAP.text = "AP: %s/%s" % [runtime_payload.get("remaining_action_points", 0), runtime_payload.get("action_points", 0)]
+	playerSummaryConcentration.text = "Concentration: %s/%s" % [runtime_payload.get("current_concentration", 0), runtime_payload.get("max_concentration", 0)]
+	playerSummaryDefences.text = "Defences: Defl %s | End %s | Reflex %s | Mind %s" % [
+		RuleEngine.getDefenceValue(PlayerVariables.data, "Deflection"),
+		RuleEngine.getDefenceValue(PlayerVariables.data, "Endurance"),
+		RuleEngine.getDefenceValue(PlayerVariables.data, "Reflex"),
+		RuleEngine.getDefenceValue(PlayerVariables.data, "Mind"),
+	]
+	playerSummaryMana.text = "Mana: %s" % runtime_payload.get("current_mana", 0)
+	playerSummaryConditions.text = "Conditions: %s" % _format_condition_names(runtime_payload.get("conditions", []))
+
+func _show_status_popup(combatant_payload: Dictionary) -> void:
+	var condition_names := _format_condition_names(combatant_payload.get("conditions", []))
+	var condition_details := _format_condition_details(combatant_payload.get("conditions", []))
+	statusWindow.title = "%s Status" % str(combatant_payload.get("name", "Combatant"))
+	statusWindowName.text = str(combatant_payload.get("name", "Combatant"))
+	statusWindowState.text = "Status: %s" % _get_combatant_status_text(combatant_payload)
+	statusWindowVitals.text = "HP / Vit: %s/%s | %s/%s" % [
+		_display_vital(combatant_payload.get("current_hp", 0.0)),
+		_display_vital(combatant_payload.get("max_hp", 0.0)),
+		_display_vital(combatant_payload.get("current_vitality", 0.0)),
+		_display_vital(combatant_payload.get("max_vitality", 0.0)),
+	]
+	statusWindowAP.text = "AP: %s/%s" % [combatant_payload.get("remaining_action_points", 0), combatant_payload.get("action_points", 0)]
+	statusWindowConcentration.text = "Concentration: %s/%s" % [combatant_payload.get("current_concentration", 0), combatant_payload.get("max_concentration", 0)]
+	statusWindowConditions.text = "Conditions: %s" % condition_names
+	if condition_details != "None":
+		statusWindowConditions.text += "\n%s" % condition_details
+	statusWindow.popup_centered()
+
 func _on_player_action_pressed(action_data: Dictionary) -> void:
 	if is_reviewing_action_phase:
 		playerActionsHint.text = "Wait for the GM to finish resolving queued actions."
@@ -1519,8 +2734,11 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 		return
 	var action: Action = resolved_entry.get("action", null)
 	var weapon: Weapon = resolved_entry.get("weapon", null)
+	if not RuleEngine.canAct(PlayerVariables.data):
+		playerActionsHint.text = "You cannot act while unconscious or dead."
+		return
 	var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
-	var action_speed := RuleEngine.getActionSpeed(action, weapon)
+	var action_speed := int(action_data.get("speed", RuleEngine.getActionSpeed(action, weapon)))
 	var instant_resolve := action_name == "Swap Loadout"
 	if current_phase != GameEvent.PHASE_EXECUTION:
 		playerActionsHint.text = "Actions can only be queued during the Action phase."
@@ -1528,18 +2746,53 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 	if action_ap_cost > int(local_payload.get("remaining_action_points", local_payload.get("action_points", 0))):
 		playerActionsHint.text = "Not enough AP for %s." % action_name
 		return
+	if action_name in ["Bolster", "Guard", "Brace"] and _has_queued_action_named(local_payload, action_name):
+		playerActionsHint.text = "You can only queue %s once per round." % action_name
+		return
 	var selected_action_payload := {
 		"action_name": action_name,
 		"action_source": action_source,
 		"action_hand": action_hand,
+		"targeting_mode": "single",
 		"category": action_data.get("category", Action.CATEGORY_ATTACK),
 		"target_location": int(Item.ItemSlots.Torso),
+		"target_location_mode": TARGET_LOCATION_MODE_RANDOM,
+		"target_location_label": "Random",
+		"called_shot_penalty": 0,
+		"accuracy_bonus": 0,
 		"ap_cost": action_ap_cost,
 		"action_speed": action_speed,
 		"instant_resolve": instant_resolve,
 	}
+	if action_name == "Use Quick Item":
+		_open_quick_item_picker(selected_action_payload, local_payload)
+		return
+	if action_name == "Perform Skill Test":
+		_open_skill_test_picker(selected_action_payload)
+		return
+	if str(selected_action_payload.get("category", Action.CATEGORY_ATTACK)) == Action.CATEGORY_ATTACK:
+		var target_location_payload: Dictionary = _get_selected_target_location_payload()
+		selected_action_payload["target_location"] = int(target_location_payload.get("location", Item.ItemSlots.Torso))
+		selected_action_payload["target_location_mode"] = str(target_location_payload.get("mode", TARGET_LOCATION_MODE_RANDOM))
+		selected_action_payload["target_location_label"] = str(target_location_payload.get("name", "Random"))
+		selected_action_payload["called_shot_penalty"] = int(target_location_payload.get("accuracy_bonus", 0))
+		selected_action_payload["accuracy_bonus"] = int(target_location_payload.get("accuracy_bonus", 0))
 	if instant_resolve:
 		_queue_player_action(selected_action_payload, local_payload)
+	elif _action_targets_ally(action_name):
+		pending_player_action = selected_action_payload
+		selected_combatant_id = ""
+		selected_combatant_entry = null
+		playerActionsHint.text = "Selected %s (%s AP). Choose an ally." % [action_name, action_ap_cost]
+		_refresh_combatant_entry_interactions()
+		_refresh_combat_grid()
+	elif _action_targets_self_or_ally(action_name):
+		pending_player_action = selected_action_payload
+		selected_combatant_id = ""
+		selected_combatant_entry = null
+		playerActionsHint.text = "Selected %s (%s AP). Choose yourself or an ally." % [action_name, action_ap_cost]
+		_refresh_combatant_entry_interactions()
+		_refresh_combat_grid()
 	elif str(selected_action_payload.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK:
 		pending_player_action = selected_action_payload
 		selected_combatant_id = str(local_payload.get("id", ""))
@@ -1548,7 +2801,7 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 		pending_player_action = selected_action_payload
 		selected_combatant_id = ""
 		selected_combatant_entry = null
-		playerActionsHint.text = "Selected %s (%s AP). Choose a target." % [action_name, action_ap_cost]
+		playerActionsHint.text = "Selected %s (%s AP). %s Choose a target." % [action_name, action_ap_cost, _get_hit_location_selection_summary()]
 		_refresh_combatant_entry_interactions()
 		_refresh_combat_grid()
 
@@ -1570,17 +2823,58 @@ func _queue_player_action(action_payload: Dictionary, target_payload: Dictionary
 	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
 	if local_payload.is_empty():
 		return
+	var queued_action_name := str(action_payload.get("action_name", ""))
+	if queued_action_name in ["Bolster", "Guard", "Brace"] and _has_queued_action_named(local_payload, queued_action_name):
+		playerActionsHint.text = "You can only queue %s once per round." % queued_action_name
+		return
 	var target_combatant_id := str(target_payload.get("id", local_payload.get("id", "")))
-	var preview_text := "%s -> %s (%s)" % [action_payload.get("action_name", "Action"), target_payload.get("name", "target"), "Torso"]
+	var range_preview: Dictionary = _get_attack_range_preview(local_payload, target_payload, action_payload)
+	if str(action_payload.get("category", Action.CATEGORY_ATTACK)) == Action.CATEGORY_ATTACK and not bool(range_preview.get("legal", true)):
+		playerActionsHint.text = "That target is out of range for %s." % str(action_payload.get("action_name", "this attack"))
+		return
+	var range_suffix: String = ""
+	if not range_preview.is_empty():
+		range_suffix = " [%s]" % str(range_preview.get("short", ""))
+	var location_label: String = str(action_payload.get("target_location_label", "Random"))
+	var preview_location_text: String = location_label
+	if int(action_payload.get("called_shot_penalty", 0)) != 0:
+		preview_location_text += ", %s" % int(action_payload.get("called_shot_penalty", 0))
+	var preview_text := "%s -> %s (%s)%s" % [action_payload.get("action_name", "Action"), target_payload.get("name", "target"), preview_location_text, range_suffix]
+	if str(action_payload.get("action_name", "")) == "Use Quick Item":
+		preview_text = "%s -> Self (%s)" % [action_payload.get("action_name", "Action"), action_payload.get("quick_item_name", "Unknown Item")]
+	elif str(action_payload.get("action_name", "")) == "Perform Skill Test":
+		var description := str(action_payload.get("skill_test_description", "")).strip_edges()
+		var skill_name := str(action_payload.get("skill_name", "Skill"))
+		if bool(action_payload.get("no_target", false)):
+			preview_text = "Perform Skill Test -> No Target (%s: %s)" % [skill_name, description if not description.is_empty() else "No description"]
+		else:
+			preview_text = "Perform Skill Test -> %s (%s: %s)" % [target_payload.get("name", "target"), skill_name, description if not description.is_empty() else "No description"]
 	if bool(action_payload.get("instant_resolve", false)):
 		preview_text = "%s -> Loadout %s" % [action_payload.get("action_name", "Action"), _get_next_loadout(int(local_payload.get("active_loadout", 1)))]
 		playerActionsHint.text = "%s will resolve immediately (%s AP)." % [action_payload.get("action_name", "Action"), action_payload.get("ap_cost", 0)]
 	else:
-		playerActionsHint.text = "Queued %s against %s (%s AP)." % [action_payload.get("action_name", "Action"), target_payload.get("name", "target"), action_payload.get("ap_cost", 0)]
+		var range_summary: String = ""
+		if not range_preview.is_empty():
+			range_summary = " %s" % str(range_preview.get("summary", ""))
+		if str(action_payload.get("action_name", "")) == "Use Quick Item":
+			playerActionsHint.text = "Queued %s on self using %s (%s AP)." % [action_payload.get("action_name", "Action"), action_payload.get("quick_item_name", "Unknown Item"), action_payload.get("ap_cost", 0)]
+		elif str(action_payload.get("action_name", "")) == "Perform Skill Test":
+			if bool(action_payload.get("no_target", false)):
+				playerActionsHint.text = "Queued Perform Skill Test (%s, %s AP, speed %s)." % [action_payload.get("skill_name", "Skill"), action_payload.get("ap_cost", 0), action_payload.get("action_speed", 0)]
+			else:
+				playerActionsHint.text = "Queued Perform Skill Test against %s (%s, %s AP, speed %s)." % [target_payload.get("name", "target"), action_payload.get("skill_name", "Skill"), action_payload.get("ap_cost", 0), action_payload.get("action_speed", 0)]
+		else:
+			playerActionsHint.text = "Queued %s against %s at %s (%s AP).%s" % [action_payload.get("action_name", "Action"), target_payload.get("name", "target"), location_label, action_payload.get("ap_cost", 0), range_summary]
 	var campaign_manager := _find_campaign_manager()
 	if campaign_manager == null:
 		return
 	var payload := action_payload.duplicate(true)
+	if not range_preview.is_empty():
+		payload["grid_distance"] = int(range_preview.get("distance", 0))
+		payload["range_state"] = str(range_preview.get("range_state", "standard"))
+		payload["range_accuracy_modifier"] = int(range_preview.get("accuracy_modifier", 0))
+		payload["range_summary"] = str(range_preview.get("summary", ""))
+		payload["range_short"] = str(range_preview.get("short", ""))
 	payload["preview_text"] = preview_text
 	campaign_manager.broadcast_combat_request(CombatRequest.new(
 		CombatRequest.TYPE_ACTION,
@@ -1607,6 +2901,7 @@ func _apply_combat_request_preview(combat_request: CombatRequest) -> void:
 			queued_payload["target_id"] = combat_request.target_id
 			queued_payload["queued_timestamp"] = combat_request.timestamp
 			queued_action_payloads.append(queued_payload)
+			queued_action_payloads = _recalculate_queued_action_resolve_speeds(payload, queued_action_payloads)
 			payload["queued_actions"] = queued_actions
 			payload["queued_action_payloads"] = queued_action_payloads
 			payload["remaining_action_points"] = remaining_action_points - action_ap_cost
@@ -1634,6 +2929,20 @@ func _apply_combat_request_preview(combat_request: CombatRequest) -> void:
 	_refresh_queued_actions()
 	_refresh_combat_grid()
 
+func _recalculate_queued_action_resolve_speeds(combatant_payload: Dictionary, queued_action_payloads: Array) -> Array:
+	var updated_payloads: Array = []
+	var cumulative_speed := 0
+	if int(combatant_payload.get("stunned_round", -1)) == round_number and int(combatant_payload.get("stunned_resolve_speed", 0)) > 0:
+		cumulative_speed = int(combatant_payload.get("stunned_resolve_speed", 0))
+	for queued_payload_variant in queued_action_payloads:
+		if not (queued_payload_variant is Dictionary):
+			continue
+		var queued_payload := (queued_payload_variant as Dictionary).duplicate(true)
+		cumulative_speed += int(queued_payload.get("action_speed", 0))
+		queued_payload["resolve_speed"] = cumulative_speed
+		updated_payloads.append(queued_payload)
+	return updated_payloads
+
 func _apply_combatant_state_change(change: Dictionary) -> void:
 	var combatant_id := str(change.get("combatant_id", ""))
 	if combatant_id.is_empty() or not encounter_combatants.has(combatant_id):
@@ -1646,9 +2955,58 @@ func _apply_combatant_state_change(change: Dictionary) -> void:
 			continue
 		payload[key] = change[key]
 
+	_sync_actor_runtime_from_payload(payload)
+
 	_sync_local_player_from_combatant_payload(payload)
 
 	update_combatant_locally(payload)
+
+func _sync_actor_runtime_from_payload(payload: Dictionary) -> void:
+	var actor := _get_actor_data_from_payload(payload)
+	if actor == null:
+		return
+	if payload.has("current_hp"):
+		actor.currentHP = float(payload.get("current_hp", actor.currentHP))
+	if payload.has("max_hp"):
+		actor.maxHP = float(payload.get("max_hp", actor.maxHP))
+	if payload.has("current_vitality"):
+		actor.currentVitality = float(payload.get("current_vitality", actor.currentVitality))
+	if payload.has("max_vitality"):
+		actor.maxVitality = float(payload.get("max_vitality", actor.maxVitality))
+	if payload.has("temporary_health"):
+		actor.temporaryHealth = float(payload.get("temporary_health", actor.temporaryHealth))
+	if payload.has("current_concentration"):
+		actor.currentConcentration = int(payload.get("current_concentration", actor.currentConcentration))
+	if payload.has("max_concentration"):
+		actor.maxConcentration = int(payload.get("max_concentration", actor.maxConcentration))
+	if payload.has("current_mana"):
+		actor.currentMana = int(payload.get("current_mana", actor.currentMana))
+	if payload.has("conditions"):
+		var runtime_conditions: Array[Condition] = []
+		for condition_name_variant in payload.get("conditions", []):
+			var condition_name := str(condition_name_variant)
+			if condition_name.is_empty():
+				continue
+			var condition: Condition = CampaignVariables.codex.Conditions.get(condition_name, null) if CampaignVariables.codex != null else null
+			if condition != null:
+				runtime_conditions.append(condition.duplicate(true) as Condition)
+			else:
+				runtime_conditions.append(Condition.new(condition_name))
+		actor.conditions = runtime_conditions
+	if payload.has("stunned_round"):
+		var stunned_round := int(payload.get("stunned_round", -1))
+		if stunned_round > 0:
+			actor.set_meta("stunned_round", stunned_round)
+		else:
+			actor.remove_meta("stunned_round")
+	if payload.has("stunned_resolve_speed"):
+		var stunned_resolve_speed := int(payload.get("stunned_resolve_speed", 0))
+		if stunned_resolve_speed > 0:
+			actor.set_meta("stunned_resolve_speed", stunned_resolve_speed)
+		else:
+			actor.remove_meta("stunned_resolve_speed")
+	if payload.has("active_loadout"):
+		actor.set_meta("active_loadout", int(payload.get("active_loadout", 1)))
 
 func _sync_local_player_from_combatant_payload(payload: Dictionary) -> void:
 	var controller_peer_id := int(payload.get("controller_peer_id", 0))
@@ -1669,6 +3027,8 @@ func reset_combat_session_locally() -> void:
 	pending_gm_placement_id = ""
 	is_reviewing_action_phase = false
 	pending_resolution_requests.clear()
+	current_review_request = null
+	current_review_resolution = {}
 	actionResolutionWindow.hide()
 	_clear_combatants()
 	_clear_inspector()
@@ -1766,7 +3126,8 @@ func _on_grid_token_clicked(combatant_id: String, _cell: Vector2i) -> void:
 	if not is_host_role and current_phase == GameEvent.PHASE_EXECUTION and not pending_player_action.is_empty():
 		var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
 		var local_id := str(local_payload.get("id", ""))
-		var can_target_self := str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK
+		var pending_action_name := str(pending_player_action.get("action_name", ""))
+		var can_target_self := str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK and not _action_targets_ally(pending_action_name)
 		if combatant_id != local_id or can_target_self:
 			_queue_pending_player_action(payload)
 			return
@@ -1895,7 +3256,131 @@ func _can_issue_movement_for_combatant(combatant_id: String) -> bool:
 	var controller_peer_id: int = int(payload.get("controller_peer_id", 0))
 	if controller_peer_id == 0:
 		return false
+	var actor := _get_actor_data_from_payload(payload)
+	if actor == null or not RuleEngine.canAct(actor):
+		return false
 	return controller_peer_id == multiplayer.get_unique_id()
+
+func _populate_hit_location_selector() -> void:
+	hitLocationSelector.clear()
+	hitLocationSelector.add_item("Random")
+	hitLocationSelector.add_item("Head")
+	hitLocationSelector.add_item("Right Arm")
+	hitLocationSelector.add_item("Left Arm")
+	hitLocationSelector.add_item("Torso")
+	hitLocationSelector.add_item("Right Leg")
+	hitLocationSelector.add_item("Left Leg")
+	hitLocationSelector.select(0)
+
+func _build_resolution_edit_form() -> void:
+	for child in resolutionEditForm.get_children():
+		child.queue_free()
+	review_edit_controls.clear()
+	for field_name in REVIEW_BOOLEAN_FIELDS:
+		var label := Label.new()
+		label.text = field_name.replace("_", " ").capitalize()
+		resolutionEditForm.add_child(label)
+		var checkbox := CheckBox.new()
+		checkbox.text = ""
+		checkbox.toggled.connect(_on_review_edit_form_value_changed)
+		resolutionEditForm.add_child(checkbox)
+		review_edit_controls[field_name] = checkbox
+	for field_name in REVIEW_NUMERIC_FIELDS:
+		var label := Label.new()
+		label.text = field_name.replace("_", " ").capitalize()
+		resolutionEditForm.add_child(label)
+		var spinbox := SpinBox.new()
+		spinbox.min_value = -9999
+		spinbox.max_value = 9999
+		spinbox.step = 0.1
+		spinbox.allow_greater = true
+		spinbox.allow_lesser = true
+		spinbox.value_changed.connect(_on_review_edit_form_value_changed)
+		resolutionEditForm.add_child(spinbox)
+		review_edit_controls[field_name] = spinbox
+
+func _set_review_edit_form_values(resolved_result: Dictionary) -> void:
+	for field_name in REVIEW_BOOLEAN_FIELDS:
+		var checkbox := review_edit_controls.get(field_name, null) as CheckBox
+		if checkbox != null:
+			checkbox.set_pressed_no_signal(bool(resolved_result.get(field_name, false)))
+	for field_name in REVIEW_NUMERIC_FIELDS:
+		var spinbox := review_edit_controls.get(field_name, null) as SpinBox
+		if spinbox != null:
+			spinbox.set_value_no_signal(float(resolved_result.get(field_name, 0.0)))
+	_update_review_edit_form_disabled_state()
+
+func _read_review_edit_form_values() -> Dictionary:
+	var values: Dictionary = {}
+	for field_name in REVIEW_BOOLEAN_FIELDS:
+		var checkbox := review_edit_controls.get(field_name, null) as CheckBox
+		if checkbox != null:
+			values[field_name] = checkbox.button_pressed
+	for field_name in REVIEW_NUMERIC_FIELDS:
+		var spinbox := review_edit_controls.get(field_name, null) as SpinBox
+		if spinbox != null:
+			values[field_name] = spinbox.value
+	return values
+
+func _update_review_edit_form_disabled_state() -> void:
+	var hit_checkbox := review_edit_controls.get("hit", null) as CheckBox
+	var did_hit := hit_checkbox == null or hit_checkbox.button_pressed
+	for field_name in REVIEW_DAMAGE_FIELDS:
+		var control = review_edit_controls.get(field_name, null)
+		if control is SpinBox:
+			(control as SpinBox).editable = did_hit
+			(control as SpinBox).modulate = Color.WHITE if did_hit else Color(0.7, 0.7, 0.7, 1.0)
+
+func _on_review_edit_form_value_changed(_value: Variant = null) -> void:
+	_update_review_edit_form_disabled_state()
+
+func _commit_current_review_form_to_resolution() -> void:
+	if current_review_request == null or current_review_resolution.is_empty() or not is_editing_review_action:
+		return
+	if _current_review_is_skill_test_no_target():
+		var updated_request := current_review_request.to_dict()
+		var updated_payload: Dictionary = updated_request.get("payload", {}).duplicate(true)
+		updated_payload["skill_difficulty"] = int(resolutionSkillDifficultyInput.value)
+		updated_request["payload"] = updated_payload
+		current_review_request = CombatRequest.from_dict(updated_request)
+		current_review_resolution = _resolve_queued_action_preview(current_review_request)
+		return
+	var edited_result = current_review_resolution.get("resolved_result", {}).duplicate(true)
+	var form_values := _read_review_edit_form_values()
+	for key in form_values.keys():
+		edited_result[key] = form_values[key]
+	current_review_resolution = _rebuild_review_resolution_from_resolved_result(edited_result)
+
+func _on_hit_location_selected(_index: int) -> void:
+	if pending_player_action.is_empty():
+		return
+	if str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK:
+		return
+	var selection_text: String = _get_hit_location_selection_summary()
+	playerActionsHint.text = "Selected %s (%s AP). %s Choose a target." % [pending_player_action.get("action_name", "Action"), pending_player_action.get("ap_cost", 0), selection_text]
+
+func _get_selected_target_location_payload() -> Dictionary:
+	match hitLocationSelector.selected:
+		1:
+			return {"mode": TARGET_LOCATION_MODE_CALLED, "location": int(Item.ItemSlots.Head), "name": "Head", "accuracy_bonus": CALLED_SHOT_ACCURACY_PENALTY}
+		2:
+			return {"mode": TARGET_LOCATION_MODE_CALLED, "location": int(Item.ItemSlots.RightArm), "name": "Right Arm", "accuracy_bonus": CALLED_SHOT_ACCURACY_PENALTY}
+		3:
+			return {"mode": TARGET_LOCATION_MODE_CALLED, "location": int(Item.ItemSlots.LeftArm), "name": "Left Arm", "accuracy_bonus": CALLED_SHOT_ACCURACY_PENALTY}
+		4:
+			return {"mode": TARGET_LOCATION_MODE_CALLED, "location": int(Item.ItemSlots.Torso), "name": "Torso", "accuracy_bonus": CALLED_SHOT_ACCURACY_PENALTY}
+		5:
+			return {"mode": TARGET_LOCATION_MODE_CALLED, "location": int(Item.ItemSlots.RightLeg), "name": "Right Leg", "accuracy_bonus": CALLED_SHOT_ACCURACY_PENALTY}
+		6:
+			return {"mode": TARGET_LOCATION_MODE_CALLED, "location": int(Item.ItemSlots.LeftLeg), "name": "Left Leg", "accuracy_bonus": CALLED_SHOT_ACCURACY_PENALTY}
+		_:
+			return {"mode": TARGET_LOCATION_MODE_RANDOM, "location": int(Item.ItemSlots.Torso), "name": "Random", "accuracy_bonus": 0}
+
+func _get_hit_location_selection_summary() -> String:
+	var selection: Dictionary = _get_selected_target_location_payload()
+	if str(selection.get("mode", TARGET_LOCATION_MODE_RANDOM)) == TARGET_LOCATION_MODE_RANDOM:
+		return "Random hit location."
+	return "Called shot: %s (%s accuracy)." % [selection.get("name", "Torso"), selection.get("accuracy_bonus", 0)]
 
 func _grid_position_from_payload(payload: Dictionary) -> Vector2i:
 	var value = payload.get("grid_position", Vector2i(-1, -1))
@@ -1998,6 +3483,7 @@ func _build_combatant_entry(combatant_payload: Dictionary) -> CombatantEntry:
 	var entry := COMBATANT_ENTRY_SCENE.instantiate() as CombatantEntry
 	entry.setup(combatant_payload)
 	entry.selected.connect(_on_combatant_selected)
+	entry.status_selected.connect(_on_combatant_status_selected)
 	entry.target_selected.connect(_on_combatant_target_selected)
 	entry.team_changed.connect(_on_combatant_team_changed)
 	entry.set_team_selector_visible(is_host_role)
@@ -2011,6 +3497,7 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 		"Peer ID: %s" % peer_id,
 		"Attributes: %s" % _format_attribute_values(player_data.attributes),
 		"Actions: %s" % _format_player_action_names(player_data),
+		"Mana: %s" % player_data.currentMana,
 		"Conditions: %s" % _format_name_list(player_data.conditions),
 	]
 	var action_points := player_data.getActionPoints()
@@ -2037,6 +3524,7 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 		"current_vitality": player_data.currentVitality,
 		"max_vitality": player_data.maxVitality,
 		"temporary_health": player_data.temporaryHealth,
+		"current_mana": player_data.currentMana,
 		"level": player_data.level,
 		"details": "\n".join(details),
 		"equipment": _serialize_equipment(player_data.equipment),
@@ -2051,6 +3539,7 @@ func _build_npc_payload(npc: NPC) -> Dictionary:
 		npc.short_description,
 		"Attributes: %s" % _format_attribute_values(npc.data.attributes),
 		"Actions: %s" % _format_name_list(npc.data.actions),
+		"Mana: %s" % npc.data.currentMana,
 		"Conditions: %s" % _format_name_list(npc.data.conditions),
 	]
 	var action_points := npc.data.getActionPoints()
@@ -2077,6 +3566,7 @@ func _build_npc_payload(npc: NPC) -> Dictionary:
 		"current_vitality": npc.data.currentVitality,
 		"max_vitality": npc.data.maxVitality,
 		"temporary_health": npc.data.temporaryHealth,
+		"current_mana": npc.data.currentMana,
 		"level": npc.data.level,
 		"details": "\n".join(details),
 		"actions": _get_npc_action_entries(npc, 1),
@@ -2098,6 +3588,9 @@ func _on_combatant_selected(entry: CombatantEntry, combatant_payload: Dictionary
 	if selected_combatant_entry != null and is_instance_valid(selected_combatant_entry):
 		selected_combatant_entry.set_selected(true)
 
+func _on_combatant_status_selected(_entry: CombatantEntry, combatant_payload: Dictionary) -> void:
+	_show_status_popup(combatant_payload)
+
 func _on_combatant_target_selected(entry: CombatantEntry, combatant_payload: Dictionary) -> void:
 	if pending_player_action.is_empty():
 		entry.set_selected(false)
@@ -2114,14 +3607,26 @@ func _configure_combatant_entry_interaction(entry: CombatantEntry, combatant_pay
 		entry.set_player_target_mode(false, false, selected_combatant_id == str(combatant_payload.get("id", "")))
 		return
 	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
+	if local_payload.is_empty():
+		entry.set_player_target_mode(true, false, false)
+		return
 	var can_target := false
 	var is_targeted := false
 	if not pending_player_action.is_empty():
 		var combatant_id := str(combatant_payload.get("id", ""))
 		var local_id := str(local_payload.get("id", ""))
-		var can_target_self := str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK
+		var pending_action_name := str(pending_player_action.get("action_name", ""))
+		var can_target_self := str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK and not _action_targets_ally(pending_action_name)
 		if combatant_id != local_id or can_target_self:
 			can_target = true
+			if str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) == Action.CATEGORY_ATTACK:
+				can_target = _is_attack_target_selectable(local_payload, combatant_payload, pending_player_action)
+			elif _action_allows_any_target(pending_action_name):
+				can_target = true
+			elif _action_targets_ally(pending_action_name):
+				can_target = _is_guard_target_selectable(local_payload, combatant_payload)
+			elif _action_targets_self_or_ally(pending_action_name):
+				can_target = _is_support_target_selectable(local_payload, combatant_payload)
 			is_targeted = combatant_id == selected_combatant_id
 	entry.set_player_target_mode(true, can_target, is_targeted)
 
@@ -2151,7 +3656,16 @@ func _on_combatant_team_changed(_entry: CombatantEntry, combatant_id: String, te
 func _show_inspector(combatant_payload: Dictionary) -> void:
 	inspectorTitle.text = str(combatant_payload.get("name", "Combatant Inspector"))
 	inspectorType.text = "Type: %s" % combatant_payload.get("type", "NA")
-	inspectorHP.text = "HP: %s/%s | VIT: %s/%s | TEMP: %s" % [combatant_payload.get("current_hp", 0), combatant_payload.get("max_hp", 0), combatant_payload.get("current_vitality", 0), combatant_payload.get("max_vitality", 0), combatant_payload.get("temporary_health", 0)]
+	var current_hp: float = float(combatant_payload.get("current_hp", 0.0))
+	var max_hp: float = float(combatant_payload.get("max_hp", 0.0))
+	var current_vitality: float = float(combatant_payload.get("current_vitality", 0.0))
+	var max_vitality: float = float(combatant_payload.get("max_vitality", 0.0))
+	var temporary_health: float = float(combatant_payload.get("temporary_health", 0.0))
+	var current_concentration: int = int(combatant_payload.get("current_concentration", 0))
+	var max_concentration: int = int(combatant_payload.get("max_concentration", 0))
+	var current_mana: int = int(combatant_payload.get("current_mana", 0))
+	inspectorHP.text = "HP: %s/%s | VIT: %s/%s | TEMP: %s" % [_display_vital(current_hp), _display_vital(max_hp), _display_vital(current_vitality), _display_vital(max_vitality), _display_vital(temporary_health)]
+	inspectorHP.tooltip_text = "HP %.2f / %.2f | Vitality %.2f / %.2f | Temporary %.2f" % [current_hp, max_hp, current_vitality, max_vitality, temporary_health]
 	inspectorLevel.text = "Level: %s" % combatant_payload.get("level", 0)
 	inspectorLoadout.text = "Loadout: %s" % combatant_payload.get("active_loadout", 1)
 	var details_text := str(combatant_payload.get("details", "No details available."))
@@ -2165,6 +3679,8 @@ func _show_inspector(combatant_payload: Dictionary) -> void:
 	var grid_position := _grid_position_from_payload(combatant_payload)
 	if _is_valid_grid_position(grid_position):
 		details_text += "\nGrid: (%s, %s)" % [grid_position.x + 1, grid_position.y + 1]
+	details_text += "\nConcentration: %s/%s" % [current_concentration, max_concentration]
+	details_text += "\nMana: %s" % current_mana
 	var planned_position := _grid_position_from_payload({"grid_position": combatant_payload.get("planned_grid_position", Vector2i(-1, -1))})
 	if _is_valid_grid_position(planned_position) and planned_position != grid_position:
 		details_text += "\nPlanned Move: (%s, %s) [%s AP]" % [planned_position.x + 1, planned_position.y + 1, combatant_payload.get("movement_ap_cost", 0)]
@@ -2175,6 +3691,7 @@ func _clear_inspector() -> void:
 	inspectorTitle.text = "Combatant Inspector"
 	inspectorType.text = "Type:"
 	inspectorHP.text = "HP:"
+	inspectorHP.tooltip_text = ""
 	inspectorLevel.text = "Level:"
 	inspectorLoadout.text = "Loadout: 1"
 	inspectorDetails.text = "Click a combatant to inspect them."
@@ -2186,7 +3703,13 @@ func _clear_player_actions() -> void:
 	playerLoadout.text = "Loadout: 1"
 	playerSwapLoadout.disabled = true
 	playerActionsHint.text = "You are not currently in this encounter."
-	_populate_action_list(playerActionsList, [], true)
+	hitLocationSelector.disabled = true
+	hitLocationSelector.select(0)
+	playerBasicActionsSection.visible = true
+	playerAttacksSection.visible = true
+	_populate_action_list(playerBasicActionsList, [], true)
+	_populate_action_list(playerAttacksList, [], true)
+	_refresh_player_summary()
 	_refresh_combatant_entry_interactions()
 
 func _refresh_player_actions() -> void:
@@ -2202,8 +3725,14 @@ func _refresh_player_actions() -> void:
 	playerCombatantName.text = str(runtime_payload.get("name", "Unknown"))
 	playerLoadout.text = "Loadout: %s" % runtime_payload.get("active_loadout", 1)
 	playerSwapLoadout.disabled = false
+	hitLocationSelector.disabled = false
 	if not pending_player_action.is_empty():
-		playerActionsHint.text = "Selected %s (%s AP). Choose a target." % [pending_player_action.get("action_name", "Action"), pending_player_action.get("ap_cost", 0)]
+		var pending_action_name := str(pending_player_action.get("action_name", "Action"))
+		if pending_action_name == "Perform Skill Test":
+			playerActionsHint.text = "Selected Perform Skill Test (%s AP). Choose any target or yourself." % pending_player_action.get("ap_cost", 0)
+		else:
+			var selection_text: String = _get_hit_location_selection_summary() if str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) == Action.CATEGORY_ATTACK else ""
+			playerActionsHint.text = "Selected %s (%s AP). %s Choose a target." % [pending_action_name, pending_player_action.get("ap_cost", 0), selection_text]
 	elif current_phase == GameEvent.PHASE_PLANNING:
 		var move_cost := int(runtime_payload.get("movement_ap_cost", 0))
 		if move_cost > 0:
@@ -2215,7 +3744,14 @@ func _refresh_player_actions() -> void:
 		playerActionsHint.text = "Queue actions now."
 	else:
 		playerActionsHint.text = "Queue actions during the Action phase."
-	_populate_action_list(playerActionsList, runtime_payload.get("actions", []), true)
+	var split_actions := _split_action_entries(runtime_payload.get("actions", []))
+	var basic_actions: Array = split_actions.get("actions", [])
+	var attacks: Array = split_actions.get("attacks", [])
+	playerBasicActionsSection.visible = not basic_actions.is_empty()
+	playerAttacksSection.visible = not attacks.is_empty()
+	_populate_action_list(playerBasicActionsList, basic_actions, true)
+	_populate_action_list(playerAttacksList, attacks, true)
+	_refresh_player_summary()
 	_refresh_combatant_entry_interactions()
 
 func _on_local_combat_loadout_changed() -> void:
@@ -2268,6 +3804,9 @@ func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary
 	payload["current_vitality"] = player_data.currentVitality
 	payload["max_vitality"] = player_data.maxVitality
 	payload["temporary_health"] = player_data.temporaryHealth
+	payload["current_concentration"] = player_data.currentConcentration
+	payload["max_concentration"] = player_data.maxConcentration
+	payload["current_mana"] = player_data.currentMana
 	payload["level"] = player_data.level
 	payload["active_loadout"] = active_loadout
 	payload["action_points"] = action_points
@@ -2284,8 +3823,13 @@ func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary
 		"Peer ID: %s" % multiplayer.get_unique_id(),
 		"Attributes: %s" % _format_attribute_values(player_data.attributes),
 		"Actions: %s" % _format_player_action_names(player_data, active_loadout),
+		"Concentration: %s/%s" % [player_data.currentConcentration, player_data.maxConcentration],
+		"Mana: %s" % player_data.currentMana,
 		"Conditions: %s" % _format_name_list(player_data.conditions),
 	])
+	payload["conditions"] = _serialize_condition_names(player_data.conditions)
+	payload["stunned_round"] = _get_stunned_round(player_data)
+	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(player_data)
 	payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 	payload["equipment"] = _serialize_equipment(player_data.equipment)
 	payload["actions"] = _get_player_action_entries(player_data, active_loadout)
@@ -2310,14 +3854,22 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		payload["current_vitality"] = player_data.currentVitality
 		payload["max_vitality"] = player_data.maxVitality
 		payload["temporary_health"] = player_data.temporaryHealth
+		payload["current_concentration"] = player_data.currentConcentration
+		payload["max_concentration"] = player_data.maxConcentration
+		payload["current_mana"] = player_data.currentMana
 		payload["level"] = player_data.level
 		payload["action_points"] = player_action_points
 		payload["details"] = "\n".join([
 			"Peer ID: %s" % peer_id,
 			"Attributes: %s" % _format_attribute_values(player_data.attributes),
 			"Actions: %s" % _format_player_action_names(player_data, active_loadout),
+			"Concentration: %s/%s" % [player_data.currentConcentration, player_data.maxConcentration],
+			"Mana: %s" % player_data.currentMana,
 			"Conditions: %s" % _format_name_list(player_data.conditions),
 		])
+		payload["conditions"] = _serialize_condition_names(player_data.conditions)
+		payload["stunned_round"] = _get_stunned_round(player_data)
+		payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(player_data)
 		payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 		payload["equipment"] = _serialize_equipment(player_data.equipment)
 		payload["actions"] = _get_player_action_entries(player_data, active_loadout)
@@ -2342,14 +3894,22 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	payload["current_vitality"] = npc.data.currentVitality
 	payload["max_vitality"] = npc.data.maxVitality
 	payload["temporary_health"] = npc.data.temporaryHealth
+	payload["current_concentration"] = npc.data.currentConcentration
+	payload["max_concentration"] = npc.data.maxConcentration
+	payload["current_mana"] = npc.data.currentMana
 	payload["level"] = npc.data.level
 	payload["action_points"] = npc_action_points
 	payload["details"] = "\n".join([
 		npc.short_description,
 		"Attributes: %s" % _format_attribute_values(npc.data.attributes),
 		"Actions: %s" % _format_name_list(npc.data.actions),
+		"Concentration: %s/%s" % [npc.data.currentConcentration, npc.data.maxConcentration],
+		"Mana: %s" % npc.data.currentMana,
 		"Conditions: %s" % _format_name_list(npc.data.conditions),
 	])
+	payload["conditions"] = _serialize_condition_names(npc.data.conditions)
+	payload["stunned_round"] = _get_stunned_round(npc.data)
+	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(npc.data)
 	payload["dexterity_score"] = _get_attribute_score(npc.data.attributes, "Dexterity")
 	payload["actions"] = _get_npc_action_entries(npc, active_loadout)
 	payload["action_names"] = _get_npc_action_names(npc, active_loadout)
@@ -2422,6 +3982,12 @@ func _location_name_from_slot(target_location: int) -> String:
 		_:
 			return "Unknown"
 
+func _display_vital(value: Variant) -> int:
+	return ceili(float(value))
+
+func _format_exact_float(value: Variant) -> String:
+	return "%.2f" % float(value)
+
 func _get_sorted_queued_requests() -> Array[CombatRequest]:
 	var sorted_requests: Array[CombatRequest] = []
 	for queued_entry in _get_sorted_queued_action_entries():
@@ -2443,13 +4009,37 @@ func _get_sorted_queued_action_entries() -> Array[Dictionary]:
 		var combatant_id := str(combatant_id_variant)
 		var payload: Dictionary = encounter_combatants.get(combatant_id, {})
 		var queued_action_payloads: Array = payload.get("queued_action_payloads", [])
-		var cumulative_speed := 0
+		if int(payload.get("stunned_round", -1)) == round_number and int(payload.get("stunned_resolve_speed", 0)) > 0:
+			var stunned_payload := {
+				"action_name": "Stunned",
+				"action_source": "Innate",
+				"action_hand": "Innate",
+				"category": Action.CATEGORY_BASIC,
+				"target_id": combatant_id,
+				"target_location": int(Item.ItemSlots.Torso),
+				"target_location_label": "Self",
+				"ap_cost": 0,
+				"action_speed": int(payload.get("stunned_resolve_speed", 0)),
+				"queued_timestamp": -1.0,
+				"resolve_speed": int(payload.get("stunned_resolve_speed", 0)),
+				"preview_text": "Stunned -> Self",
+			}
+			queued_entries.append({
+				"combatant_id": combatant_id,
+				"actor_name": str(payload.get("name", "Combatant")),
+				"action_name": "Stunned",
+				"target_name": str(payload.get("name", "Self")),
+				"target_location_name": "Self",
+				"speed": int(stunned_payload.get("action_speed", 0)),
+				"resolve_speed": int(stunned_payload.get("resolve_speed", stunned_payload.get("action_speed", 0))),
+				"timestamp": -1.0,
+				"queued_payload": stunned_payload,
+			})
 		for queued_action_payload_variant in queued_action_payloads:
 			if not (queued_action_payload_variant is Dictionary):
 				continue
 			var queued_payload := queued_action_payload_variant as Dictionary
 			var action_speed := int(queued_payload.get("action_speed", 0))
-			cumulative_speed += action_speed
 			var target_name := "Target"
 			var target_id := str(queued_payload.get("target_id", ""))
 			if encounter_combatants.has(target_id):
@@ -2459,9 +4049,9 @@ func _get_sorted_queued_action_entries() -> Array[Dictionary]:
 				"actor_name": str(payload.get("name", "Combatant")),
 				"action_name": str(queued_payload.get("action_name", "Action")),
 				"target_name": target_name,
-				"target_location_name": _location_name_from_slot(int(queued_payload.get("target_location", Item.ItemSlots.Torso))),
+				"target_location_name": str(queued_payload.get("target_location_label", _location_name_from_slot(int(queued_payload.get("target_location", Item.ItemSlots.Torso))))),
 				"speed": action_speed,
-				"resolve_speed": cumulative_speed,
+				"resolve_speed": int(queued_payload.get("resolve_speed", action_speed)),
 				"timestamp": float(queued_payload.get("queued_timestamp", 0.0)),
 				"queued_payload": queued_payload,
 			})
@@ -2496,13 +4086,23 @@ func _populate_action_list(container: VBoxContainer, actions: Array, use_buttons
 		var action_name := str(action_data.get("name", "Unknown Action"))
 		var action_source := str(action_data.get("source", "Unknown Source"))
 		var action_hand := str(action_data.get("hand", "Unknown Hand"))
-		var action_tooltip := "Source: %s (%s)\nCategory: %s\nAP: %s\nSpeed: %s" % [action_source, action_hand, action_data.get("category", "Unknown"), action_data.get("ap_cost", 0), action_data.get("speed", 0)]
+		var action_tooltip_lines := [
+			"Source: %s (%s)" % [action_source, action_hand],
+			"Category: %s" % action_data.get("category", "Unknown"),
+			"AP: %s" % action_data.get("ap_cost", 0),
+			"Speed: %s" % action_data.get("speed", 0),
+		]
+		var mana_cost := int(action_data.get("mana_cost", 0))
+		if mana_cost > 0:
+			action_tooltip_lines.append("Mana: %s" % mana_cost)
+		var action_tooltip := "\n".join(action_tooltip_lines)
 		var node: Control
 		if use_buttons:
 			var button := Button.new()
-			button.text = action_name
+			button.text = "%s   %s AP / SPD %s" % [action_name, action_data.get("ap_cost", 0), action_data.get("speed", 0)]
 			button.tooltip_text = action_tooltip
 			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 			button.pressed.connect(_on_player_action_pressed.bind(action_data))
 			node = button
 		else:
@@ -2563,7 +4163,9 @@ func _get_player_action_entries(player_data: PlayerData, loadout: int = 0) -> Ar
 			"source": source,
 			"hand": hand,
 			"category": action.category,
+			"is_attack": action.is_attack_action(),
 			"ap_cost": ap_cost,
+			"mana_cost": (action as Attack).mana_cost if action is Attack else 0,
 			"speed": speed,
 		})
 	return action_entries
@@ -2593,7 +4195,9 @@ func _get_npc_action_entries(npc: NPC, loadout: int = 0) -> Array[Dictionary]:
 				"source": source,
 				"hand": hand,
 				"category": action.category,
+				"is_attack": action.is_attack_action(),
 				"ap_cost": ap_cost,
+				"mana_cost": (action as Attack).mana_cost if action is Attack else 0,
 				"speed": speed,
 			})
 		return action_entries
@@ -2605,7 +4209,9 @@ func _get_npc_action_entries(npc: NPC, loadout: int = 0) -> Array[Dictionary]:
 				"source": "Innate",
 				"hand": "Innate",
 				"category": action.category,
+				"is_attack": action.is_attack_action(),
 				"ap_cost": RuleEngine.getActionAPCost(action, null),
+				"mana_cost": (action as Attack).mana_cost if action is Attack else 0,
 				"speed": RuleEngine.getActionSpeed(action, null),
 			})
 	return action_entries

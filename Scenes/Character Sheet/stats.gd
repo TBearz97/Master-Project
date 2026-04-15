@@ -152,18 +152,20 @@ func _refresh_stat_values(grid: GridContainer = displayed_stat_grid) -> void:
 	var player := PlayerVariables.current()
 	if player == null:
 		return
-	var max_health := player.getMaxHealth()
-	var max_vitality := player.getMaxVitality()
+	var max_health: float = player.getMaxHealth()
+	var max_vitality: float = player.getMaxVitality()
 	for child in grid.get_children():
 		match child.name:
 			"Level": child.get_child(1).text = str(player.level)
 			"Health":
-				child.get_child(1).text = str(player.currentHP) + "/" + str(max_health)
+				child.get_child(1).text = str(ceili(player.currentHP)) + "/" + str(ceili(max_health))
+				child.get_child(1).tooltip_text = "%.2f / %.2f" % [player.currentHP, max_health]
 			"ActionPoints":
 				child.get_child(1).text = str(player.getActionPoints())
 			"Experience": child.get_child(1).text = str(player.experience)
 			"Vitality":
-				child.get_child(1).text = str(player.currentVitality) + "/" + str(max_vitality)
+				child.get_child(1).text = str(ceili(player.currentVitality)) + "/" + str(ceili(max_vitality))
+				child.get_child(1).tooltip_text = "%.2f / %.2f" % [player.currentVitality, max_vitality]
 			"Fatigue": child.get_child(1).text = str(player.fatigue)
 			"LevelUp": child.disabled = !player.levelAvailable
 			"NecroticDamage": child.get_child(1).text = str(player.necroticDamage)

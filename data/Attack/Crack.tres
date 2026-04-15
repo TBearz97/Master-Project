@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_6cmov"]
+
+[resource]
+script = ExtResource("1_6cmov")
+attack_power = 75
+mana_cost = 1
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 20
+_name = "Crack"
+short_description = "A whip strike."
+long_description = "Snapping the whip at speed to cut or stun."

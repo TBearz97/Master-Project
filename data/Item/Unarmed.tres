@@ -1,35 +1,34 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_4grux"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_a1v8r"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Unarmed.png" id="3_llvs5"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_1ppus"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_a1v8r"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_llvs5"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_1ppus"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Unarmed.png" id="4_2dnek"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_phgmd"]
 
-[sub_resource type="Resource" id="Resource_2dnek"]
-script = ExtResource("1_4grux")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_73b5f"]
+script = ExtResource("2_llvs5")
+attack_power = 100
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 20
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Strike"
 short_description = "A basic attack."
 long_description = "A direct, unadorned blow."
 
-[sub_resource type="Resource" id="Resource_phgmd"]
-script = ExtResource("2_a1v8r")
+[sub_resource type="Resource" id="Resource_wfilc"]
+script = ExtResource("3_1ppus")
 damage_die = 4
 
 [resource]
-script = ExtResource("4_1ppus")
-damage_profile = SubResource("Resource_phgmd")
-base_ap_cost = 1
+script = ExtResource("5_phgmd")
+damage_profile = SubResource("Resource_wfilc")
+base_ap_cost = 3
 speed_category = 1
-actions = Array[ExtResource("1_4grux")]([SubResource("Resource_2dnek")])
-icon = ExtResource("3_llvs5")
+actions = Array[ExtResource("1_a1v8r")]([SubResource("Resource_73b5f")])
+icon = ExtResource("4_2dnek")
 allowed_slots = Array[int]([7])
 _name = "Unarmed"
 short_description = "A weapon used in combat."
-long_description = "Deals d4 damage. AP cost 1. Speed Fast."
+long_description = "Deals d4 damage. AP cost 3. Speed Fast."

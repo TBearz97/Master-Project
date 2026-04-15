@@ -5,12 +5,10 @@
 
 [resource]
 script = ExtResource("2_ww2b3")
-category = "Utility"
-effect = "Reduces difficulty of Lockpick tests by 1 (min 0). Breaks after 3 complications."
 weight = 1.0
 value = 150
 icon = ExtResource("1_c7qvi")
 allowed_slots = Array[int]([6])
 _name = "Lockpick Set"
-short_description = "Utility item."
-long_description = "Category: Utility. Effect: Reduces difficulty of Lockpick tests by 1 (min 0). Breaks after 3 complications.."
+short_description = "Tools for opening locks."
+long_description = "A dedicated set of lockpicks for opening secured mechanisms. Placeholder for later skill-based utility use."

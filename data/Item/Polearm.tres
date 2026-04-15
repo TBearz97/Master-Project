@@ -1,65 +1,61 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_jeriu"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_314p1"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Polearm.png" id="3_8vb7w"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_i4cfm"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_314p1"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_8vb7w"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_i4cfm"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Polearm.png" id="4_m71ki"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_ouy3h"]
 
-[sub_resource type="Resource" id="Resource_tf4da"]
-script = ExtResource("1_jeriu")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_a4pgp"]
+script = ExtResource("2_8vb7w")
+attack_power = 100
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 18
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Thrust"
 short_description = "A precise piercing attack."
 long_description = "A focused lunge driving the point into the target."
 
-[sub_resource type="Resource" id="Resource_bsemk"]
-script = ExtResource("1_jeriu")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_2vcwm"]
+script = ExtResource("2_8vb7w")
+attack_power = 85
+mana_cost = 1
+target = "multi_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 28
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Sweep"
 short_description = "A wide sweeping attack."
 long_description = "A broad arc that can catch multiple foes."
 
-[sub_resource type="Resource" id="Resource_cxayk"]
-script = ExtResource("1_jeriu")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_o7663"]
+script = ExtResource("2_8vb7w")
+attack_power = 100
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 22
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Slash"
 short_description = "A broad cutting attack."
 long_description = "A wide swinging cut aimed at exposed flesh."
 
-[sub_resource type="Resource" id="Resource_m71ki"]
-script = ExtResource("2_314p1")
+[sub_resource type="Resource" id="Resource_tdheg"]
+script = ExtResource("3_i4cfm")
 damage_die = 10
 
 [resource]
-script = ExtResource("4_i4cfm")
-damage_profile = SubResource("Resource_m71ki")
-base_ap_cost = 3
+script = ExtResource("5_ouy3h")
+damage_profile = SubResource("Resource_tdheg")
+base_ap_cost = 5
 speed_category = 3
 qualities = Array[String](["Reach"])
 size = 1
-actions = Array[ExtResource("1_jeriu")]([SubResource("Resource_tf4da"), SubResource("Resource_bsemk"), SubResource("Resource_cxayk")])
+actions = Array[ExtResource("1_314p1")]([SubResource("Resource_a4pgp"), SubResource("Resource_2vcwm"), SubResource("Resource_o7663")])
 weight = 4.0
 value = 47
-icon = ExtResource("3_8vb7w")
+icon = ExtResource("4_m71ki")
 allowed_slots = Array[int]([7])
 _name = "Polearm"
 short_description = "A weapon used in combat."
-long_description = "Deals d10 damage. AP cost 3. Speed Slow. Qualities: Reach."
+long_description = "Deals d10 damage. AP cost 5. Speed Slow. Qualities: Reach."

@@ -1,51 +1,50 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_4bvan"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_6evq3"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Bear Claws.png" id="3_f3xbq"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_36h0p"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_6evq3"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_f3xbq"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_36h0p"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Bear Claws.png" id="4_cxayk"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_24s3x"]
 
-[sub_resource type="Resource" id="Resource_cxayk"]
-script = ExtResource("1_4bvan")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_o7663"]
+script = ExtResource("2_f3xbq")
+attack_power = 100
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 22
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Slash"
 short_description = "A broad cutting attack."
 long_description = "A wide swinging cut aimed at exposed flesh."
 
-[sub_resource type="Resource" id="Resource_24s3x"]
-script = ExtResource("1_4bvan")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_uyjgj"]
+script = ExtResource("2_f3xbq")
+attack_power = 90
+mana_cost = 1
+condition = "Bleed"
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 24
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Rend"
 short_description = "A tearing attack."
 long_description = "A vicious strike intended to tear and wound."
 
-[sub_resource type="Resource" id="Resource_o7663"]
-script = ExtResource("2_6evq3")
+[sub_resource type="Resource" id="Resource_mqkm5"]
+script = ExtResource("3_36h0p")
 damage_die = 8
 
 [resource]
-script = ExtResource("4_36h0p")
-damage_profile = SubResource("Resource_o7663")
-base_ap_cost = 2
+script = ExtResource("5_24s3x")
+damage_profile = SubResource("Resource_mqkm5")
+base_ap_cost = 4
 speed_category = 2
 qualities = Array[String](["Brutal"])
-actions = Array[ExtResource("1_4bvan")]([SubResource("Resource_cxayk"), SubResource("Resource_24s3x")])
+actions = Array[ExtResource("1_6evq3")]([SubResource("Resource_o7663"), SubResource("Resource_uyjgj")])
 weight = 1.0
 value = 30
-icon = ExtResource("3_f3xbq")
+icon = ExtResource("4_cxayk")
 allowed_slots = Array[int]([7])
 _name = "Bear Claws"
 short_description = "A weapon used in combat."
-long_description = "Deals d8 damage. AP cost 2. Speed Normal. Qualities: Brutal."
+long_description = "Deals d8 damage. AP cost 4. Speed Normal. Qualities: Brutal."

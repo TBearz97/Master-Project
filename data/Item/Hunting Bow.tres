@@ -1,39 +1,38 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_e4qoy"]
-[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="2_qq6sy"]
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Hunting Bow.png" id="3_87vg6"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="4_ssh78"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_qq6sy"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_87vg6"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_ssh78"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Hunting Bow.png" id="4_lcy56"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_dpsm7"]
 
-[sub_resource type="Resource" id="Resource_s6yan"]
-script = ExtResource("1_e4qoy")
-expressions = Array[String](["dealDamage(target, source, dmgProfile)"])
+[sub_resource type="Resource" id="Resource_ovdym"]
+script = ExtResource("2_87vg6")
+attack_power = 100
+target = "single_target"
 category = "Attack"
-ap_cost = -1
+ap_cost = 1
 base_speed = 20
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Fire"
 short_description = "A ranged attack."
 long_description = "Releasing a projectile at the target."
 
-[sub_resource type="Resource" id="Resource_lcy56"]
-script = ExtResource("2_qq6sy")
+[sub_resource type="Resource" id="Resource_of753"]
+script = ExtResource("3_ssh78")
 damage_die = 6
 
 [resource]
-script = ExtResource("4_ssh78")
-damage_profile = SubResource("Resource_lcy56")
-base_ap_cost = 2
+script = ExtResource("5_dpsm7")
+damage_profile = SubResource("Resource_of753")
+base_ap_cost = 4
 speed_category = 2
 size = 1
 weaponRange = 2
-actions = Array[ExtResource("1_e4qoy")]([SubResource("Resource_s6yan")])
+actions = Array[ExtResource("1_qq6sy")]([SubResource("Resource_ovdym")])
 weight = 1.0
 value = 25
-icon = ExtResource("3_87vg6")
+icon = ExtResource("4_lcy56")
 allowed_slots = Array[int]([7])
 _name = "Hunting Bow"
 short_description = "A weapon used in combat."
-long_description = "Deals d6 damage. AP cost 2. Speed Normal."
+long_description = "Deals d6 damage. AP cost 4. Speed Normal."

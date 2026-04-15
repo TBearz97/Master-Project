@@ -87,7 +87,7 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Phase: Planning"
 
-[node name="HSplitContainer" type="HSplitContainer" parent="Panel"]
+[node name="OuterSplit" type="HSplitContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -95,144 +95,152 @@ anchor_bottom = 1.0
 offset_top = 76.0
 grow_horizontal = 2
 grow_vertical = 2
+split_offset = 360
 
-[node name="VSplitContainer" type="VSplitContainer" parent="Panel/HSplitContainer"]
+[node name="CombatantsColumn" type="VSplitContainer" parent="Panel/OuterSplit"]
+custom_minimum_size = Vector2(280, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_vertical = 3
 split_offset = 370
 
-[node name="CombatantsSection" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer"]
+[node name="CombatantsSection" type="VBoxContainer" parent="Panel/OuterSplit/CombatantsColumn"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CombatantsTitle" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection"]
+[node name="CombatantsTitle" type="Label" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection"]
 layout_mode = 2
 text = "Combatants"
 
-[node name="CombatantsHeader" type="GridContainer" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection"]
+[node name="CombatantsHeader" type="GridContainer" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection"]
 layout_mode = 2
 columns = 6
 
-[node name="NameHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+[node name="NameHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection/CombatantsHeader"]
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
-custom_minimum_size = Vector2(180, 0)
 text = "Name"
 
-[node name="HPHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+[node name="HPHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection/CombatantsHeader"]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-custom_minimum_size = Vector2(170, 0)
 text = "HP/Vit"
 
-[node name="APHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
-layout_mode = 2
+[node name="APHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection/CombatantsHeader"]
 custom_minimum_size = Vector2(60, 0)
-horizontal_alignment = 1
+layout_mode = 2
 text = "AP"
-
-[node name="StatusHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
-layout_mode = 2
-custom_minimum_size = Vector2(90, 0)
 horizontal_alignment = 1
+
+[node name="StatusHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection/CombatantsHeader"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
 text = "Status"
+horizontal_alignment = 1
 
-[node name="InspectHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+[node name="InspectHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection/CombatantsHeader"]
 custom_minimum_size = Vector2(56, 0)
 layout_mode = 2
-horizontal_alignment = 1
 text = "Inspect"
+horizontal_alignment = 1
 
-[node name="TargetHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsHeader"]
+[node name="TargetHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection/CombatantsHeader"]
 custom_minimum_size = Vector2(56, 0)
 layout_mode = 2
-horizontal_alignment = 1
 text = "Target"
+horizontal_alignment = 1
 
-[node name="CombatantsScroll" type="ScrollContainer" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection"]
+[node name="CombatantsScroll" type="ScrollContainer" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="Combatants" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer/CombatantsSection/CombatantsScroll"]
+[node name="Combatants" type="VBoxContainer" parent="Panel/OuterSplit/CombatantsColumn/CombatantsSection/CombatantsScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="QueuedActionsSection" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer"]
+[node name="QueuedActionsSection" type="VBoxContainer" parent="Panel/OuterSplit/CombatantsColumn"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="QueuedActionsTitle" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection"]
+[node name="QueuedActionsTitle" type="Label" parent="Panel/OuterSplit/CombatantsColumn/QueuedActionsSection"]
 layout_mode = 2
 text = "Queued Actions"
 
-[node name="QueuedActionsHeader" type="GridContainer" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection"]
+[node name="QueuedActionsHeader" type="GridContainer" parent="Panel/OuterSplit/CombatantsColumn/QueuedActionsSection"]
 layout_mode = 2
 columns = 5
 
-[node name="QueuedActorHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+[node name="QueuedActorHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/QueuedActionsSection/QueuedActionsHeader"]
+custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
-custom_minimum_size = Vector2(110, 0)
 text = "Actor"
 
-[node name="QueuedActionHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+[node name="QueuedActionHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/QueuedActionsSection/QueuedActionsHeader"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
-custom_minimum_size = Vector2(200, 0)
 text = "Action"
 
-[node name="QueuedTargetHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+[node name="QueuedTargetHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/QueuedActionsSection/QueuedActionsHeader"]
+custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
-custom_minimum_size = Vector2(110, 0)
 text = "Target"
 
-[node name="QueuedLocationHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+[node name="QueuedLocationHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/QueuedActionsSection/QueuedActionsHeader"]
+custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
-custom_minimum_size = Vector2(90, 0)
 text = "Location"
 
-[node name="QueuedSpeedHeader" type="Label" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsHeader"]
+[node name="QueuedSpeedHeader" type="Label" parent="Panel/OuterSplit/CombatantsColumn/QueuedActionsSection/QueuedActionsHeader"]
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 2
 text = "Speed"
 horizontal_alignment = 2
 
-[node name="QueuedActionsScroll" type="ScrollContainer" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection"]
+[node name="QueuedActionsScroll" type="ScrollContainer" parent="Panel/OuterSplit/CombatantsColumn/QueuedActionsSection"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="QueuedActions" type="VBoxContainer" parent="Panel/HSplitContainer/VSplitContainer/QueuedActionsSection/QueuedActionsScroll"]
+[node name="QueuedActions" type="VBoxContainer" parent="Panel/OuterSplit/CombatantsColumn/QueuedActionsSection/QueuedActionsScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="RightColumn" type="VBoxContainer" parent="Panel/HSplitContainer"]
+[node name="InnerSplit" type="HSplitContainer" parent="Panel/OuterSplit"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+split_offset = 900
+
+[node name="BoardColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="BoardSection" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn"]
+[node name="BoardSection" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/BoardColumn"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="BoardToolbar" type="HBoxContainer" parent="Panel/HSplitContainer/RightColumn/BoardSection"]
+[node name="BoardToolbar" type="HBoxContainer" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection"]
 layout_mode = 2
 
-[node name="BoardTitle" type="Label" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+[node name="BoardTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection/BoardToolbar"]
 layout_mode = 2
 text = "Combat Grid"
 
-[node name="BoardSpacer" type="Control" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+[node name="BoardSpacer" type="Control" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection/BoardToolbar"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="GridWidthLabel" type="Label" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+[node name="GridWidthLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection/BoardToolbar"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "W"
 
-[node name="GridWidth" type="SpinBox" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+[node name="GridWidth" type="SpinBox" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection/BoardToolbar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
@@ -240,12 +248,12 @@ min_value = 4.0
 max_value = 128.0
 value = 12.0
 
-[node name="GridHeightLabel" type="Label" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+[node name="GridHeightLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection/BoardToolbar"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "H"
 
-[node name="GridHeight" type="SpinBox" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+[node name="GridHeight" type="SpinBox" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection/BoardToolbar"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
@@ -253,137 +261,436 @@ min_value = 4.0
 max_value = 128.0
 value = 12.0
 
-[node name="ResetPlacements" type="Button" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+[node name="ResetPlacements" type="Button" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection/BoardToolbar"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Reset Placements"
 
-[node name="BoardHint" type="Label" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardToolbar"]
+[node name="BoardHint" type="Label" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection/BoardToolbar"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Middle mouse pans. Wheel zooms."
 horizontal_alignment = 2
 
-[node name="BoardPanel" type="Panel" parent="Panel/HSplitContainer/RightColumn/BoardSection"]
+[node name="BoardPanel" type="Panel" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="CombatGrid" parent="Panel/HSplitContainer/RightColumn/BoardSection/BoardPanel" instance=ExtResource("2_ij7xk")]
+[node name="CombatGrid" parent="Panel/OuterSplit/InnerSplit/BoardColumn/BoardSection/BoardPanel" instance=ExtResource("2_ij7xk")]
 unique_name_in_owner = true
+layout_mode = 1
+
+[node name="SidebarColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit"]
+custom_minimum_size = Vector2(340, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VSplitContainer" type="VSplitContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 214
+
+[node name="PlayerSummaryPanel" type="Panel" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(320, 220)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerSummaryMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
-[node name="InspectorPanel" type="Panel" parent="Panel/HSplitContainer/RightColumn"]
+[node name="PlayerSummaryContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin"]
 unique_name_in_owner = true
 layout_mode = 2
-custom_minimum_size = Vector2(320, 240)
-size_flags_horizontal = 3
-size_flags_vertical = 1
+theme_override_constants/separation = 10
 
-[node name="InspectorContent" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn/InspectorPanel"]
+[node name="PlayerSummaryHeader" type="HBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent"]
+layout_mode = 2
+
+[node name="PlayerSummaryTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryHeader"]
 unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Character Summary"
+
+[node name="PlayerSummaryTag" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryHeader"]
+layout_mode = 2
+text = "LIVE"
+
+[node name="PlayerSummaryMetrics" type="GridContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent"]
+layout_mode = 2
+columns = 2
+
+[node name="VitalsCard" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics"]
+layout_mode = 2
+
+[node name="VitalsMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/VitalsCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VitalsColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/VitalsCard/VitalsMargin"]
+layout_mode = 2
+
+[node name="VitalsLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/VitalsCard/VitalsMargin/VitalsColumn"]
+layout_mode = 2
+text = "HP / VIT"
+
+[node name="PlayerSummaryHP" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/VitalsCard/VitalsMargin/VitalsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "HP / Vit"
+
+[node name="APCard" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics"]
+layout_mode = 2
+
+[node name="APMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/APCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="APColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/APCard/APMargin"]
+layout_mode = 2
+
+[node name="APLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/APCard/APMargin/APColumn"]
+layout_mode = 2
+text = "ACTION POINTS"
+
+[node name="PlayerSummaryAP" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/APCard/APMargin/APColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "AP"
+
+[node name="ConcentrationCard" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics"]
+layout_mode = 2
+
+[node name="ConcentrationMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/ConcentrationCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ConcentrationColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/ConcentrationCard/ConcentrationMargin"]
+layout_mode = 2
+
+[node name="ConcentrationLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/ConcentrationCard/ConcentrationMargin/ConcentrationColumn"]
+layout_mode = 2
+text = "CONCENTRATION"
+
+[node name="PlayerSummaryConcentration" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/ConcentrationCard/ConcentrationMargin/ConcentrationColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Concentration"
+
+[node name="ManaCard" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics"]
+layout_mode = 2
+
+[node name="ManaMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/ManaCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ManaColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/ManaCard/ManaMargin"]
+layout_mode = 2
+
+[node name="ManaLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/ManaCard/ManaMargin/ManaColumn"]
+layout_mode = 2
+text = "MANA"
+
+[node name="PlayerSummaryMana" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/PlayerSummaryMetrics/ManaCard/ManaMargin/ManaColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Mana"
+
+[node name="DefencesCard" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent"]
+layout_mode = 2
+
+[node name="DefencesMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/DefencesCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="DefencesColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/DefencesCard/DefencesMargin"]
+layout_mode = 2
+
+[node name="DefencesLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/DefencesCard/DefencesMargin/DefencesColumn"]
+layout_mode = 2
+text = "DEFENCES"
+
+[node name="PlayerSummaryDefences" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/DefencesCard/DefencesMargin/DefencesColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Defences"
+autowrap_mode = 3
+
+[node name="ConditionsCard" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ConditionsMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/ConditionsCard"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ConditionsColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/ConditionsCard/ConditionsMargin"]
+layout_mode = 2
+
+[node name="ConditionsLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/ConditionsCard/ConditionsMargin/ConditionsColumn"]
+layout_mode = 2
+text = "CONDITIONS"
+
+[node name="PlayerSummaryConditions" type="RichTextLabel" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/PlayerSummaryPanel/PlayerSummaryMargin/PlayerSummaryContent/ConditionsCard/ConditionsMargin/ConditionsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="InspectorPanel" type="Panel" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 220)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SidebarBodyMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
-[node name="InspectorTitle" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
+[node name="InspectorContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="InspectorTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Combatant Inspector"
 
-[node name="InspectorType" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
+[node name="InspectorType" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Type:"
 
-[node name="InspectorHP" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
+[node name="InspectorHP" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "HP:"
 
-[node name="InspectorLevel" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
+[node name="InspectorLevel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Level:"
 
-[node name="InspectorDetails" type="RichTextLabel" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
+[node name="InspectorDetails" type="RichTextLabel" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 
-[node name="InspectorActionsTitle" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
+[node name="InspectorActionsTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Available Actions"
 
-[node name="InspectorLoadout" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
+[node name="InspectorLoadout" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Loadout: 1"
 
-[node name="InspectorSwapLoadout" type="Button" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
+[node name="InspectorSwapLoadout" type="Button" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Swap Loadout"
 
-[node name="InspectorActionsList" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/InspectorContent"]
+[node name="InspectorActionsList" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PlayerActionsContent" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn/InspectorPanel"]
+[node name="PlayerActionsContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin"]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
 
-[node name="PlayerActionsTitle" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
+[node name="PlayerConsoleHeaderPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent"]
+layout_mode = 2
+
+[node name="PlayerConsoleHeaderMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PlayerConsoleHeaderContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="PlayerActionsTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Available Actions"
+text = "Action Console"
 
-[node name="PlayerCombatantName" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
+[node name="PlayerHeader" type="HBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent"]
+layout_mode = 2
+
+[node name="PlayerCombatantName" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent/PlayerHeader"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "No combatant selected."
 
-[node name="PlayerLoadout" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
+[node name="PlayerLoadout" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent/PlayerHeader"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Loadout: 1"
 
-[node name="PlayerSwapLoadout" type="Button" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
+[node name="PlayerSwapLoadout" type="Button" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent/PlayerHeader"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Swap Loadout"
 
-[node name="PlayerActionsList" type="VBoxContainer" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
-unique_name_in_owner = true
+[node name="TargetingPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent"]
 layout_mode = 2
 
-[node name="PlayerActionsHint" type="Label" parent="Panel/HSplitContainer/RightColumn/InspectorPanel/PlayerActionsContent"]
+[node name="TargetingMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 6
+
+[node name="TargetingColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HitLocationRow" type="HBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn"]
+layout_mode = 2
+
+[node name="HitLocationLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn/HitLocationRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Hit Location"
+
+[node name="HitLocationSelector" type="OptionButton" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn/HitLocationRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+
+[node name="HitLocationHint" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Random has no penalty. Called shots take -4 accuracy."
+autowrap_mode = 3
+
+[node name="PlayerActionsPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayerActionsMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PlayerActionsScroll" type="ScrollContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="PlayerActionsSections" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="PlayerBasicActionsSection" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PlayerBasicActionsTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerBasicActionsSection"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Actions"
+
+[node name="PlayerBasicActionsList" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerBasicActionsSection"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerAttacksSection" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PlayerAttacksTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerAttacksSection"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Attacks"
+
+[node name="PlayerAttacksList" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerAttacksSection"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HintPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent"]
+layout_mode = 2
+
+[node name="HintMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/HintPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="PlayerActionsHint" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/HintPanel/HintMargin"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "You are not currently in this encounter."
+autowrap_mode = 3
 
 [node name="ActionResolutionWindow" type="Window" parent="."]
 unique_name_in_owner = true
-title = "Resolve Actions"
+title = "GM Review"
 initial_position = 1
-size = Vector2i(520, 320)
+size = Vector2i(760, 520)
 visible = false
 unresizable = true
 
@@ -406,11 +713,102 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "0 remaining"
 
+[node name="ResolutionEditPanel" type="PanelContainer" parent="ActionResolutionWindow/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="ResolutionEditMargin" type="MarginContainer" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ResolutionEditRow" type="HBoxContainer" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin"]
+layout_mode = 2
+alignment = 2
+
+[node name="ResolutionOutcomeLabel" type="Label" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditRow"]
+visible = false
+layout_mode = 2
+text = "Outcome"
+
+[node name="ResolutionOutcomeSelector" type="OptionButton" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+
+[node name="ResolutionLocationLabel" type="Label" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditRow"]
+visible = false
+layout_mode = 2
+text = "Location"
+
+[node name="ResolutionLocationSelector" type="OptionButton" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+
+[node name="ResolutionSkillDifficultyLabel" type="Label" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditRow"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Difficulty"
+
+[node name="ResolutionSkillDifficultyInput" type="SpinBox" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditRow"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+min_value = 0.0
+max_value = 30.0
+step = 1.0
+value = 10.0
+
+[node name="ResolutionApplyEdits" type="Button" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Apply Edits"
+
+[node name="ResolutionEditDetails" type="RichTextLabel" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="ResolutionEditFormPanel" type="PanelContainer" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ResolutionEditFormMargin" type="MarginContainer" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditFormPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="ResolutionEditFormScroll" type="ScrollContainer" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditFormPanel/ResolutionEditFormMargin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ResolutionEditForm" type="GridContainer" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditFormPanel/ResolutionEditFormMargin/ResolutionEditFormScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
 [node name="ResolutionDetails" type="RichTextLabel" parent="ActionResolutionWindow/MarginContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
+fit_content = true
 
 [node name="ResolutionButtons" type="HBoxContainer" parent="ActionResolutionWindow/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -419,14 +817,188 @@ alignment = 2
 [node name="AbortAction" type="Button" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionButtons"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Abort"
+text = "Reject"
+
+[node name="EditAction" type="Button" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Edit"
 
 [node name="ResolveAction" type="Button" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionButtons"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Resolve"
+text = "Approve"
 
 [node name="ResolveAllActions" type="Button" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionButtons"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Resolve All"
+text = "Approve All"
+
+[node name="StatusWindow" type="AcceptDialog" parent="."]
+unique_name_in_owner = true
+title = "Combatant Status"
+initial_position = 1
+size = Vector2i(360, 280)
+unresizable = true
+
+[node name="StatusMargin" type="MarginContainer" parent="StatusWindow"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="StatusContent" type="VBoxContainer" parent="StatusWindow/StatusMargin"]
+layout_mode = 2
+
+[node name="StatusWindowName" type="Label" parent="StatusWindow/StatusMargin/StatusContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Combatant"
+
+[node name="StatusWindowState" type="Label" parent="StatusWindow/StatusMargin/StatusContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Status: Ready"
+
+[node name="StatusWindowVitals" type="Label" parent="StatusWindow/StatusMargin/StatusContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "HP / Vit"
+
+[node name="StatusWindowAP" type="Label" parent="StatusWindow/StatusMargin/StatusContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "AP"
+
+[node name="StatusWindowConcentration" type="Label" parent="StatusWindow/StatusMargin/StatusContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Concentration"
+
+[node name="StatusWindowConditions" type="RichTextLabel" parent="StatusWindow/StatusMargin/StatusContent"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="QuickItemPicker" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Choose Quick Slot"
+initial_position = 1
+size = Vector2i(360, 140)
+unresizable = true
+
+[node name="QuickItemPickerMargin" type="MarginContainer" parent="QuickItemPicker"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="QuickItemPickerContent" type="VBoxContainer" parent="QuickItemPicker/QuickItemPickerMargin"]
+layout_mode = 2
+
+[node name="QuickItemPickerLabel" type="Label" parent="QuickItemPicker/QuickItemPickerMargin/QuickItemPickerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Choose a quick slot."
+
+[node name="QuickItemSlotSelector" type="OptionButton" parent="QuickItemPicker/QuickItemPickerMargin/QuickItemPickerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SkillTestPicker" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+title = "Prepare Skill Test"
+initial_position = 1
+size = Vector2i(420, 250)
+unresizable = true
+
+[node name="SkillTestPickerMargin" type="MarginContainer" parent="SkillTestPicker"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="SkillTestPickerContent" type="VBoxContainer" parent="SkillTestPicker/SkillTestPickerMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SkillTestPickerLabel" type="Label" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Set the skill test details."
+
+[node name="SkillTestSkillLabel" type="Label" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent"]
+layout_mode = 2
+text = "Skill"
+
+[node name="SkillTestSkillSelector" type="OptionButton" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="SkillTestCostsRow" type="HBoxContainer" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SkillTestAPBox" type="VBoxContainer" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent/SkillTestCostsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SkillTestAPLabel" type="Label" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent/SkillTestCostsRow/SkillTestAPBox"]
+layout_mode = 2
+text = "AP Cost"
+
+[node name="SkillTestAPInput" type="SpinBox" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent/SkillTestCostsRow/SkillTestAPBox"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 12.0
+step = 1.0
+value = 1.0
+
+[node name="SkillTestSpeedBox" type="VBoxContainer" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent/SkillTestCostsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SkillTestSpeedLabel" type="Label" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent/SkillTestCostsRow/SkillTestSpeedBox"]
+layout_mode = 2
+text = "Speed"
+
+[node name="SkillTestSpeedInput" type="SpinBox" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent/SkillTestCostsRow/SkillTestSpeedBox"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 100.0
+step = 1.0
+value = 20.0
+
+[node name="SkillTestDescriptionLabel" type="Label" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent"]
+layout_mode = 2
+text = "Description"
+
+[node name="SkillTestDescriptionInput" type="LineEdit" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Describe the attempted action"
+
+[node name="SkillTestNoTargetToggle" type="CheckBox" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "No Target"

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_0m4by"]
+
+[resource]
+script = ExtResource("1_0m4by")
+category = "Basic"
+ap_cost = 3
+base_speed = 30
+_name = "Focus"
+short_description = "Gather mana."
+long_description = "Take a slow moment to gather mana, gaining your normal end-of-round mana generation immediately in addition to the mana gained at the end of the round."

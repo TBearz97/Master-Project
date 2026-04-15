@@ -4,6 +4,7 @@ class_name CombatantEntry
 signal selected(entry: CombatantEntry, combatant_data: Dictionary)
 signal target_selected(entry: CombatantEntry, combatant_data: Dictionary)
 signal team_changed(entry: CombatantEntry, combatant_id: String, team_id: int)
+signal status_selected(entry: CombatantEntry, combatant_data: Dictionary)
 
 var data: Dictionary = {}
 var is_player_target_mode := false
@@ -11,6 +12,7 @@ var show_team_selector := false
 
 func _ready() -> void:
 	%Inspect.pressed.connect(_inspect)
+	%Status.pressed.connect(_on_status_pressed)
 	%Target.toggled.connect(_on_target_toggled)
 	%TeamSelector.item_selected.connect(_on_team_selected)
 	_populate_team_selector()
@@ -58,32 +60,39 @@ func _on_team_selected(index: int) -> void:
 	data["team_id"] = selected_team_id
 	team_changed.emit(self, combatant_id, selected_team_id)
 
+func _on_status_pressed() -> void:
+	status_selected.emit(self, data)
+
 func _refresh() -> void:
 	var display_name := str(data.get("name", "Unknown"))
 	if int(data.get("controller_peer_id", 0)) == multiplayer.get_unique_id() and int(data.get("controller_peer_id", 0)) != 0:
 		display_name += " (You)"
 	%Name.text = display_name
 
-	var current_hp := int(data.get("current_hp", 0))
-	var max_hp := maxi(int(data.get("max_hp", 0)), 1)
-	var current_vitality := int(data.get("current_vitality", 0))
-	var max_vitality := maxi(int(data.get("max_vitality", 0)), 1)
-	var temporary_health := int(data.get("temporary_health", 0))
+	var current_hp: float = float(data.get("current_hp", 0.0))
+	var max_hp: float = maxf(float(data.get("max_hp", 0.0)), 1.0)
+	var current_vitality: float = float(data.get("current_vitality", 0.0))
+	var max_vitality: float = maxf(float(data.get("max_vitality", 0.0)), 1.0)
+	var temporary_health: float = float(data.get("temporary_health", 0.0))
 	var remaining_ap := int(data.get("remaining_action_points", 0))
 	var action_points := int(data.get("action_points", 0))
-	%HP.text = "HP %s/%s | Vit %s/%s" % [current_hp, max_hp, current_vitality, max_vitality]
-	if temporary_health > 0:
-		%HP.text += "  T %s" % temporary_health
+	%HP.text = "HP %s/%s | Vit %s/%s" % [ceili(current_hp), ceili(max_hp), ceili(current_vitality), ceili(max_vitality)]
+	if temporary_health > 0.0:
+		%HP.text += "  T %s" % ceili(temporary_health)
+	%HP.tooltip_text = "HP %.2f / %.2f | Vitality %.2f / %.2f | Temporary %.2f" % [current_hp, max_hp, current_vitality, max_vitality, temporary_health]
 	%AP.text = "%s/%s" % [remaining_ap, action_points]
 
 	var pending_request := str(data.get("pending_request", ""))
 	var queued_actions: Array = data.get("queued_actions", [])
+	var conditions: Array = data.get("conditions", [])
 	if not pending_request.is_empty():
 		%Status.text = "Pending"
-	elif current_vitality <= 0:
+	elif current_vitality <= 0.0:
 		%Status.text = "Dead"
-	elif current_hp <= 0:
+	elif current_hp <= 0.0:
 		%Status.text = "Unconscious"
+	elif conditions.has("Stunned"):
+		%Status.text = "Stunned"
 	elif not queued_actions.is_empty():
 		%Status.text = "%s queued" % queued_actions.size()
 	else:

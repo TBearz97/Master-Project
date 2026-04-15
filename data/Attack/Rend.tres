@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_lmj67"]
+
+[resource]
+script = ExtResource("1_lmj67")
+attack_power = 90
+mana_cost = 1
+condition = "Bleed"
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 24
+_name = "Rend"
+short_description = "A tearing attack."
+long_description = "A vicious strike intended to tear and wound."

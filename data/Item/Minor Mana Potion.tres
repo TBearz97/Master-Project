@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/default.png" id="1_abcg2"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_cyigk"]
+
+[resource]
+script = ExtResource("2_cyigk")
+expression = "restoreFromItem(\"mana\", 3, target, source)"
+weight = 0.2
+value = 35
+icon = ExtResource("1_abcg2")
+allowed_slots = Array[int]([6])
+_name = "Minor Mana Potion"
+short_description = "Restore a little mana."
+long_description = "A small vial that restores a modest amount of stored mana when consumed."

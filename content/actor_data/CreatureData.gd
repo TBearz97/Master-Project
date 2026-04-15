@@ -6,11 +6,14 @@ class_name CreatureData
 @export var defences: Array[Defence]
 
 # Conditions
-@export var maxHP: int
-@export var currentHP: int
-@export var maxVitality: int
-@export var currentVitality: int
-@export var temporaryHealth: int
+@export var maxHP: float
+@export var currentHP: float
+@export var maxVitality: float
+@export var currentVitality: float
+@export var temporaryHealth: float
+@export var maxConcentration: int
+@export var currentConcentration: int
+@export var currentMana: int
 @export var fatigue: int
 @export var necroticDamage: int
 @export var conditions: Array[Condition]
@@ -31,6 +34,9 @@ func _init() -> void:
 	maxVitality = 0
 	currentVitality = 0
 	temporaryHealth = 0
+	maxConcentration = 0
+	currentConcentration = 0
+	currentMana = 0
 	fatigue = 0
 	necroticDamage = 0
 	conditions = []
@@ -64,49 +70,86 @@ func getActionPoints() -> int:
 	action_points += int(bonuses.get("amount", 0))
 	return max(action_points, 0)
 
-func getMaxHealth() -> int:
+func getMaxHealth() -> float:
 	var attribute: Attribute = _get_attribute("Constitution")
 	if attribute == null:
-		return max(maxHP, 1)
-	var health_per_level: int = _evaluate_attribute_bonus(attribute, "Health")
-	var max_health: int = (health_per_level * max(level, 1)) - necroticDamage
-	return max(max_health, 1)
+		return maxf(maxHP, 1.0)
+	var health_per_level: float = float(_evaluate_attribute_bonus(attribute, "Health"))
+	var max_health: float = (health_per_level * float(max(level, 1))) - float(necroticDamage)
+	return maxf(max_health, 1.0)
 
-func getMaxVitality() -> int:
+func getMaxVitality() -> float:
 	var attribute: Attribute = _get_attribute("Constitution")
 	if attribute == null:
-		return max(maxVitality, 1)
-	var vitality_multiplier: int = _evaluate_attribute_bonus(attribute, "Vitality")
-	var max_vitality: int = vitality_multiplier * getMaxHealth()
-	return max(max_vitality, 1)
+		return maxf(maxVitality, 1.0)
+	var vitality_multiplier: float = float(_evaluate_attribute_bonus(attribute, "Vitality"))
+	var max_vitality: float = vitality_multiplier * getMaxHealth()
+	return maxf(max_vitality, 1.0)
+
+func getMaxConcentration() -> int:
+	var attribute: Attribute = _get_attribute("Resolve")
+	if attribute == null:
+		return maxi(maxConcentration, 0)
+	return maxi(_evaluate_attribute_bonus(attribute, "Concentration"), 0)
+
+func getCondition(condition_name: String) -> Condition:
+	for condition: Condition in conditions:
+		if condition != null and condition._name == condition_name:
+			return condition
+	return null
+
+func hasCondition(condition_name: String) -> bool:
+	return getCondition(condition_name) != null
+
+func addCondition(condition: Condition) -> bool:
+	if condition == null or condition._name.is_empty() or hasCondition(condition._name):
+		return false
+	conditions.append(condition)
+	return true
+
+func removeCondition(condition_name: String) -> bool:
+	for index in range(conditions.size()):
+		var condition := conditions[index]
+		if condition != null and condition._name == condition_name:
+			conditions.remove_at(index)
+			return true
+	return false
 
 func normalizeVitals(refill_if_uninitialized: bool = false) -> void:
 	var previous_max_hp := maxHP
 	var previous_max_vitality := maxVitality
+	var previous_max_concentration := maxConcentration
 	maxHP = getMaxHealth()
 	maxVitality = getMaxVitality()
-	if refill_if_uninitialized and (currentHP <= 0 or previous_max_hp <= 1):
+	maxConcentration = getMaxConcentration()
+	if refill_if_uninitialized and (currentHP <= 0.0 or previous_max_hp <= 1.0):
 		currentHP = maxHP
 	else:
-		currentHP = clampi(currentHP, 0, maxHP)
-	if refill_if_uninitialized and (currentVitality <= 0 or previous_max_vitality <= 1):
+		currentHP = clampf(currentHP, 0.0, maxHP)
+	if refill_if_uninitialized and (currentVitality <= 0.0 or previous_max_vitality <= 1.0):
 		currentVitality = maxVitality
 	else:
-		currentVitality = clampi(currentVitality, 0, maxVitality)
-	temporaryHealth = maxi(temporaryHealth, 0)
+		currentVitality = clampf(currentVitality, 0.0, maxVitality)
+	if (refill_if_uninitialized and currentConcentration <= 0) or previous_max_concentration <= 0:
+		currentConcentration = maxConcentration
+	else:
+		currentConcentration = clampi(currentConcentration, 0, maxConcentration)
+	currentMana = maxi(currentMana, 0)
+	temporaryHealth = maxf(temporaryHealth, 0.0)
 
-func healHealth(amount: int) -> Dictionary:
-	if currentVitality <= 0:
+func healHealth(amount: float) -> Dictionary:
+	if currentVitality <= 0.0:
 		return {"success": false, "reason": "target_dead"}
-	var healed_amount := maxi(amount, 0)
-	var previous_hp := currentHP
-	currentHP = clampi(currentHP + healed_amount, 0, maxHP)
+	var healed_amount: float = maxf(amount, 0.0)
+	var previous_hp: float = currentHP
+	currentHP = clampf(currentHP + healed_amount, 0.0, maxHP)
 	return {
 		"success": true,
 		"target_name": _name,
 		"healed_amount": currentHP - previous_hp,
 		"remaining_hp": currentHP,
 		"remaining_vitality": currentVitality,
-		"is_unconscious": currentHP <= 0 and currentVitality > 0,
-		"is_dead": currentVitality <= 0,
+		"remaining_concentration": currentConcentration,
+		"is_unconscious": RuleEngine.isUnconscious(self),
+		"is_dead": RuleEngine.isDead(self),
 	}

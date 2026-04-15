@@ -1,8 +1,13 @@
 extends VBoxContainer
 
 var DTs: Array[RichTextLabel] = []
+var defence_labels: Dictionary = {}
 
 func _ready() -> void:
+	if not PlayerVariables.combat_loadout_changed.is_connected(_refresh_defences):
+		PlayerVariables.combat_loadout_changed.connect(_refresh_defences)
+	if not PlayerVariables.vitals_changed.is_connected(_refresh_defences):
+		PlayerVariables.vitals_changed.connect(_refresh_defences)
 	_setup()
 
 func _setup() -> void:
@@ -16,7 +21,8 @@ func _setup() -> void:
 	for defence: Defence in defences.values():
 		var label := CampaignVariables.prepareLabel(RichTextLabel.new())
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		label.text = CampaignVariables.replaceText(defence._name + ": " + str(defence.getValue(PlayerVariables.data)))
+		label.text = CampaignVariables.replaceText(defence._name + ": 0")
+		defence_labels[defence._name] = label
 		defencesHbox.add_child(label)
 	add_child(defencesHbox)
 
@@ -44,7 +50,16 @@ func _setup() -> void:
 	dtHbox.add_child(necLabel)
 	DTs.append(necLabel)
 	add_child(dtHbox)
+	_refresh_defences()
 	recalculateDTs()
+
+func _refresh_defences() -> void:
+	for defence_name in defence_labels.keys():
+		var label := defence_labels[defence_name] as RichTextLabel
+		if label == null:
+			continue
+		var defence_value := RuleEngine.getDefenceValue(PlayerVariables.current(), str(defence_name))
+		label.text = CampaignVariables.replaceText("%s: %s" % [defence_name, defence_value])
 
 func recalculateDTs() -> void:
 	var physicalDT := 0

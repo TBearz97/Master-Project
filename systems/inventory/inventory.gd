@@ -6,6 +6,8 @@ extends ItemList
 var inventory: Dictionary[String, Array] = PlayerVariables.getInventory()
 
 func _ready() -> void:
+	if not PlayerVariables.combat_loadout_changed.is_connected(updateCarryWeight):
+		PlayerVariables.combat_loadout_changed.connect(updateCarryWeight)
 	setup()
 
 func setup() -> void:
@@ -45,7 +47,10 @@ func updateCarryWeight() -> void:
 	var carryWeight := 0.0
 	for item in inventory.values():
 		carryWeight += item[0].weight * item.size()
-	carryWeightLabel.text = "Carry Weight: " + str(carryWeight)
+	var equip_load := RuleEngine.getEquipLoad(PlayerVariables.current())
+	var max_equip_load := RuleEngine.getMaxEquipLoad(PlayerVariables.current())
+	var equip_load_tier := RuleEngine.getEquipLoadTier(PlayerVariables.current())
+	carryWeightLabel.text = "Carry Weight: %.1f | Equip Load: %.1f / %.1f kg (%s)" % [carryWeight, equip_load, max_equip_load, equip_load_tier]
 
 func remove_item_from_inventory(item: Item, count: int = 1) -> void:
 	if item == null:
@@ -107,6 +112,10 @@ func _get_drag_data(at_position: Vector2) -> Variant:
 	var item: Item = get_item_metadata(base)
 	if item == null:
 		return null
+	if inventory.has(item._name):
+		var stack: Array = inventory[item._name]
+		if not stack.is_empty():
+			item = stack.back() as Item
 
 	var data := {
 		"item": item,
@@ -152,7 +161,6 @@ func _handle_drop_from_slot(item: Item, data: Dictionary) -> void:
 		var stack: Array = inventory[item_name]
 		stack.append(item)
 		_update_item_row_in_list(item_name, stack.size(), stack[0])
-	updateCarryWeight()
 
 	var from_slot = data.get("from_slot", null)
 	if from_slot and "set_item" in from_slot:

@@ -10,28 +10,20 @@
 
 [sub_resource type="Resource" id="Resource_uwjr0"]
 script = ExtResource("1_kplp6")
-expressions = Array[String](["markDelayedAction(source, 1)"])
 category = "Basic"
 base_speed = 10
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Wait"
 short_description = "Delay your next action."
-long_description = "You hold back and act later, improving your timing on the next action."
+long_description = "Delay your next action by 10."
 
 [sub_resource type="Resource" id="Resource_kyu48"]
 script = ExtResource("1_kplp6")
-expressions = Array[String](["addDefenceBonus(target, \"Deflection\", 1, \"round\")"])
 category = "Basic"
 ap_cost = 1
 base_speed = 15
-tested_defence = "Deflection"
-default_target_location = 3
-accuracy_attribute = "Perception"
 _name = "Guard"
-short_description = "Increase a target's Deflection."
-long_description = "You protect a target by raising their Deflection until the end of the round."
+short_description = "Raise an ally's defences."
+long_description = "Raise an ally's defences for a short time."
 
 [sub_resource type="Resource" id="Resource_hkkcx"]
 script = ExtResource("2_hajtf")
@@ -108,8 +100,12 @@ long_description = "Resolve reflects a character’s strength of will, focus, an
 script = ExtResource("6_xww7w")
 _name = "Skeleton"
 attributes = Array[ExtResource("2_hajtf")]([SubResource("Resource_hkkcx"), SubResource("Resource_pafko"), SubResource("Resource_e0re2"), SubResource("Resource_x5lqw"), SubResource("Resource_ndrlo"), SubResource("Resource_p5ic7")])
-maxHP = 12
-currentHP = 12
+maxHP = 12.0
+currentHP = 12.0
+maxVitality = 60.0
+currentVitality = 60.0
+maxConcentration = 6
+currentConcentration = 6
 actions = Array[ExtResource("1_kplp6")]([SubResource("Resource_uwjr0"), SubResource("Resource_kyu48")])
 level = 1
 

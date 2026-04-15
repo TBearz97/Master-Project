@@ -38,15 +38,47 @@ func apply_combatant_payload(payload: Dictionary) -> void:
 	if data == null:
 		return
 	if payload.has("current_hp"):
-		data.currentHP = int(payload.get("current_hp", data.currentHP))
+		data.currentHP = float(payload.get("current_hp", data.currentHP))
 	if payload.has("max_hp"):
-		data.maxHP = int(payload.get("max_hp", data.maxHP))
+		data.maxHP = float(payload.get("max_hp", data.maxHP))
 	if payload.has("current_vitality"):
-		data.currentVitality = int(payload.get("current_vitality", data.currentVitality))
+		data.currentVitality = float(payload.get("current_vitality", data.currentVitality))
 	if payload.has("max_vitality"):
-		data.maxVitality = int(payload.get("max_vitality", data.maxVitality))
+		data.maxVitality = float(payload.get("max_vitality", data.maxVitality))
 	if payload.has("temporary_health"):
-		data.temporaryHealth = int(payload.get("temporary_health", data.temporaryHealth))
+		data.temporaryHealth = float(payload.get("temporary_health", data.temporaryHealth))
+	if payload.has("current_concentration"):
+		data.currentConcentration = int(payload.get("current_concentration", data.currentConcentration))
+	if payload.has("max_concentration"):
+		data.maxConcentration = int(payload.get("max_concentration", data.maxConcentration))
+	if payload.has("current_mana"):
+		data.currentMana = int(payload.get("current_mana", data.currentMana))
+	if payload.has("conditions"):
+		var runtime_conditions: Array[Condition] = []
+		for condition_name_variant in payload.get("conditions", []):
+			var condition_name := str(condition_name_variant)
+			if condition_name.is_empty():
+				continue
+			var condition: Condition = null
+			if CampaignVariables.codex != null:
+				condition = CampaignVariables.codex.Conditions.get(condition_name, null)
+			if condition != null:
+				runtime_conditions.append(condition.duplicate(true) as Condition)
+			else:
+				runtime_conditions.append(Condition.new(condition_name))
+		data.conditions = runtime_conditions
+	if payload.has("stunned_round"):
+		var stunned_round := int(payload.get("stunned_round", -1))
+		if stunned_round > 0:
+			data.set_meta("stunned_round", stunned_round)
+		else:
+			data.remove_meta("stunned_round")
+	if payload.has("stunned_resolve_speed"):
+		var stunned_resolve_speed := int(payload.get("stunned_resolve_speed", 0))
+		if stunned_resolve_speed > 0:
+			data.set_meta("stunned_resolve_speed", stunned_resolve_speed)
+		else:
+			data.remove_meta("stunned_resolve_speed")
 	if payload.has("level"):
 		data.level = int(payload.get("level", data.level))
 	vitals_changed.emit()
@@ -233,41 +265,41 @@ func setLevel(value: int) -> void:
 	data.level = value
 	_ensure_valid_vitals(true)
 
-func setCurrentHP(value: int) -> void:
-	data.currentHP = clampi(value, 0, data.maxHP)
+func setCurrentHP(value: float) -> void:
+	data.currentHP = clampf(value, 0.0, data.maxHP)
 	vitals_changed.emit()
 
-func getCurrentHP() -> int:
+func getCurrentHP() -> float:
 	return data.currentHP
 
-func setMaxHP(value: int) -> void:
-	data.maxHP = maxi(value, 1)
-	data.currentHP = clampi(data.currentHP, 0, data.maxHP)
+func setMaxHP(value: float) -> void:
+	data.maxHP = maxf(value, 1.0)
+	data.currentHP = clampf(data.currentHP, 0.0, data.maxHP)
 	vitals_changed.emit()
 
-func getMaxHP() -> int:
+func getMaxHP() -> float:
 	return data.maxHP
 
-func setCurrentVitality(value: int) -> void:
-	data.currentVitality = clampi(value, 0, data.maxVitality)
+func setCurrentVitality(value: float) -> void:
+	data.currentVitality = clampf(value, 0.0, data.maxVitality)
 	vitals_changed.emit()
 
-func getCurrentVitality() -> int:
+func getCurrentVitality() -> float:
 	return data.currentVitality
 
-func setMaxVitality(value: int) -> void:
-	data.maxVitality = maxi(value, 1)
-	data.currentVitality = clampi(data.currentVitality, 0, data.maxVitality)
+func setMaxVitality(value: float) -> void:
+	data.maxVitality = maxf(value, 1.0)
+	data.currentVitality = clampf(data.currentVitality, 0.0, data.maxVitality)
 	vitals_changed.emit()
 
-func getMaxVitality() -> int:
+func getMaxVitality() -> float:
 	return data.maxVitality
 
-func setTemporaryHealth(value: int) -> void:
-	data.temporaryHealth = maxi(value, 0)
+func setTemporaryHealth(value: float) -> void:
+	data.temporaryHealth = maxf(value, 0.0)
 	vitals_changed.emit()
 
-func getTemporaryHealth() -> int:
+func getTemporaryHealth() -> float:
 	return data.temporaryHealth
 
 func getLevel() -> int:
