@@ -79,6 +79,12 @@ func apply_combatant_payload(payload: Dictionary) -> void:
 			data.set_meta("stunned_resolve_speed", stunned_resolve_speed)
 		else:
 			data.remove_meta("stunned_resolve_speed")
+	if payload.has("stunned_spent_ap"):
+		var stunned_spent_ap := int(payload.get("stunned_spent_ap", 0))
+		if stunned_spent_ap > 0:
+			data.set_meta("stunned_spent_ap", stunned_spent_ap)
+		else:
+			data.remove_meta("stunned_spent_ap")
 	if payload.has("level"):
 		data.level = int(payload.get("level", data.level))
 	vitals_changed.emit()

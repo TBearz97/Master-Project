@@ -93,6 +93,8 @@ func _refresh() -> void:
 		%Status.text = "Unconscious"
 	elif conditions.has("Stunned"):
 		%Status.text = "Stunned"
+	elif conditions.has("Prone"):
+		%Status.text = "Prone"
 	elif not queued_actions.is_empty():
 		%Status.text = "%s queued" % queued_actions.size()
 	else:

@@ -473,6 +473,8 @@ func getDefenceValue(target: CreatureData, defence_name: String) -> int:
 	var defence_value := (defence_template.duplicate(true) as Defence).getValue(target)
 	var bonuses: Dictionary = target.get_meta("temporary_defence_bonuses", {})
 	defence_value += int((bonuses.get(defence_name, {}) as Dictionary).get("amount", 0))
+	if target.hasCondition("Prone") and defence_name in ["Deflection", "Reflex"]:
+		defence_value -= 5
 	if defence_name == "Deflection":
 		defence_value += getEquipLoadDeflectionBonus(target)
 	return defence_value

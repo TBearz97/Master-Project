@@ -89,6 +89,7 @@ var pending_player_action: Dictionary = {}
 var pending_quick_item_action: Dictionary = {}
 var pending_skill_test_action: Dictionary = {}
 var pending_resolution_requests: Array[CombatRequest] = []
+var controlled_host_combatant_id: String = ""
 var current_review_request: CombatRequest = null
 var current_review_resolution: Dictionary = {}
 var is_editing_review_action: bool = false
@@ -186,7 +187,7 @@ func _update_phase_buttons() -> void:
 func _configure_role_view() -> void:
 	inspectorContent.visible = is_host_role
 	playerSummaryPanel.visible = not is_host_role
-	playerActionsContent.visible = not is_host_role
+	playerActionsContent.visible = true
 	inspectorSwapLoadout.visible = false
 	gridWidthInput.editable = is_host_role and not encounter_started
 	gridHeightInput.editable = is_host_role and not encounter_started
@@ -203,6 +204,24 @@ func _apply_encounter_visibility() -> void:
 	%AddNPCs.visible = is_host_role
 	_refresh_board_controls()
 	_update_phase_buttons()
+
+func _get_controlled_combatant_payload() -> Dictionary:
+	if is_host_role:
+		if not controlled_host_combatant_id.is_empty() and encounter_combatants.has(controlled_host_combatant_id):
+			var selected_payload: Dictionary = encounter_combatants[controlled_host_combatant_id]
+			if str(selected_payload.get("type", "")) == "NPC":
+				return selected_payload
+		return {}
+	return _find_local_player_combatant(multiplayer.get_unique_id())
+
+func _get_controlled_actor_from_payload(payload: Dictionary) -> CreatureData:
+	if payload.is_empty():
+		return null
+	if str(payload.get("type", "")) == "Player":
+		var controller_peer_id := int(payload.get("controller_peer_id", 0))
+		if controller_peer_id == multiplayer.get_unique_id() and PlayerVariables.data != null:
+			return PlayerVariables.data
+	return _get_actor_data_from_payload(payload)
 
 func _refresh_board_controls() -> void:
 	gridWidthLabel.visible = is_host_role
@@ -537,6 +556,22 @@ func _cancel_pending_actions_for_queue(queue: Array[CombatRequest], combatant_id
 			removed_count += 1
 	return removed_count
 
+func _get_reserved_ap_for_queue(queue: Array[CombatRequest], combatant_id: String) -> int:
+	var reserved_ap := 0
+	for pending_request in queue:
+		if pending_request == null or pending_request.combatant_id != combatant_id:
+			continue
+		reserved_ap += int(pending_request.payload.get("ap_cost", 0))
+	return reserved_ap
+
+func _get_reserved_ap_from_payload(payload: Dictionary) -> int:
+	var reserved_ap := 0
+	for queued_payload_variant in payload.get("queued_action_payloads", []):
+		if not (queued_payload_variant is Dictionary):
+			continue
+		reserved_ap += int((queued_payload_variant as Dictionary).get("ap_cost", 0))
+	return reserved_ap
+
 func _resolve_queued_action_preview(combat_request: CombatRequest) -> Dictionary:
 	var source_id := combat_request.combatant_id
 	var target_id := combat_request.target_id
@@ -565,6 +600,7 @@ func _resolve_queued_action_preview(combat_request: CombatRequest) -> Dictionary
 	var action_hand := str(combat_request.payload.get("action_hand", "Innate"))
 	if action_name == "Stunned":
 		var stunned_speed := int(combat_request.payload.get("action_speed", 0))
+		_clear_stunned(source_actor)
 		var stunned_result := {
 			"success": true,
 			"source_name": str(source_payload.get("name", source_id)),
@@ -577,6 +613,10 @@ func _resolve_queued_action_preview(combat_request: CombatRequest) -> Dictionary
 		var stunned_state_changes: Array[Dictionary] = []
 		if not stunned_source_update.is_empty():
 			stunned_source_update["pending_request"] = ""
+			stunned_source_update["conditions"] = _serialize_condition_names(source_actor.conditions)
+			stunned_source_update["stunned_round"] = -1
+			stunned_source_update["stunned_resolve_speed"] = 0
+			stunned_source_update["stunned_spent_ap"] = 0
 			stunned_source_update.erase("id")
 			stunned_source_update["combatant_id"] = source_id
 			stunned_state_changes.append(stunned_source_update)
@@ -670,15 +710,20 @@ func _resolve_queued_action_preview(combat_request: CombatRequest) -> Dictionary
 						result["cancelled_actions"] = true
 						result["cancelled_action_count"] = stunned_cancelled_actions
 				var stunned_resolve_speed := int(combat_request.payload.get("resolve_speed", (result as Dictionary).get("action_speed", 0)))
-				_apply_stunned(target_actor, round_number + 1, stunned_resolve_speed)
+				var reserved_future_ap := _get_reserved_ap_from_payload(target_payload)
+				var effective_remaining_ap := int(target_payload.get("remaining_action_points", 0)) + reserved_future_ap
+				var stunned_spent_ap := maxi(_get_round_action_points(target_payload) - effective_remaining_ap, 0)
+				_apply_stunned(target_actor, round_number + 1, stunned_resolve_speed, stunned_spent_ap)
 				result["stunned_round"] = round_number + 1
 				result["stunned_resolve_speed"] = stunned_resolve_speed
+				result["stunned_spent_ap"] = stunned_spent_ap
 				result["remaining_conditions"] = _serialize_condition_names(target_actor.conditions)
 				if target_update.is_empty():
 					target_update = _rebuild_combatant_payload_for_actor(target_payload, target_actor, int(target_payload.get("active_loadout", 1)))
 				if not target_update.is_empty():
 					target_update["stunned_round"] = _get_stunned_round(target_actor)
 					target_update["stunned_resolve_speed"] = _get_stunned_resolve_speed(target_actor)
+					target_update["stunned_spent_ap"] = stunned_spent_ap
 					target_update["conditions"] = _serialize_condition_names(target_actor.conditions)
 		if not target_update.is_empty():
 			target_update.erase("id")
@@ -780,6 +825,29 @@ func _resolve_movement_phase() -> Dictionary:
 		if payload.get("movement_choice", {}) is Dictionary:
 			movement_choice = payload.get("movement_choice", {})
 		if movement_choice.is_empty():
+			continue
+		if bool(movement_choice.get("stand_up", false)):
+			var update := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
+			if update.is_empty():
+				continue
+			var actor := _get_actor_data_from_payload(payload)
+			if actor != null:
+				RuleEngine.removeCondition(actor, "Prone")
+				update = _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
+			if update.is_empty():
+				continue
+			update["remaining_action_points"] = max(int(payload.get("remaining_action_points", payload.get("action_points", 0))) + int(payload.get("movement_ap_cost", 0)) - 4, 0)
+			update["movement_choice"] = {}
+			update["movement_path"] = []
+			update["movement_ap_cost"] = 0
+			update["pending_request"] = ""
+			update.erase("id")
+			update["combatant_id"] = combatant_id
+			resolved_updates[combatant_id] = update
+			results.append({
+				"text": "%s stands up." % payload.get("name", "Someone"),
+				"tooltip": "Stand Up costs 4 AP and removes Prone.",
+			})
 			continue
 		movement_entries.append({
 			"combatant_id": combatant_id,
@@ -1877,6 +1945,7 @@ func _normalize_review_resolved_result(resolved_result: Dictionary) -> Dictionar
 		normalized["already_stunned"] = false
 		normalized["stunned_round"] = -1
 		normalized["stunned_resolve_speed"] = 0
+		normalized["stunned_spent_ap"] = 0
 		normalized["condition_applied"] = false
 		normalized["condition_name"] = ""
 		normalized["remaining_conditions"] = target_payload.get("conditions", []).duplicate(true)
@@ -1944,6 +2013,7 @@ func _rebuild_review_resolution_from_resolved_result(resolved_result: Dictionary
 		target_change["conditions"] = normalized_result.get("remaining_conditions", target_payload.get("conditions", [])).duplicate(true)
 		target_change["stunned_round"] = int(normalized_result.get("stunned_round", target_payload.get("stunned_round", -1)))
 		target_change["stunned_resolve_speed"] = int(normalized_result.get("stunned_resolve_speed", target_payload.get("stunned_resolve_speed", 0)))
+		target_change["stunned_spent_ap"] = int(normalized_result.get("stunned_spent_ap", target_payload.get("stunned_spent_ap", 0)))
 	var rebuilt_state_changes: Array[Dictionary] = []
 	if not source_change.is_empty():
 		rebuilt_state_changes.append(source_change)
@@ -2179,7 +2249,11 @@ func _finalize_action_phase_review() -> void:
 		var reset_payload := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
 		if reset_payload.is_empty():
 			continue
-		reset_payload["remaining_action_points"] = int(reset_payload.get("action_points", 0))
+		var next_round_ap := int(reset_payload.get("action_points", 0))
+		if actor != null and int(reset_payload.get("stunned_round", -1)) == round_number + 1:
+			next_round_ap = maxi(next_round_ap - _get_stunned_spent_ap(actor), 0)
+		reset_payload["round_action_points"] = next_round_ap
+		reset_payload["remaining_action_points"] = next_round_ap
 		reset_payload["queued_actions"] = []
 		reset_payload["queued_action_payloads"] = []
 		reset_payload["pending_request"] = ""
@@ -2253,11 +2327,11 @@ func _get_quick_slot_item(equipment: Equipment, slot_index: int) -> Item:
 		_:
 			return null
 
-func _open_quick_item_picker(action_payload: Dictionary, _local_payload: Dictionary) -> void:
+func _open_quick_item_picker(action_payload: Dictionary, _controlled_payload: Dictionary) -> void:
 	pending_quick_item_action = action_payload.duplicate(true)
 	quickItemSlotSelector.clear()
 	quickItemPickerLabel.text = "Choose a quick slot."
-	var humanoid_data := PlayerVariables.data as HumanoidData
+	var humanoid_data := _get_controlled_actor_from_payload(_get_controlled_combatant_payload()) as HumanoidData
 	if humanoid_data == null or humanoid_data.equipment == null:
 		playerActionsHint.text = "You have no quick items equipped."
 		pending_quick_item_action = {}
@@ -2283,7 +2357,7 @@ func _open_skill_test_picker(action_payload: Dictionary) -> void:
 	pending_skill_test_action = action_payload.duplicate(true)
 	skillTestPickerLabel.text = "Set the skill test details."
 	skillTestSkillSelector.clear()
-	var skill_names := _get_actor_skill_names(PlayerVariables.data)
+	var skill_names := _get_actor_skill_names(_get_controlled_actor_from_payload(_get_controlled_combatant_payload()))
 	for skill_name in skill_names:
 		skillTestSkillSelector.add_item(skill_name)
 	if skill_names.is_empty():
@@ -2300,8 +2374,8 @@ func _open_skill_test_picker(action_payload: Dictionary) -> void:
 func _confirm_quick_item_selection() -> void:
 	if pending_quick_item_action.is_empty():
 		return
-	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
-	if local_payload.is_empty():
+	var controlled_payload := _get_controlled_combatant_payload()
+	if controlled_payload.is_empty():
 		pending_quick_item_action = {}
 		return
 	var selected_index := quickItemSlotSelector.get_selected()
@@ -2311,7 +2385,7 @@ func _confirm_quick_item_selection() -> void:
 		return
 	var slot_index_variant = quickItemSlotSelector.get_item_metadata(selected_index)
 	var slot_index := int(slot_index_variant)
-	var humanoid_data := PlayerVariables.data as HumanoidData
+	var humanoid_data := _get_controlled_actor_from_payload(controlled_payload) as HumanoidData
 	var slot_item := _get_quick_slot_item(humanoid_data.equipment if humanoid_data != null else null, slot_index)
 	if slot_item == null or slot_item._name.is_empty():
 		playerActionsHint.text = "That quick slot is empty."
@@ -2321,8 +2395,8 @@ func _confirm_quick_item_selection() -> void:
 	action_payload["quick_slot_index"] = slot_index
 	action_payload["quick_item_name"] = slot_item._name
 	pending_quick_item_action = {}
-	selected_combatant_id = str(local_payload.get("id", ""))
-	_queue_player_action(action_payload, local_payload)
+	selected_combatant_id = str(controlled_payload.get("id", ""))
+	_queue_player_action(action_payload, controlled_payload)
 
 func _cancel_quick_item_selection() -> void:
 	pending_quick_item_action = {}
@@ -2330,8 +2404,8 @@ func _cancel_quick_item_selection() -> void:
 func _confirm_skill_test_selection() -> void:
 	if pending_skill_test_action.is_empty():
 		return
-	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
-	if local_payload.is_empty():
+	var controlled_payload := _get_controlled_combatant_payload()
+	if controlled_payload.is_empty():
 		pending_skill_test_action = {}
 		return
 	var selected_index := skillTestSkillSelector.get_selected()
@@ -2351,14 +2425,14 @@ func _confirm_skill_test_selection() -> void:
 	action_payload["action_speed"] = int(skillTestSpeedInput.value)
 	action_payload["no_target"] = skillTestNoTargetToggle.button_pressed
 	action_payload["skill_difficulty"] = int(action_payload.get("skill_difficulty", 10))
-	if int(action_payload.get("ap_cost", 1)) > int(local_payload.get("remaining_action_points", local_payload.get("action_points", 0))):
+	if int(action_payload.get("ap_cost", 1)) > int(controlled_payload.get("remaining_action_points", controlled_payload.get("action_points", 0))):
 		playerActionsHint.text = "Not enough AP for Perform Skill Test."
 		skillTestPicker.popup_centered()
 		return
 	pending_skill_test_action = {}
 	if bool(action_payload.get("no_target", false)):
-		selected_combatant_id = str(local_payload.get("id", ""))
-		_queue_player_action(action_payload, local_payload)
+		selected_combatant_id = str(controlled_payload.get("id", ""))
+		_queue_player_action(action_payload, controlled_payload)
 		return
 	pending_player_action = action_payload
 	selected_combatant_id = ""
@@ -2496,6 +2570,7 @@ func _rebuild_combatant_payload_for_actor(base_payload: Dictionary, actor: Creat
 	payload["current_mana"] = actor.currentMana
 	payload["level"] = actor.level
 	payload["action_points"] = action_points
+	payload["round_action_points"] = int(base_payload.get("round_action_points", action_points))
 	payload["details"] = "\n".join([
 		"Attributes: %s" % _format_attribute_values(actor.attributes),
 		"Actions: %s" % _format_name_list(_get_action_names_for_actor(actor, active_loadout)),
@@ -2506,12 +2581,13 @@ func _rebuild_combatant_payload_for_actor(base_payload: Dictionary, actor: Creat
 	payload["conditions"] = _serialize_condition_names(actor.conditions)
 	payload["stunned_round"] = _get_stunned_round(actor)
 	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(actor)
+	payload["stunned_spent_ap"] = _get_stunned_spent_ap(actor)
 	payload["dexterity_score"] = _get_attribute_score(actor.attributes, "Dexterity")
 	if actor is HumanoidData:
 		payload["equipment"] = _serialize_equipment((actor as HumanoidData).equipment)
 	payload["actions"] = _get_serialized_action_entries_for_actor(actor, active_loadout)
 	payload["action_names"] = _get_action_names_for_actor(actor, active_loadout)
-	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", action_points)), action_points)
+	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", payload.get("round_action_points", action_points))), int(payload.get("round_action_points", action_points)))
 	payload["queued_actions"] = base_payload.get("queued_actions", []).duplicate(true)
 	payload["queued_action_payloads"] = base_payload.get("queued_action_payloads", []).duplicate(true)
 	payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
@@ -2578,6 +2654,11 @@ func _get_stunned_resolve_speed(actor: CreatureData) -> int:
 		return 0
 	return int(actor.get_meta("stunned_resolve_speed", 0))
 
+func _get_stunned_spent_ap(actor: CreatureData) -> int:
+	if actor == null:
+		return 0
+	return int(actor.get_meta("stunned_spent_ap", 0))
+
 func _is_stunned_active(actor: CreatureData) -> bool:
 	return actor != null and actor.hasCondition("Stunned") and _get_stunned_round(actor) == round_number
 
@@ -2590,8 +2671,9 @@ func _clear_stunned(actor: CreatureData) -> void:
 	RuleEngine.removeCondition(actor, "Stunned")
 	actor.remove_meta("stunned_round")
 	actor.remove_meta("stunned_resolve_speed")
+	actor.remove_meta("stunned_spent_ap")
 
-func _apply_stunned(actor: CreatureData, stunned_round: int, stunned_resolve_speed: int) -> bool:
+func _apply_stunned(actor: CreatureData, stunned_round: int, stunned_resolve_speed: int, stunned_spent_ap: int = 0) -> bool:
 	if actor == null:
 		return false
 	if _has_pending_stun(actor):
@@ -2599,6 +2681,7 @@ func _apply_stunned(actor: CreatureData, stunned_round: int, stunned_resolve_spe
 	var added := RuleEngine.addCondition(actor, "Stunned")
 	actor.set_meta("stunned_round", stunned_round)
 	actor.set_meta("stunned_resolve_speed", stunned_resolve_speed)
+	actor.set_meta("stunned_spent_ap", stunned_spent_ap)
 	return added or actor.hasCondition("Stunned")
 
 func _has_remaining_turn_actions(payload: Dictionary) -> bool:
@@ -2631,6 +2714,8 @@ func _get_combatant_status_text(combatant_payload: Dictionary) -> String:
 		return "Unconscious"
 	if conditions.has("Stunned"):
 		return "Stunned"
+	if conditions.has("Prone"):
+		return "Prone"
 	if not queued_actions.is_empty():
 		return "%s queued" % queued_actions.size()
 	return "Ready"
@@ -2658,7 +2743,9 @@ func _format_condition_details(conditions: Array) -> String:
 			continue
 		match condition_name:
 			"Stunned":
-				lines.append("- Stunned: remaining actions are cancelled and next round actions start at a minimum stored speed.")
+				lines.append("- Stunned: remaining actions are cancelled and next round loses time until the stored resolve speed.")
+			"Prone":
+				lines.append("- Prone: Deflection -5, Reflex -5, cannot move next movement phase, must spend 4 AP to stand up.")
 			_:
 				lines.append("- %s" % condition_name)
 	if lines.is_empty():
@@ -2686,7 +2773,7 @@ func _refresh_player_summary() -> void:
 		_display_vital(runtime_payload.get("current_vitality", 0.0)),
 		_display_vital(runtime_payload.get("max_vitality", 0.0)),
 	]
-	playerSummaryAP.text = "AP: %s/%s" % [runtime_payload.get("remaining_action_points", 0), runtime_payload.get("action_points", 0)]
+	playerSummaryAP.text = "AP: %s/%s" % [runtime_payload.get("remaining_action_points", 0), runtime_payload.get("round_action_points", runtime_payload.get("action_points", 0))]
 	playerSummaryConcentration.text = "Concentration: %s/%s" % [runtime_payload.get("current_concentration", 0), runtime_payload.get("max_concentration", 0)]
 	playerSummaryDefences.text = "Defences: Defl %s | End %s | Reflex %s | Mind %s" % [
 		RuleEngine.getDefenceValue(PlayerVariables.data, "Deflection"),
@@ -2709,7 +2796,7 @@ func _show_status_popup(combatant_payload: Dictionary) -> void:
 		_display_vital(combatant_payload.get("current_vitality", 0.0)),
 		_display_vital(combatant_payload.get("max_vitality", 0.0)),
 	]
-	statusWindowAP.text = "AP: %s/%s" % [combatant_payload.get("remaining_action_points", 0), combatant_payload.get("action_points", 0)]
+	statusWindowAP.text = "AP: %s/%s" % [combatant_payload.get("remaining_action_points", 0), combatant_payload.get("round_action_points", combatant_payload.get("action_points", 0))]
 	statusWindowConcentration.text = "Concentration: %s/%s" % [combatant_payload.get("current_concentration", 0), combatant_payload.get("max_concentration", 0)]
 	statusWindowConditions.text = "Conditions: %s" % condition_names
 	if condition_details != "None":
@@ -2720,21 +2807,22 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 	if is_reviewing_action_phase:
 		playerActionsHint.text = "Wait for the GM to finish resolving queued actions."
 		return
-	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
-	if local_payload.is_empty():
-		playerActionsHint.text = "You are not currently in this encounter."
+	var controlled_payload := _get_controlled_combatant_payload()
+	if controlled_payload.is_empty():
+		playerActionsHint.text = "Select an NPC to control." if is_host_role else "You are not currently in this encounter."
 		return
 	var action_name := str(action_data.get("name", "Unknown Action"))
 
 	var action_source := str(action_data.get("source", "Innate"))
 	var action_hand := str(action_data.get("hand", "Innate"))
-	var resolved_entry := _find_action_entry_for_actor(PlayerVariables.data, int(local_payload.get("active_loadout", 1)), action_name, action_source, action_hand)
+	var controlled_actor := _get_controlled_actor_from_payload(controlled_payload)
+	var resolved_entry := _find_action_entry_for_actor(controlled_actor, int(controlled_payload.get("active_loadout", 1)), action_name, action_source, action_hand)
 	if resolved_entry.is_empty():
 		playerActionsHint.text = "Could not resolve that action."
 		return
 	var action: Action = resolved_entry.get("action", null)
 	var weapon: Weapon = resolved_entry.get("weapon", null)
-	if not RuleEngine.canAct(PlayerVariables.data):
+	if not RuleEngine.canAct(controlled_actor):
 		playerActionsHint.text = "You cannot act while unconscious or dead."
 		return
 	var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
@@ -2743,10 +2831,10 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 	if current_phase != GameEvent.PHASE_EXECUTION:
 		playerActionsHint.text = "Actions can only be queued during the Action phase."
 		return
-	if action_ap_cost > int(local_payload.get("remaining_action_points", local_payload.get("action_points", 0))):
+	if action_ap_cost > int(controlled_payload.get("remaining_action_points", controlled_payload.get("action_points", 0))):
 		playerActionsHint.text = "Not enough AP for %s." % action_name
 		return
-	if action_name in ["Bolster", "Guard", "Brace"] and _has_queued_action_named(local_payload, action_name):
+	if action_name in ["Bolster", "Guard", "Brace"] and _has_queued_action_named(controlled_payload, action_name):
 		playerActionsHint.text = "You can only queue %s once per round." % action_name
 		return
 	var selected_action_payload := {
@@ -2765,7 +2853,7 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 		"instant_resolve": instant_resolve,
 	}
 	if action_name == "Use Quick Item":
-		_open_quick_item_picker(selected_action_payload, local_payload)
+		_open_quick_item_picker(selected_action_payload, controlled_payload)
 		return
 	if action_name == "Perform Skill Test":
 		_open_skill_test_picker(selected_action_payload)
@@ -2778,7 +2866,7 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 		selected_action_payload["called_shot_penalty"] = int(target_location_payload.get("accuracy_bonus", 0))
 		selected_action_payload["accuracy_bonus"] = int(target_location_payload.get("accuracy_bonus", 0))
 	if instant_resolve:
-		_queue_player_action(selected_action_payload, local_payload)
+		_queue_player_action(selected_action_payload, controlled_payload)
 	elif _action_targets_ally(action_name):
 		pending_player_action = selected_action_payload
 		selected_combatant_id = ""
@@ -2795,8 +2883,8 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 		_refresh_combat_grid()
 	elif str(selected_action_payload.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK:
 		pending_player_action = selected_action_payload
-		selected_combatant_id = str(local_payload.get("id", ""))
-		_queue_pending_player_action(local_payload)
+		selected_combatant_id = str(controlled_payload.get("id", ""))
+		_queue_pending_player_action(controlled_payload)
 	else:
 		pending_player_action = selected_action_payload
 		selected_combatant_id = ""
@@ -2808,8 +2896,8 @@ func _on_player_action_pressed(action_data: Dictionary) -> void:
 func _queue_pending_player_action(target_payload: Dictionary) -> void:
 	if pending_player_action.is_empty():
 		return
-	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
-	if local_payload.is_empty():
+	var controlled_payload := _get_controlled_combatant_payload()
+	if controlled_payload.is_empty():
 		pending_player_action = {}
 		_refresh_combatant_entry_interactions()
 		return
@@ -2820,15 +2908,15 @@ func _queue_pending_player_action(target_payload: Dictionary) -> void:
 	_refresh_combat_grid()
 
 func _queue_player_action(action_payload: Dictionary, target_payload: Dictionary) -> void:
-	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
-	if local_payload.is_empty():
+	var controlled_payload := _get_controlled_combatant_payload()
+	if controlled_payload.is_empty():
 		return
 	var queued_action_name := str(action_payload.get("action_name", ""))
-	if queued_action_name in ["Bolster", "Guard", "Brace"] and _has_queued_action_named(local_payload, queued_action_name):
+	if queued_action_name in ["Bolster", "Guard", "Brace"] and _has_queued_action_named(controlled_payload, queued_action_name):
 		playerActionsHint.text = "You can only queue %s once per round." % queued_action_name
 		return
-	var target_combatant_id := str(target_payload.get("id", local_payload.get("id", "")))
-	var range_preview: Dictionary = _get_attack_range_preview(local_payload, target_payload, action_payload)
+	var target_combatant_id := str(target_payload.get("id", controlled_payload.get("id", "")))
+	var range_preview: Dictionary = _get_attack_range_preview(controlled_payload, target_payload, action_payload)
 	if str(action_payload.get("category", Action.CATEGORY_ATTACK)) == Action.CATEGORY_ATTACK and not bool(range_preview.get("legal", true)):
 		playerActionsHint.text = "That target is out of range for %s." % str(action_payload.get("action_name", "this attack"))
 		return
@@ -2850,7 +2938,7 @@ func _queue_player_action(action_payload: Dictionary, target_payload: Dictionary
 		else:
 			preview_text = "Perform Skill Test -> %s (%s: %s)" % [target_payload.get("name", "target"), skill_name, description if not description.is_empty() else "No description"]
 	if bool(action_payload.get("instant_resolve", false)):
-		preview_text = "%s -> Loadout %s" % [action_payload.get("action_name", "Action"), _get_next_loadout(int(local_payload.get("active_loadout", 1)))]
+		preview_text = "%s -> Loadout %s" % [action_payload.get("action_name", "Action"), _get_next_loadout(int(controlled_payload.get("active_loadout", 1)))]
 		playerActionsHint.text = "%s will resolve immediately (%s AP)." % [action_payload.get("action_name", "Action"), action_payload.get("ap_cost", 0)]
 	else:
 		var range_summary: String = ""
@@ -2878,7 +2966,7 @@ func _queue_player_action(action_payload: Dictionary, target_payload: Dictionary
 	payload["preview_text"] = preview_text
 	campaign_manager.broadcast_combat_request(CombatRequest.new(
 		CombatRequest.TYPE_ACTION,
-		str(local_payload.get("id", "")),
+		str(controlled_payload.get("id", "")),
 		target_combatant_id,
 		payload
 	))
@@ -3005,6 +3093,12 @@ func _sync_actor_runtime_from_payload(payload: Dictionary) -> void:
 			actor.set_meta("stunned_resolve_speed", stunned_resolve_speed)
 		else:
 			actor.remove_meta("stunned_resolve_speed")
+	if payload.has("stunned_spent_ap"):
+		var stunned_spent_ap := int(payload.get("stunned_spent_ap", 0))
+		if stunned_spent_ap > 0:
+			actor.set_meta("stunned_spent_ap", stunned_spent_ap)
+		else:
+			actor.remove_meta("stunned_spent_ap")
 	if payload.has("active_loadout"):
 		actor.set_meta("active_loadout", int(payload.get("active_loadout", 1)))
 
@@ -3036,6 +3130,7 @@ func reset_combat_session_locally() -> void:
 	_update_round_ui()
 	selected_combatant_entry = null
 	selected_combatant_id = ""
+	controlled_host_combatant_id = ""
 	if npc_picker != null:
 		npc_picker.hide()
 	_refresh_queued_actions()
@@ -3083,6 +3178,8 @@ func _refresh_host_npc_movement_previews() -> void:
 		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
 		if str(payload.get("type", "")) != "NPC":
 			continue
+		if combatant_id == controlled_host_combatant_id:
+			continue
 		var movement_payload: Dictionary = _build_npc_movement_payload(combatant_id)
 		if movement_payload.is_empty():
 			payload["movement_choice"] = {}
@@ -3090,7 +3187,7 @@ func _refresh_host_npc_movement_previews() -> void:
 			payload["movement_ap_cost"] = 0
 			payload["planned_grid_position"] = payload.get("grid_position", Vector2i(-1, -1))
 			payload["pending_request"] = ""
-			payload["remaining_action_points"] = int(payload.get("action_points", 0))
+			payload["remaining_action_points"] = _get_round_action_points(payload)
 			encounter_combatants[combatant_id] = payload
 			continue
 		var preview_cost: int = int(movement_payload.get("ap_cost", 0))
@@ -3099,7 +3196,7 @@ func _refresh_host_npc_movement_previews() -> void:
 		payload["movement_ap_cost"] = preview_cost
 		payload["planned_grid_position"] = movement_payload.get("destination", payload.get("grid_position", Vector2i(-1, -1)))
 		payload["pending_request"] = movement_payload.get("preview_text", "")
-		payload["remaining_action_points"] = max(int(payload.get("action_points", 0)) - preview_cost, 0)
+		payload["remaining_action_points"] = max(_get_round_action_points(payload) - preview_cost, 0)
 		encounter_combatants[combatant_id] = payload
 
 func _clear_host_npc_movement_previews() -> void:
@@ -3115,7 +3212,7 @@ func _clear_host_npc_movement_previews() -> void:
 			updated_payload["movement_ap_cost"] = 0
 			updated_payload["planned_grid_position"] = payload.get("grid_position", Vector2i(-1, -1))
 			updated_payload["pending_request"] = ""
-			updated_payload["remaining_action_points"] = int(updated_payload.get("action_points", 0))
+			updated_payload["remaining_action_points"] = _get_round_action_points(updated_payload)
 			encounter_combatants[combatant_id] = updated_payload
 
 func _on_grid_token_clicked(combatant_id: String, _cell: Vector2i) -> void:
@@ -3123,12 +3220,13 @@ func _on_grid_token_clicked(combatant_id: String, _cell: Vector2i) -> void:
 		return
 	var payload: Dictionary = encounter_combatants[combatant_id]
 	_select_combatant_payload(payload)
-	if not is_host_role and current_phase == GameEvent.PHASE_EXECUTION and not pending_player_action.is_empty():
-		var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
-		var local_id := str(local_payload.get("id", ""))
+	if current_phase == GameEvent.PHASE_EXECUTION and not pending_player_action.is_empty():
+		var controlled_payload := _get_controlled_combatant_payload()
+		var local_id := str(controlled_payload.get("id", ""))
 		var pending_action_name := str(pending_player_action.get("action_name", ""))
 		var can_target_self := str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK and not _action_targets_ally(pending_action_name)
-		if combatant_id != local_id or can_target_self:
+		if not controlled_payload.is_empty() and (combatant_id != local_id or can_target_self):
+			selected_combatant_id = combatant_id
 			_queue_pending_player_action(payload)
 			return
 	if is_host_role and not encounter_started:
@@ -3137,6 +3235,12 @@ func _on_grid_token_clicked(combatant_id: String, _cell: Vector2i) -> void:
 		_refresh_combat_grid()
 		return
 	if current_phase == GameEvent.PHASE_PLANNING and _can_issue_movement_for_combatant(combatant_id):
+		if is_host_role and str(payload.get("type", "")) == "NPC":
+			controlled_host_combatant_id = combatant_id
+		var actor := _get_controlled_actor_from_payload(payload)
+		if actor != null and actor.hasCondition("Prone") and combatant_id == _get_active_movement_combatant_id():
+			_queue_stand_up_for_combatant(combatant_id)
+			return
 		pending_gm_placement_id = combatant_id
 		_refresh_board_controls()
 		_refresh_combat_grid()
@@ -3171,6 +3275,7 @@ func _select_combatant_payload(combatant_payload: Dictionary) -> void:
 			selected_combatant_entry = entry
 			selected_combatant_entry.set_selected(true)
 	_show_inspector(combatant_payload)
+	_refresh_player_actions()
 	_refresh_combatant_entry_interactions()
 	_refresh_combat_grid()
 
@@ -3201,6 +3306,11 @@ func _queue_movement_for_combatant(combatant_id: String, destination: Vector2i) 
 	var local_payload: Dictionary = encounter_combatants[combatant_id]
 	if not _can_issue_movement_for_combatant(combatant_id):
 		playerActionsHint.text = "You cannot move that token."
+		return
+	var actor := _get_controlled_actor_from_payload(local_payload)
+	if actor != null and actor.hasCondition("Prone"):
+		playerActionsHint.text = "You are prone and cannot move. Click your token to stand up for 4 AP."
+		combatGrid.clear_preview_path()
 		return
 	var start := _grid_position_from_payload(local_payload)
 	if not _is_valid_grid_position(start):
@@ -3249,15 +3359,47 @@ func _get_active_movement_combatant_id() -> String:
 		return ""
 	return str(local_payload.get("id", ""))
 
+func _queue_stand_up_for_combatant(combatant_id: String) -> void:
+	if not encounter_combatants.has(combatant_id):
+		return
+	var payload: Dictionary = encounter_combatants[combatant_id]
+	if int(payload.get("remaining_action_points", 0)) < 4:
+		playerActionsHint.text = "You need 4 AP to stand up."
+		return
+	var start := _grid_position_from_payload(payload)
+	var preview_text := "Stand Up [4 AP]"
+	var request_payload := {
+		"destination": start,
+		"path": [start],
+		"ap_cost": 4,
+		"preview_text": preview_text,
+		"stand_up": true,
+	}
+	var campaign_manager := _find_campaign_manager()
+	if campaign_manager == null:
+		return
+	campaign_manager.broadcast_combat_request(CombatRequest.new(
+		CombatRequest.TYPE_MOVEMENT,
+		combatant_id,
+		combatant_id,
+		request_payload
+	))
+
 func _can_issue_movement_for_combatant(combatant_id: String) -> bool:
 	if combatant_id.is_empty() or not encounter_combatants.has(combatant_id):
 		return false
 	var payload: Dictionary = encounter_combatants[combatant_id]
 	var controller_peer_id: int = int(payload.get("controller_peer_id", 0))
-	if controller_peer_id == 0:
-		return false
-	var actor := _get_actor_data_from_payload(payload)
+	var actor: CreatureData = null
+	if controller_peer_id == multiplayer.get_unique_id() and PlayerVariables.data != null:
+		actor = PlayerVariables.data
+	else:
+		actor = _get_actor_data_from_payload(payload)
 	if actor == null or not RuleEngine.canAct(actor):
+		return false
+	if is_host_role and str(payload.get("type", "")) == "NPC":
+		return true
+	if controller_peer_id == 0:
 		return false
 	return controller_peer_id == multiplayer.get_unique_id()
 
@@ -3511,6 +3653,7 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 		"controller_peer_id": peer_id,
 		"active_loadout": 1,
 		"action_points": action_points,
+		"round_action_points": action_points,
 		"remaining_action_points": action_points,
 		"queued_actions": [],
 		"queued_action_payloads": [],
@@ -3553,6 +3696,7 @@ func _build_npc_payload(npc: NPC) -> Dictionary:
 		"controller_peer_id": 0,
 		"active_loadout": 1,
 		"action_points": action_points,
+		"round_action_points": action_points,
 		"remaining_action_points": action_points,
 		"queued_actions": [],
 		"queued_action_payloads": [],
@@ -3584,6 +3728,10 @@ func _build_combatant_node_name(combatant_payload: Dictionary) -> String:
 
 func _on_combatant_selected(entry: CombatantEntry, combatant_payload: Dictionary) -> void:
 	_select_combatant_payload(combatant_payload)
+	if is_host_role and str(combatant_payload.get("type", "")) == "NPC":
+		controlled_host_combatant_id = str(combatant_payload.get("id", ""))
+	elif is_host_role:
+		controlled_host_combatant_id = ""
 	selected_combatant_entry = entry
 	if selected_combatant_entry != null and is_instance_valid(selected_combatant_entry):
 		selected_combatant_entry.set_selected(true)
@@ -3604,7 +3752,29 @@ func _configure_combatant_entry_interaction(entry: CombatantEntry, combatant_pay
 		return
 	entry.set_team_selector_visible(is_host_role)
 	if is_host_role:
-		entry.set_player_target_mode(false, false, selected_combatant_id == str(combatant_payload.get("id", "")))
+		var controlled_payload := _get_controlled_combatant_payload()
+		if controlled_payload.is_empty() or str(controlled_payload.get("type", "")) != "NPC":
+			entry.set_player_target_mode(false, false, selected_combatant_id == str(combatant_payload.get("id", "")))
+			return
+		var can_target_host := false
+		var is_targeted_host := false
+		if not pending_player_action.is_empty():
+			var combatant_id := str(combatant_payload.get("id", ""))
+			var controlled_id := str(controlled_payload.get("id", ""))
+			var pending_action_name_host := str(pending_player_action.get("action_name", ""))
+			var can_target_self_host := str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK and not _action_targets_ally(pending_action_name_host)
+			if combatant_id != controlled_id or can_target_self_host:
+				can_target_host = true
+				if str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) == Action.CATEGORY_ATTACK:
+					can_target_host = _is_attack_target_selectable(controlled_payload, combatant_payload, pending_player_action)
+				elif _action_allows_any_target(pending_action_name_host):
+					can_target_host = true
+				elif _action_targets_ally(pending_action_name_host):
+					can_target_host = _is_guard_target_selectable(controlled_payload, combatant_payload)
+				elif _action_targets_self_or_ally(pending_action_name_host):
+					can_target_host = _is_support_target_selectable(controlled_payload, combatant_payload)
+				is_targeted_host = combatant_id == selected_combatant_id
+		entry.set_player_target_mode(true, can_target_host, is_targeted_host)
 		return
 	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
 	if local_payload.is_empty():
@@ -3713,18 +3883,22 @@ func _clear_player_actions() -> void:
 	_refresh_combatant_entry_interactions()
 
 func _refresh_player_actions() -> void:
-	var local_peer_id := multiplayer.get_unique_id()
-	var local_payload := _find_local_player_combatant(local_peer_id)
-	if local_payload.is_empty():
+	var controlled_payload := _get_controlled_combatant_payload()
+	if controlled_payload.is_empty():
 		_clear_player_actions()
+		if is_host_role:
+			playerCombatantName.text = "No NPC selected."
+			playerActionsHint.text = "Select an NPC to control."
 		return
 
-	# Players rebuild their own actions from local PlayerVariables so weapon swaps
-	# update immediately instead of waiting for the host snapshot to refresh.
-	var runtime_payload := _build_local_player_runtime_payload(local_payload)
+	var runtime_payload := controlled_payload
+	if str(controlled_payload.get("type", "")) == "Player":
+		# Players rebuild their own actions from local PlayerVariables so weapon swaps
+		# update immediately instead of waiting for the host snapshot to refresh.
+		runtime_payload = _build_local_player_runtime_payload(controlled_payload)
 	playerCombatantName.text = str(runtime_payload.get("name", "Unknown"))
 	playerLoadout.text = "Loadout: %s" % runtime_payload.get("active_loadout", 1)
-	playerSwapLoadout.disabled = false
+	playerSwapLoadout.disabled = str(runtime_payload.get("type", "")) != "Player"
 	hitLocationSelector.disabled = false
 	if not pending_player_action.is_empty():
 		var pending_action_name := str(pending_player_action.get("action_name", "Action"))
@@ -3739,9 +3913,15 @@ func _refresh_player_actions() -> void:
 			var destination := _grid_position_from_payload({"grid_position": runtime_payload.get("planned_grid_position", Vector2i(-1, -1))})
 			playerActionsHint.text = "Planned move to (%s, %s) for %s AP." % [destination.x + 1, destination.y + 1, move_cost]
 		else:
-			playerActionsHint.text = "Click a destination on the grid to move."
+			if is_host_role and str(runtime_payload.get("type", "")) == "NPC":
+				playerActionsHint.text = "Click a destination on the grid to move the selected NPC."
+			else:
+				playerActionsHint.text = "Click a destination on the grid to move."
 	elif current_phase == GameEvent.PHASE_EXECUTION:
-		playerActionsHint.text = "Queue actions now."
+		if is_host_role and str(runtime_payload.get("type", "")) == "NPC":
+			playerActionsHint.text = "Queue actions for the selected NPC."
+		else:
+			playerActionsHint.text = "Queue actions now."
 	else:
 		playerActionsHint.text = "Queue actions during the Action phase."
 	var split_actions := _split_action_entries(runtime_payload.get("actions", []))
@@ -3810,7 +3990,8 @@ func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary
 	payload["level"] = player_data.level
 	payload["active_loadout"] = active_loadout
 	payload["action_points"] = action_points
-	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", action_points)), action_points)
+	payload["round_action_points"] = int(base_payload.get("round_action_points", action_points))
+	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", payload.get("round_action_points", action_points))), int(payload.get("round_action_points", action_points)))
 	payload["queued_actions"] = base_payload.get("queued_actions", []).duplicate(true)
 	payload["queued_action_payloads"] = base_payload.get("queued_action_payloads", []).duplicate(true)
 	payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
@@ -3830,6 +4011,7 @@ func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary
 	payload["conditions"] = _serialize_condition_names(player_data.conditions)
 	payload["stunned_round"] = _get_stunned_round(player_data)
 	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(player_data)
+	payload["stunned_spent_ap"] = _get_stunned_spent_ap(player_data)
 	payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 	payload["equipment"] = _serialize_equipment(player_data.equipment)
 	payload["actions"] = _get_player_action_entries(player_data, active_loadout)
@@ -3859,6 +4041,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		payload["current_mana"] = player_data.currentMana
 		payload["level"] = player_data.level
 		payload["action_points"] = player_action_points
+		payload["round_action_points"] = int(base_payload.get("round_action_points", player_action_points))
 		payload["details"] = "\n".join([
 			"Peer ID: %s" % peer_id,
 			"Attributes: %s" % _format_attribute_values(player_data.attributes),
@@ -3870,11 +4053,12 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		payload["conditions"] = _serialize_condition_names(player_data.conditions)
 		payload["stunned_round"] = _get_stunned_round(player_data)
 		payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(player_data)
+		payload["stunned_spent_ap"] = _get_stunned_spent_ap(player_data)
 		payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 		payload["equipment"] = _serialize_equipment(player_data.equipment)
 		payload["actions"] = _get_player_action_entries(player_data, active_loadout)
 		payload["action_names"] = _get_player_action_names(player_data, active_loadout)
-		payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", player_action_points)), player_action_points)
+		payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", payload.get("round_action_points", player_action_points))), int(payload.get("round_action_points", player_action_points)))
 		payload["queued_actions"] = base_payload.get("queued_actions", []).duplicate(true)
 		payload["queued_action_payloads"] = base_payload.get("queued_action_payloads", []).duplicate(true)
 		payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
@@ -3899,6 +4083,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	payload["current_mana"] = npc.data.currentMana
 	payload["level"] = npc.data.level
 	payload["action_points"] = npc_action_points
+	payload["round_action_points"] = int(base_payload.get("round_action_points", npc_action_points))
 	payload["details"] = "\n".join([
 		npc.short_description,
 		"Attributes: %s" % _format_attribute_values(npc.data.attributes),
@@ -3910,10 +4095,11 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	payload["conditions"] = _serialize_condition_names(npc.data.conditions)
 	payload["stunned_round"] = _get_stunned_round(npc.data)
 	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(npc.data)
+	payload["stunned_spent_ap"] = _get_stunned_spent_ap(npc.data)
 	payload["dexterity_score"] = _get_attribute_score(npc.data.attributes, "Dexterity")
 	payload["actions"] = _get_npc_action_entries(npc, active_loadout)
 	payload["action_names"] = _get_npc_action_names(npc, active_loadout)
-	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", npc_action_points)), npc_action_points)
+	payload["remaining_action_points"] = min(int(base_payload.get("remaining_action_points", payload.get("round_action_points", npc_action_points))), int(payload.get("round_action_points", npc_action_points)))
 	payload["queued_actions"] = base_payload.get("queued_actions", []).duplicate(true)
 	payload["queued_action_payloads"] = base_payload.get("queued_action_payloads", []).duplicate(true)
 	payload["movement_choice"] = base_payload.get("movement_choice", {}).duplicate(true)
@@ -3987,6 +4173,9 @@ func _display_vital(value: Variant) -> int:
 
 func _format_exact_float(value: Variant) -> String:
 	return "%.2f" % float(value)
+
+func _get_round_action_points(payload: Dictionary) -> int:
+	return int(payload.get("round_action_points", payload.get("action_points", 0)))
 
 func _get_sorted_queued_requests() -> Array[CombatRequest]:
 	var sorted_requests: Array[CombatRequest] = []
