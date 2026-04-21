@@ -725,6 +725,11 @@ func _resolve_queued_action_preview(combat_request: CombatRequest) -> Dictionary
 					target_update["stunned_resolve_speed"] = _get_stunned_resolve_speed(target_actor)
 					target_update["stunned_spent_ap"] = stunned_spent_ap
 					target_update["conditions"] = _serialize_condition_names(target_actor.conditions)
+		if result is Dictionary and not target_update.is_empty() and str((result as Dictionary).get("condition_name", "")) == "Bleed":
+			target_update["current_hp"] = target_actor.currentHP
+			target_update["current_vitality"] = target_actor.currentVitality
+			target_update["conditions"] = _serialize_condition_names(target_actor.conditions)
+			target_update["bleed_turns_remaining"] = _get_bleed_turns_remaining(target_actor)
 		if not target_update.is_empty():
 			target_update.erase("id")
 			target_update["combatant_id"] = target_id
@@ -1665,6 +1670,18 @@ func _format_action_result(result: Dictionary) -> String:
 				result.get("target_name", "target"),
 			]
 		if not str(result.get("condition_name", "")).is_empty():
+			if str(result.get("condition_name", "")) == "Bleed" and bool(result.get("bleed_immediate_triggered", false)):
+				return "%s used %s on %s: effect roll %s + %s vs %s %s, bleed reapplied for %s immediate damage (%s turn(s) remaining)." % [
+					result.get("source_name", "Someone"),
+					result.get("action_name", "an action"),
+					result.get("target_name", "target"),
+					result.get("condition_roll", 0),
+					result.get("potency", 0),
+					result.get("condition_defence", "Defence"),
+					result.get("condition_defence_value", 0),
+					result.get("bleed_damage", 0),
+					result.get("bleed_turns_remaining", 0),
+				]
 			return "%s used %s on %s: effect roll %s + %s vs %s %s, %s." % [
 				result.get("source_name", "Someone"),
 				result.get("action_name", "an action"),
@@ -1761,6 +1778,8 @@ func _build_action_flavor_text(result: Dictionary) -> String:
 		if bool(result.get("already_stunned", false)):
 			return "%s rattles %s, but they are already stunned." % [source_name, target_name]
 		if not str(result.get("condition_name", "")).is_empty():
+			if str(result.get("condition_name", "")) == "Bleed" and bool(result.get("bleed_immediate_triggered", false)):
+				return "%s tears the wound open again, making %s bleed immediately." % [source_name, target_name]
 			if bool(result.get("condition_applied", false)):
 				return "%s's technique takes hold, leaving %s %s." % [source_name, target_name, str(result.get("condition_name", "affected")).to_lower()]
 			return "%s tries to inflict %s, but %s resists the effect." % [source_name, str(result.get("condition_name", "the effect")).to_lower(), target_name]
@@ -1946,6 +1965,7 @@ func _normalize_review_resolved_result(resolved_result: Dictionary) -> Dictionar
 		normalized["stunned_round"] = -1
 		normalized["stunned_resolve_speed"] = 0
 		normalized["stunned_spent_ap"] = 0
+		normalized["bleed_turns_remaining"] = int(target_payload.get("bleed_turns_remaining", 0))
 		normalized["condition_applied"] = false
 		normalized["condition_name"] = ""
 		normalized["remaining_conditions"] = target_payload.get("conditions", []).duplicate(true)
@@ -2014,6 +2034,7 @@ func _rebuild_review_resolution_from_resolved_result(resolved_result: Dictionary
 		target_change["stunned_round"] = int(normalized_result.get("stunned_round", target_payload.get("stunned_round", -1)))
 		target_change["stunned_resolve_speed"] = int(normalized_result.get("stunned_resolve_speed", target_payload.get("stunned_resolve_speed", 0)))
 		target_change["stunned_spent_ap"] = int(normalized_result.get("stunned_spent_ap", target_payload.get("stunned_spent_ap", 0)))
+		target_change["bleed_turns_remaining"] = int(normalized_result.get("bleed_turns_remaining", target_payload.get("bleed_turns_remaining", 0)))
 	var rebuilt_state_changes: Array[Dictionary] = []
 	if not source_change.is_empty():
 		rebuilt_state_changes.append(source_change)
@@ -2231,6 +2252,7 @@ func _finalize_action_phase_review() -> void:
 	current_review_resolution = {}
 	actionResolutionWindow.hide()
 	var state_changes: Array[Dictionary] = []
+	var results: Array[Dictionary] = []
 	var combatant_ids: Array = encounter_combatants.keys()
 	combatant_ids.sort()
 	for combatant_id_variant in combatant_ids:
@@ -2240,6 +2262,22 @@ func _finalize_action_phase_review() -> void:
 		var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
 		var actor := _get_actor_data_from_payload(payload)
 		if actor != null:
+			if actor.hasCondition("Bleed"):
+				var bleed_result := RuleEngine.triggerBleedTick(actor)
+				var bleed_turns_remaining := maxi(RuleEngine.getBleedTurnsRemaining(actor) - 1, 0)
+				RuleEngine.setBleedTurnsRemaining(actor, bleed_turns_remaining)
+				if bleed_turns_remaining <= 0:
+					RuleEngine.clearBleed(actor)
+				if int(bleed_result.get("bleed_damage", 0)) > 0:
+					results.append({
+						"text": "%s bleeds for %s damage." % [payload.get("name", "Someone"), int(bleed_result.get("bleed_damage", 0))],
+					"tooltip": "Bleed deals 20%% of missing HP at end of turn. %s turn(s) remaining." % RuleEngine.getBleedTurnsRemaining(actor),
+					})
+				if not actor.hasCondition("Bleed"):
+					results.append({
+						"text": "%s stops bleeding." % payload.get("name", "Someone"),
+						"tooltip": "Bleed duration expired.",
+					})
 			if actor.hasCondition("Stunned") and _get_stunned_round(actor) == round_number:
 				_clear_stunned(actor)
 			RuleEngine.clearRoundBonuses(actor)
@@ -2268,7 +2306,7 @@ func _finalize_action_phase_review() -> void:
 		GameEvent.CONTEXT_COMBAT,
 		{},
 		state_changes,
-		[],
+		results,
 		round_number + 1,
 		GameEvent.PHASE_PLANNING
 	)
@@ -2582,6 +2620,7 @@ func _rebuild_combatant_payload_for_actor(base_payload: Dictionary, actor: Creat
 	payload["stunned_round"] = _get_stunned_round(actor)
 	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(actor)
 	payload["stunned_spent_ap"] = _get_stunned_spent_ap(actor)
+	payload["bleed_turns_remaining"] = _get_bleed_turns_remaining(actor)
 	payload["dexterity_score"] = _get_attribute_score(actor.attributes, "Dexterity")
 	if actor is HumanoidData:
 		payload["equipment"] = _serialize_equipment((actor as HumanoidData).equipment)
@@ -2658,6 +2697,11 @@ func _get_stunned_spent_ap(actor: CreatureData) -> int:
 	if actor == null:
 		return 0
 	return int(actor.get_meta("stunned_spent_ap", 0))
+
+func _get_bleed_turns_remaining(actor: CreatureData) -> int:
+	if actor == null:
+		return 0
+	return RuleEngine.getBleedTurnsRemaining(actor)
 
 func _is_stunned_active(actor: CreatureData) -> bool:
 	return actor != null and actor.hasCondition("Stunned") and _get_stunned_round(actor) == round_number
@@ -2746,6 +2790,8 @@ func _format_condition_details(conditions: Array) -> String:
 				lines.append("- Stunned: remaining actions are cancelled and next round loses time until the stored resolve speed.")
 			"Prone":
 				lines.append("- Prone: Deflection -5, Reflex -5, cannot move next movement phase, must spend 4 AP to stand up.")
+			"Bleed":
+				lines.append("- Bleed: takes 20% of missing HP as direct damage at end of turn for 3 turns. Reapplying triggers it immediately without refreshing duration.")
 			_:
 				lines.append("- %s" % condition_name)
 	if lines.is_empty():
@@ -3099,6 +3145,8 @@ func _sync_actor_runtime_from_payload(payload: Dictionary) -> void:
 			actor.set_meta("stunned_spent_ap", stunned_spent_ap)
 		else:
 			actor.remove_meta("stunned_spent_ap")
+	if payload.has("bleed_turns_remaining"):
+		RuleEngine.setBleedTurnsRemaining(actor, int(payload.get("bleed_turns_remaining", 0)))
 	if payload.has("active_loadout"):
 		actor.set_meta("active_loadout", int(payload.get("active_loadout", 1)))
 
@@ -4012,6 +4060,7 @@ func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary
 	payload["stunned_round"] = _get_stunned_round(player_data)
 	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(player_data)
 	payload["stunned_spent_ap"] = _get_stunned_spent_ap(player_data)
+	payload["bleed_turns_remaining"] = _get_bleed_turns_remaining(player_data)
 	payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 	payload["equipment"] = _serialize_equipment(player_data.equipment)
 	payload["actions"] = _get_player_action_entries(player_data, active_loadout)
@@ -4054,6 +4103,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		payload["stunned_round"] = _get_stunned_round(player_data)
 		payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(player_data)
 		payload["stunned_spent_ap"] = _get_stunned_spent_ap(player_data)
+		payload["bleed_turns_remaining"] = _get_bleed_turns_remaining(player_data)
 		payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 		payload["equipment"] = _serialize_equipment(player_data.equipment)
 		payload["actions"] = _get_player_action_entries(player_data, active_loadout)
@@ -4096,6 +4146,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	payload["stunned_round"] = _get_stunned_round(npc.data)
 	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(npc.data)
 	payload["stunned_spent_ap"] = _get_stunned_spent_ap(npc.data)
+	payload["bleed_turns_remaining"] = _get_bleed_turns_remaining(npc.data)
 	payload["dexterity_score"] = _get_attribute_score(npc.data.attributes, "Dexterity")
 	payload["actions"] = _get_npc_action_entries(npc, active_loadout)
 	payload["action_names"] = _get_npc_action_names(npc, active_loadout)

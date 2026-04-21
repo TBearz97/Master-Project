@@ -1090,6 +1090,8 @@ func _sync_player_from_combatant_payload(peer_id: int, combatant_payload: Dictio
 			player_data.set_meta("stunned_spent_ap", stunned_spent_ap)
 		else:
 			player_data.remove_meta("stunned_spent_ap")
+	if combatant_payload.has("bleed_turns_remaining"):
+		RuleEngine.setBleedTurnsRemaining(player_data, int(combatant_payload.get("bleed_turns_remaining", 0)))
 	if combatant_payload.has("level"):
 		player_data.level = int(combatant_payload.get("level", player_data.level))
 	if combatant_payload.has("active_loadout"):

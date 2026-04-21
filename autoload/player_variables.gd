@@ -85,6 +85,8 @@ func apply_combatant_payload(payload: Dictionary) -> void:
 			data.set_meta("stunned_spent_ap", stunned_spent_ap)
 		else:
 			data.remove_meta("stunned_spent_ap")
+	if payload.has("bleed_turns_remaining"):
+		RuleEngine.setBleedTurnsRemaining(data, int(payload.get("bleed_turns_remaining", 0)))
 	if payload.has("level"):
 		data.level = int(payload.get("level", data.level))
 	vitals_changed.emit()

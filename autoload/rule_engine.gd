@@ -223,6 +223,96 @@ func removeCondition(target: CreatureData, condition_name: String) -> bool:
 		return false
 	return target.removeCondition(condition_name)
 
+func getBleedTurnsRemaining(target: CreatureData) -> int:
+	if target == null:
+		return 0
+	return int(target.get_meta("bleed_turns_remaining", 0))
+
+func setBleedTurnsRemaining(target: CreatureData, turns: int) -> int:
+	if target == null:
+		return 0
+	var clamped_turns := maxi(turns, 0)
+	if clamped_turns > 0:
+		target.set_meta("bleed_turns_remaining", clamped_turns)
+	else:
+		target.remove_meta("bleed_turns_remaining")
+	return clamped_turns
+
+func clearBleed(target: CreatureData) -> void:
+	if target == null:
+		return
+	removeCondition(target, "Bleed")
+	target.remove_meta("bleed_turns_remaining")
+
+func calculateBleedDamage(target: CreatureData) -> int:
+	if target == null or isDead(target):
+		return 0
+	var missing_hp := maxf(target.maxHP - target.currentHP, 0.0)
+	if missing_hp <= 0.0:
+		return 0
+	return maxi(int(ceil(missing_hp * 0.2)), 1)
+
+func triggerBleedTick(target: CreatureData, immediate: bool = false) -> Dictionary:
+	if target == null:
+		return {"success": false, "reason": "null_target"}
+	var bleed_damage := calculateBleedDamage(target)
+	var previous_hp := target.currentHP
+	var previous_vitality := target.currentVitality
+	if bleed_damage <= 0:
+		return {
+			"success": true,
+			"bleed_damage": 0,
+			"remaining_hp": target.currentHP,
+			"remaining_vitality": target.currentVitality,
+			"remaining_conditions": target.conditions.duplicate(true),
+			"bleed_turns_remaining": getBleedTurnsRemaining(target),
+			"bleed_immediate_triggered": immediate,
+		}
+		
+	var hp_damage := minf(float(bleed_damage), maxf(target.currentHP, 0.0))
+	target.currentHP = maxf(target.currentHP - hp_damage, 0.0)
+	var remaining_damage := maxf(float(bleed_damage) - hp_damage, 0.0)
+	if remaining_damage > 0.0:
+		target.currentVitality = maxf(target.currentVitality - remaining_damage, 0.0)
+	return {
+		"success": true,
+		"bleed_damage": bleed_damage,
+		"bleed_immediate_triggered": immediate,
+		"previous_hp": previous_hp,
+		"previous_vitality": previous_vitality,
+		"remaining_hp": target.currentHP,
+		"remaining_vitality": target.currentVitality,
+		"remaining_conditions": target.conditions.duplicate(true),
+		"bleed_turns_remaining": getBleedTurnsRemaining(target),
+		"is_unconscious": isUnconscious(target),
+		"is_dead": isDead(target),
+	}
+
+func applyBleedCondition(_source: CreatureData, target: CreatureData) -> Dictionary:
+	if target == null:
+		return {"success": false, "reason": "null_target"}
+	var already_bleeding := target.hasCondition("Bleed")
+	var immediate_result: Dictionary = {}
+	if already_bleeding:
+		immediate_result = triggerBleedTick(target, true)
+	else:
+		addCondition(target, "Bleed")
+		setBleedTurnsRemaining(target, 3)
+	return {
+		"success": true,
+		"condition_name": "Bleed",
+		"condition_applied": not already_bleeding,
+		"condition_already_present": already_bleeding,
+		"bleed_immediate_triggered": already_bleeding,
+		"bleed_damage": int(immediate_result.get("bleed_damage", 0)),
+		"bleed_turns_remaining": getBleedTurnsRemaining(target),
+		"remaining_hp": immediate_result.get("remaining_hp", target.currentHP),
+		"remaining_vitality": immediate_result.get("remaining_vitality", target.currentVitality),
+		"remaining_conditions": immediate_result.get("remaining_conditions", target.conditions.duplicate(true)),
+		"is_unconscious": immediate_result.get("is_unconscious", isUnconscious(target)),
+		"is_dead": immediate_result.get("is_dead", isDead(target)),
+	}
+
 func getConditionDefenceName(condition_name: String) -> String:
 	match condition_name:
 		"Bleed":
@@ -247,6 +337,14 @@ func resolveConditionApplication(source: CreatureData, target: CreatureData, con
 	var roll := rollDice(1, DiceType.D20)
 	var total := roll + potency
 	var defence_value := getDefenceValue(target, defence_name)
+	if total >= defence_value and normalized_condition == "Bleed":
+		var bleed_result := applyBleedCondition(source, target)
+		bleed_result["condition_defence"] = defence_name
+		bleed_result["condition_defence_value"] = defence_value
+		bleed_result["potency"] = potency
+		bleed_result["condition_roll"] = roll
+		bleed_result["condition_total"] = total
+		return bleed_result
 	var applied := total >= defence_value and addCondition(target, normalized_condition)
 	return {
 		"success": true,
@@ -782,6 +880,9 @@ func resolveAttack(target: CreatureData, source: CreatureData = null, damage_pro
 		"condition_total": condition_result.get("condition_total", 0),
 		"condition_applied": condition_result.get("condition_applied", false),
 		"condition_already_present": condition_result.get("condition_already_present", false),
+		"bleed_immediate_triggered": condition_result.get("bleed_immediate_triggered", false),
+		"bleed_damage": condition_result.get("bleed_damage", 0),
+		"bleed_turns_remaining": condition_result.get("bleed_turns_remaining", getBleedTurnsRemaining(target)),
 		"remaining_hp": target.currentHP,
 		"remaining_vitality": target.currentVitality,
 		"remaining_temporary_health": target.temporaryHealth,
