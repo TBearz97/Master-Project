@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Rule" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/rule/rule.gd" id="1_be8nc"]
+
+[resource]
+script = ExtResource("1_be8nc")
+expression = "skill + 1"
+_name = "Skill Cost"

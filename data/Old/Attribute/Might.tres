@@ -6,8 +6,8 @@
 script = ExtResource("1_wmulo")
 bonus_1_prefix = "Damage & Healing:"
 bonus_2_prefix = "Carry Weight:"
-bonus_1_expression = "(x - 1) * 5"
-bonus_2_expression = "((x - 1) * 5) + 75"
+bonus_1_expression = "(x -  5) * 7"
+bonus_2_expression = "(x * 10) + 45"
 bonus_1_suffix = "%"
 bonus_2_suffix = "kg"
 _name = "Might"

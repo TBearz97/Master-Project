@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_5c1co"]
+
+[resource]
+script = ExtResource("1_5c1co")
+category = "Basic"
+_name = "Perform Skill Test"
+short_description = "Perform a GM-overseen skill test."
+long_description = "Perform a skill test for something not covered by actions. AP cost and speed are set manually with GM oversight."

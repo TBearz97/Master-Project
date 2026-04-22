@@ -11,3 +11,5 @@ value = 30
 icon = ExtResource("1_gfvsx")
 allowed_slots = Array[int]([0, 2, 1, 5, 4, 3])
 _name = "Pirate's Attire"
+short_description = "Clothing for the head, the left arm, the right arm, the left leg, the right leg and the torso."
+long_description = "A clothing item worn on the head, the left arm, the right arm, the left leg, the right leg and the torso Its style or role is Outfit."

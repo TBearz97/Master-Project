@@ -1,18 +1,9 @@
-[gd_resource type="Resource" script_class="Homeland" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="Homeland" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_g6abk"]
-[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="2_30b2m"]
-
-[sub_resource type="Resource" id="Resource_5pv4y"]
-script = ExtResource("1_g6abk")
-category = "Homeland"
-_name = "Born to Fight"
-short_description = "Innate battle instinct, able to shrug off danger."
-long_description = "Once per scene, you can completely ignore one attack that targets you."
+[ext_resource type="Script" path="res://content/codex/character_options/homeland.gd" id="1_tu7ct"]
 
 [resource]
-script = ExtResource("2_30b2m")
-perk = SubResource("Resource_5pv4y")
+script = ExtResource("1_tu7ct")
 _name = "Torgana Canyons"
 short_description = "Harsh canyon homeland where only the strongest prevail."
 long_description = "Once per scene, you can completely ignore one attack that targets you."

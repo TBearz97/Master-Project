@@ -5,9 +5,10 @@
 
 [resource]
 script = ExtResource("2_xjyte")
-effect = "Generates bright light within Close range, dim light within Medium."
 weight = 1.0
 value = 15
 icon = ExtResource("1_fw257")
 allowed_slots = Array[int]([6])
 _name = "Lantern"
+short_description = "A portable light source."
+long_description = "Provides reliable light in darkness. Placeholder utility item for later world and exploration support."

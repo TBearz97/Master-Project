@@ -5,9 +5,10 @@
 
 [resource]
 script = ExtResource("2_6ryv5")
-effect = "15 meter hemp rope."
 weight = 5.0
 value = 11
 icon = ExtResource("1_o4g28")
 allowed_slots = Array[int]([6])
 _name = "Rope"
+short_description = "A 15 meter hemp rope."
+long_description = "Useful for climbing, tying, hauling, and field improvisation. Placeholder for later utility interactions."

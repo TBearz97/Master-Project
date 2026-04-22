@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ovi74"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_3y7sb"]
 
 [resource]
-script = ExtResource("1_ovi74")
-category = "Skills"
+script = ExtResource("1_3y7sb")
+category = "Skill"
 _name = "Field Medic"
-short_description = "Heal bleeding quickly."
-long_description = "Treat bleeding or poison rapidly in battle."
+short_description = "Gain +2 on non-contested Medicine checks."
+long_description = "When you make a non-contested Medicine check, gain +2."

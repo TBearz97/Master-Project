@@ -1,14 +1,51 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Flail.png" id="1_yxldr"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_bpcfs"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_acyfe"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_tvoa2"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_p67cj"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Flail.png" id="4_wy15k"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_apuda"]
+
+[sub_resource type="Resource" id="Resource_vob0q"]
+script = ExtResource("2_tvoa2")
+attack_power = 110
+mana_cost = 1
+condition = "Stunned"
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 26
+_name = "Smash"
+short_description = "A crushing blow."
+long_description = "A heavy strike that crushes bone and armour."
+
+[sub_resource type="Resource" id="Resource_uyjgj"]
+script = ExtResource("2_tvoa2")
+attack_power = 90
+mana_cost = 1
+condition = "Bleed"
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 24
+_name = "Rend"
+short_description = "A tearing attack."
+long_description = "A vicious strike intended to tear and wound."
+
+[sub_resource type="Resource" id="Resource_p5eat"]
+script = ExtResource("3_p67cj")
+damage_die = 8
 
 [resource]
-script = ExtResource("2_bpcfs")
-damage = 1.6
-speed = 33
+script = ExtResource("5_apuda")
+damage_profile = SubResource("Resource_p5eat")
+base_ap_cost = 4
+speed_category = 2
+actions = Array[ExtResource("1_acyfe")]([SubResource("Resource_vob0q"), SubResource("Resource_uyjgj")])
 weight = 2.0
 value = 34
-icon = ExtResource("1_yxldr")
+icon = ExtResource("4_wy15k")
 allowed_slots = Array[int]([7])
 _name = "Flail"
+short_description = "A weapon used in combat."
+long_description = "Deals d8 damage. AP cost 4. Speed Normal."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_wtndx"]
+
+[resource]
+script = ExtResource("1_wtndx")
+category = "Skill"
+_name = "Cold Read"
+short_description = "Reroll failed contested Insight checks once."
+long_description = "When you fail a contested Insight check, reroll it once. You must use the new result."

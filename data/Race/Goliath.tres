@@ -1,18 +1,9 @@
-[gd_resource type="Resource" script_class="Race" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="Race" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_gixu0"]
-[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="2_k8x3d"]
-
-[sub_resource type="Resource" id="Resource_b58qr"]
-script = ExtResource("1_gixu0")
-category = "Race"
-_name = "Survival of the Fittest"
-short_description = "Strong and enduring, but limited agility and charm."
-long_description = "Hardened by the trials of a ruthless environment, your physical prowess has been honed to perfection, though at the expense of social grace and nimbleness. Strength and Endurance increases by 2 and their max is now 12. However Agility and Charisma can't be higher than 6."
+[ext_resource type="Script" path="res://content/codex/character_options/race.gd" id="1_2kuo8"]
 
 [resource]
-script = ExtResource("2_k8x3d")
-perk = SubResource("Resource_b58qr")
+script = ExtResource("1_2kuo8")
 _name = "Goliath"
 short_description = "Towering survivors shaped by harsh lands."
 long_description = "Goliaths embody raw strength and endurance, honed by unforgiving environments that demand physical superiority. Their imposing presence and resilience make them formidable in battle, but this focus comes at a cost—their agility and social grace often lag behind. Survival defines their culture, and strength is their creed."

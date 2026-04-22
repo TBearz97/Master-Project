@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_oe0ci")
-category = "Skills"
+category = "Race"
 _name = "Silver Tongue"
-short_description = "Improve persuasion."
-long_description = "Charm, negotiate, and convince more effectively."
+short_description = "Refined poise turns social missteps into second chances."
+long_description = "When you fail a Speech, Society, or Command check, reroll it once. You must use the new result."

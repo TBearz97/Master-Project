@@ -7,6 +7,7 @@ signal leveledUp()
 signal combat_loadout_changed()
 signal vitals_changed()
 signal handouts_changed()
+signal perks_changed()
 
 func _ready() -> void:
 	data = PlayerData.new()
@@ -16,9 +17,17 @@ func current() -> PlayerData:
 	return data
 
 func replace_data(value: PlayerData, refill_if_uninitialized: bool = true) -> void:
+	var previous_data := data
 	data = value if value != null else PlayerData.new()
 	data._ensure_handout_store()
 	_ensure_valid_vitals(refill_if_uninitialized)
+	SignalBus.emit_gameplay_event("character_replaced", "character", {
+		"source": _build_character_signal_payload(data),
+		"previous_source": _build_character_signal_payload(previous_data),
+		"metadata": {
+			"refill_if_uninitialized": refill_if_uninitialized,
+		},
+	})
 	handouts_changed.emit()
 	combat_loadout_changed.emit()
 
@@ -87,6 +96,12 @@ func apply_combatant_payload(payload: Dictionary) -> void:
 			data.remove_meta("stunned_spent_ap")
 	if payload.has("bleed_turns_remaining"):
 		RuleEngine.setBleedTurnsRemaining(data, int(payload.get("bleed_turns_remaining", 0)))
+	if payload.has("obsidian_patches_location"):
+		var protected_location := int(payload.get("obsidian_patches_location", -1))
+		if protected_location >= 0:
+			data.set_meta("obsidian_patches_location", protected_location)
+		else:
+			data.remove_meta("obsidian_patches_location")
 	if payload.has("level"):
 		data.level = int(payload.get("level", data.level))
 	vitals_changed.emit()
@@ -117,19 +132,55 @@ func getAge() -> int:
 	return data.age
 
 func setRace(value: Race) -> void:
+	var previous_race := data.race
+	var previous_perks := _get_all_perk_names(data)
 	data.race = value
+	SignalBus.emit_gameplay_event("race_changed", "character", {
+		"source": _build_character_signal_payload(data),
+		"metadata": {
+			"previous_name": previous_race._name if previous_race != null else "",
+			"current_name": value._name if value != null else "",
+			"previous_resource": previous_race,
+			"current_resource": value,
+		},
+	})
+	_emit_perks_changed_from_lists(previous_perks, _get_all_perk_names(data))
 
 func getRace() -> Race:
 	return data.race
 
 func setHomeland(value: Homeland) -> void:
+	var previous_homeland := data.homeland
+	var previous_perks := _get_all_perk_names(data)
 	data.homeland = value
+	SignalBus.emit_gameplay_event("homeland_changed", "character", {
+		"source": _build_character_signal_payload(data),
+		"metadata": {
+			"previous_name": previous_homeland._name if previous_homeland != null else "",
+			"current_name": value._name if value != null else "",
+			"previous_resource": previous_homeland,
+			"current_resource": value,
+		},
+	})
+	_emit_perks_changed_from_lists(previous_perks, _get_all_perk_names(data))
 
 func getHomeland() -> Homeland:
 	return data.homeland
 
 func setBackground(value: Background) -> void:
+	var previous_background := data.background
+	var previous_perks := _get_all_perk_names(data)
 	data.background = value
+	SignalBus.emit_gameplay_event("background_changed", "character", {
+		"source": _build_character_signal_payload(data),
+		"metadata": {
+			"previous_name": previous_background._name if previous_background != null else "",
+			"current_name": value._name if value != null else "",
+			"previous_resource": previous_background,
+			"current_resource": value,
+		},
+	})
+	_emit_perks_changed_from_lists(previous_perks, _get_all_perk_names(data))
 
 func getBackground() -> Background:
 	return data.background
@@ -219,10 +270,24 @@ func addConditions(value: Condition) -> void:
 
 # Perks
 func setPerks(value: Array[Perk]) -> void:
+	var previous_perks := _get_all_perk_names(data)
 	data.perks = value
+	_emit_perks_changed_from_lists(previous_perks, _get_all_perk_names(data))
 
 func getPerks() -> Array[Perk]:
 	return data.perks
+
+func getOriginPerks() -> Array[Perk]:
+	return _collect_origin_perks(data)
+
+func getAllPerks() -> Array[Perk]:
+	return _collect_all_perks(data)
+
+func hasPerk(perk_name: String) -> bool:
+	for perk: Perk in getAllPerks():
+		if perk != null and perk._name == perk_name:
+			return true
+	return false
 
 func addPerk(value: Perk) -> void:
 	data.perks.append(value)
@@ -370,6 +435,13 @@ func load(character_name: String) -> void:
 	var resource := ResourceLoader.load(file_path)
 	if resource is PlayerData:
 		replace_data(resource)
+		SignalBus.emit_gameplay_event("character_loaded", "character", {
+			"source": _build_character_signal_payload(data),
+			"metadata": {
+				"character_name": character_name,
+				"file_path": file_path,
+			},
+		})
 	else:
 		push_error("Save file %s is not a PlayerData resource" % file_path)
 
@@ -393,6 +465,62 @@ func _ensure_handout_store() -> void:
 	if data != null:
 		data._ensure_handout_store()
 
+func _build_character_signal_payload(player_data: PlayerData) -> Dictionary:
+	if player_data == null:
+		return {}
+	return {
+		"name": player_data._name,
+		"level": player_data.level,
+		"race": player_data.race._name if player_data.race != null else "",
+		"homeland": player_data.homeland._name if player_data.homeland != null else "",
+		"background": player_data.background._name if player_data.background != null else "",
+		"actor": player_data,
+	}
+
+func _collect_origin_perks(player_data: PlayerData) -> Array[Perk]:
+	var origin_perks: Array[Perk] = []
+	if player_data == null:
+		return origin_perks
+	for perk: Perk in [player_data.race.perk, player_data.homeland.perk, player_data.background.perk]:
+		if perk == null or perk._name.is_empty() or _perk_list_has_name(origin_perks, perk._name):
+			continue
+		origin_perks.append(perk)
+	return origin_perks
+
+func _collect_all_perks(player_data: PlayerData) -> Array[Perk]:
+	var all_perks := _collect_origin_perks(player_data)
+	if player_data == null or player_data.perks == null:
+		return all_perks
+	for perk: Perk in player_data.perks:
+		if perk == null or perk._name.is_empty() or _perk_list_has_name(all_perks, perk._name):
+			continue
+		all_perks.append(perk)
+	return all_perks
+
+func _get_all_perk_names(player_data: PlayerData) -> Array[String]:
+	var perk_names: Array[String] = []
+	for perk: Perk in _collect_all_perks(player_data):
+		if perk != null and not perk._name.is_empty():
+			perk_names.append(perk._name)
+	return perk_names
+
+func _perk_list_has_name(perks: Array[Perk], perk_name: String) -> bool:
+	for perk: Perk in perks:
+		if perk != null and perk._name == perk_name:
+			return true
+	return false
+
+func _emit_perks_changed_from_lists(previous_perks: Array[String], current_perks: Array[String]) -> void:
+	perks_changed.emit()
+	SignalBus.emit_gameplay_event("perks_changed", "character", {
+		"source": _build_character_signal_payload(data),
+		"metadata": {
+			"previous_perks": previous_perks,
+			"current_perks": current_perks,
+			"perk_count": current_perks.size(),
+		},
+	})
+
 func print_character_info() -> void:
 	print("Character Info")
 	print("Name: ", data._name)
@@ -415,7 +543,7 @@ func print_character_info() -> void:
 	print("")
 
 	print("Perks")
-	for p in data.perks:
+	for p in getAllPerks():
 		print("  ", p._name)
 	print("")
 

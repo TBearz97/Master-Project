@@ -6,9 +6,9 @@
 [sub_resource type="Resource" id="Resource_labk4"]
 script = ExtResource("1_20kv3")
 category = "Race"
-_name = "Social Beings"
-short_description = "Naturally persuasive, gaining a boost in conversations."
-long_description = "With an innate charm and eloquence, High Elves effortlessly navigate social landscapes, bending conversations to their will with ease and finesse. High Elves have a knack for getting what they want in conversations, gain a +2 Social Modifier."
+_name = "Silver Tongue"
+short_description = "Refined poise turns social missteps into second chances."
+long_description = "When you fail a Speech, Society, or Command check, reroll it once. You must use the new result."
 
 [resource]
 script = ExtResource("2_s0pvo")

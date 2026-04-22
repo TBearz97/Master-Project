@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_7y13u"]
+
+[resource]
+script = ExtResource("1_7y13u")
+category = "Combat"
+_name = "Finisher"
+short_description = "Deal 20% more damage to weakened targets."
+long_description = "When you attack a target below 50% of its maximum HP, increase damage by 20%."

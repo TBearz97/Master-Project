@@ -12,3 +12,5 @@ value = 15
 icon = ExtResource("1_1mnws")
 allowed_slots = Array[int]([0])
 _name = "Hide Head"
+short_description = "Armor for the head."
+long_description = "Provides coverage for the head and grants 2 physical DT, 1 magical DT, and 0 necrotic DT."

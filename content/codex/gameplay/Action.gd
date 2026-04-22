@@ -41,27 +41,33 @@ func use(target: CreatureData, source: CreatureData, damageProfile: DamageProfil
 		"Bolster":
 			if RuleEngine.hasUsedRoundLimitedAction(source, _name):
 				return {"success": false, "reason": "round_limit_reached", "action_name": _name, "source_name": source._name if source != null else ""}
-			var bolster_result := RuleEngine.addAllDefenceBonuses(source, 3)
+			var bolster_amount := 3 + (RuleEngine.ACTION_DEFENCE_PERK_BONUS if RuleEngine.hasPerk(source, "Warden") else 0)
+			var bolster_result := RuleEngine.addAllDefenceBonuses(source, bolster_amount)
 			if bolster_result is Dictionary:
 				bolster_result["source_name"] = source._name if source != null else ""
+				bolster_result["warden_triggered"] = bolster_amount > 3
 				if bool(bolster_result.get("success", false)):
 					RuleEngine.markRoundLimitedActionUsed(source, _name)
 			return bolster_result
 		"Guard":
 			if RuleEngine.hasUsedRoundLimitedAction(source, _name):
 				return {"success": false, "reason": "round_limit_reached", "action_name": _name, "source_name": source._name if source != null else ""}
-			var guard_result := RuleEngine.addAllDefenceBonuses(target, 3)
+			var guard_amount := 3 + (RuleEngine.ACTION_DEFENCE_PERK_BONUS if RuleEngine.hasPerk(source, "Protector") else 0)
+			var guard_result := RuleEngine.addAllDefenceBonuses(target, guard_amount)
 			if guard_result is Dictionary:
 				guard_result["source_name"] = source._name if source != null else ""
+				guard_result["protector_triggered"] = guard_amount > 3
 				if bool(guard_result.get("success", false)):
 					RuleEngine.markRoundLimitedActionUsed(source, _name)
 			return guard_result
 		"Brace":
 			if RuleEngine.hasUsedRoundLimitedAction(source, _name):
 				return {"success": false, "reason": "round_limit_reached", "action_name": _name, "source_name": source._name if source != null else ""}
-			var brace_result := RuleEngine.addBraceBonuses(source, 3)
+			var brace_amount := 3 + (RuleEngine.ACTION_DEFENCE_PERK_BONUS if RuleEngine.hasPerk(source, "Stonewall") else 0)
+			var brace_result := RuleEngine.addBraceBonuses(source, brace_amount)
 			if brace_result is Dictionary:
 				brace_result["source_name"] = source._name if source != null else ""
+				brace_result["stonewall_triggered"] = brace_amount > 3
 				if bool(brace_result.get("success", false)):
 					RuleEngine.markRoundLimitedActionUsed(source, _name)
 			return brace_result

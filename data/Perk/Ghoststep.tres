@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ly3st"]
+
+[resource]
+script = ExtResource("1_ly3st")
+category = "Skill"
+_name = "Ghoststep"
+short_description = "Stealth rolls cannot be lower than 10."
+long_description = "When you make a Stealth check, treat rolls below 10 as 10."

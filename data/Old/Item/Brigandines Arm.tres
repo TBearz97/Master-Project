@@ -5,7 +5,13 @@
 
 [resource]
 script = ExtResource("2_1bfvn")
+physicalDT = 8
+magicalDT = 10
+necroticDT = 2
 weight = 4.0
 value = 60
 icon = ExtResource("1_34b41")
+allowed_slots = Array[int]([2, 1])
 _name = "Brigandines Arm"
+short_description = "Armor for the left arm and the right arm."
+long_description = "Provides coverage for the left arm and the right arm and grants 8 physical DT, 10 magical DT, and 2 necrotic DT."

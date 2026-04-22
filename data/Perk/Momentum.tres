@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_tyrvx"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_d24rk"]
 
 [resource]
-script = ExtResource("1_tyrvx")
-category = "Martial"
+script = ExtResource("1_d24rk")
+category = "Combat"
 _name = "Momentum"
-short_description = "Build speed with consecutive hits."
-long_description = "Each successful attack increases attack speed until the chain is broken."
+short_description = "Successive weapon hits sharpen your accuracy."
+long_description = "Each consecutive successful weapon attack you make in a round grants +1 Accuracy to your next weapon attack that round, up to +3. This bonus resets when you miss or when the round ends."

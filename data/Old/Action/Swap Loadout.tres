@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="Action" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_22o1v"]
+
+[resource]
+script = ExtResource("1_22o1v")
+category = "Basic"
+ap_cost = 1
+base_speed = 20
+_name = "Swap Loadout"
+short_description = "Swap equipped loadout."
+long_description = "Swap to your other prepared loadout."

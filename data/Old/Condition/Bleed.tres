@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Condition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/condition.gd" id="1_gqy0b"]
+
+[resource]
+script = ExtResource("1_gqy0b")
+_name = "Bleed"
+short_description = "Taking ongoing damage."
+long_description = "At the start of each round, this creature takes ongoing damage until the effect ends."

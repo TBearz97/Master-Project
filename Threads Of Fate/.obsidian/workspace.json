@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "5. Equipment/5.5 Armor.md",
+                "file": "8. Character Creation/8.2 Choosing your Race.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "5.5 Armor"
+              "title": "8.2 Choosing your Race"
             }
           }
         ]
@@ -186,6 +186,7 @@
   },
   "active": "cf46ab6030a61899",
   "lastOpenFiles": [
+    "5. Equipment/5.5 Armor.md",
     "5. Equipment/5.1 Equipment.md",
     "2. Combat/2.2 Damage, Effects and Qualities.md",
     "4. Exploration/4.3 Random Map Maker.md",

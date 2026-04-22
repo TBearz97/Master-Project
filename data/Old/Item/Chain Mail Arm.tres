@@ -5,7 +5,13 @@
 
 [resource]
 script = ExtResource("2_euk6m")
+physicalDT = 6
+magicalDT = 4
+necroticDT = 1
 weight = 3.0
 value = 38
 icon = ExtResource("1_ax7as")
+allowed_slots = Array[int]([2, 1])
 _name = "Chain Mail Arm"
+short_description = "Armor for the left arm and the right arm."
+long_description = "Provides coverage for the left arm and the right arm and grants 6 physical DT, 4 magical DT, and 1 necrotic DT."

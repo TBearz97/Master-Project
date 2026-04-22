@@ -1,18 +1,9 @@
-[gd_resource type="Resource" script_class="Background" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="Background" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_wi836"]
-[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_qo5da"]
-
-[sub_resource type="Resource" id="Resource_s6je5"]
-script = ExtResource("1_wi836")
-category = "Background"
-_name = "Wise Counsel"
-short_description = "Your advice strengthens allies."
-long_description = "Once per session, grant an ally advantage (roll 1d20 twice, take the better) on a Lore or Insight test."
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="1_0q24e"]
 
 [resource]
-script = ExtResource("2_qo5da")
-perk = SubResource("Resource_s6je5")
+script = ExtResource("1_0q24e")
 _name = "Elder"
 short_description = "Wise figure recognized for knowledge and counsel."
 long_description = "As an Elder of the tribe you possess more knowledge than most and can offer wisdom to those who need it. Elder is merely a title and does not reflect age, one is named Elder when one shows an aptitude for learning and is proven to be wise. Skills: Medicine, Lore, Survival, Animal Handling, Insight or Speech."

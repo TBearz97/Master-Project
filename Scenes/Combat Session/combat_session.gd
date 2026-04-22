@@ -308,6 +308,7 @@ func _start_encounter() -> void:
 	round_number = 1
 	current_phase = GameEvent.PHASE_PLANNING
 	pending_gm_placement_id = ""
+	_assign_obsidian_patches_locations()
 	_update_round_ui()
 	_refresh_queued_actions()
 	_refresh_board_controls()
@@ -315,15 +316,40 @@ func _start_encounter() -> void:
 	if campaign_manager == null:
 		push_error("Combat session could not find CampaignManager in the scene tree.")
 		return
+	SignalBus.emit_gameplay_event("encounter_started", "combat", {
+		"round": round_number,
+		"phase": current_phase,
+		"metadata": {
+			"board_columns": board_columns,
+			"board_rows": board_rows,
+			"combatant_count": encounter_combatants.size(),
+		},
+	})
+	SignalBus.emit_gameplay_event("round_started", "combat", {
+		"round": round_number,
+		"phase": current_phase,
+	})
+	SignalBus.emit_gameplay_event("phase_started", "combat", {
+		"round": round_number,
+		"phase": current_phase,
+	})
 	campaign_manager.broadcast_encounter_started(true)
 
 func _end_encounter() -> void:
 	if not is_host_role:
 		return
+	_clear_obsidian_patches_locations()
 	var campaign_manager := _find_campaign_manager()
 	if campaign_manager == null:
 		push_error("Combat session could not find CampaignManager in the scene tree.")
 		return
+	SignalBus.emit_gameplay_event("encounter_ended", "combat", {
+		"round": round_number,
+		"phase": current_phase,
+		"metadata": {
+			"combatant_count": encounter_combatants.size(),
+		},
+	})
 	for combatant_id_variant in encounter_combatants.keys():
 		var combatant_id := str(combatant_id_variant)
 		var payload: Dictionary = encounter_combatants.get(combatant_id, {}).duplicate(true)
@@ -442,6 +468,8 @@ func update_combatant_locally(combatant_payload: Dictionary) -> void:
 func apply_game_event(game_event: GameEvent) -> void:
 	if game_event == null:
 		return
+	var previous_round := round_number
+	var previous_phase := current_phase
 	var resolved_movement_paths: Dictionary = {}
 	if game_event.payload.has("board_columns") or game_event.payload.has("board_rows"):
 		board_columns = clampi(int(game_event.payload.get("board_columns", board_columns)), 4, 128)
@@ -455,6 +483,41 @@ func apply_game_event(game_event: GameEvent) -> void:
 		current_phase = game_event.phase
 		if current_phase != GameEvent.PHASE_EXECUTION:
 			pending_player_action = {}
+	if previous_phase != current_phase:
+		if not previous_phase.is_empty():
+			SignalBus.emit_gameplay_event("phase_ended", "combat", {
+				"round": previous_round,
+				"phase": previous_phase,
+				"metadata": {
+					"next_phase": current_phase,
+					"event_type": game_event.event_type,
+				},
+			})
+		SignalBus.emit_gameplay_event("phase_started", "combat", {
+			"round": round_number,
+			"phase": current_phase,
+			"metadata": {
+				"previous_phase": previous_phase,
+				"event_type": game_event.event_type,
+			},
+		})
+	if previous_round != round_number:
+		SignalBus.emit_gameplay_event("round_ended", "combat", {
+			"round": previous_round,
+			"phase": previous_phase,
+			"metadata": {
+				"next_round": round_number,
+				"event_type": game_event.event_type,
+			},
+		})
+		SignalBus.emit_gameplay_event("round_started", "combat", {
+			"round": round_number,
+			"phase": current_phase,
+			"metadata": {
+				"previous_round": previous_round,
+				"event_type": game_event.event_type,
+			},
+		})
 
 	for change_variant in game_event.state_changes:
 		if change_variant is Dictionary:
@@ -490,6 +553,20 @@ func apply_game_event(game_event: GameEvent) -> void:
 func apply_combat_request(combat_request: CombatRequest) -> void:
 	if combat_request == null:
 		return
+	SignalBus.emit_gameplay_event("combat_action_requested", "combat", {
+		"combatant_id": combat_request.combatant_id,
+		"target_id": combat_request.target_id,
+		"round": round_number,
+		"phase": current_phase,
+		"action": {
+			"request_type": combat_request.request_type,
+			"name": str(combat_request.payload.get("action_name", "")),
+			"payload": combat_request.payload.duplicate(true),
+		},
+		"metadata": {
+			"timestamp": combat_request.timestamp,
+		},
+	})
 
 	match combat_request.request_type:
 		CombatRequest.TYPE_QUEUE_UPDATED, CombatRequest.TYPE_ACTION:
@@ -594,6 +671,22 @@ func _resolve_queued_action_preview(combat_request: CombatRequest) -> Dictionary
 		target_actor = official_target_actor.duplicate(true) as CreatureData
 	if source_actor == null or target_actor == null:
 		return {"state_changes": [], "results": []}
+	SignalBus.emit_gameplay_event("combat_action_resolving", "combat", {
+		"combatant_id": source_id,
+		"target_id": target_id,
+		"round": round_number,
+		"phase": current_phase,
+		"source": _build_combatant_signal_payload(source_payload, source_actor),
+		"target": _build_combatant_signal_payload(target_payload, target_actor),
+		"action": {
+			"request_type": combat_request.request_type,
+			"name": str(combat_request.payload.get("action_name", "")),
+			"payload": combat_request.payload.duplicate(true),
+		},
+		"metadata": {
+			"timestamp": combat_request.timestamp,
+		},
+	})
 
 	var action_name := str(combat_request.payload.get("action_name", ""))
 	var action_source := str(combat_request.payload.get("action_source", "Innate"))
@@ -620,7 +713,23 @@ func _resolve_queued_action_preview(combat_request: CombatRequest) -> Dictionary
 			stunned_source_update.erase("id")
 			stunned_source_update["combatant_id"] = source_id
 			stunned_state_changes.append(stunned_source_update)
-		return {"state_changes": stunned_state_changes, "results": [_build_action_narration_entries(stunned_result)], "resolved_result": stunned_result, "request": CombatRequest.from_dict(combat_request.to_dict()), "source_payload": source_payload, "target_payload": target_payload}
+		var stunned_resolution := {"state_changes": stunned_state_changes, "results": [_build_action_narration_entries(stunned_result)], "resolved_result": stunned_result, "request": CombatRequest.from_dict(combat_request.to_dict()), "source_payload": source_payload, "target_payload": target_payload}
+		SignalBus.emit_gameplay_event("combat_action_resolved", "combat", {
+			"combatant_id": source_id,
+			"target_id": target_id,
+			"round": round_number,
+			"phase": current_phase,
+			"source": _build_combatant_signal_payload(source_payload, source_actor),
+			"target": _build_combatant_signal_payload(target_payload, target_actor),
+			"action": {
+				"request_type": combat_request.request_type,
+				"name": action_name,
+			},
+			"metadata": {
+				"resolution": stunned_resolution.duplicate(true),
+			},
+		})
+		return stunned_resolution
 	var active_loadout := int(source_payload.get("active_loadout", 1))
 	var action_entry := _find_action_entry_for_actor(source_actor, active_loadout, action_name, action_source, action_hand)
 	if action_entry.is_empty():
@@ -762,7 +871,23 @@ func _resolve_queued_action_preview(combat_request: CombatRequest) -> Dictionary
 				"tooltip": "Additional stun effects do not stack until the current stun clears.",
 			})
 
-	return {"state_changes": state_changes, "results": results, "resolved_result": result, "request": CombatRequest.from_dict(combat_request.to_dict()), "source_payload": source_payload, "target_payload": target_payload}
+	var resolution := {"state_changes": state_changes, "results": results, "resolved_result": result, "request": CombatRequest.from_dict(combat_request.to_dict()), "source_payload": source_payload, "target_payload": target_payload}
+	SignalBus.emit_gameplay_event("combat_action_resolved", "combat", {
+		"combatant_id": source_id,
+		"target_id": target_id,
+		"round": round_number,
+		"phase": current_phase,
+		"source": _build_combatant_signal_payload(source_payload, source_actor),
+		"target": _build_combatant_signal_payload(target_payload, target_actor),
+		"action": {
+			"request_type": combat_request.request_type,
+			"name": action_name,
+		},
+		"metadata": {
+			"resolution": resolution.duplicate(true),
+		},
+	})
+	return resolution
 
 func _end_movement_phase() -> void:
 	if not is_host_role or current_phase != GameEvent.PHASE_PLANNING:
@@ -1423,6 +1548,13 @@ func _vector2i_array_from_variant_array(values: Array) -> Array[Vector2i]:
 func _end_action_phase() -> void:
 	if not is_host_role or current_phase != GameEvent.PHASE_EXECUTION:
 		return
+	SignalBus.emit_gameplay_event("phase_ended", "combat", {
+		"round": round_number,
+		"phase": current_phase,
+		"metadata": {
+			"reason": "action_review_started",
+		},
+	})
 	pending_resolution_requests = _get_sorted_queued_requests()
 	current_review_request = null
 	current_review_resolution = {}
@@ -1634,10 +1766,24 @@ func _format_action_result(result: Dictionary) -> String:
 				result.get("amount", 0),
 			]
 		if result.has("defence_names"):
-			return "%s bolstered all defences on %s by %s for the round." % [
+			var defence_suffix := ""
+			if bool(result.get("protector_triggered", false)):
+				defence_suffix = " Protector adds +1."
+			elif bool(result.get("warden_triggered", false)):
+				defence_suffix = " Warden adds +1."
+			return "%s bolstered all defences on %s by %s for the round.%s" % [
 				result.get("source_name", "Someone"),
 				result.get("target_name", "target"),
 				result.get("amount", 0),
+				defence_suffix,
+			]
+		if result.has("applied_bonuses") and result.has("duration") and not result.has("defence_names"):
+			var brace_suffix := " Stonewall adds +1." if bool(result.get("stonewall_triggered", false)) else ""
+			return "%s braces for impact, gaining %s DT for the %s.%s" % [
+				result.get("source_name", "Someone"),
+				result.get("amount", 0),
+				result.get("duration", "round"),
+				brace_suffix,
 			]
 		if result.has("healed_amount"):
 			if str(result.get("action_name", "")) == "Use Quick Item":
@@ -1646,11 +1792,13 @@ func _format_action_result(result: Dictionary) -> String:
 					result.get("quick_item_name", "a quick item"),
 					_format_exact_float(result.get("healed_amount", 0.0)),
 				]
-			return "%s used %s on %s, restoring %s HP." % [
+			var heal_suffix := " Combat Medic increases the healing." if bool(result.get("combat_medic_triggered", false)) else ""
+			return "%s used %s on %s, restoring %s HP.%s" % [
 				result.get("source_name", "Someone"),
 				result.get("action_name", "First Aid"),
 				result.get("target_name", "target"),
 				_format_exact_float(result.get("healed_amount", 0.0)),
+				heal_suffix,
 			]
 		if str(result.get("resource", "")) == "mana":
 			return "%s used %s, restoring %s mana." % [
@@ -1711,6 +1859,18 @@ func _format_action_result(result: Dictionary) -> String:
 				status_suffix += " %s applied (%s + %s vs %s %s)." % [result.get("condition_name", "Effect"), result.get("condition_roll", 0), result.get("potency", 0), result.get("condition_defence", "Defence"), result.get("condition_defence_value", 0)]
 			else:
 				status_suffix += " %s resisted (%s + %s vs %s %s)." % [result.get("target_name", "Target"), result.get("condition_roll", 0), result.get("potency", 0), result.get("condition_defence", "Defence"), result.get("condition_defence_value", 0)]
+		if bool(result.get("damage_immune", false)):
+			status_suffix += " Obsidian Patches protected the %s." % result.get("immune_location_name", result.get("target_location_name", "body"))
+		if int(result.get("momentum_bonus", 0)) > 0:
+			status_suffix += " Momentum grants +%s Accuracy." % int(result.get("momentum_bonus", 0))
+		if bool(result.get("center_of_mass_triggered", false)):
+			status_suffix += " Center of Mass grants +%s Accuracy and +20%% damage." % int(result.get("center_of_mass_accuracy_bonus", 0))
+		if bool(result.get("point_blank_triggered", false)):
+			status_suffix += " Point Blank ignores the engaged ranged penalty."
+		if bool(result.get("deadeye_triggered", false)):
+			status_suffix += " Deadeye grants +%s Accuracy." % int(result.get("deadeye_accuracy_bonus", 0))
+		if bool(result.get("finisher_triggered", false)):
+			status_suffix += " Finisher grants +20%% damage."
 		return "%s used %s on %s's %s: %s vs %s, %s damage after %s DT, %s temp absorbed, HP %s, VIT %s, %s AP, speed %s.%s" % [
 			result.get("source_name", "Someone"),
 			result.get("action_name", "an action"),
@@ -1796,6 +1956,8 @@ func _build_action_flavor_text(result: Dictionary) -> String:
 		return "%s's %s crushes the last of %s's vitality, leaving them lifeless." % [source_name, action_name.to_lower(), target_name]
 	if bool(result.get("is_unconscious", false)):
 		return "%s's %s drops %s unconscious." % [source_name, action_name.to_lower(), target_name]
+	if bool(result.get("damage_immune", false)):
+		return "%s's %s hits %s's %s, but the obsidian patch absorbs the blow completely." % [source_name, action_name.to_lower(), target_name, location_name.to_lower()]
 	if total_damage <= 0 and location_dt > 0:
 		return "%s's %s strikes %s's %s, but the armor turns the blow aside." % [source_name, action_name.to_lower(), target_name, location_name.to_lower()]
 	if not str(result.get("condition_name", "")).is_empty() and bool(result.get("condition_applied", false)):
@@ -2280,6 +2442,7 @@ func _finalize_action_phase_review() -> void:
 					})
 			if actor.hasCondition("Stunned") and _get_stunned_round(actor) == round_number:
 				_clear_stunned(actor)
+			actor.set_meta("momentum_streak_hits", 0)
 			RuleEngine.clearRoundBonuses(actor)
 			RuleEngine.restoreConcentration(actor)
 			if RuleEngine.canAct(actor):
@@ -2621,6 +2784,8 @@ func _rebuild_combatant_payload_for_actor(base_payload: Dictionary, actor: Creat
 	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(actor)
 	payload["stunned_spent_ap"] = _get_stunned_spent_ap(actor)
 	payload["bleed_turns_remaining"] = _get_bleed_turns_remaining(actor)
+	payload["obsidian_patches_location"] = _get_obsidian_patches_location(actor)
+	payload["obsidian_patches_location_name"] = _get_obsidian_patches_location_name(actor)
 	payload["dexterity_score"] = _get_attribute_score(actor.attributes, "Dexterity")
 	if actor is HumanoidData:
 		payload["equipment"] = _serialize_equipment((actor as HumanoidData).equipment)
@@ -2702,6 +2867,56 @@ func _get_bleed_turns_remaining(actor: CreatureData) -> int:
 	if actor == null:
 		return 0
 	return RuleEngine.getBleedTurnsRemaining(actor)
+
+func _get_obsidian_patches_location(actor: CreatureData) -> int:
+	if actor == null:
+		return -1
+	return int(actor.get_meta("obsidian_patches_location", -1))
+
+func _get_obsidian_patches_location_name(actor: CreatureData) -> String:
+	var protected_location := _get_obsidian_patches_location(actor)
+	if protected_location < 0:
+		return ""
+	return RuleEngine._location_to_string(protected_location as Item.ItemSlots)
+
+func _assign_obsidian_patches_locations() -> void:
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id := str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants.get(combatant_id, {}).duplicate(true)
+		if payload.is_empty():
+			continue
+		var actor := _get_actor_data_from_payload(payload)
+		if actor == null:
+			continue
+		if _actor_has_perk(actor, "Obsidian Patches"):
+			actor.set_meta("obsidian_patches_location", int(RuleEngine.roll_random_target_location()))
+		else:
+			actor.remove_meta("obsidian_patches_location")
+		encounter_combatants[combatant_id] = _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
+
+func _clear_obsidian_patches_locations() -> void:
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id := str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants.get(combatant_id, {}).duplicate(true)
+		if payload.is_empty():
+			continue
+		var actor := _get_actor_data_from_payload(payload)
+		if actor != null:
+			actor.remove_meta("obsidian_patches_location")
+		encounter_combatants[combatant_id] = _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
+
+func _actor_has_perk(actor: CreatureData, perk_name: String) -> bool:
+	if actor == null:
+		return false
+	for perk: Perk in actor.perks:
+		if perk != null and perk._name == perk_name:
+			return true
+	if actor is HumanoidData:
+		var humanoid := actor as HumanoidData
+		for perk: Perk in [humanoid.race.perk, humanoid.homeland.perk, humanoid.background.perk]:
+			if perk != null and perk._name == perk_name:
+				return true
+	return false
 
 func _is_stunned_active(actor: CreatureData) -> bool:
 	return actor != null and actor.hasCondition("Stunned") and _get_stunned_round(actor) == round_number
@@ -3062,6 +3277,32 @@ func _apply_combat_request_preview(combat_request: CombatRequest) -> void:
 	_refresh_player_actions()
 	_refresh_queued_actions()
 	_refresh_combat_grid()
+	SignalBus.emit_gameplay_event("combat_action_previewed", "combat", {
+		"combatant_id": combat_request.combatant_id,
+		"target_id": combat_request.target_id,
+		"round": round_number,
+		"phase": current_phase,
+		"source": _build_combatant_signal_payload(payload, _get_actor_data_from_payload(payload)),
+		"action": {
+			"request_type": combat_request.request_type,
+			"name": str(combat_request.payload.get("action_name", "")),
+			"payload": combat_request.payload.duplicate(true),
+		},
+		"metadata": {
+			"timestamp": combat_request.timestamp,
+		},
+	})
+
+func _build_combatant_signal_payload(payload: Dictionary, actor: CreatureData = null) -> Dictionary:
+	return {
+		"id": str(payload.get("id", payload.get("combatant_id", ""))),
+		"name": str(payload.get("name", "")),
+		"type": str(payload.get("type", "")),
+		"controller_peer_id": int(payload.get("controller_peer_id", 0)),
+		"current_hp": float(payload.get("current_hp", actor.currentHP if actor != null else 0.0)),
+		"current_vitality": float(payload.get("current_vitality", actor.currentVitality if actor != null else 0.0)),
+		"actor": actor,
+	}
 
 func _recalculate_queued_action_resolve_speeds(combatant_payload: Dictionary, queued_action_payloads: Array) -> Array:
 	var updated_payloads: Array = []
@@ -3147,6 +3388,12 @@ func _sync_actor_runtime_from_payload(payload: Dictionary) -> void:
 			actor.remove_meta("stunned_spent_ap")
 	if payload.has("bleed_turns_remaining"):
 		RuleEngine.setBleedTurnsRemaining(actor, int(payload.get("bleed_turns_remaining", 0)))
+	if payload.has("obsidian_patches_location"):
+		var protected_location := int(payload.get("obsidian_patches_location", -1))
+		if protected_location >= 0:
+			actor.set_meta("obsidian_patches_location", protected_location)
+		else:
+			actor.remove_meta("obsidian_patches_location")
 	if payload.has("active_loadout"):
 		actor.set_meta("active_loadout", int(payload.get("active_loadout", 1)))
 
@@ -3161,6 +3408,8 @@ func _sync_local_player_from_combatant_payload(payload: Dictionary) -> void:
 func reset_combat_session_locally() -> void:
 	encounter_combatants.clear()
 	combatant_entries.clear()
+	if PlayerVariables.current() != null:
+		PlayerVariables.current().remove_meta("obsidian_patches_location")
 	next_combatant_id = 1
 	round_number = 1
 	current_phase = GameEvent.PHASE_PLANNING
@@ -4061,6 +4310,8 @@ func _build_local_player_runtime_payload(base_payload: Dictionary) -> Dictionary
 	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(player_data)
 	payload["stunned_spent_ap"] = _get_stunned_spent_ap(player_data)
 	payload["bleed_turns_remaining"] = _get_bleed_turns_remaining(player_data)
+	payload["obsidian_patches_location"] = _get_obsidian_patches_location(player_data)
+	payload["obsidian_patches_location_name"] = _get_obsidian_patches_location_name(player_data)
 	payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 	payload["equipment"] = _serialize_equipment(player_data.equipment)
 	payload["actions"] = _get_player_action_entries(player_data, active_loadout)
@@ -4104,6 +4355,8 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(player_data)
 		payload["stunned_spent_ap"] = _get_stunned_spent_ap(player_data)
 		payload["bleed_turns_remaining"] = _get_bleed_turns_remaining(player_data)
+		payload["obsidian_patches_location"] = _get_obsidian_patches_location(player_data)
+		payload["obsidian_patches_location_name"] = _get_obsidian_patches_location_name(player_data)
 		payload["dexterity_score"] = _get_attribute_score(player_data.attributes, "Dexterity")
 		payload["equipment"] = _serialize_equipment(player_data.equipment)
 		payload["actions"] = _get_player_action_entries(player_data, active_loadout)
@@ -4147,6 +4400,8 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	payload["stunned_resolve_speed"] = _get_stunned_resolve_speed(npc.data)
 	payload["stunned_spent_ap"] = _get_stunned_spent_ap(npc.data)
 	payload["bleed_turns_remaining"] = _get_bleed_turns_remaining(npc.data)
+	payload["obsidian_patches_location"] = _get_obsidian_patches_location(npc.data)
+	payload["obsidian_patches_location_name"] = _get_obsidian_patches_location_name(npc.data)
 	payload["dexterity_score"] = _get_attribute_score(npc.data.attributes, "Dexterity")
 	payload["actions"] = _get_npc_action_entries(npc, active_loadout)
 	payload["action_names"] = _get_npc_action_names(npc, active_loadout)

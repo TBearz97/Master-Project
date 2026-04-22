@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_xccp6"]
+
+[resource]
+script = ExtResource("1_xccp6")
+attack_power = 80
+mana_cost = 1
+condition = "Prone"
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 24
+_name = "Bash"
+short_description = "An impact attack."
+long_description = "Driving the face of a shield or blunt weapon into the target."

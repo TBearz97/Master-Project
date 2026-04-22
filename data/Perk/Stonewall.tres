@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_8jlti"]
+
+[resource]
+script = ExtResource("1_8jlti")
+category = "Combat"
+_name = "Stonewall"
+short_description = "Brace grants +1 additional DT."
+long_description = "When you use Brace, its DT bonus increases by 1."

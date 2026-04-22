@@ -1,18 +1,9 @@
-[gd_resource type="Resource" script_class="Background" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="Background" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_8pfm5"]
-[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_11fd5"]
-
-[sub_resource type="Resource" id="Resource_4iukm"]
-script = ExtResource("1_8pfm5")
-category = "Background"
-_name = "Trained to Kill"
-short_description = "Dragons are your sworn enemy."
-long_description = "Reduce the Difficulty of Survival tests when tracking Dragons by 1. Re-roll 1d20 on every damaging attack against a Dragon. After killing a Dragon local villages will celebrate you as a hero, this means you sleep, drink and eat for free for the next 3 days."
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="1_3x0to"]
 
 [resource]
-script = ExtResource("2_11fd5")
-perk = SubResource("Resource_4iukm")
+script = ExtResource("1_3x0to")
 _name = "Dragon Knight"
 short_description = "Elite warrior raised by the Dragon Knight Order."
 long_description = "As a Dragon Knight you were brought up at one of the holds of the Dragon Knight Order. This could be because one or both your parents are a part of the order, because you lost your parents to a dragon attack at a young age or something else. Skills: Melee Weapons, Ranged Weapons, Lore, Acrobatics, Parry, Warfare or Medicine. Equipment: A set of Leather Armor or Scale Armor."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Consumable" load_steps=3 format=3]
+
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/default.png" id="1_8k4ej"]
+[ext_resource type="Script" path="res://content/codex/items/consumable.gd" id="2_mbunf"]
+
+[resource]
+script = ExtResource("2_mbunf")
+expression = "restoreFromItem(\"hp\", 5, target, source)"
+weight = 0.2
+value = 25
+icon = ExtResource("1_8k4ej")
+allowed_slots = Array[int]([6])
+_name = "Minor Health Potion"
+short_description = "Restore a little health."
+long_description = "A small restorative draught that restores a modest amount of HP when consumed."

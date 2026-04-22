@@ -13,3 +13,5 @@ value = 68
 icon = ExtResource("1_qmofd")
 allowed_slots = Array[int]([3])
 _name = "Brigandines Torso"
+short_description = "Armor for the torso."
+long_description = "Provides coverage for the torso and grants 8 physical DT, 10 magical DT, and 4 necrotic DT."

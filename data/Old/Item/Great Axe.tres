@@ -1,16 +1,62 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=10 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Axe.png" id="1_er16q"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_i6c7y"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_d2tmx"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_rsdr8"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_pola3"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Great Axe.png" id="4_6lmva"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_7vy3m"]
+
+[sub_resource type="Resource" id="Resource_o7663"]
+script = ExtResource("2_rsdr8")
+attack_power = 100
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 22
+_name = "Slash"
+short_description = "A broad cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."
+
+[sub_resource type="Resource" id="Resource_8iq16"]
+script = ExtResource("2_rsdr8")
+attack_power = 120
+mana_cost = 1
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 32
+_name = "Cleave"
+short_description = "A powerful chopping blow."
+long_description = "A downward chop with full force behind it."
+
+[sub_resource type="Resource" id="Resource_2vcwm"]
+script = ExtResource("2_rsdr8")
+attack_power = 85
+mana_cost = 1
+target = "multi_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 28
+_name = "Sweep"
+short_description = "A wide sweeping attack."
+long_description = "A broad arc that can catch multiple foes."
+
+[sub_resource type="Resource" id="Resource_c23hd"]
+script = ExtResource("3_pola3")
+damage_die = 10
 
 [resource]
-script = ExtResource("2_i6c7y")
-damage = 2.0
-speed = 50
+script = ExtResource("5_7vy3m")
+damage_profile = SubResource("Resource_c23hd")
+base_ap_cost = 5
+speed_category = 3
 qualities = Array[String](["Brutal"])
 size = 1
+actions = Array[ExtResource("1_d2tmx")]([SubResource("Resource_o7663"), SubResource("Resource_8iq16"), SubResource("Resource_2vcwm")])
 weight = 5.5
 value = 45
-icon = ExtResource("1_er16q")
+icon = ExtResource("4_6lmva")
 allowed_slots = Array[int]([7])
 _name = "Great Axe"
+short_description = "A weapon used in combat."
+long_description = "Deals d10 damage. AP cost 5. Speed Slow. Qualities: Brutal."

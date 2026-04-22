@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_5eheu"]
+
+[resource]
+script = ExtResource("1_5eheu")
+category = "Combat"
+_name = "Center of Mass"
+short_description = "Called torso shots are easier to land and hit harder."
+long_description = "When you make a called shot against the torso, reduce the accuracy penalty by 2 and increase damage by 20%."

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_cws20"]
+
+[resource]
+script = ExtResource("1_cws20")
+category = "Combat"
+_name = "Point Blank"
+short_description = "Ranged attacks do not suffer the engaged accuracy penalty."
+long_description = "Your ranged attacks ignore the current engaged accuracy penalty."

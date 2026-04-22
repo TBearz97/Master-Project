@@ -247,6 +247,16 @@ func begin_skill_check_request(requested_skill_name: String) -> void:
 	var normalized_skill_name := requested_skill_name.strip_edges()
 	if normalized_skill_name.is_empty():
 		return
+	SignalBus.emit_gameplay_event("skill_check_requested", "skill_check", {
+		"source": {
+			"name": PlayerVariables.getName(),
+			"peer_id": multiplayer.get_unique_id(),
+			"actor": PlayerVariables.data,
+		},
+		"skill_check": {
+			"requested_skill": normalized_skill_name,
+		},
+	})
 
 	if has_active_gm_connection():
 		var payload := {
@@ -389,7 +399,7 @@ func _append_skill_check_log_local(senderPeerId: int, combat_line: String, toolt
 func _show_local_skill_check_window(requested_skill_name: String) -> void:
 	var window := SkillCheckWindow.new()
 	add_child(window)
-	window.configure_local_setup(get_local_skill_names(), requested_skill_name)
+	window.configure_local_setup(get_local_skill_names(), requested_skill_name, _build_good_natured_helper_options(multiplayer.get_unique_id(), get_local_skill_names()))
 	window.local_check_requested.connect(_resolve_local_skill_check)
 	window.popup_centered()
 
@@ -404,7 +414,7 @@ func _show_gm_skill_check_window(request_payload: Dictionary) -> void:
 func _show_player_choice_window(offer_payload: Dictionary) -> void:
 	var window := SkillCheckWindow.new()
 	add_child(window)
-	window.configure_player_choice(str(offer_payload.get("requester_name", PlayerVariables.getName())), offer_payload.get("options", []), get_local_skill_value_map())
+	window.configure_player_choice(str(offer_payload.get("requester_name", PlayerVariables.getName())), offer_payload.get("options", []), get_local_skill_value_map(), offer_payload.get("good_natured_helpers", {}))
 	window.option_chosen.connect(_submit_skill_check_choice.bind(str(offer_payload.get("request_id", ""))))
 	window.request_cancelled.connect(_rebuild_notifications)
 	window.popup_centered()
@@ -433,7 +443,22 @@ func _approve_skill_check_offer(options: Array[Dictionary], request_payload: Dic
 		"requester_name": str(request_payload.get("requester_name", "")),
 		"requested_skill": str(request_payload.get("requested_skill", "")),
 		"options": sanitized_options,
+		"good_natured_helpers": _build_good_natured_helper_options(int(request_payload.get("requester_peer_id", 0)), sanitized_options),
 	}
+	SignalBus.emit_gameplay_event("skill_check_offer_created", "skill_check", {
+		"source": {
+			"name": str(request_payload.get("requester_name", "")),
+			"peer_id": int(request_payload.get("requester_peer_id", 0)),
+		},
+		"skill_check": {
+			"request_id": request_id,
+			"requested_skill": str(request_payload.get("requested_skill", "")),
+			"options": sanitized_options.duplicate(true),
+		},
+		"metadata": {
+			"initiated_by_gm": bool(request_payload.get("initiated_by_gm", false)),
+		},
+	})
 	pending_skill_check_offers[request_id] = offer_payload
 	_rebuild_notifications()
 	var requester_peer_id := int(offer_payload.get("requester_peer_id", 0))
@@ -442,11 +467,17 @@ func _approve_skill_check_offer(options: Array[Dictionary], request_payload: Dic
 	else:
 		rpc_id(requester_peer_id, "client_receive_skill_check_offer", offer_payload)
 
-func _resolve_local_skill_check(options: Array[Dictionary], selected_skill_name: String) -> void:
+func _resolve_local_skill_check(options: Array[Dictionary], selected_skill_name: String, helper_peer_id: int = -1) -> void:
 	var selected_option := _find_skill_check_option(options, selected_skill_name)
 	if selected_option.is_empty():
 		return
-	var result := RuleEngine.resolveSkillCheck(PlayerVariables.data, selected_skill_name, int(selected_option.get("difficulty", 0)), {"source_name": PlayerVariables.getName()})
+	var context := {
+		"source_name": PlayerVariables.getName(),
+	}
+	var support_context := _build_good_natured_support_context(multiplayer.get_unique_id(), selected_skill_name, helper_peer_id)
+	context.merge(support_context, true)
+	context["modifier"] = int(context.get("modifier", 0)) + int(support_context.get("support_bonus", 0))
+	var result := RuleEngine.resolveSkillCheck(PlayerVariables.data, selected_skill_name, int(selected_option.get("difficulty", 0)), context)
 	if not bool(result.get("success", false)):
 		return
 	var game_event := _build_skill_check_game_event({
@@ -459,12 +490,13 @@ func _resolve_local_skill_check(options: Array[Dictionary], selected_skill_name:
 	CampaignVariables.appendGameEvent(game_event)
 	apply_game_event(game_event)
 
-func _submit_skill_check_choice(selected_skill_name: String, request_id: String) -> void:
+func _submit_skill_check_choice(selected_skill_name: String, helper_peer_id: int, request_id: String) -> void:
 	if request_id.is_empty():
 		return
 	var payload := {
 		"request_id": request_id,
 		"selected_skill_name": selected_skill_name,
+		"helper_peer_id": helper_peer_id,
 	}
 	rpc_id(1, "server_receive_skill_check_choice", payload)
 
@@ -700,15 +732,20 @@ func server_receive_skill_check_choice(choice_payload: Dictionary) -> void:
 	if int(offer_payload.get("requester_peer_id", -1)) != sender_peer_id:
 		return
 	var selected_skill_name := str(choice_payload.get("selected_skill_name", ""))
+	var helper_peer_id := int(choice_payload.get("helper_peer_id", -1))
 	var selected_option := _find_skill_check_option(offer_payload.get("options", []), selected_skill_name)
 	if selected_option.is_empty() or not membersCharacters.has(sender_peer_id):
 		return
 	var player_data := membersCharacters[sender_peer_id] as PlayerData
 	if player_data == null:
 		return
-	var result := RuleEngine.resolveSkillCheck(player_data, selected_skill_name, int(selected_option.get("difficulty", 0)), {
+	var context := {
 		"source_name": str(offer_payload.get("requester_name", membersByPeerId.get(sender_peer_id, "Player"))),
-	})
+	}
+	var support_context := _build_good_natured_support_context(sender_peer_id, selected_skill_name, helper_peer_id)
+	context.merge(support_context, true)
+	context["modifier"] = int(context.get("modifier", 0)) + int(support_context.get("support_bonus", 0))
+	var result := RuleEngine.resolveSkillCheck(player_data, selected_skill_name, int(selected_option.get("difficulty", 0)), context)
 	if not bool(result.get("success", false)):
 		return
 	var game_event := _build_skill_check_game_event(offer_payload, result)
@@ -1099,6 +1136,107 @@ func _sync_player_from_combatant_payload(peer_id: int, combatant_payload: Dictio
 	if combatant_payload.has("equipment"):
 		player_data.equipment = _build_equipment_from_payload(combatant_payload.get("equipment", {}))
 	_ensure_valid_player_vitals(player_data)
+
+func _build_good_natured_helper_options(requester_peer_id: int, options_source: Variant) -> Dictionary:
+	var helper_options_by_skill := {}
+	var skill_names: Array[String] = []
+	if options_source is Array:
+		for option_variant in options_source:
+			if option_variant is Dictionary:
+				var skill_name := str((option_variant as Dictionary).get("skill_name", "")).strip_edges()
+				if not skill_name.is_empty() and not skill_names.has(skill_name):
+					skill_names.append(skill_name)
+			else:
+				var direct_skill_name := str(option_variant).strip_edges()
+				if not direct_skill_name.is_empty() and not skill_names.has(direct_skill_name):
+					skill_names.append(direct_skill_name)
+	for skill_name in skill_names:
+		var helpers: Array[Dictionary] = []
+		var peer_ids: Array = membersCharacters.keys()
+		peer_ids.sort()
+		for peer_id_variant in peer_ids:
+			var peer_id := int(peer_id_variant)
+			if peer_id <= 0 or peer_id == requester_peer_id:
+				continue
+			var helper_player := membersCharacters.get(peer_id, null) as PlayerData
+			if helper_player == null or not _player_has_perk(helper_player, "Good Natured"):
+				continue
+			var helper_skill_value := _get_skill_value_for_player(helper_player, skill_name)
+			var support_bonus := int(floor(float(helper_skill_value) / 2.0))
+			if support_bonus <= 0:
+				continue
+			helpers.append({
+				"peer_id": peer_id,
+				"name": str(membersByPeerId.get(peer_id, helper_player._name)),
+				"skill_name": skill_name,
+				"skill_value": helper_skill_value,
+				"support_bonus": support_bonus,
+			})
+		if not helpers.is_empty():
+			helper_options_by_skill[skill_name] = helpers
+	return helper_options_by_skill
+
+func _build_good_natured_support_context(requester_peer_id: int, skill_name: String, helper_peer_id: int) -> Dictionary:
+	if helper_peer_id <= 0 or helper_peer_id == requester_peer_id:
+		return {}
+	var normalized_skill_name := skill_name.strip_edges()
+	if normalized_skill_name.is_empty():
+		return {}
+	if not membersCharacters.has(helper_peer_id):
+		return {}
+	var helper_player := membersCharacters[helper_peer_id] as PlayerData
+	if helper_player == null or not _player_has_perk(helper_player, "Good Natured"):
+		return {}
+	var helper_skill_value := _get_skill_value_for_player(helper_player, normalized_skill_name)
+	var support_bonus := int(floor(float(helper_skill_value) / 2.0))
+	if support_bonus <= 0:
+		return {}
+	return {
+		"support_peer_id": helper_peer_id,
+		"support_name": str(membersByPeerId.get(helper_peer_id, helper_player._name)),
+		"support_skill_name": normalized_skill_name,
+		"support_skill_value": helper_skill_value,
+		"support_bonus": support_bonus,
+		"support_source": "good_natured",
+	}
+
+func _player_has_perk(player_data: PlayerData, perk_name: String) -> bool:
+	if player_data == null:
+		return false
+	for perk: Perk in _get_all_perks_for_player(player_data):
+		if perk != null and perk._name == perk_name:
+			return true
+	return false
+
+func _get_all_perks_for_player(player_data: PlayerData) -> Array[Perk]:
+	var all_perks: Array[Perk] = []
+	if player_data == null:
+		return all_perks
+	for perk: Perk in [player_data.race.perk, player_data.homeland.perk, player_data.background.perk]:
+		if perk == null or perk._name.is_empty() or _perk_list_has_name(all_perks, perk._name):
+			continue
+		all_perks.append(perk)
+	if player_data.perks == null:
+		return all_perks
+	for perk: Perk in player_data.perks:
+		if perk == null or perk._name.is_empty() or _perk_list_has_name(all_perks, perk._name):
+			continue
+		all_perks.append(perk)
+	return all_perks
+
+func _perk_list_has_name(perks: Array[Perk], perk_name: String) -> bool:
+	for perk: Perk in perks:
+		if perk != null and perk._name == perk_name:
+			return true
+	return false
+
+func _get_skill_value_for_player(player_data: PlayerData, skill_name: String) -> int:
+	if player_data == null or player_data.skills == null:
+		return 0
+	for skill: Skill in player_data.skills:
+		if skill != null and skill._name == skill_name:
+			return skill.value
+	return 0
 
 func _ensure_valid_player_vitals(player_data: PlayerData, refill_if_uninitialized: bool = false) -> void:
 	if player_data == null:

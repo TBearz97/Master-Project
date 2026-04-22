@@ -6,5 +6,5 @@
 script = ExtResource("1_sx1pd")
 category = "Race"
 _name = "Good Natured"
-short_description = "Share your full expertise when aiding allies, gaining the same rewards."
-long_description = "Your kind-hearted and altruistic nature inspires and empowers your companions, allowing you to lend your full expertise to support them in their endeavors. When aiding another character you add your entire skill bonus rather than half. Any IP generated from that test you also gain."
+short_description = "Support another player's skill check with practiced cooperation."
+long_description = "Before another player makes a non-contested skill check, you may assist them. That check gains a bonus equal to half your value in the same skill, rounded down. Only one Good Natured assist can apply to a check."

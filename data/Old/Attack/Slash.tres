@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_l43ls"]
+
+[resource]
+script = ExtResource("1_l43ls")
+attack_power = 100
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 22
+_name = "Slash"
+short_description = "A broad cutting attack."
+long_description = "A wide swinging cut aimed at exposed flesh."

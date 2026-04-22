@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Attack" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="1_fel68"]
+
+[resource]
+script = ExtResource("1_fel68")
+attack_power = 85
+mana_cost = 1
+target = "multi_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 28
+_name = "Sweep"
+short_description = "A wide sweeping attack."
+long_description = "A broad arc that can catch multiple foes."

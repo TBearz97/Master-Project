@@ -1,16 +1,51 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=9 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Warhammer.png" id="1_486n4"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_vuub0"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_j4g2m"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_2kblo"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_coxqt"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Warhammer.png" id="4_orwql"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_vxhxd"]
+
+[sub_resource type="Resource" id="Resource_vob0q"]
+script = ExtResource("2_2kblo")
+attack_power = 110
+mana_cost = 1
+condition = "Stunned"
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 26
+_name = "Smash"
+short_description = "A crushing blow."
+long_description = "A heavy strike that crushes bone and armour."
+
+[sub_resource type="Resource" id="Resource_73b5f"]
+script = ExtResource("2_2kblo")
+attack_power = 100
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 20
+_name = "Strike"
+short_description = "A basic attack."
+long_description = "A direct, unadorned blow."
+
+[sub_resource type="Resource" id="Resource_icofi"]
+script = ExtResource("3_coxqt")
+damage_die = 8
 
 [resource]
-script = ExtResource("2_vuub0")
-damage = 1.6
-speed = 33
+script = ExtResource("5_vxhxd")
+damage_profile = SubResource("Resource_icofi")
+base_ap_cost = 4
+speed_category = 2
 qualities = Array[String](["Versatile"])
 size = 1
+actions = Array[ExtResource("1_j4g2m")]([SubResource("Resource_vob0q"), SubResource("Resource_73b5f")])
 weight = 4.0
 value = 45
-icon = ExtResource("1_486n4")
+icon = ExtResource("4_orwql")
 allowed_slots = Array[int]([7])
 _name = "Warhammer"
+short_description = "A weapon used in combat."
+long_description = "Deals d8 damage. AP cost 4. Speed Normal. Qualities: Versatile."

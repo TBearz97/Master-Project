@@ -11,6 +11,196 @@ const TARGET_LOCATION_MODE_CALLED := "called"
 const EQUIP_LOAD_LIGHT_RATIO := 0.10
 const EQUIP_LOAD_MEDIUM_RATIO := 0.20
 const EQUIP_LOAD_HEAVY_RATIO := 0.30
+const OBSIDIAN_PATCHES_DT_BONUS := 9999
+const CENTER_OF_MASS_ACCURACY_BONUS := 2
+const CENTER_OF_MASS_DAMAGE_MULTIPLIER := 1.2
+const ACTION_DEFENCE_PERK_BONUS := 1
+const COMBAT_MEDIC_HEAL_MULTIPLIER := 1.2
+const DEADEYE_ACCURACY_BONUS := 2
+const FINISHER_HEALTH_THRESHOLD := 0.5
+const FINISHER_DAMAGE_MULTIPLIER := 1.2
+const MOMENTUM_MAX_BONUS := 3
+const MOMENTUM_META_KEY := "momentum_streak_hits"
+const SILVER_TONGUE_SKILLS := ["Speech", "Society", "Command"]
+const SKILL_FLOOR_PERKS := {
+	"Athletics": {"perk": "Unstoppable", "floor": 8},
+	"Stealth": {"perk": "Ghoststep", "floor": 10},
+}
+const SKILL_BONUS_PERKS := {
+	"Command": {"perk": "Force of Will", "bonus": 2, "contested_only": true},
+	"Society": {"perk": "Courtly Duelist", "bonus": 2, "contested_only": true},
+	"Medicine": {"perk": "Field Medic", "bonus": 2, "non_contested_only": true},
+	"Speech": {"perk": "Silvered Voice", "bonus": 2, "non_contested_only": true},
+}
+const SKILL_REROLL_PERKS := {
+	"Insight": {"perk": "Cold Read", "contested_only": true},
+	"Sleight of Hand": {"perk": "Quick Fingers"},
+	"Survival": {"perk": "Trailwise"},
+}
+
+func _build_actor_signal_payload(actor: CreatureData) -> Dictionary:
+	if actor == null:
+		return {}
+	return {
+		"name": actor._name,
+		"level": actor.level,
+		"current_hp": actor.currentHP,
+		"current_vitality": actor.currentVitality,
+		"current_concentration": actor.currentConcentration,
+		"current_mana": actor.currentMana,
+		"actor": actor,
+	}
+
+func _build_skill_support_payload(context: Dictionary) -> Dictionary:
+	var support_bonus := int(context.get("support_bonus", 0))
+	if support_bonus <= 0:
+		return {}
+	return {
+		"peer_id": int(context.get("support_peer_id", -1)),
+		"name": str(context.get("support_name", "")),
+		"skill_name": str(context.get("support_skill_name", "")),
+		"skill_value": int(context.get("support_skill_value", 0)),
+		"bonus": support_bonus,
+		"source": str(context.get("support_source", "")),
+	}
+
+func _build_skill_reroll_payload(result: Dictionary) -> Dictionary:
+	if not bool(result.get("rerolled", false)):
+		return {}
+	return {
+		"source": str(result.get("reroll_source", "")),
+		"original_roll": int(result.get("original_roll", 0)),
+		"final_roll": int(result.get("final_roll", 0)),
+		"source_rerolled": bool(result.get("source_rerolled", false)),
+		"target_rerolled": bool(result.get("target_rerolled", false)),
+		"source_original_roll": int(result.get("source_original_roll", 0)),
+		"source_final_roll": int(result.get("source_final_roll", 0)),
+		"target_original_roll": int(result.get("target_original_roll", 0)),
+		"target_final_roll": int(result.get("target_final_roll", 0)),
+	}
+
+func _creature_has_perk(source: CreatureData, perk_name: String) -> bool:
+	if source == null:
+		return false
+	if source.perks != null:
+		for perk: Perk in source.perks:
+			if perk != null and perk._name == perk_name:
+				return true
+	if source is HumanoidData:
+		var humanoid := source as HumanoidData
+		for perk: Perk in [humanoid.race.perk, humanoid.homeland.perk, humanoid.background.perk]:
+			if perk != null and perk._name == perk_name:
+				return true
+	return false
+
+func _can_use_silver_tongue(source: CreatureData, skill_name: String) -> bool:
+	return _creature_has_perk(source, "Silver Tongue") and SILVER_TONGUE_SKILLS.has(skill_name)
+
+func _is_obsidian_patches_location_protected(target: CreatureData, target_location: Item.ItemSlots) -> bool:
+	if target == null or not _creature_has_perk(target, "Obsidian Patches"):
+		return false
+	return int(target.get_meta("obsidian_patches_location", -1)) == int(target_location)
+
+func _can_use_momentum(source: CreatureData, weapon: Weapon) -> bool:
+	if source == null or weapon == null:
+		return false
+	return _creature_has_perk(source, "Momentum")
+
+func _can_use_center_of_mass(source: CreatureData, target_location: Item.ItemSlots, target_location_mode: String) -> bool:
+	if source == null:
+		return false
+	if target_location_mode != TARGET_LOCATION_MODE_CALLED:
+		return false
+	if target_location != Item.ItemSlots.Torso:
+		return false
+	return _creature_has_perk(source, "Center of Mass")
+
+func _can_use_point_blank(source: CreatureData, weapon: Weapon, range_evaluation: Dictionary) -> bool:
+	if source == null or weapon == null or weapon.weaponRange == Weapon.WeaponRange.MELEE:
+		return false
+	if not bool(range_evaluation.get("engaged_penalty", false)):
+		return false
+	return _creature_has_perk(source, "Point Blank")
+
+func _can_use_deadeye(source: CreatureData, weapon: Weapon, range_evaluation: Dictionary) -> bool:
+	if source == null or weapon == null or weapon.weaponRange == Weapon.WeaponRange.MELEE:
+		return false
+	if not bool(range_evaluation.get("optimal_bonus", false)):
+		return false
+	return _creature_has_perk(source, "Deadeye")
+
+func _can_use_finisher(source: CreatureData, target: CreatureData) -> bool:
+	if source == null or target == null:
+		return false
+	if not _creature_has_perk(source, "Finisher"):
+		return false
+	var max_health := maxf(target.maxHP, target.getMaxHealth())
+	if max_health <= 0.0:
+		return false
+	return float(target.currentHP) < max_health * FINISHER_HEALTH_THRESHOLD
+
+func hasPerk(source: CreatureData, perk_name: String) -> bool:
+	return _creature_has_perk(source, perk_name)
+
+func _get_skill_floor(source: CreatureData, skill_name: String) -> Dictionary:
+	var perk_data: Dictionary = SKILL_FLOOR_PERKS.get(skill_name, {})
+	if perk_data.is_empty():
+		return {}
+	var perk_name := str(perk_data.get("perk", ""))
+	if perk_name.is_empty() or not _creature_has_perk(source, perk_name):
+		return {}
+	return {
+		"perk": perk_name,
+		"floor": int(perk_data.get("floor", 0)),
+	}
+
+func _get_skill_bonus_data(source: CreatureData, skill_name: String, contested: bool) -> Dictionary:
+	var perk_data: Dictionary = SKILL_BONUS_PERKS.get(skill_name, {})
+	if perk_data.is_empty():
+		return {}
+	var perk_name := str(perk_data.get("perk", ""))
+	if perk_name.is_empty() or not _creature_has_perk(source, perk_name):
+		return {}
+	if bool(perk_data.get("contested_only", false)) and not contested:
+		return {}
+	if bool(perk_data.get("non_contested_only", false)) and contested:
+		return {}
+	return {
+		"perk": perk_name,
+		"bonus": int(perk_data.get("bonus", 0)),
+	}
+
+func _get_skill_reroll_data(source: CreatureData, skill_name: String, contested: bool) -> Dictionary:
+	var perk_data: Dictionary = SKILL_REROLL_PERKS.get(skill_name, {})
+	if perk_data.is_empty():
+		return {}
+	var perk_name := str(perk_data.get("perk", ""))
+	if perk_name.is_empty() or not _creature_has_perk(source, perk_name):
+		return {}
+	if bool(perk_data.get("contested_only", false)) and not contested:
+		return {}
+	if bool(perk_data.get("non_contested_only", false)) and contested:
+		return {}
+	return {
+		"perk": perk_name,
+	}
+
+func _get_momentum_bonus(source: CreatureData, weapon: Weapon) -> int:
+	if not _can_use_momentum(source, weapon):
+		return 0
+	return mini(int(source.get_meta(MOMENTUM_META_KEY, 0)), MOMENTUM_MAX_BONUS)
+
+func _reset_momentum(source: CreatureData) -> void:
+	if source == null:
+		return
+	source.set_meta(MOMENTUM_META_KEY, 0)
+
+func _advance_momentum(source: CreatureData, weapon: Weapon) -> int:
+	if not _can_use_momentum(source, weapon):
+		return 0
+	var next_value := mini(int(source.get_meta(MOMENTUM_META_KEY, 0)) + 1, MOMENTUM_MAX_BONUS)
+	source.set_meta(MOMENTUM_META_KEY, next_value)
+	return next_value
 
 func getCarryWeight(source: CreatureData) -> float:
 	if source == null:
@@ -214,14 +404,32 @@ func addCondition(target: CreatureData, condition_name: String) -> bool:
 	var condition: Condition = null
 	if CampaignVariables.codex != null:
 		condition = CampaignVariables.codex.Conditions.get(condition_name, null)
+	var added := false
 	if condition != null:
-		return target.addCondition(condition.duplicate(true) as Condition)
-	return target.addCondition(Condition.new(condition_name))
+		added = target.addCondition(condition.duplicate(true) as Condition)
+	else:
+		added = target.addCondition(Condition.new(condition_name))
+	if added:
+		SignalBus.emit_gameplay_event("condition_added", "combat", {
+			"target": _build_actor_signal_payload(target),
+			"condition": {
+				"name": condition_name,
+			},
+		})
+	return added
 
 func removeCondition(target: CreatureData, condition_name: String) -> bool:
 	if target == null:
 		return false
-	return target.removeCondition(condition_name)
+	var removed := target.removeCondition(condition_name)
+	if removed:
+		SignalBus.emit_gameplay_event("condition_removed", "combat", {
+			"target": _build_actor_signal_payload(target),
+			"condition": {
+				"name": condition_name,
+			},
+		})
+	return removed
 
 func getBleedTurnsRemaining(target: CreatureData) -> int:
 	if target == null:
@@ -334,6 +542,15 @@ func resolveConditionApplication(source: CreatureData, target: CreatureData, con
 		return {"success": false, "reason": "missing_condition"}
 	var defence_name := getConditionDefenceName(normalized_condition)
 	var potency := getPotency(source)
+	SignalBus.emit_gameplay_event("condition_application_started", "combat", {
+		"source": _build_actor_signal_payload(source),
+		"target": _build_actor_signal_payload(target),
+		"condition": {
+			"name": normalized_condition,
+			"defence_name": defence_name,
+			"potency": potency,
+		},
+	})
 	var roll := rollDice(1, DiceType.D20)
 	var total := roll + potency
 	var defence_value := getDefenceValue(target, defence_name)
@@ -344,9 +561,24 @@ func resolveConditionApplication(source: CreatureData, target: CreatureData, con
 		bleed_result["potency"] = potency
 		bleed_result["condition_roll"] = roll
 		bleed_result["condition_total"] = total
+		SignalBus.emit_gameplay_event("condition_application_resolved", "combat", {
+			"source": _build_actor_signal_payload(source),
+			"target": _build_actor_signal_payload(target),
+			"condition": {
+				"name": normalized_condition,
+				"defence_name": defence_name,
+				"defence_value": defence_value,
+				"potency": potency,
+				"roll": roll,
+				"total": total,
+			},
+			"metadata": {
+				"result": bleed_result.duplicate(true),
+			},
+		})
 		return bleed_result
 	var applied := total >= defence_value and addCondition(target, normalized_condition)
-	return {
+	var result := {
 		"success": true,
 		"condition_name": normalized_condition,
 		"condition_defence": defence_name,
@@ -357,6 +589,24 @@ func resolveConditionApplication(source: CreatureData, target: CreatureData, con
 		"condition_applied": applied,
 		"condition_already_present": target.hasCondition(normalized_condition) and not applied,
 	}
+	SignalBus.emit_gameplay_event("condition_application_resolved", "combat", {
+		"source": _build_actor_signal_payload(source),
+		"target": _build_actor_signal_payload(target),
+		"condition": {
+			"name": normalized_condition,
+			"defence_name": defence_name,
+			"defence_value": defence_value,
+			"potency": potency,
+			"roll": roll,
+			"total": total,
+			"applied": applied,
+			"already_present": bool(result.get("condition_already_present", false)),
+		},
+		"metadata": {
+			"result": result.duplicate(true),
+		},
+	})
+	return result
 
 func damageConcentration(target: CreatureData, amount: int = 1) -> Dictionary:
 	if target == null:
@@ -391,6 +641,18 @@ func healHealth(target: CreatureData, amount: float, source: CreatureData = null
 		result["remaining_concentration"] = target.currentConcentration
 		result["is_unconscious"] = isUnconscious(target)
 		result["is_dead"] = isDead(target)
+		SignalBus.emit_gameplay_event("healing_applied", "combat", {
+			"source": _build_actor_signal_payload(source),
+			"target": _build_actor_signal_payload(target),
+			"healing": {
+				"requested_amount": amount,
+				"applied_amount": float(result.get("healed_amount", 0.0)),
+				"remaining_hp": float(result.get("remaining_hp", target.currentHP)),
+			},
+			"metadata": {
+				"result": result.duplicate(true),
+			},
+		})
 	return result
 
 func performFirstAid(target: CreatureData, source: CreatureData = null, amount: float = 5.0) -> Dictionary:
@@ -404,10 +666,14 @@ func performFirstAid(target: CreatureData, source: CreatureData = null, amount: 
 			"target_name": target._name,
 			"action_name": "First Aid",
 		}
-	var result := healHealth(target, amount, source)
+	var combat_medic_triggered := _creature_has_perk(source, "Combat Medic")
+	var adjusted_amount := amount * COMBAT_MEDIC_HEAL_MULTIPLIER if combat_medic_triggered else amount
+	var result := healHealth(target, adjusted_amount, source)
 	if result is Dictionary:
 		result["source_name"] = source._name if source != null else ""
 		result["action_name"] = "First Aid"
+		result["combat_medic_triggered"] = combat_medic_triggered
+		result["combat_medic_multiplier"] = COMBAT_MEDIC_HEAL_MULTIPLIER if combat_medic_triggered else 1.0
 	return result
 
 func restoreFromItem(resource: String, amount: float, target: CreatureData, source: CreatureData = null) -> Dictionary:
@@ -601,7 +867,11 @@ func _get_equipped_item_at_location(target: CreatureData, target_location: Item.
 	return null
 
 func getLocationDamageThreshold(target: CreatureData, target_location: Item.ItemSlots, damage_profile: DamageProfile = null) -> int:
-	if target == null or damage_profile == null or damage_profile.ignore_dt:
+	if target == null:
+		return 0
+	if _is_obsidian_patches_location_protected(target, target_location):
+		return OBSIDIAN_PATCHES_DT_BONUS
+	if damage_profile == null or damage_profile.ignore_dt:
 		return 0
 
 	var temporary_dt_bonuses: Dictionary = target.get_meta("temporary_dt_bonuses", {})
@@ -756,7 +1026,11 @@ func resolveAttack(target: CreatureData, source: CreatureData = null, damage_pro
 			"range_state": str(range_evaluation.get("range_state", "invalid")),
 		}
 
-	var range_accuracy_modifier: int = int(range_evaluation.get("accuracy_modifier", 0))
+	var point_blank_triggered := _can_use_point_blank(source, weapon, range_evaluation)
+	var deadeye_triggered := _can_use_deadeye(source, weapon, range_evaluation)
+	var point_blank_accuracy_bonus = abs(RANGED_ADJACENT_ACCURACY_PENALTY) if point_blank_triggered else 0
+	var deadeye_accuracy_bonus := DEADEYE_ACCURACY_BONUS if deadeye_triggered else 0
+	var range_accuracy_modifier: int = int(range_evaluation.get("accuracy_modifier", 0)) + point_blank_accuracy_bonus + deadeye_accuracy_bonus
 	var attack_mana_cost := 0
 	if action is Attack:
 		attack_mana_cost = maxi((action as Attack).mana_cost, 0)
@@ -772,7 +1046,31 @@ func resolveAttack(target: CreatureData, source: CreatureData = null, damage_pro
 		}
 	if attack_mana_cost > 0:
 		source.currentMana = maxi(source.currentMana - attack_mana_cost, 0)
-	var accuracy := getAccuracy(source, action) + int(context.get("accuracy_bonus", 0)) + range_accuracy_modifier
+	var center_of_mass_triggered := _can_use_center_of_mass(source, target_location, target_location_mode)
+	var center_of_mass_accuracy_bonus := CENTER_OF_MASS_ACCURACY_BONUS if center_of_mass_triggered else 0
+	var finisher_triggered := false
+	var momentum_bonus := _get_momentum_bonus(source, weapon)
+	var momentum_streak_before := momentum_bonus
+	var momentum_streak_after := momentum_streak_before
+	var accuracy := getAccuracy(source, action) + int(context.get("accuracy_bonus", 0)) + range_accuracy_modifier + momentum_bonus + center_of_mass_accuracy_bonus
+	SignalBus.emit_gameplay_event("attack_roll_started", "combat", {
+		"source": _build_actor_signal_payload(source),
+		"target": _build_actor_signal_payload(target),
+		"action": {
+			"name": action._name if action != null else "",
+		},
+		"roll": {
+			"accuracy": accuracy,
+			"defence_name": defence_name,
+		},
+		"metadata": {
+			"context": context.duplicate(true),
+			"target_location": int(target_location),
+			"target_location_name": _location_to_string(target_location),
+			"distance": grid_distance,
+			"range_state": str(range_evaluation.get("range_state", "standard")),
+		},
+	})
 	var hit_roll := rollDice(1, DiceType.D20)
 	var to_hit_total := hit_roll + accuracy
 	var defence_value := getDefenceValue(target, defence_name)
@@ -808,6 +1106,7 @@ func resolveAttack(target: CreatureData, source: CreatureData = null, damage_pro
 	var absorbed_by_temporary_health: float = 0.0
 	var health_damage: float = 0.0
 	var vitality_damage: float = 0.0
+	var obsidian_patches_triggered := false
 
 	if did_hit:
 		if profile.damage_die > 0:
@@ -824,9 +1123,32 @@ func resolveAttack(target: CreatureData, source: CreatureData = null, damage_pro
 		var attack_power_multiplier: float = 1.0
 		if action is Attack:
 			attack_power_multiplier = maxf(float((action as Attack).attack_power) / 100.0, 0.0)
+		finisher_triggered = _can_use_finisher(source, target)
 		raw_damage = maxf((float(profile.base_damage) + damage_roll + crit_roll + damage_bonus) * might_multiplier * attack_power_multiplier, 0.0)
+		if center_of_mass_triggered:
+			raw_damage *= CENTER_OF_MASS_DAMAGE_MULTIPLIER
+		if finisher_triggered:
+			raw_damage *= FINISHER_DAMAGE_MULTIPLIER
+		obsidian_patches_triggered = _is_obsidian_patches_location_protected(target, target_location)
 		location_dt = float(getLocationDamageThreshold(target, target_location, profile))
 		final_damage = maxf(raw_damage - location_dt, 0.0)
+		SignalBus.emit_gameplay_event("damage_will_apply", "combat", {
+			"source": _build_actor_signal_payload(source),
+			"target": _build_actor_signal_payload(target),
+			"action": {
+				"name": action._name if action != null else "",
+			},
+			"damage": {
+				"raw_damage": raw_damage,
+				"location_dt": location_dt,
+				"final_damage": final_damage,
+				"target_location": int(target_location),
+				"target_location_name": _location_to_string(target_location),
+				"did_crit": did_crit,
+				"obsidian_patches_triggered": obsidian_patches_triggered,
+				"finisher_triggered": finisher_triggered,
+			},
+		})
 		absorbed_by_temporary_health = minf(target.temporaryHealth, final_damage)
 		target.temporaryHealth = maxf(target.temporaryHealth - absorbed_by_temporary_health, 0.0)
 		health_damage = maxf(final_damage - absorbed_by_temporary_health, 0.0)
@@ -839,6 +1161,13 @@ func resolveAttack(target: CreatureData, source: CreatureData = null, damage_pro
 				var attack_condition := (action as Attack).condition.strip_edges()
 				if not attack_condition.is_empty():
 					condition_result = resolveConditionApplication(source, target, attack_condition)
+
+	if _can_use_momentum(source, weapon):
+		if did_hit:
+			momentum_streak_after = _advance_momentum(source, weapon)
+		else:
+			_reset_momentum(source)
+			momentum_streak_after = 0
 
 	var result := {
 		"success": true,
@@ -855,6 +1184,17 @@ func resolveAttack(target: CreatureData, source: CreatureData = null, damage_pro
 		"target_location": int(target_location),
 		"target_location_name": _location_to_string(target_location),
 		"accuracy": accuracy,
+		"center_of_mass_triggered": center_of_mass_triggered,
+		"center_of_mass_accuracy_bonus": center_of_mass_accuracy_bonus,
+		"center_of_mass_damage_multiplier": CENTER_OF_MASS_DAMAGE_MULTIPLIER if center_of_mass_triggered else 1.0,
+		"point_blank_triggered": point_blank_triggered,
+		"point_blank_accuracy_bonus": point_blank_accuracy_bonus,
+		"deadeye_triggered": deadeye_triggered,
+		"deadeye_accuracy_bonus": deadeye_accuracy_bonus,
+		"momentum_bonus": momentum_bonus,
+		"momentum_streak_before": momentum_streak_before,
+		"momentum_streak_after": momentum_streak_after,
+		"momentum_triggered": momentum_bonus > 0,
 		"forced_outcome": forced_outcome,
 		"crit_die": crit_die,
 		"hit_roll": hit_roll,
@@ -869,6 +1209,12 @@ func resolveAttack(target: CreatureData, source: CreatureData = null, damage_pro
 		"health_damage": health_damage,
 		"vitality_damage": vitality_damage,
 		"total_damage": final_damage,
+		"finisher_triggered": finisher_triggered,
+		"finisher_damage_multiplier": FINISHER_DAMAGE_MULTIPLIER if finisher_triggered else 1.0,
+		"damage_immune": obsidian_patches_triggered,
+		"damage_immunity_source": "Obsidian Patches" if obsidian_patches_triggered else "",
+		"immune_location": int(target_location) if obsidian_patches_triggered else -1,
+		"immune_location_name": _location_to_string(target_location) if obsidian_patches_triggered else "",
 		"remaining_concentration": concentration_result.get("remaining_concentration", getCurrentConcentration(target)),
 		"remaining_mana": concentration_result.get("remaining_mana", getCurrentMana(target)),
 		"concentration_broken": concentration_result.get("concentration_broken", false),
@@ -890,9 +1236,88 @@ func resolveAttack(target: CreatureData, source: CreatureData = null, damage_pro
 		"is_unconscious": isUnconscious(target),
 		"is_dead": isDead(target),
 	}
+	SignalBus.emit_gameplay_event("attack_roll_finished", "combat", {
+		"source": _build_actor_signal_payload(source),
+		"target": _build_actor_signal_payload(target),
+		"action": {
+			"name": action._name if action != null else "",
+		},
+		"roll": {
+			"hit_roll": hit_roll,
+			"accuracy": accuracy,
+			"total": to_hit_total,
+			"defence_name": defence_name,
+			"defence_value": defence_value,
+			"hit": did_hit,
+		},
+		"metadata": {
+			"result": result.duplicate(true),
+		},
+	})
+	if did_hit:
+		SignalBus.emit_gameplay_event("attack_hit_confirmed", "combat", {
+			"source": _build_actor_signal_payload(source),
+			"target": _build_actor_signal_payload(target),
+			"action": {
+				"name": action._name if action != null else "",
+			},
+			"damage": {
+				"raw_damage": raw_damage,
+				"location_dt": location_dt,
+				"final_damage": final_damage,
+				"health_damage": health_damage,
+				"vitality_damage": vitality_damage,
+				"damage_immune": obsidian_patches_triggered,
+			},
+			"metadata": {
+				"result": result.duplicate(true),
+			},
+		})
+		SignalBus.emit_gameplay_event("damage_applied", "combat", {
+			"source": _build_actor_signal_payload(source),
+			"target": _build_actor_signal_payload(target),
+			"action": {
+				"name": action._name if action != null else "",
+			},
+			"damage": {
+				"raw_damage": raw_damage,
+				"location_dt": location_dt,
+				"final_damage": final_damage,
+				"absorbed_by_temporary_health": absorbed_by_temporary_health,
+				"health_damage": health_damage,
+				"vitality_damage": vitality_damage,
+				"remaining_hp": target.currentHP,
+				"remaining_vitality": target.currentVitality,
+				"damage_immune": obsidian_patches_triggered,
+			},
+			"metadata": {
+				"result": result.duplicate(true),
+			},
+		})
+	else:
+		SignalBus.emit_gameplay_event("attack_missed", "combat", {
+			"source": _build_actor_signal_payload(source),
+			"target": _build_actor_signal_payload(target),
+			"action": {
+				"name": action._name if action != null else "",
+			},
+			"roll": {
+				"hit_roll": hit_roll,
+				"accuracy": accuracy,
+				"total": to_hit_total,
+				"defence_name": defence_name,
+				"defence_value": defence_value,
+			},
+			"metadata": {
+				"result": result.duplicate(true),
+			},
+		})
 
 	if did_hit:
-		print("%s hit %s in the %s for %s damage (%s DT)" % [result["source_name"], target._name, result["target_location_name"], final_damage, location_dt])
+		if obsidian_patches_triggered:
+			print("%s hit %s in the %s, but Obsidian Patches negated the damage." % [result["source_name"], target._name, result["target_location_name"]])
+		else:
+			print("%s hit %s in the %s for %s damage (%s DT)" % [result["source_name"], target._name, result["target_location_name"], final_damage, location_dt])
 	else:
 		print("%s missed %s (%s vs %s %s)" % [result["source_name"], target._name, to_hit_total, defence_name, defence_value])
 
@@ -921,23 +1346,78 @@ func resolveSkillCheck(source: CreatureData, skill_name: String, difficulty: int
 		return {"success": false, "reason": "missing_skill"}
 
 	var skill_value := getSkillValue(source, normalized_skill_name)
+	var floor_data := _get_skill_floor(source, normalized_skill_name)
+	var bonus_data := _get_skill_bonus_data(source, normalized_skill_name, false)
+	var reroll_data := _get_skill_reroll_data(source, normalized_skill_name, false)
+	var support_payload := _build_skill_support_payload(context)
+	var skill_bonus := int(bonus_data.get("bonus", 0))
+	var modifier := int(context.get("modifier", 0)) + skill_bonus
+	SignalBus.emit_gameplay_event("skill_check_roll_started", "skill_check", {
+		"source": _build_actor_signal_payload(source),
+		"skill_check": {
+			"skill_name": normalized_skill_name,
+			"difficulty": maxi(difficulty, 0),
+			"skill_value": skill_value,
+			"modifier": modifier,
+		},
+		"support": support_payload,
+		"metadata": {
+			"context": context.duplicate(true),
+		},
+	})
 	var roll := rollDice(1, DiceType.D20)
-	var total := roll + skill_value + int(context.get("modifier", 0))
+	var minimum_roll := int(floor_data.get("floor", 0))
+	if minimum_roll > 0:
+		roll = maxi(roll, minimum_roll)
+	var original_roll := roll
+	var total := roll + skill_value + modifier
 	var normalized_difficulty := maxi(difficulty, 0)
 	var passed := total >= normalized_difficulty
+	var rerolled := false
+	var reroll_source := ""
+	if not passed and _can_use_silver_tongue(source, normalized_skill_name):
+		rerolled = true
+		reroll_source = "Silver Tongue"
+		roll = rollDice(1, DiceType.D20)
+		if minimum_roll > 0:
+			roll = maxi(roll, minimum_roll)
+		total = roll + skill_value + modifier
+		passed = total >= normalized_difficulty
+	elif not passed and not reroll_data.is_empty():
+		rerolled = true
+		reroll_source = str(reroll_data.get("perk", ""))
+		roll = rollDice(1, DiceType.D20)
+		if minimum_roll > 0:
+			roll = maxi(roll, minimum_roll)
+		total = roll + skill_value + modifier
+		passed = total >= normalized_difficulty
 	var source_name := str(context.get("source_name", source._name))
-	var text := "%s rolled %s vs DC %s: %s + %s = %s, %s" % [
+	var modifier_text := ""
+	if modifier != 0:
+		modifier_text = " + %s" % modifier
+	var text := "%s rolled %s vs DC %s: %s + %s%s = %s, %s" % [
 		source_name,
 		normalized_skill_name,
 		normalized_difficulty,
 		roll,
 		skill_value,
+		modifier_text,
 		total,
 		"Success" if passed else "Failure"
 	]
-	var tooltip := "d20 (%s) + %s (%s) = %s vs DC %s" % [roll, normalized_skill_name, skill_value, total, normalized_difficulty]
+	var tooltip := "d20 (%s) + %s (%s)%s = %s vs DC %s" % [roll, normalized_skill_name, skill_value, modifier_text, total, normalized_difficulty]
+	if not support_payload.is_empty():
+		var support_name := str(support_payload.get("name", "An ally"))
+		tooltip += " | Good Natured: %s adds +%s" % [support_name, int(support_payload.get("bonus", 0))]
+	if skill_bonus > 0:
+		tooltip += " | %s: +%s" % [str(bonus_data.get("perk", "Skill Perk")), skill_bonus]
+	if minimum_roll > 0 and original_roll == minimum_roll and original_roll > 0:
+		tooltip += " | %s sets minimum roll to %s" % [str(floor_data.get("perk", "Skill Perk")), minimum_roll]
+	if rerolled:
+		text += " | %s reroll: %s -> %s" % [reroll_source, original_roll, roll]
+		tooltip += " | %s reroll: %s -> %s" % [reroll_source, original_roll, roll]
 
-	return {
+	var result := {
 		"success": true,
 		"action_name": "Perform Skill Test",
 		"contested": false,
@@ -948,12 +1428,46 @@ func resolveSkillCheck(source: CreatureData, skill_name: String, difficulty: int
 		"skill_value": skill_value,
 		"difficulty": normalized_difficulty,
 		"roll": roll,
-		"modifier": int(context.get("modifier", 0)),
+		"modifier": modifier,
+		"skill_bonus": skill_bonus,
+		"minimum_roll": minimum_roll,
 		"total": total,
 		"passed": passed,
+		"rerolled": rerolled,
+		"original_roll": original_roll,
+		"final_roll": roll,
+		"reroll_source": reroll_source,
+		"perk_triggered": not bonus_data.is_empty() or not floor_data.is_empty() or rerolled,
+		"perk_names": [str(bonus_data.get("perk", "")), str(floor_data.get("perk", "")), reroll_source].filter(func(perk_entry: String): return not perk_entry.is_empty()),
+		"support": support_payload.duplicate(true),
 		"text": text,
 		"tooltip": tooltip,
 	}
+	var reroll_payload := _build_skill_reroll_payload(result)
+	SignalBus.emit_gameplay_event("skill_check_roll_finished", "skill_check", {
+		"source": _build_actor_signal_payload(source),
+		"skill_check": {
+			"skill_name": normalized_skill_name,
+			"difficulty": normalized_difficulty,
+			"skill_value": skill_value,
+			"roll": roll,
+			"modifier": modifier,
+			"total": total,
+			"passed": passed,
+		},
+		"support": support_payload,
+		"reroll": reroll_payload,
+		"metadata": {
+			"result": result.duplicate(true),
+		},
+	})
+	SignalBus.emit_gameplay_event("skill_check_resolved", "skill_check", {
+		"source": _build_actor_signal_payload(source),
+		"skill_check": result.duplicate(true),
+		"support": support_payload,
+		"reroll": reroll_payload,
+	})
+	return result
 
 func resolveContestedSkillCheck(source: CreatureData, target: CreatureData, skill_name: String, context: Dictionary = {}) -> Dictionary:
 	if source == null:
@@ -965,10 +1479,82 @@ func resolveContestedSkillCheck(source: CreatureData, target: CreatureData, skil
 		return {"success": false, "reason": "missing_skill"}
 	var source_skill_value := getSkillValue(source, normalized_skill_name)
 	var target_skill_value := getSkillValue(target, normalized_skill_name)
+	var source_floor_data := _get_skill_floor(source, normalized_skill_name)
+	var target_floor_data := _get_skill_floor(target, normalized_skill_name)
+	var source_bonus_data := _get_skill_bonus_data(source, normalized_skill_name, true)
+	var target_bonus_data := _get_skill_bonus_data(target, normalized_skill_name, true)
+	var source_reroll_data := _get_skill_reroll_data(source, normalized_skill_name, true)
+	var target_reroll_data := _get_skill_reroll_data(target, normalized_skill_name, true)
+	var source_skill_bonus := int(source_bonus_data.get("bonus", 0))
+	var target_skill_bonus := int(target_bonus_data.get("bonus", 0))
+	var source_modifier := int(context.get("modifier", 0)) + source_skill_bonus
+	var target_modifier := int(context.get("target_modifier", 0)) + target_skill_bonus
+	SignalBus.emit_gameplay_event("skill_check_roll_started", "skill_check", {
+		"source": _build_actor_signal_payload(source),
+		"target": _build_actor_signal_payload(target),
+		"skill_check": {
+			"skill_name": normalized_skill_name,
+			"source_skill_value": source_skill_value,
+			"target_skill_value": target_skill_value,
+			"modifier": source_modifier,
+			"target_modifier": target_modifier,
+			"contested": true,
+		},
+		"metadata": {
+			"context": context.duplicate(true),
+		},
+	})
 	var source_roll := rollDice(1, DiceType.D20)
 	var target_roll := rollDice(1, DiceType.D20)
-	var source_total := source_roll + source_skill_value + int(context.get("modifier", 0))
-	var target_total := target_roll + target_skill_value + int(context.get("target_modifier", 0))
+	var source_minimum_roll := int(source_floor_data.get("floor", 0))
+	var target_minimum_roll := int(target_floor_data.get("floor", 0))
+	if source_minimum_roll > 0:
+		source_roll = maxi(source_roll, source_minimum_roll)
+	if target_minimum_roll > 0:
+		target_roll = maxi(target_roll, target_minimum_roll)
+	var source_original_roll := source_roll
+	var target_original_roll := target_roll
+	var source_total := source_roll + source_skill_value + source_modifier
+	var target_total := target_roll + target_skill_value + target_modifier
+	var source_rerolled := false
+	var target_rerolled := false
+	var source_reroll_source := ""
+	var target_reroll_source := ""
+	while true:
+		var current_passed := source_total >= target_total
+		if not current_passed and not source_rerolled and _can_use_silver_tongue(source, normalized_skill_name):
+			source_rerolled = true
+			source_reroll_source = "Silver Tongue"
+			source_roll = rollDice(1, DiceType.D20)
+			if source_minimum_roll > 0:
+				source_roll = maxi(source_roll, source_minimum_roll)
+			source_total = source_roll + source_skill_value + source_modifier
+			continue
+		if not current_passed and not source_rerolled and not source_reroll_data.is_empty():
+			source_rerolled = true
+			source_reroll_source = str(source_reroll_data.get("perk", ""))
+			source_roll = rollDice(1, DiceType.D20)
+			if source_minimum_roll > 0:
+				source_roll = maxi(source_roll, source_minimum_roll)
+			source_total = source_roll + source_skill_value + source_modifier
+			continue
+		if current_passed and not target_rerolled and _can_use_silver_tongue(target, normalized_skill_name):
+			target_rerolled = true
+			target_reroll_source = "Silver Tongue"
+			target_roll = rollDice(1, DiceType.D20)
+			if target_minimum_roll > 0:
+				target_roll = maxi(target_roll, target_minimum_roll)
+			target_total = target_roll + target_skill_value + target_modifier
+			continue
+		if current_passed and not target_rerolled and not target_reroll_data.is_empty():
+			target_rerolled = true
+			target_reroll_source = str(target_reroll_data.get("perk", ""))
+			target_roll = rollDice(1, DiceType.D20)
+			if target_minimum_roll > 0:
+				target_roll = maxi(target_roll, target_minimum_roll)
+			target_total = target_roll + target_skill_value + target_modifier
+			continue
+		break
 	var passed := source_total >= target_total
 	var source_name := str(context.get("source_name", source._name))
 	var target_name := str(context.get("target_name", target._name))
@@ -997,7 +1583,21 @@ func resolveContestedSkillCheck(source: CreatureData, target: CreatureData, skil
 		target_skill_value,
 		target_total,
 	]
-	return {
+	if source_skill_bonus > 0:
+		tooltip += " | %s: +%s" % [str(source_bonus_data.get("perk", "Skill Perk")), source_skill_bonus]
+	if target_skill_bonus > 0:
+		tooltip += " | %s: +%s" % [str(target_bonus_data.get("perk", "Skill Perk")), target_skill_bonus]
+	if source_minimum_roll > 0 and source_original_roll == source_minimum_roll:
+		tooltip += " | %s sets %s's minimum roll to %s" % [str(source_floor_data.get("perk", "Skill Perk")), source_name, source_minimum_roll]
+	if target_minimum_roll > 0 and target_original_roll == target_minimum_roll:
+		tooltip += " | %s sets %s's minimum roll to %s" % [str(target_floor_data.get("perk", "Skill Perk")), target_name, target_minimum_roll]
+	if source_rerolled:
+		text += " | %s rerolled with %s: %s -> %s" % [source_name, source_reroll_source, source_original_roll, source_roll]
+		tooltip += " | %s %s: %s -> %s" % [source_name, source_reroll_source, source_original_roll, source_roll]
+	if target_rerolled:
+		text += " | %s rerolled with %s: %s -> %s" % [target_name, target_reroll_source, target_original_roll, target_roll]
+		tooltip += " | %s %s: %s -> %s" % [target_name, target_reroll_source, target_original_roll, target_roll]
+	var result := {
 		"success": true,
 		"action_name": "Perform Skill Test",
 		"contested": true,
@@ -1011,13 +1611,42 @@ func resolveContestedSkillCheck(source: CreatureData, target: CreatureData, skil
 		"target_skill_value": target_skill_value,
 		"source_total": source_total,
 		"target_total": target_total,
-		"modifier": int(context.get("modifier", 0)),
-		"target_modifier": int(context.get("target_modifier", 0)),
+		"modifier": source_modifier,
+		"target_modifier": target_modifier,
+		"source_skill_bonus": source_skill_bonus,
+		"target_skill_bonus": target_skill_bonus,
+		"source_minimum_roll": source_minimum_roll,
+		"target_minimum_roll": target_minimum_roll,
 		"passed": passed,
 		"tie": source_total == target_total,
+		"rerolled": source_rerolled or target_rerolled,
+		"source_rerolled": source_rerolled,
+		"target_rerolled": target_rerolled,
+		"source_original_roll": source_original_roll,
+		"source_final_roll": source_roll,
+		"target_original_roll": target_original_roll,
+		"target_final_roll": target_roll,
+		"reroll_source": source_reroll_source if not source_reroll_source.is_empty() else target_reroll_source,
+		"source_reroll_source": source_reroll_source,
+		"target_reroll_source": target_reroll_source,
+		"perk_triggered": source_skill_bonus > 0 or target_skill_bonus > 0 or source_minimum_roll > 0 or target_minimum_roll > 0 or source_rerolled or target_rerolled,
 		"text": text,
 		"tooltip": tooltip,
 	}
+	var reroll_payload := _build_skill_reroll_payload(result)
+	SignalBus.emit_gameplay_event("skill_check_roll_finished", "skill_check", {
+		"source": _build_actor_signal_payload(source),
+		"target": _build_actor_signal_payload(target),
+		"skill_check": result.duplicate(true),
+		"reroll": reroll_payload,
+	})
+	SignalBus.emit_gameplay_event("skill_check_resolved", "skill_check", {
+		"source": _build_actor_signal_payload(source),
+		"target": _build_actor_signal_payload(target),
+		"skill_check": result.duplicate(true),
+		"reroll": reroll_payload,
+	})
+	return result
 
 func performSkillTest(source: CreatureData, target: CreatureData = null, context: Dictionary = {}) -> Dictionary:
 	if source == null:

@@ -1,18 +1,9 @@
-[gd_resource type="Resource" script_class="Background" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="Background" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_35ma6"]
-[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_nkp7c"]
-
-[sub_resource type="Resource" id="Resource_rbhi6"]
-script = ExtResource("1_35ma6")
-category = "Background"
-_name = "Of the same Cloth"
-short_description = "Well-connected among nobles."
-long_description = "Reduce Difficulty when Carousing with Nobles by 1."
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="1_cv515"]
 
 [resource]
-script = ExtResource("2_nkp7c")
-perk = SubResource("Resource_rbhi6")
+script = ExtResource("1_cv515")
 _name = "Noble"
 short_description = "High-born individual with social standing."
 long_description = "You are part of a Nobel family or have spent a significant portion of your life becoming one. A Nobel life comes with great social standing, understanding of money and perhaps even leadership skills. Skills: Discipline, Society, Command, Linguistics or Lore. Equipment: Nobels Attire and 100 Gold."

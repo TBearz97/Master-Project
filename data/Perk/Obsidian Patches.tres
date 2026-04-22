@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_w58sp"]
+
+[resource]
+script = ExtResource("1_w58sp")
+category = "Race"
+_name = "Obsidian Patches"
+short_description = "Living obsidian shields one patch of your body from harm."
+long_description = "At the start of combat, one body location is chosen randomly. Attacks that hit that location deal no damage."

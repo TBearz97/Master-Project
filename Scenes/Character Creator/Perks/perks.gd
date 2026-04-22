@@ -9,11 +9,8 @@ var _selected_click_connected: bool = false
 func _ready() -> void:
 	_setup()
 	visibility_changed.connect(_save)
-	if not PlayerVariables.current().perks.is_empty():
-		for perk in PlayerVariables.current().perks:
-			var idx := selected.add_item(perk._name)
-			selected.set_item_metadata(idx, perk)
-			selected.set_item_tooltip(idx, perk.short_description)
+	visibility_changed.connect(_refresh_selected_perks)
+	_refresh_selected_perks()
 	_connect_selected_item_clicked()
 
 func _setup() -> void:
@@ -64,9 +61,7 @@ func _setup() -> void:
 			selectBtn.text = "Select"
 			selectBtn.pressed.connect(func() -> void:
 				if points.value > 0 and not _item_exists(selected, perk._name):
-					var idx := selected.add_item(perk._name)
-					selected.set_item_metadata(idx, perk)
-					selected.set_item_tooltip(idx, perk.short_description)
+					_add_selected_perk(perk, false)
 					_connect_selected_item_clicked()
 					points.value -= 1
 				)
@@ -79,6 +74,9 @@ func _connect_selected_item_clicked() -> void:
 	if _selected_click_connected:
 		return
 	selected.item_clicked.connect(func(index: int, _pos: Vector2, _mbidx: int) -> void:
+		var entry_metadata: Variant = selected.get_item_metadata(index)
+		if entry_metadata is Dictionary and bool((entry_metadata as Dictionary).get("locked", false)):
+			return
 		selected.remove_item(index)
 		points.value += 1
 	)
@@ -86,13 +84,48 @@ func _connect_selected_item_clicked() -> void:
 
 func _item_exists(_iList: ItemList, _name: String) -> bool:
 	for i in range(_iList.item_count):
-		if _iList.get_item_text(i) == _name:
+		var entry_metadata: Variant = _iList.get_item_metadata(i)
+		if entry_metadata is Dictionary:
+			var perk := (entry_metadata as Dictionary).get("perk", null) as Perk
+			if perk != null and perk._name == _name:
+				return true
+		elif _iList.get_item_text(i) == _name:
 			return true
 	return false
 
 func _save() -> void:
 	var perks: Array[Perk] = []
 	for i in range(selected.item_count):
-		perks.append(selected.get_item_metadata(i))
+		var entry_metadata: Variant = selected.get_item_metadata(i)
+		if entry_metadata is Dictionary:
+			var entry := entry_metadata as Dictionary
+			if bool(entry.get("locked", false)):
+				continue
+			var perk := entry.get("perk", null) as Perk
+			if perk != null:
+				perks.append(perk)
+		elif entry_metadata is Perk:
+			perks.append(entry_metadata)
 	PlayerVariables.setPerks(perks)
 	PlayerVariables.setPerkPoints(int(points.value))
+
+func _refresh_selected_perks() -> void:
+	selected.clear()
+	for perk: Perk in PlayerVariables.getOriginPerks():
+		_add_selected_perk(perk, true)
+	for perk: Perk in PlayerVariables.getPerks():
+		_add_selected_perk(perk, false)
+
+func _add_selected_perk(perk: Perk, locked: bool) -> void:
+	if perk == null or _item_exists(selected, perk._name):
+		return
+	var label := perk._name
+	if locked:
+		label = "%s [Origin]" % perk._name
+	var idx := selected.add_item(label)
+	selected.set_item_metadata(idx, {
+		"perk": perk,
+		"locked": locked,
+	})
+	selected.set_item_tooltip(idx, perk.short_description)
+	selected.set_item_disabled(idx, locked)

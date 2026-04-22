@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bot2agb1y18ax" path="res://Scenes/Combat Session/CombatSession.tscn" id="6_gh7wh"]
 [ext_resource type="PackedScene" uid="uid://d1hjcr78y7rkk" path="res://Scenes/Networks/CampaignManager.tscn" id="6_t4xyy"]
 [ext_resource type="Script" uid="uid://dg5rrgc2o1jg" path="res://Scenes/Character Sheet/character_sheet.gd" id="7_char_sheet"]
+[ext_resource type="Script" path="res://Scenes/Character Sheet/perks.gd" id="8_perks"]
 
 [node name="Sheet" type="Control"]
 layout_mode = 3
@@ -289,6 +290,7 @@ metadata/_tab_index = 1
 [node name="Perks" type="ScrollContainer" parent="Panel/MarginContainer/MarginContainer/TabContainer"]
 visible = false
 layout_mode = 2
+script = ExtResource("8_perks")
 metadata/_tab_index = 2
 
 [node name="Inventory & Equipment" type="ScrollContainer" parent="Panel/MarginContainer/MarginContainer/TabContainer"]

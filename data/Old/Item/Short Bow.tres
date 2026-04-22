@@ -1,16 +1,38 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Short Bow.png" id="1_wtxdv"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_nlmqa"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_u8log"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_dm0pg"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_fo7oa"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Short Bow.png" id="4_2pl6u"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_c12l1"]
+
+[sub_resource type="Resource" id="Resource_ovdym"]
+script = ExtResource("2_dm0pg")
+attack_power = 100
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 20
+_name = "Fire"
+short_description = "A ranged attack."
+long_description = "Releasing a projectile at the target."
+
+[sub_resource type="Resource" id="Resource_2y2ld"]
+script = ExtResource("3_fo7oa")
+damage_die = 4
 
 [resource]
-script = ExtResource("2_nlmqa")
-damage = 1.0
-speed = 20
+script = ExtResource("5_c12l1")
+damage_profile = SubResource("Resource_2y2ld")
+base_ap_cost = 3
+speed_category = 1
 size = 1
 weaponRange = 1
+actions = Array[ExtResource("1_u8log")]([SubResource("Resource_ovdym")])
 weight = 1.0
 value = 20
-icon = ExtResource("1_wtxdv")
+icon = ExtResource("4_2pl6u")
 allowed_slots = Array[int]([7])
 _name = "Short Bow"
+short_description = "A weapon used in combat."
+long_description = "Deals d4 damage. AP cost 3. Speed Fast."

@@ -2,8 +2,8 @@ extends Window
 class_name SkillCheckWindow
 
 signal gm_offer_approved(options)
-signal local_check_requested(options, selected_skill_name)
-signal option_chosen(selected_skill_name: String)
+signal local_check_requested(options, selected_skill_name, helper_peer_id)
+signal option_chosen(selected_skill_name: String, helper_peer_id: int)
 signal request_cancelled()
 
 const MODE_GM_SETUP := "gm_setup"
@@ -17,6 +17,7 @@ var current_requester_name := ""
 var requested_skill_name := ""
 var current_options: Array[Dictionary] = []
 var current_skill_values: Dictionary = {}
+var current_helper_options_by_skill: Dictionary = {}
 
 var title_label: Label
 var description_label: Label
@@ -24,6 +25,8 @@ var setup_rows_container: VBoxContainer
 var choice_container: VBoxContainer
 var local_choice_label: Label
 var local_choice_option: OptionButton
+var helper_choice_label: Label
+var helper_choice_option: OptionButton
 var confirm_button: Button
 
 var primary_row: Dictionary = {}
@@ -41,6 +44,7 @@ func configure_gm_setup(skill_names: Array[String], requester_name: String, requ
 	current_mode = MODE_GM_SETUP
 	current_requester_name = requester_name
 	requested_skill_name = requested_skill
+	current_helper_options_by_skill = {}
 	title_label.text = "Approve Skill Check"
 	if requested_skill.strip_edges().is_empty():
 		description_label.text = "Create a skill check for %s. Set the primary option and up to %s optional skills." % [requester_name, MAX_OPTIONAL_ROWS]
@@ -50,36 +54,45 @@ func configure_gm_setup(skill_names: Array[String], requester_name: String, requ
 	choice_container.visible = false
 	local_choice_label.visible = false
 	local_choice_option.visible = false
+	helper_choice_label.visible = false
+	helper_choice_option.visible = false
 	confirm_button.text = "Send Options"
 
-func configure_local_setup(skill_names: Array[String], requested_skill: String) -> void:
+func configure_local_setup(skill_names: Array[String], requested_skill: String, helper_options_by_skill: Dictionary = {}) -> void:
 	available_skill_names = skill_names.duplicate()
 	available_skill_names.sort()
 	current_mode = MODE_LOCAL_SETUP
 	current_requester_name = PlayerVariables.getName()
 	requested_skill_name = requested_skill
+	current_helper_options_by_skill = helper_options_by_skill.duplicate(true)
 	title_label.text = "Local Skill Check"
 	description_label.text = "Set the main DC and up to %s optional skills, then choose which one to resolve." % MAX_OPTIONAL_ROWS
 	_setup_rows(true)
 	choice_container.visible = false
 	local_choice_label.visible = true
 	local_choice_option.visible = true
+	helper_choice_label.visible = true
+	helper_choice_option.visible = true
 	confirm_button.text = "Resolve"
 	_refresh_local_choice_options()
 
-func configure_player_choice(requester_name: String, options: Array[Dictionary], skill_values: Dictionary = {}) -> void:
+func configure_player_choice(requester_name: String, options: Array[Dictionary], skill_values: Dictionary = {}, helper_options_by_skill: Dictionary = {}) -> void:
 	current_mode = MODE_PLAYER_CHOICE
 	current_requester_name = requester_name
 	current_options = _sanitize_options(options)
 	current_skill_values = skill_values.duplicate(true)
+	current_helper_options_by_skill = helper_options_by_skill.duplicate(true)
 	title_label.text = "Choose Skill"
 	description_label.text = "%s can use one of the following GM-approved options." % requester_name
 	setup_rows_container.visible = false
-	local_choice_label.visible = false
-	local_choice_option.visible = false
-	choice_container.visible = true
-	confirm_button.visible = false
-	_rebuild_choice_buttons()
+	local_choice_label.visible = true
+	local_choice_option.visible = true
+	helper_choice_label.visible = true
+	helper_choice_option.visible = true
+	choice_container.visible = false
+	confirm_button.visible = true
+	confirm_button.text = "Resolve"
+	_refresh_player_choice_options()
 
 func _build_ui() -> void:
 	var panel := Panel.new()
@@ -119,7 +132,15 @@ func _build_ui() -> void:
 	root.add_child(local_choice_label)
 
 	local_choice_option = OptionButton.new()
+	local_choice_option.item_selected.connect(func(_idx: int) -> void: _refresh_helper_choice_options())
 	root.add_child(local_choice_option)
+
+	helper_choice_label = Label.new()
+	helper_choice_label.text = "Assisted by"
+	root.add_child(helper_choice_label)
+
+	helper_choice_option = OptionButton.new()
+	root.add_child(helper_choice_option)
 
 	var spacer := Control.new()
 	spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -186,10 +207,12 @@ func _build_option_row(row_label_text: String, allow_disable: bool) -> Dictionar
 		dc.editable = enabled.button_pressed
 		_refresh_unique_skill_availability()
 		_refresh_local_choice_options()
+		_refresh_helper_choice_options()
 	)
 	skill_selector.item_selected.connect(func(_idx: int) -> void:
 		_refresh_unique_skill_availability()
 		_refresh_local_choice_options()
+		_refresh_helper_choice_options()
 	)
 	dc.value_changed.connect(func(_value: float) -> void: _refresh_local_choice_options())
 
@@ -334,17 +357,44 @@ func _refresh_local_choice_options() -> void:
 		local_choice_option.set_item_metadata(local_choice_option.item_count - 1, option["skill_name"])
 	if local_choice_option.item_count > 0:
 		local_choice_option.select(0)
+	_refresh_helper_choice_options()
 
-func _rebuild_choice_buttons() -> void:
-	for child in choice_container.get_children():
-		child.queue_free()
+func _refresh_player_choice_options() -> void:
+	if not is_inside_tree() or current_mode != MODE_PLAYER_CHOICE:
+		return
+	local_choice_option.clear()
 	for option in current_options:
-		var button := Button.new()
 		var skill_name := str(option.get("skill_name", ""))
 		var chance_text := _build_choice_chance_text(skill_name, int(option.get("difficulty", 0)))
-		button.text = "%s (%s)%s" % [skill_name, chance_text, " - Primary" if bool(option.get("is_primary", false)) else ""]
-		button.pressed.connect(_on_choice_button_pressed.bind(skill_name))
-		choice_container.add_child(button)
+		local_choice_option.add_item("%s (%s)%s" % [skill_name, chance_text, " - Primary" if bool(option.get("is_primary", false)) else ""])
+		local_choice_option.set_item_metadata(local_choice_option.item_count - 1, skill_name)
+	if local_choice_option.item_count > 0:
+		local_choice_option.select(0)
+	_refresh_helper_choice_options()
+
+func _refresh_helper_choice_options() -> void:
+	if helper_choice_option == null:
+		return
+	helper_choice_option.clear()
+	helper_choice_option.add_item("No Helper")
+	helper_choice_option.set_item_metadata(0, -1)
+	if local_choice_option == null or local_choice_option.item_count == 0:
+		helper_choice_option.select(0)
+		return
+	var selected_skill_name := str(local_choice_option.get_item_metadata(local_choice_option.selected)).strip_edges()
+	var helper_options_variant: Variant = current_helper_options_by_skill.get(selected_skill_name, [])
+	if helper_options_variant is Array:
+		for helper_option_variant in helper_options_variant:
+			if not (helper_option_variant is Dictionary):
+				continue
+			var helper_option := helper_option_variant as Dictionary
+			var helper_name := str(helper_option.get("name", "Player")).strip_edges()
+			var support_bonus := int(helper_option.get("support_bonus", 0))
+			if helper_name.is_empty() or support_bonus <= 0:
+				continue
+			helper_choice_option.add_item("%s (+%s Good Natured)" % [helper_name, support_bonus])
+			helper_choice_option.set_item_metadata(helper_choice_option.item_count - 1, int(helper_option.get("peer_id", -1)))
+	helper_choice_option.select(0)
 
 func _build_choice_chance_text(skill_name: String, difficulty: int) -> String:
 	if not current_skill_values.has(skill_name):
@@ -371,13 +421,20 @@ func _on_confirm_pressed() -> void:
 			if local_options.is_empty() or local_choice_option.item_count == 0:
 				return
 			var selected_skill_name := str(local_choice_option.get_item_metadata(local_choice_option.selected))
-			local_check_requested.emit(local_options, selected_skill_name)
+			local_check_requested.emit(local_options, selected_skill_name, _get_selected_helper_peer_id())
+			queue_free()
+		MODE_PLAYER_CHOICE:
+			if current_options.is_empty() or local_choice_option.item_count == 0:
+				return
+			var chosen_skill_name := str(local_choice_option.get_item_metadata(local_choice_option.selected))
+			option_chosen.emit(chosen_skill_name, _get_selected_helper_peer_id())
 			queue_free()
 
 func _on_close_requested() -> void:
 	request_cancelled.emit()
 	queue_free()
 
-func _on_choice_button_pressed(skill_name: String) -> void:
-	option_chosen.emit(skill_name)
-	queue_free()
+func _get_selected_helper_peer_id() -> int:
+	if helper_choice_option == null or helper_choice_option.item_count == 0:
+		return -1
+	return int(helper_choice_option.get_item_metadata(helper_choice_option.selected))

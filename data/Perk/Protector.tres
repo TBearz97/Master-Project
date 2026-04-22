@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_3owet"]
+
+[resource]
+script = ExtResource("1_3owet")
+category = "Combat"
+_name = "Protector"
+short_description = "Guard grants +1 additional defence."
+long_description = "When you use Guard, its defence bonus increases by 1."

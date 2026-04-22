@@ -1,12 +1,34 @@
-[gd_resource type="Resource" script_class="Weapon" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="Weapon" load_steps=8 format=3]
 
-[ext_resource type="Texture2D" path="res://Art/Icons/Items/Unarmed.png" id="1_jakd3"]
-[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="2_qy2b2"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Action.gd" id="1_a1v8r"]
+[ext_resource type="Script" path="res://content/codex/gameplay/Attack.gd" id="2_llvs5"]
+[ext_resource type="Script" path="res://content/codex/gameplay/DamageProfile.gd" id="3_1ppus"]
+[ext_resource type="Texture2D" path="res://Art/Icons/Items/Unarmed.png" id="4_2dnek"]
+[ext_resource type="Script" path="res://content/codex/items/weapon.gd" id="5_phgmd"]
+
+[sub_resource type="Resource" id="Resource_73b5f"]
+script = ExtResource("2_llvs5")
+attack_power = 100
+target = "single_target"
+category = "Attack"
+ap_cost = 1
+base_speed = 20
+_name = "Strike"
+short_description = "A basic attack."
+long_description = "A direct, unadorned blow."
+
+[sub_resource type="Resource" id="Resource_wfilc"]
+script = ExtResource("3_1ppus")
+damage_die = 4
 
 [resource]
-script = ExtResource("2_qy2b2")
-damage = 1.0
-speed = 20
-icon = ExtResource("1_jakd3")
+script = ExtResource("5_phgmd")
+damage_profile = SubResource("Resource_wfilc")
+base_ap_cost = 3
+speed_category = 1
+actions = Array[ExtResource("1_a1v8r")]([SubResource("Resource_73b5f")])
+icon = ExtResource("4_2dnek")
 allowed_slots = Array[int]([7])
 _name = "Unarmed"
+short_description = "A weapon used in combat."
+long_description = "Deals d4 damage. AP cost 3. Speed Fast."

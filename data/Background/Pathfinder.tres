@@ -1,18 +1,9 @@
-[gd_resource type="Resource" script_class="Background" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="Background" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_1tfyy"]
-[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="2_7amsq"]
-
-[sub_resource type="Resource" id="Resource_32jlc"]
-script = ExtResource("1_1tfyy")
-category = "Background"
-_name = "Trailblazer"
-short_description = "Guide others safely through the wild."
-long_description = "Your party ignores the first hour of travel penalties (fatigue, hunger, or navigation difficulty) each day."
+[ext_resource type="Script" path="res://content/codex/character_options/background.gd" id="1_1lvjd"]
 
 [resource]
-script = ExtResource("2_7amsq")
-perk = SubResource("Resource_32jlc")
+script = ExtResource("1_1lvjd")
 _name = "Pathfinder"
 short_description = "Move faster on map."
 long_description = "Travel time reduced in wilderness exploration."
