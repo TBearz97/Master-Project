@@ -13,13 +13,15 @@ func _ready() -> void:
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
 
 func become_host() -> void:
+	SteamManager.log_network_message("Steam", "Starting host!")
 	print("Starting host!")
 
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, SteamManager.lobby_max_members)
 
 func _on_lobby_created(_connect: int, lobby_steam_id: int) -> void:
 	if _connect != 1:
-		push_error("Lobby creation failed.")
+		SteamManager.log_network_message("Steam", "Lobby creation failed.%s" % _connect)
+		push_error("Lobby creation failed." + str(_connect))
 		return
 
 	current_lobby_steam_id = lobby_steam_id
@@ -33,8 +35,10 @@ func _on_lobby_created(_connect: int, lobby_steam_id: int) -> void:
 	multiplayer.multiplayer_peer = peer
 
 func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, _response: int) -> void:
+	SteamManager.log_network_message("Steam", "On lobby joined %s" % lobby_id)
 	print("On lobby joined %s" % lobby_id)
 	if Steam.getLobbyOwner(lobby_id) == Steam.getSteamID():
+		SteamManager.log_network_message("Steam", "Lobby host already in lobby, bypassing...")
 		print("Lobby host already in lobby, bypassing...")
 		return
 

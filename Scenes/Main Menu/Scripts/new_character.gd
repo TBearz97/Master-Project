@@ -1,11 +1,13 @@
 extends Button
 
+@export var characterCreatorScene : PackedScene
+
 func _ready() -> void:
 	pressed.connect(_on_pressed)
 
 func _on_pressed() -> void:
 	PlayerVariables.start_new_character(_get_basic_actions())
-	get_tree().change_scene_to_file("res://Scenes/Character Creator/character_creator.tscn")
+	get_tree().change_scene_to_packed(characterCreatorScene)
 
 func _get_basic_actions() -> Array[Action]:
 	var basic_actions: Array[Action] = []

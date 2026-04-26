@@ -237,6 +237,11 @@ func _client_append_chat_line(senderPeerId: int, messageText: String) -> void:
 	chat_log.text += senderName + ": " + messageText + "\n"
 	all_logs.text += senderName + ": " + messageText + "\n"
 
+func _append_system_chat_line(sender_name: String, message_text: String, tooltip: String = "") -> void:
+	var formatted_message := "%s: %s" % [sender_name, message_text]
+	_append_log_line(chat_log, formatted_message, tooltip)
+	_append_log_line(all_logs, formatted_message, tooltip)
+
 func _add_combat_log(combat_line: String) -> void:
 	if multiplayer.is_server():
 		_server_receive_combat(combat_line)

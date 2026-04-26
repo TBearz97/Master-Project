@@ -98,10 +98,8 @@ grow_vertical = 2
 split_offset = 360
 
 [node name="CombatantsColumn" type="VSplitContainer" parent="Panel/OuterSplit"]
-custom_minimum_size = Vector2(280, 0)
 layout_mode = 2
 size_flags_vertical = 3
-split_offset = 370
 
 [node name="CombatantsSection" type="VBoxContainer" parent="Panel/OuterSplit/CombatantsColumn"]
 layout_mode = 2
@@ -212,7 +210,7 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-split_offset = 900
+split_offset = -450
 
 [node name="BoardColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit"]
 layout_mode = 2
@@ -290,11 +288,10 @@ size_flags_vertical = 3
 [node name="VSplitContainer" type="VSplitContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn"]
 layout_mode = 2
 size_flags_vertical = 3
-split_offset = 214
+split_offset = 450
 
 [node name="PlayerSummaryPanel" type="Panel" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer"]
 unique_name_in_owner = true
-visible = false
 custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -488,199 +485,202 @@ theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="InspectorContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin"]
+[node name="VSplitContainer" type="VSplitContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin"]
+layout_mode = 2
+
+[node name="InspectorContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="InspectorTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
+[node name="InspectorTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Combatant Inspector"
 
-[node name="InspectorType" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
+[node name="InspectorType" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Type:"
 
-[node name="InspectorHP" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
+[node name="InspectorHP" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "HP:"
 
-[node name="InspectorLevel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
+[node name="InspectorLevel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Level:"
 
-[node name="InspectorDetails" type="RichTextLabel" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
+[node name="InspectorDetails" type="RichTextLabel" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 bbcode_enabled = true
 
-[node name="InspectorActionsTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
+[node name="InspectorActionsTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Available Actions"
 
-[node name="InspectorLoadout" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
+[node name="InspectorLoadout" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Loadout: 1"
 
-[node name="InspectorSwapLoadout" type="Button" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
+[node name="InspectorSwapLoadout" type="Button" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Swap Loadout"
 
-[node name="InspectorActionsList" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/InspectorContent"]
+[node name="InspectorActionsList" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/InspectorContent"]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="PlayerActionsContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin"]
+[node name="PlayerActionsContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="PlayerConsoleHeaderPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent"]
+[node name="PlayerConsoleHeaderPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent"]
 layout_mode = 2
 
-[node name="PlayerConsoleHeaderMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel"]
+[node name="PlayerConsoleHeaderMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerConsoleHeaderPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="PlayerConsoleHeaderContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin"]
+[node name="PlayerConsoleHeaderContent" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="PlayerActionsTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent"]
+[node name="PlayerActionsTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Action Console"
 
-[node name="PlayerHeader" type="HBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent"]
+[node name="PlayerHeader" type="HBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent"]
 layout_mode = 2
 
-[node name="PlayerCombatantName" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent/PlayerHeader"]
+[node name="PlayerCombatantName" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent/PlayerHeader"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "No combatant selected."
 
-[node name="PlayerLoadout" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent/PlayerHeader"]
+[node name="PlayerLoadout" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent/PlayerHeader"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Loadout: 1"
 
-[node name="PlayerSwapLoadout" type="Button" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent/PlayerHeader"]
+[node name="PlayerSwapLoadout" type="Button" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerConsoleHeaderPanel/PlayerConsoleHeaderMargin/PlayerConsoleHeaderContent/PlayerHeader"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Swap Loadout"
 
-[node name="TargetingPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent"]
+[node name="TargetingPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent"]
 layout_mode = 2
 
-[node name="TargetingMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel"]
+[node name="TargetingMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/TargetingPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 6
 
-[node name="TargetingColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin"]
+[node name="TargetingColumn" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/TargetingPanel/TargetingMargin"]
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="HitLocationRow" type="HBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn"]
+[node name="HitLocationRow" type="HBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn"]
 layout_mode = 2
 
-[node name="HitLocationLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn/HitLocationRow"]
+[node name="HitLocationLabel" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn/HitLocationRow"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Hit Location"
 
-[node name="HitLocationSelector" type="OptionButton" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn/HitLocationRow"]
+[node name="HitLocationSelector" type="OptionButton" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn/HitLocationRow"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 
-[node name="HitLocationHint" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn"]
+[node name="HitLocationHint" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/TargetingPanel/TargetingMargin/TargetingColumn"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Random has no penalty. Called shots take -4 accuracy."
 autowrap_mode = 3
 
-[node name="PlayerActionsPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent"]
+[node name="PlayerActionsPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PlayerActionsMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel"]
+[node name="PlayerActionsMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerActionsPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="PlayerActionsScroll" type="ScrollContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin"]
+[node name="PlayerActionsScroll" type="ScrollContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="PlayerActionsSections" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll"]
+[node name="PlayerActionsSections" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 10
 
-[node name="PlayerBasicActionsSection" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections"]
+[node name="PlayerBasicActionsSection" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="PlayerBasicActionsTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerBasicActionsSection"]
+[node name="PlayerBasicActionsTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerBasicActionsSection"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Actions"
 
-[node name="PlayerBasicActionsList" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerBasicActionsSection"]
+[node name="PlayerBasicActionsList" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerBasicActionsSection"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PlayerAttacksSection" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections"]
+[node name="PlayerAttacksSection" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="PlayerAttacksTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerAttacksSection"]
+[node name="PlayerAttacksTitle" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerAttacksSection"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Attacks"
 
-[node name="PlayerAttacksList" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerAttacksSection"]
+[node name="PlayerAttacksList" type="VBoxContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/PlayerActionsPanel/PlayerActionsMargin/PlayerActionsScroll/PlayerActionsSections/PlayerAttacksSection"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HintPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent"]
+[node name="HintPanel" type="PanelContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent"]
 layout_mode = 2
 
-[node name="HintMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/HintPanel"]
+[node name="HintMargin" type="MarginContainer" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/HintPanel"]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="PlayerActionsHint" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/PlayerActionsContent/HintPanel/HintMargin"]
+[node name="PlayerActionsHint" type="Label" parent="Panel/OuterSplit/InnerSplit/SidebarColumn/VSplitContainer/InspectorPanel/SidebarBodyMargin/VSplitContainer/PlayerActionsContent/HintPanel/HintMargin"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "You are not currently in this encounter."
@@ -762,9 +762,7 @@ unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-min_value = 0.0
 max_value = 30.0
-step = 1.0
 value = 10.0
 
 [node name="ResolutionApplyEdits" type="Button" parent="ActionResolutionWindow/MarginContainer/VBoxContainer/ResolutionEditPanel/ResolutionEditMargin/ResolutionEditRow"]
@@ -970,7 +968,6 @@ unique_name_in_owner = true
 layout_mode = 2
 min_value = 1.0
 max_value = 12.0
-step = 1.0
 value = 1.0
 
 [node name="SkillTestSpeedBox" type="VBoxContainer" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent/SkillTestCostsRow"]
@@ -985,8 +982,6 @@ text = "Speed"
 unique_name_in_owner = true
 layout_mode = 2
 min_value = 1.0
-max_value = 100.0
-step = 1.0
 value = 20.0
 
 [node name="SkillTestDescriptionLabel" type="Label" parent="SkillTestPicker/SkillTestPickerMargin/SkillTestPickerContent"]

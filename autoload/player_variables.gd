@@ -40,7 +40,7 @@ func start_new_character(basic_actions: Array[Action] = []) -> void:
 	player.attribute_points = 29
 	player.skill_points = 12
 	player.perk_points = 3
-	player.money = 300
+	player.money = 600
 	replace_data(player)
 
 func apply_combatant_payload(payload: Dictionary) -> void:

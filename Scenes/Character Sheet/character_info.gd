@@ -3,7 +3,7 @@ extends ScrollContainer
 @export var grid: GridContainer
 
 func _ready() -> void:
-	%CampaignManager.use_enet()
+	%CampaignManager.use_steam()
 	_setup()
 	var player := PlayerVariables.current()
 	for child in grid.get_children():
