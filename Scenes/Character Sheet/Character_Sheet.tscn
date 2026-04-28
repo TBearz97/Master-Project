@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d2bt2o84ygnf4"]
+[gd_scene load_steps=10 format=3 uid="uid://d2bt2o84ygnf4"]
 
 [ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://ui/common/header.tscn" id="1_orawx"]
 [ext_resource type="Texture2D" uid="uid://hwnrcpc7o8lp" path="res://Art/Icons/Durance-portrait.jpg" id="2_m0l0a"]
@@ -8,7 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://bot2agb1y18ax" path="res://Scenes/Combat Session/CombatSession.tscn" id="6_gh7wh"]
 [ext_resource type="PackedScene" uid="uid://d1hjcr78y7rkk" path="res://Scenes/Networks/CampaignManager.tscn" id="6_t4xyy"]
 [ext_resource type="Script" uid="uid://dg5rrgc2o1jg" path="res://Scenes/Character Sheet/character_sheet.gd" id="7_char_sheet"]
-[ext_resource type="Script" path="res://Scenes/Character Sheet/perks.gd" id="8_perks"]
+[ext_resource type="Script" uid="uid://basr6eahu6omb" path="res://Scenes/Character Sheet/perks.gd" id="8_perks"]
+[ext_resource type="PackedScene" path="res://Scenes/Character Creator/Character_Creator.tscn" id="9_edit_character"]
 
 [node name="Sheet" type="Control"]
 layout_mode = 3
@@ -41,6 +42,9 @@ grow_vertical = 2
 
 [node name="Header" parent="Panel/MarginContainer" instance=ExtResource("1_orawx")]
 layout_mode = 2
+
+[node name="Settings" parent="Panel/MarginContainer/Header" index="1"]
+edit_character_scene = ExtResource("9_edit_character")
 
 [node name="QuickInfo" type="HBoxContainer" parent="Panel/MarginContainer"]
 layout_mode = 2
@@ -98,17 +102,6 @@ text = "Gender:"
 layout_mode = 2
 size_flags_horizontal = 9
 
-[node name="Homeland" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/CharacterInfo"]
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
-dragging_enabled = false
-dragger_visibility = 1
-
-[node name="Label" type="Label" parent="Panel/MarginContainer/QuickInfo/CharacterInfo/Homeland"]
-layout_mode = 2
-text = "Homeland:"
-
 [node name="Age" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/CharacterInfo"]
 layout_mode = 2
 size_flags_horizontal = 5
@@ -124,17 +117,6 @@ text = "Age:"
 layout_mode = 2
 size_flags_horizontal = 9
 
-[node name="Background" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/CharacterInfo"]
-layout_mode = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
-dragging_enabled = false
-dragger_visibility = 1
-
-[node name="Label" type="Label" parent="Panel/MarginContainer/QuickInfo/CharacterInfo/Background"]
-layout_mode = 2
-text = "Background:"
-
 [node name="Attributes" type="GridContainer" parent="Panel/MarginContainer/QuickInfo"]
 layout_mode = 2
 size_flags_horizontal = 6
@@ -147,121 +129,148 @@ columns = 3
 
 [node name="Level" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/Stats"]
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 dragging_enabled = false
 dragger_visibility = 1
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Level"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Level:"
 
 [node name="Label2" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Level"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 
 [node name="Health" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/Stats"]
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 dragging_enabled = false
 dragger_visibility = 1
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Health"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Health:"
 
 [node name="Label2" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Health"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 
 [node name="ActionPoints" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/Stats"]
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 dragging_enabled = false
 dragger_visibility = 1
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/ActionPoints"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Action Points:"
 
 [node name="Label2" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/ActionPoints"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 
 [node name="Experience" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/Stats"]
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 dragging_enabled = false
 dragger_visibility = 1
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Experience"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Experience: "
 
 [node name="Label2" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Experience"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 
 [node name="Vitality" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/Stats"]
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 dragging_enabled = false
 dragger_visibility = 1
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Vitality"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Vitality: "
 
 [node name="Label2" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Vitality"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 
 [node name="Fatigue" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/Stats"]
+visible = false
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 dragging_enabled = false
 dragger_visibility = 1
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Fatigue"]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Fatigue: "
 
 [node name="Label2" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/Fatigue"]
 layout_mode = 2
-size_flags_horizontal = 6
-
-[node name="LevelUp" type="Button" parent="Panel/MarginContainer/QuickInfo/Stats"]
-layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 6
-text = "Level Up"
+size_flags_horizontal = 3
+size_flags_vertical = 1
 
 [node name="NecroticDamage" type="HSplitContainer" parent="Panel/MarginContainer/QuickInfo/Stats"]
 layout_mode = 2
-size_flags_horizontal = 6
-size_flags_vertical = 4
+size_flags_horizontal = 3
+size_flags_vertical = 3
 dragging_enabled = false
 dragger_visibility = 1
 
 [node name="Label" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/NecroticDamage"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 1
 text = "Necrotic Damage: "
 
 [node name="Label2" type="Label" parent="Panel/MarginContainer/QuickInfo/Stats/NecroticDamage"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_vertical = 1
+
+[node name="FullHP" type="Button" parent="Panel/MarginContainer/QuickInfo/Stats"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+text = "Full HP"
+
+[node name="FullVitality" type="Button" parent="Panel/MarginContainer/QuickInfo/Stats"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+text = "Full Vit"
+
+[node name="LevelUp" type="Button" parent="Panel/MarginContainer/QuickInfo/Stats"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+text = "Level Up"
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel/MarginContainer"]
 layout_mode = 2

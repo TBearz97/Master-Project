@@ -4,12 +4,16 @@ extends Control
 @onready var combat_session: Control = %CombatSession
 @onready var campaign_manager: Node = %CampaignManager
 @onready var quick_stats: GridContainer = $Panel/MarginContainer/QuickInfo/Stats
+@onready var full_hp_button: Button = $Panel/MarginContainer/QuickInfo/Stats/FullHP
+@onready var full_vitality_button: Button = $Panel/MarginContainer/QuickInfo/Stats/FullVitality
 
 func _ready() -> void:
 	if campaign_manager != null and campaign_manager.has_signal("encounter_state_changed"):
 		campaign_manager.encounter_state_changed.connect(_update_combat_tab_state)
 	if campaign_manager != null and campaign_manager.has_signal("authority_role_changed"):
 		campaign_manager.authority_role_changed.connect(_on_authority_role_changed)
+	full_hp_button.pressed.connect(_heal_hp_to_full)
+	full_vitality_button.pressed.connect(_heal_vitality_to_full)
 
 	var started := false
 	if campaign_manager != null and campaign_manager.has_method("has_started_encounter"):
@@ -46,6 +50,22 @@ func _get_combat_tab_index() -> int:
 		if tab_container.get_tab_control(idx) == combat_session:
 			return idx
 	return -1
+
+func _heal_hp_to_full() -> void:
+	var player := PlayerVariables.current()
+	if player == null:
+		return
+	player.normalizeVitals()
+	PlayerVariables.setCurrentHP(player.maxHP)
+	PlayerVariables.save()
+
+func _heal_vitality_to_full() -> void:
+	var player := PlayerVariables.current()
+	if player == null:
+		return
+	player.normalizeVitals()
+	PlayerVariables.setCurrentVitality(player.maxVitality)
+	PlayerVariables.save()
 
 func _refresh_quick_stats() -> void:
 	var player := PlayerVariables.current()

@@ -5,12 +5,12 @@
 [resource]
 script = ExtResource("1_lmj67")
 attack_power = 90
-mana_cost = 1
+mana_cost = 2
 condition = "Bleed"
 target = "single_target"
 category = "Attack"
 ap_cost = 1
-base_speed = 24
+base_speed = 95
 _name = "Rend"
 short_description = "A tearing attack."
 long_description = "A vicious strike intended to tear and wound."

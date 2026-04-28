@@ -15,14 +15,6 @@ func _ready() -> void:
 				var rt := CampaignVariables.prepareLabel(RichTextLabel.new())
 				rt.text = CampaignVariables.replaceText(player.race._name)
 				child.add_child(rt)
-			"Homeland":
-				var rt := CampaignVariables.prepareLabel(RichTextLabel.new())
-				rt.text = CampaignVariables.replaceText(player.homeland._name)
-				child.add_child(rt)
-			"Background":
-				var rt := CampaignVariables.prepareLabel(RichTextLabel.new())
-				rt.text = CampaignVariables.replaceText(player.background._name)
-				child.add_child(rt)
 
 func _setup() -> void:
 	var player := PlayerVariables.current()
@@ -36,8 +28,6 @@ func _setup() -> void:
 	_add_info(box, "Character Name: ", player._name)
 	_add_info(box, "Gender: ", player.gender)
 	_add_info(box, "Race: ", player.race)
-	_add_info(box, "Homeland: ", player.homeland)
-	_add_info(box, "Background: ", player.background)
 
 	var backstoryContainer := VBoxContainer.new()
 	var backstoryLabel := Label.new()

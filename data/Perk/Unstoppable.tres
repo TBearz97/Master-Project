@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_cqx2f"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_xij2h"]
 
 [resource]
-script = ExtResource("1_cqx2f")
+script = ExtResource("1_xij2h")
 category = "Skill"
 _name = "Unstoppable"
 short_description = "Athletics rolls cannot be lower than 8."

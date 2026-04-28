@@ -5,11 +5,11 @@
 [resource]
 script = ExtResource("1_0o0um")
 attack_power = 120
-mana_cost = 1
+mana_cost = 3
 target = "single_target"
 category = "Attack"
 ap_cost = 1
-base_speed = 32
+base_speed = 95
 _name = "Cleave"
 short_description = "A powerful chopping blow."
 long_description = "A downward chop with full force behind it."

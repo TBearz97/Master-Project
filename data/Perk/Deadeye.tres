@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_q525k"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_sj3op"]
 
 [resource]
-script = ExtResource("1_q525k")
+script = ExtResource("1_sj3op")
 category = "Combat"
 _name = "Deadeye"
 short_description = "Ranged attacks at optimal distance gain +2 Accuracy."

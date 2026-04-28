@@ -343,6 +343,10 @@ func _make_npc_creature_data(row: Dictionary, attribute_templates: Dictionary[St
 	creature_data.actions = _build_npc_actions(_text(row, "actions"), action_templates)
 	if creature_data is HumanoidData:
 		(creature_data as HumanoidData).equipment = _build_npc_equipment(_text(row, "equipment"), item_templates)
+	elif creature_data is UndeadData:
+		(creature_data as UndeadData).equipment = _build_npc_equipment(_text(row, "equipment"), item_templates)
+	elif creature_data is BeastData:
+		(creature_data as BeastData).equipment = _build_npc_equipment(_text(row, "equipment"), item_templates)
 	creature_data.normalizeVitals(true)
 	return creature_data
 

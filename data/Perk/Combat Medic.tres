@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_5s5ce"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_3bp0a"]
 
 [resource]
-script = ExtResource("1_5s5ce")
+script = ExtResource("1_3bp0a")
 category = "Combat"
 _name = "Combat Medic"
 short_description = "First Aid heals 20% more."

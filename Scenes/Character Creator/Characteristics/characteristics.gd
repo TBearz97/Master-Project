@@ -25,8 +25,6 @@ func _setup() -> void:
 	age.value = player.age
 
 	_race()
-	_homeland()
-	_background()
 
 func _race() -> void:
 	var title := CampaignVariables.prepareLabel(RichTextLabel.new())
@@ -41,6 +39,8 @@ func _race() -> void:
 	var races := CampaignVariables.codex.Races
 	var id := 0
 	for race: Race in races.values():
+		if race.perk == null or race.perk._name.is_empty():
+			continue
 		ob.add_item(race._name, id)
 		popup.set_item_tooltip(id, race.short_description)
 		popup.set_item_metadata(id, race)
@@ -167,16 +167,4 @@ func _save() -> void:
 				PlayerVariables.setRace(child.get_item_metadata(child.selected))
 			else:
 				PlayerVariables.setRace(child.get_item_metadata(0))
-	for child in homelandGroup.get_children():
-		if child is OptionButton:
-			if child.selected != -1:
-				PlayerVariables.setHomeland(child.get_item_metadata(child.selected))
-			else:
-				PlayerVariables.setHomeland(child.get_item_metadata(0))
-	for child in backgroundGroup.get_children():
-		if child is OptionButton:
-			if child.selected != -1:
-				PlayerVariables.setBackground(child.get_item_metadata(child.selected))
-			else:
-				PlayerVariables.setBackground(child.get_item_metadata(0))
 	PlayerVariables.setBackstory(backstory.text)

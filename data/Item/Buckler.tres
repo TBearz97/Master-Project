@@ -9,12 +9,12 @@
 [sub_resource type="Resource" id="Resource_qtm0o"]
 script = ExtResource("2_reni2")
 attack_power = 80
-mana_cost = 1
+mana_cost = 3
 condition = "Prone"
 target = "single_target"
 category = "Attack"
 ap_cost = 1
-base_speed = 24
+base_speed = 95
 _name = "Bash"
 short_description = "An impact attack."
 long_description = "Driving the face of a shield or blunt weapon into the target."

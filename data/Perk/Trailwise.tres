@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_4s3tn"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_dylty"]
 
 [resource]
-script = ExtResource("1_4s3tn")
+script = ExtResource("1_dylty")
 category = "Skill"
 _name = "Trailwise"
 short_description = "Reroll failed Survival checks once."

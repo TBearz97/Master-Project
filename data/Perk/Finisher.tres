@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_7y13u"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_ciuv8"]
 
 [resource]
-script = ExtResource("1_7y13u")
+script = ExtResource("1_ciuv8")
 category = "Combat"
 _name = "Finisher"
 short_description = "Deal 20% more damage to weakened targets."

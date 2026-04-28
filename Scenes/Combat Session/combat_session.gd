@@ -305,6 +305,26 @@ func _start_encounter() -> void:
 	if not _all_combatants_have_grid_positions():
 		push_error("All combatants must be placed on the grid before starting the encounter.")
 		return
+	var campaign_manager := _find_campaign_manager()
+	if campaign_manager == null:
+		push_error("Combat session could not find CampaignManager in the scene tree.")
+		return
+	for combatant_id_variant in encounter_combatants.keys():
+		var combatant_id := str(combatant_id_variant)
+		var payload: Dictionary = encounter_combatants.get(combatant_id, {}).duplicate(true)
+		if payload.is_empty():
+			continue
+		var actor := _get_actor_data_from_payload(payload)
+		if actor == null:
+			continue
+		actor.normalizeVitals()
+		actor.currentHP = clampf(minf(actor.maxHP, actor.currentVitality), 0.0, actor.maxHP)
+		var updated_payload := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
+		if updated_payload.is_empty():
+			continue
+		encounter_combatants[combatant_id] = updated_payload
+		update_combatant_locally(updated_payload)
+		campaign_manager.broadcast_combatant_update(updated_payload)
 	round_number = 1
 	current_phase = GameEvent.PHASE_PLANNING
 	pending_gm_placement_id = ""
@@ -312,10 +332,6 @@ func _start_encounter() -> void:
 	_update_round_ui()
 	_refresh_queued_actions()
 	_refresh_board_controls()
-	var campaign_manager := _find_campaign_manager()
-	if campaign_manager == null:
-		push_error("Combat session could not find CampaignManager in the scene tree.")
-		return
 	SignalBus.emit_gameplay_event("encounter_started", "combat", {
 		"round": round_number,
 		"phase": current_phase,
@@ -3974,6 +3990,7 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 	}
 
 func _build_npc_payload(npc: NPC) -> Dictionary:
+	_ensure_basic_actions_for_actor(npc.data)
 	npc.data.normalizeVitals(true)
 	var details := [
 		npc.short_description,
@@ -4050,27 +4067,30 @@ func _configure_combatant_entry_interaction(entry: CombatantEntry, combatant_pay
 	entry.set_team_selector_visible(is_host_role)
 	if is_host_role:
 		var controlled_payload := _get_controlled_combatant_payload()
+		var is_selected_entry := selected_combatant_id == str(combatant_payload.get("id", ""))
 		if controlled_payload.is_empty() or str(controlled_payload.get("type", "")) != "NPC":
 			entry.set_player_target_mode(false, false, selected_combatant_id == str(combatant_payload.get("id", "")))
 			return
+		if pending_player_action.is_empty():
+			entry.set_player_target_mode(false, false, is_selected_entry)
+			return
 		var can_target_host := false
 		var is_targeted_host := false
-		if not pending_player_action.is_empty():
-			var combatant_id := str(combatant_payload.get("id", ""))
-			var controlled_id := str(controlled_payload.get("id", ""))
-			var pending_action_name_host := str(pending_player_action.get("action_name", ""))
-			var can_target_self_host := str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK and not _action_targets_ally(pending_action_name_host)
-			if combatant_id != controlled_id or can_target_self_host:
+		var combatant_id := str(combatant_payload.get("id", ""))
+		var controlled_id := str(controlled_payload.get("id", ""))
+		var pending_action_name_host := str(pending_player_action.get("action_name", ""))
+		var can_target_self_host := str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) != Action.CATEGORY_ATTACK and not _action_targets_ally(pending_action_name_host)
+		if combatant_id != controlled_id or can_target_self_host:
+			can_target_host = true
+			if str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) == Action.CATEGORY_ATTACK:
+				can_target_host = _is_attack_target_selectable(controlled_payload, combatant_payload, pending_player_action)
+			elif _action_allows_any_target(pending_action_name_host):
 				can_target_host = true
-				if str(pending_player_action.get("category", Action.CATEGORY_ATTACK)) == Action.CATEGORY_ATTACK:
-					can_target_host = _is_attack_target_selectable(controlled_payload, combatant_payload, pending_player_action)
-				elif _action_allows_any_target(pending_action_name_host):
-					can_target_host = true
-				elif _action_targets_ally(pending_action_name_host):
-					can_target_host = _is_guard_target_selectable(controlled_payload, combatant_payload)
-				elif _action_targets_self_or_ally(pending_action_name_host):
-					can_target_host = _is_support_target_selectable(controlled_payload, combatant_payload)
-				is_targeted_host = combatant_id == selected_combatant_id
+			elif _action_targets_ally(pending_action_name_host):
+				can_target_host = _is_guard_target_selectable(controlled_payload, combatant_payload)
+			elif _action_targets_self_or_ally(pending_action_name_host):
+				can_target_host = _is_support_target_selectable(controlled_payload, combatant_payload)
+			is_targeted_host = combatant_id == selected_combatant_id
 		entry.set_player_target_mode(true, can_target_host, is_targeted_host)
 		return
 	var local_payload := _find_local_player_combatant(multiplayer.get_unique_id())
@@ -4374,6 +4394,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	var npc: NPC = CampaignVariables.codex.NPCs.get(str(payload.get("name", "")), null)
 	if npc == null:
 		return {}
+	_ensure_basic_actions_for_actor(npc.data)
 	npc.data.normalizeVitals()
 	var npc_action_points := npc.data.getActionPoints()
 	payload["current_hp"] = npc.data.currentHP
@@ -4581,12 +4602,16 @@ func _populate_action_list(container: VBoxContainer, actions: Array, use_buttons
 		var action_name := str(action_data.get("name", "Unknown Action"))
 		var action_source := str(action_data.get("source", "Unknown Source"))
 		var action_hand := str(action_data.get("hand", "Unknown Hand"))
+		var short_description := str(action_data.get("short_description", "")).strip_edges()
 		var action_tooltip_lines := [
+			short_description,
 			"Source: %s (%s)" % [action_source, action_hand],
 			"Category: %s" % action_data.get("category", "Unknown"),
 			"AP: %s" % action_data.get("ap_cost", 0),
 			"Speed: %s" % action_data.get("speed", 0),
 		]
+		if short_description.is_empty():
+			action_tooltip_lines.remove_at(0)
 		var mana_cost := int(action_data.get("mana_cost", 0))
 		if mana_cost > 0:
 			action_tooltip_lines.append("Mana: %s" % mana_cost)
@@ -4655,6 +4680,7 @@ func _get_player_action_entries(player_data: PlayerData, loadout: int = 0) -> Ar
 		var speed := RuleEngine.getActionSpeed(action, weapon)
 		action_entries.append({
 			"name": action._name,
+			"short_description": action.short_description,
 			"source": source,
 			"hand": hand,
 			"category": action.category,
@@ -4671,8 +4697,28 @@ func _get_npc_action_names(npc: NPC, loadout: int = 0) -> Array[String]:
 		action_names.append(entry.get("name", ""))
 	return action_names
 
+func _ensure_basic_actions_for_actor(actor: CreatureData) -> void:
+	if actor == null or CampaignVariables.codex == null:
+		return
+	if actor.actions == null:
+		actor.actions = []
+	var existing_names: Array[String] = []
+	for action in actor.actions:
+		if action is Action:
+			existing_names.append(action._name)
+	var action_names: Array = CampaignVariables.codex.Actions.keys()
+	action_names.sort()
+	for action_name_variant in action_names:
+		var action: Action = CampaignVariables.codex.Actions.get(str(action_name_variant), null)
+		if action == null or action.category != Action.CATEGORY_BASIC:
+			continue
+		if existing_names.has(action._name):
+			continue
+		actor.actions.append(action.duplicate(true) as Action)
+
 func _get_npc_action_entries(npc: NPC, loadout: int = 0) -> Array[Dictionary]:
 	var action_entries: Array[Dictionary] = []
+	_ensure_basic_actions_for_actor(npc.data)
 	if npc.data.has_method("get_available_actions"):
 		for entry in npc.data.get_available_actions(loadout):
 			var action: Action = entry.get("action", null)
@@ -4687,6 +4733,7 @@ func _get_npc_action_entries(npc: NPC, loadout: int = 0) -> Array[Dictionary]:
 			var speed := RuleEngine.getActionSpeed(action, weapon)
 			action_entries.append({
 				"name": action._name,
+				"short_description": action.short_description,
 				"source": source,
 				"hand": hand,
 				"category": action.category,
@@ -4701,6 +4748,7 @@ func _get_npc_action_entries(npc: NPC, loadout: int = 0) -> Array[Dictionary]:
 		if action is Action:
 			action_entries.append({
 				"name": action._name,
+				"short_description": action.short_description,
 				"source": "Innate",
 				"hand": "Innate",
 				"category": action.category,

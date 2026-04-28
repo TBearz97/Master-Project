@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_5eheu"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_1sfv7"]
 
 [resource]
-script = ExtResource("1_5eheu")
+script = ExtResource("1_1sfv7")
 category = "Combat"
 _name = "Center of Mass"
 short_description = "Called torso shots are easier to land and hit harder."

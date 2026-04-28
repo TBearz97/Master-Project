@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="Perk" load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_t0ws7"]
+[ext_resource type="Script" path="res://content/codex/character_options/perk.gd" id="1_dcbao"]
 
 [resource]
-script = ExtResource("1_t0ws7")
+script = ExtResource("1_dcbao")
 category = "Skill"
 _name = "Courtly Duelist"
 short_description = "Gain +2 on contested Society checks."
