@@ -1,15 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://d2bt2o84ygnf4"]
 
 [ext_resource type="PackedScene" uid="uid://bpdcou5jfrtvw" path="res://ui/common/header.tscn" id="1_orawx"]
-[ext_resource type="Texture2D" uid="uid://hwnrcpc7o8lp" path="res://Art/Icons/Durance-portrait.jpg" id="2_m0l0a"]
 [ext_resource type="Script" uid="uid://3k0r8553xra4" path="res://Scenes/Character Sheet/character_info.gd" id="3_nl4im"]
+[ext_resource type="Texture2D" uid="uid://ce6wli5oe0d3x" path="res://icon.svg" id="3_pg8xx"]
 [ext_resource type="Script" uid="uid://b5l01deswc32q" path="res://Scenes/Character Sheet/stats.gd" id="4_t4xyy"]
 [ext_resource type="PackedScene" uid="uid://cys02mj06x6vs" path="res://systems/inventory/draganddrop.tscn" id="5_nl4im"]
 [ext_resource type="PackedScene" uid="uid://bot2agb1y18ax" path="res://Scenes/Combat Session/CombatSession.tscn" id="6_gh7wh"]
 [ext_resource type="PackedScene" uid="uid://d1hjcr78y7rkk" path="res://Scenes/Networks/CampaignManager.tscn" id="6_t4xyy"]
 [ext_resource type="Script" uid="uid://dg5rrgc2o1jg" path="res://Scenes/Character Sheet/character_sheet.gd" id="7_char_sheet"]
 [ext_resource type="Script" uid="uid://basr6eahu6omb" path="res://Scenes/Character Sheet/perks.gd" id="8_perks"]
-[ext_resource type="PackedScene" path="res://Scenes/Character Creator/Character_Creator.tscn" id="9_edit_character"]
 
 [node name="Sheet" type="Control"]
 layout_mode = 3
@@ -43,15 +42,12 @@ grow_vertical = 2
 [node name="Header" parent="Panel/MarginContainer" instance=ExtResource("1_orawx")]
 layout_mode = 2
 
-[node name="Settings" parent="Panel/MarginContainer/Header" index="1"]
-edit_character_scene = ExtResource("9_edit_character")
-
 [node name="QuickInfo" type="HBoxContainer" parent="Panel/MarginContainer"]
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="Panel/MarginContainer/QuickInfo"]
 layout_mode = 2
-texture = ExtResource("2_m0l0a")
+texture = ExtResource("3_pg8xx")
 expand_mode = 2
 stretch_mode = 5
 

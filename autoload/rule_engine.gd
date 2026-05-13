@@ -1799,15 +1799,20 @@ func markDelayedAction(source: CreatureData, amount: int = 1) -> Dictionary:
 	}
 
 func _default_damage_profile_from_source(source: CreatureData) -> DamageProfile:
-	if source is HumanoidData:
-		var humanoid_source := source as HumanoidData
-		var equipment: Equipment = humanoid_source.equipment
-		if equipment == null:
-			return null
+	if source == null or not ("equipment" in source):
+		return null
 
-		if equipment.weapon1Right != null and equipment.weapon1Right.damage_profile != null:
-			return equipment.weapon1Right.damage_profile
-		if equipment.weapon1Left != null and equipment.weapon1Left.damage_profile != null:
-			return equipment.weapon1Left.damage_profile
+	var equipment: Equipment = source.equipment
+	if equipment == null:
+		return null
+
+	if equipment.weapon1Right != null and equipment.weapon1Right.damage_profile != null:
+		return equipment.weapon1Right.damage_profile
+	if equipment.weapon1Left != null and equipment.weapon1Left.damage_profile != null:
+		return equipment.weapon1Left.damage_profile
+	if equipment.weapon2Right != null and equipment.weapon2Right.damage_profile != null:
+		return equipment.weapon2Right.damage_profile
+	if equipment.weapon2Left != null and equipment.weapon2Left.damage_profile != null:
+		return equipment.weapon2Left.damage_profile
 
 	return null

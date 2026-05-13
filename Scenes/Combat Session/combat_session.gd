@@ -106,6 +106,8 @@ var current_phase: String = GameEvent.PHASE_PLANNING
 var board_columns: int = 12
 var board_rows: int = 12
 var pending_gm_placement_id: String = ""
+var encounter_start_in_progress: bool = false
+var npc_queue_rng := RandomNumberGenerator.new()
 
 const DISENGAGE_STEP_AP_COST := 3
 const TARGET_LOCATION_MODE_RANDOM := "random"
@@ -119,6 +121,7 @@ const REVIEW_ZERO_ON_MISS_FIELDS := ["raw_damage", "damage_roll", "crit_roll", "
 var review_edit_controls: Dictionary = {}
 
 func _ready() -> void:
+	npc_queue_rng.randomize()
 	_setup_npc_picker()
 	_clear_inspector()
 	%StartEncounter.pressed.connect(_start_encounter)
@@ -155,6 +158,8 @@ func _ready() -> void:
 	if campaign_manager != null:
 		campaign_manager.encounter_state_changed.connect(_on_encounter_state_changed)
 		campaign_manager.authority_role_changed.connect(_on_authority_role_changed)
+		if campaign_manager.has_signal("player_sheet_refresh_pending_changed"):
+			campaign_manager.player_sheet_refresh_pending_changed.connect(_on_player_sheet_refresh_pending_changed)
 		encounter_started = campaign_manager.has_started_encounter()
 		is_host_role = campaign_manager.is_host_authority()
 	PlayerVariables.combat_loadout_changed.connect(_on_local_combat_loadout_changed)
@@ -199,6 +204,7 @@ func _apply_encounter_visibility() -> void:
 	var is_tab_page := get_parent() is TabContainer
 	visible = true if is_tab_page else is_host_role or encounter_started
 	%StartEncounter.visible = is_host_role and not encounter_started
+	%StartEncounter.disabled = encounter_start_in_progress
 	%EndEncounter.visible = is_host_role and encounter_started
 	%AddPlayers.visible = is_host_role
 	%AddNPCs.visible = is_host_role
@@ -236,6 +242,8 @@ func _refresh_board_controls() -> void:
 	combatGrid.set_placement_source(pending_gm_placement_id)
 
 func _build_board_hint_text() -> String:
+	if encounter_start_in_progress:
+		return _build_start_encounter_waiting_text()
 	if is_host_role and not encounter_started:
 		return "Drag tokens to place them before combat starts. Middle mouse pans. Wheel zooms."
 	if current_phase == GameEvent.PHASE_PLANNING:
@@ -252,6 +260,13 @@ func _on_authority_role_changed(is_host: bool) -> void:
 	_apply_encounter_visibility()
 	_refresh_player_actions()
 	_refresh_combat_grid()
+
+func _on_player_sheet_refresh_pending_changed() -> void:
+	if not encounter_start_in_progress:
+		return
+	var waiting_text := _build_start_encounter_waiting_text()
+	playerActionsHint.text = waiting_text
+	_refresh_board_controls()
 
 func _on_grid_width_changed(value: float) -> void:
 	_apply_board_dimensions(int(value), board_rows)
@@ -302,10 +317,32 @@ func _broadcast_all_combatant_positions() -> void:
 func _start_encounter() -> void:
 	if not is_host_role:
 		return
+	if encounter_start_in_progress:
+		return
 	if not _all_combatants_have_grid_positions():
 		push_error("All combatants must be placed on the grid before starting the encounter.")
 		return
 	var campaign_manager := _find_campaign_manager()
+	if campaign_manager == null:
+		push_error("Combat session could not find CampaignManager in the scene tree.")
+		return
+	encounter_start_in_progress = true
+	playerActionsHint.text = "Waiting for players to refresh their character sheets."
+	_refresh_board_controls()
+	_apply_encounter_visibility()
+	if campaign_manager.has_method("request_player_sheet_refresh"):
+		campaign_manager.request_player_sheet_refresh()
+		if campaign_manager.has_method("is_waiting_for_player_sheet_refresh") and campaign_manager.is_waiting_for_player_sheet_refresh():
+			playerActionsHint.text = _build_start_encounter_waiting_text()
+			_refresh_board_controls()
+			if campaign_manager.has_signal("player_sheet_refresh_completed"):
+				await campaign_manager.player_sheet_refresh_completed
+	encounter_start_in_progress = false
+	_refresh_board_controls()
+	_apply_encounter_visibility()
+	_begin_encounter(campaign_manager)
+
+func _begin_encounter(campaign_manager: Node) -> void:
 	if campaign_manager == null:
 		push_error("Combat session could not find CampaignManager in the scene tree.")
 		return
@@ -331,6 +368,7 @@ func _start_encounter() -> void:
 	_assign_obsidian_patches_locations()
 	_update_round_ui()
 	_refresh_queued_actions()
+	_refresh_player_actions()
 	_refresh_board_controls()
 	SignalBus.emit_gameplay_event("encounter_started", "combat", {
 		"round": round_number,
@@ -350,6 +388,18 @@ func _start_encounter() -> void:
 		"phase": current_phase,
 	})
 	campaign_manager.broadcast_encounter_started(true)
+
+func _build_start_encounter_waiting_text() -> String:
+	var campaign_manager := _find_campaign_manager()
+	if campaign_manager == null or not campaign_manager.has_method("get_pending_player_sheet_refresh_peer_ids"):
+		return "Waiting for players to refresh their character sheets."
+	var pending_peer_ids: Array[int] = campaign_manager.get_pending_player_sheet_refresh_peer_ids()
+	if pending_peer_ids.is_empty():
+		return "Refreshing player sheets before the encounter starts."
+	var pending_names: Array[String] = []
+	for peer_id in pending_peer_ids:
+		pending_names.append(str(campaign_manager.membersByPeerId.get(peer_id, "Player %s" % peer_id)))
+	return "Waiting for updated character sheets from: %s" % ", ".join(pending_names)
 
 func _end_encounter() -> void:
 	if not is_host_role:
@@ -1590,8 +1640,9 @@ func _auto_queue_npc_actions() -> void:
 		return
 
 	var queued_any := false
+	var npc_recent_choices: Dictionary = {}
 	var combatant_ids: Array = encounter_combatants.keys()
-	combatant_ids.sort()
+	_shuffle_array_in_place(combatant_ids)
 	for combatant_id_variant in combatant_ids:
 		var combatant_id := str(combatant_id_variant)
 		if not encounter_combatants.has(combatant_id):
@@ -1599,13 +1650,14 @@ func _auto_queue_npc_actions() -> void:
 		var payload: Dictionary = encounter_combatants[combatant_id]
 		if str(payload.get("type", "")) != "NPC":
 			continue
-		while true:
-			payload = encounter_combatants.get(combatant_id, {})
-			if payload.is_empty() or int(payload.get("remaining_action_points", payload.get("action_points", 0))) <= 0:
-				break
-			var queue_payload := _build_npc_queue_payload(combatant_id)
-			if queue_payload.is_empty():
-				break
+		var planned_payloads := _plan_npc_round(combatant_id, npc_recent_choices.get(combatant_id, {}))
+		if planned_payloads.is_empty():
+			continue
+		for queue_payload in planned_payloads:
+			npc_recent_choices[combatant_id] = {
+				"action_name": str(queue_payload.get("action_name", "")),
+				"target_id": str(queue_payload.get("target_id", "")),
+			}
 			queued_any = true
 			campaign_manager.broadcast_combat_request(CombatRequest.new(
 				CombatRequest.TYPE_ACTION,
@@ -1619,34 +1671,197 @@ func _auto_queue_npc_actions() -> void:
 		if log_manager != null:
 			log_manager._add_combat_log("No NPC actions were queued.")
 
-func _build_npc_queue_payload(combatant_id: String) -> Dictionary:
+func _plan_npc_round(combatant_id: String, recent_choice: Dictionary = {}) -> Array[Dictionary]:
 	if not encounter_combatants.has(combatant_id):
-		return {}
-	var payload: Dictionary = encounter_combatants[combatant_id]
+		return []
+	var payload: Dictionary = encounter_combatants[combatant_id].duplicate(true)
 	var npc: NPC = CampaignVariables.codex.NPCs.get(str(payload.get("name", "")), null)
 	if npc == null:
-		return {}
+		return []
 	if not RuleEngine.canAct(npc.data):
-		return {}
+		return []
+	var planned_payloads: Array[Dictionary] = []
+	var simulated_recent_choice := recent_choice.duplicate(true)
+	while int(payload.get("remaining_action_points", payload.get("action_points", 0))) > 0:
+		var queue_payload := _build_npc_queue_payload(npc, payload, int(payload.get("active_loadout", 1)), simulated_recent_choice)
+		if queue_payload.is_empty():
+			break
+		planned_payloads.append(queue_payload)
+		var simulated_queue_payloads: Array = payload.get("queued_action_payloads", []).duplicate(true)
+		simulated_queue_payloads.append(queue_payload.duplicate(true))
+		payload["queued_action_payloads"] = simulated_queue_payloads
+		payload["remaining_action_points"] = max(int(payload.get("remaining_action_points", payload.get("action_points", 0))) - int(queue_payload.get("ap_cost", 0)), 0)
+		simulated_recent_choice = {
+			"action_name": str(queue_payload.get("action_name", "")),
+			"target_id": str(queue_payload.get("target_id", "")),
+		}
+	return planned_payloads
 
-	var action_entry := _find_npc_attack_entry(npc, int(payload.get("active_loadout", 1)))
-	if action_entry.is_empty():
-		return {}
-	var target_payload := _choose_npc_target_payload(combatant_id, action_entry.get("weapon", null))
-	if target_payload.is_empty():
-		return {}
+func _build_npc_queue_payload(npc: NPC, source_payload: Dictionary, loadout: int, recent_choice: Dictionary = {}) -> Dictionary:
+	var remaining_ap := int(source_payload.get("remaining_action_points", source_payload.get("action_points", 0)))
+	var planning_context := {
+		"remaining_ap": remaining_ap,
+		"planned_action_count": source_payload.get("queued_action_payloads", []).size(),
+	}
+	var attack_candidates := _build_npc_attack_queue_candidates(npc, source_payload, loadout, remaining_ap, recent_choice)
+	planning_context["has_immediate_attack"] = not attack_candidates.is_empty()
+	var support_candidates := _build_npc_support_queue_candidates(npc, source_payload, loadout, remaining_ap, recent_choice, planning_context)
+	var candidates: Array[Dictionary] = []
+	candidates.append_array(attack_candidates)
+	candidates.append_array(support_candidates)
+	if candidates.is_empty():
+		candidates.append_array(_build_npc_low_value_queue_candidates(npc, source_payload, loadout, remaining_ap, recent_choice, planning_context))
+	return _choose_weighted_npc_queue_payload(candidates)
 
+
+func _build_npc_attack_queue_candidates(npc: NPC, source_payload: Dictionary, loadout: int, remaining_ap: int, recent_choice: Dictionary = {}) -> Array[Dictionary]:
+	var candidates: Array[Dictionary] = []
+	for entry in _get_npc_action_entries(npc, loadout):
+		var resolved_entry := _get_action_resource_for_entry(npc.data, loadout, entry)
+		if resolved_entry.is_empty():
+			continue
+		var action: Action = resolved_entry.get("action", null)
+		if action == null or not action.is_attack_action():
+			continue
+		var weapon: Weapon = resolved_entry.get("weapon", null)
+		var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
+		if action_ap_cost <= 0 or action_ap_cost > remaining_ap:
+			continue
+		var target_payload := _choose_npc_target_payload(str(source_payload.get("id", "")), weapon)
+		if target_payload.is_empty():
+			continue
+		var candidate_payload := _build_npc_attack_queue_payload(source_payload, target_payload, resolved_entry)
+		if candidate_payload.is_empty():
+			continue
+		var grid_distance := _get_combatant_grid_distance(source_payload, target_payload)
+		var weight := maxi(10 - grid_distance, 3)
+		candidate_payload["weight"] = _apply_npc_repeat_penalty(weight, candidate_payload, recent_choice)
+		candidates.append(candidate_payload)
+	return candidates
+
+func _build_npc_support_queue_candidates(npc: NPC, source_payload: Dictionary, loadout: int, remaining_ap: int, recent_choice: Dictionary = {}, planning_context: Dictionary = {}) -> Array[Dictionary]:
+	var candidates: Array[Dictionary] = []
+	for entry in _get_npc_action_entries(npc, loadout):
+		var resolved_entry := _get_action_resource_for_entry(npc.data, loadout, entry)
+		if resolved_entry.is_empty():
+			continue
+		var action: Action = resolved_entry.get("action", null)
+		if action == null or action.is_attack_action():
+			continue
+		if not ["Brace", "Bolster", "First Aid"].has(action._name):
+			continue
+		var weapon: Weapon = resolved_entry.get("weapon", null)
+		var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
+		if action_ap_cost <= 0 or action_ap_cost > remaining_ap:
+			continue
+		if action._name in ["Brace", "Bolster"] and _has_queued_action_named(source_payload, action._name):
+			continue
+		var target_payload: Dictionary = {}
+		var weight := 2
+		var allow_as_primary := false
+		match action._name:
+			"Brace":
+				target_payload = source_payload
+				allow_as_primary = _npc_support_should_be_primary(action._name, npc, source_payload, loadout, action_ap_cost, planning_context)
+				if not allow_as_primary:
+					continue
+				if _is_adjacent_to_hostile_combatant(str(source_payload.get("id", "")), _grid_position_from_payload(source_payload)):
+					weight += 2
+				if _get_health_ratio_from_payload(source_payload) <= 0.5:
+					weight += 1
+			"Bolster":
+				target_payload = source_payload
+				allow_as_primary = _npc_support_should_be_primary(action._name, npc, source_payload, loadout, action_ap_cost, planning_context)
+				if not allow_as_primary:
+					continue
+				if _get_health_ratio_from_payload(source_payload) <= 0.7:
+					weight += 1
+			"First Aid":
+				target_payload = _choose_npc_first_aid_target_payload(source_payload)
+				if target_payload.is_empty():
+					continue
+				weight += _get_missing_health_steps_from_payload(target_payload)
+		if target_payload.is_empty():
+			continue
+		var candidate_payload := _build_npc_basic_queue_payload(source_payload, target_payload, resolved_entry)
+		if candidate_payload.is_empty():
+			continue
+		candidate_payload["weight"] = _apply_npc_repeat_penalty(weight, candidate_payload, recent_choice)
+		candidates.append(candidate_payload)
+	return candidates
+
+func _build_npc_low_value_queue_candidates(npc: NPC, source_payload: Dictionary, loadout: int, remaining_ap: int, recent_choice: Dictionary = {}, planning_context: Dictionary = {}) -> Array[Dictionary]:
+	var candidates: Array[Dictionary] = []
+	for entry in _get_npc_action_entries(npc, loadout):
+		var resolved_entry := _get_action_resource_for_entry(npc.data, loadout, entry)
+		if resolved_entry.is_empty():
+			continue
+		var action: Action = resolved_entry.get("action", null)
+		if action == null or action.is_attack_action():
+			continue
+		if not ["Brace", "Bolster"].has(action._name):
+			continue
+		if _has_queued_action_named(source_payload, action._name):
+			continue
+		var weapon: Weapon = resolved_entry.get("weapon", null)
+		var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
+		if action_ap_cost <= 0 or action_ap_cost > remaining_ap:
+			continue
+		var candidate_payload := _build_npc_basic_queue_payload(source_payload, source_payload, resolved_entry)
+		if candidate_payload.is_empty():
+			continue
+		var weight := 1
+		if bool(planning_context.get("has_immediate_attack", false)):
+			weight = 0
+		if weight <= 0:
+			continue
+		candidate_payload["weight"] = _apply_npc_repeat_penalty(weight, candidate_payload, recent_choice)
+		candidates.append(candidate_payload)
+	return candidates
+
+func _npc_support_should_be_primary(action_name: String, npc: NPC, source_payload: Dictionary, loadout: int, action_ap_cost: int, planning_context: Dictionary) -> bool:
+	var remaining_ap_after := int(planning_context.get("remaining_ap", 0)) - action_ap_cost
+	if remaining_ap_after <= 0:
+		return false
+	return _npc_has_meaningful_follow_up_after_support(npc, source_payload, loadout, remaining_ap_after, action_name)
+
+func _npc_has_meaningful_follow_up_after_support(npc: NPC, source_payload: Dictionary, loadout: int, remaining_ap_after: int, support_action_name: String) -> bool:
+	if remaining_ap_after <= 0:
+		return false
+	var simulated_payload := source_payload.duplicate(true)
+	var simulated_queue_payloads: Array = simulated_payload.get("queued_action_payloads", []).duplicate(true)
+	simulated_queue_payloads.append({"action_name": support_action_name, "target_id": str(source_payload.get("id", ""))})
+	simulated_payload["queued_action_payloads"] = simulated_queue_payloads
+	simulated_payload["remaining_action_points"] = remaining_ap_after
+	if not _build_npc_attack_queue_candidates(npc, simulated_payload, loadout, remaining_ap_after, {}).is_empty():
+		return true
+	for entry in _get_npc_action_entries(npc, loadout):
+		var resolved_entry := _get_action_resource_for_entry(npc.data, loadout, entry)
+		if resolved_entry.is_empty():
+			continue
+		var action: Action = resolved_entry.get("action", null)
+		if action == null or action._name != "First Aid":
+			continue
+		var weapon: Weapon = resolved_entry.get("weapon", null)
+		var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
+		if action_ap_cost <= 0 or action_ap_cost > remaining_ap_after:
+			continue
+		if not _choose_npc_first_aid_target_payload(simulated_payload).is_empty():
+			return true
+	return false
+
+func _build_npc_attack_queue_payload(source_payload: Dictionary, target_payload: Dictionary, action_entry: Dictionary) -> Dictionary:
 	var action: Action = action_entry.get("action", null)
+	if action == null:
+		return {}
 	var weapon: Weapon = action_entry.get("weapon", null)
 	var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
-	if action_ap_cost <= 0 or action_ap_cost > int(payload.get("remaining_action_points", payload.get("action_points", 0))):
-		return {}
 	var action_speed := RuleEngine.getActionSpeed(action, weapon)
 	var action_source := "Innate"
 	if weapon != null and not weapon._name.is_empty():
 		action_source = weapon._name
 	var target_name := str(target_payload.get("name", "target"))
-	var range_preview: Dictionary = _get_attack_range_preview(payload, target_payload, {
+	var range_preview: Dictionary = _get_attack_range_preview(source_payload, target_payload, {
 		"action_name": action._name,
 		"action_source": action_source,
 		"action_hand": str(action_entry.get("hand", "Innate")),
@@ -1659,6 +1874,7 @@ func _build_npc_queue_payload(combatant_id: String) -> Dictionary:
 		"action_source": action_source,
 		"action_hand": str(action_entry.get("hand", "Innate")),
 		"targeting_mode": "single",
+		"category": Action.CATEGORY_ATTACK,
 		"target_id": str(target_payload.get("id", "")),
 		"target_location": int(Item.ItemSlots.Torso),
 		"target_location_mode": TARGET_LOCATION_MODE_RANDOM,
@@ -1670,29 +1886,60 @@ func _build_npc_queue_payload(combatant_id: String) -> Dictionary:
 		"preview_text": "%s -> %s (%s)%s" % [action._name, target_name, "Random", preview_suffix],
 	}
 
-func _find_npc_attack_entry(npc: NPC, loadout: int) -> Dictionary:
-	for entry in _get_npc_action_entries(npc, loadout):
-		var resolved_entry := _get_action_resource_for_entry(npc.data, loadout, entry)
-		if resolved_entry.is_empty():
-			continue
-		var action: Action = resolved_entry.get("action", null)
-		if action == null or not action.is_attack_action():
-			continue
-		return resolved_entry
-	for entry in _get_npc_action_entries(npc, loadout):
-		return _get_action_resource_for_entry(npc.data, loadout, entry)
-	return {}
+func _build_npc_basic_queue_payload(source_payload: Dictionary, target_payload: Dictionary, action_entry: Dictionary) -> Dictionary:
+	var action: Action = action_entry.get("action", null)
+	if action == null:
+		return {}
+	var weapon: Weapon = action_entry.get("weapon", null)
+	var action_source := "Innate"
+	if weapon != null and not weapon._name.is_empty():
+		action_source = weapon._name
+	var action_ap_cost := RuleEngine.getActionAPCost(action, weapon)
+	var action_speed := RuleEngine.getActionSpeed(action, weapon)
+	var target_name := str(target_payload.get("name", "target"))
+	var target_label := "Self" if str(target_payload.get("id", "")) == str(source_payload.get("id", "")) else "Support"
+	return {
+		"action_name": action._name,
+		"action_source": action_source,
+		"action_hand": str(action_entry.get("hand", "Innate")),
+		"targeting_mode": "single",
+		"category": Action.CATEGORY_BASIC,
+		"target_id": str(target_payload.get("id", "")),
+		"target_location": int(Item.ItemSlots.Torso),
+		"target_location_mode": TARGET_LOCATION_MODE_RANDOM,
+		"target_location_label": target_label,
+		"called_shot_penalty": 0,
+		"accuracy_bonus": 0,
+		"ap_cost": action_ap_cost,
+		"action_speed": action_speed,
+		"preview_text": "%s -> %s" % [action._name, target_name],
+	}
+
+func _choose_weighted_npc_queue_payload(candidates: Array[Dictionary]) -> Dictionary:
+	if candidates.is_empty():
+		return {}
+	var total_weight := 0
+	for candidate in candidates:
+		total_weight += maxi(int(candidate.get("weight", 1)), 1)
+	if total_weight <= 0:
+		var fallback_without_weight := candidates[0].duplicate(true)
+		fallback_without_weight.erase("weight")
+		return fallback_without_weight
+	var roll := npc_queue_rng.randi_range(1, total_weight)
+	for candidate in candidates:
+		roll -= maxi(int(candidate.get("weight", 1)), 1)
+		if roll <= 0:
+			var chosen_candidate := candidate.duplicate(true)
+			chosen_candidate.erase("weight")
+			return chosen_candidate
+	var fallback_candidate := candidates[0].duplicate(true)
+	fallback_candidate.erase("weight")
+	return fallback_candidate
 
 func _choose_npc_target_payload(source_combatant_id: String, weapon: Weapon = null) -> Dictionary:
-	if not selected_combatant_id.is_empty() and encounter_combatants.has(selected_combatant_id):
-		var selected_payload: Dictionary = encounter_combatants[selected_combatant_id]
-		if float(selected_payload.get("current_hp", 0.0)) > 0.0 and _is_hostile_target(source_combatant_id, selected_payload):
-			if _is_attack_target_reasonable(source_combatant_id, str(selected_payload.get("id", "")), weapon):
-				return selected_payload
-
 	var combatant_ids: Array = encounter_combatants.keys()
-	combatant_ids.sort()
-	var best_payload: Dictionary = {}
+	var source_payload: Dictionary = encounter_combatants.get(source_combatant_id, {})
+	var weighted_candidates: Array[Dictionary] = []
 	var best_distance: int = 999999
 	for combatant_id_variant in combatant_ids:
 		var target_payload: Dictionary = encounter_combatants[str(combatant_id_variant)]
@@ -1703,11 +1950,91 @@ func _choose_npc_target_payload(source_combatant_id: String, weapon: Weapon = nu
 		var target_id: String = str(target_payload.get("id", ""))
 		if not _is_attack_target_reasonable(source_combatant_id, target_id, weapon):
 			continue
-		var grid_distance: int = _get_combatant_grid_distance(encounter_combatants.get(source_combatant_id, {}), target_payload)
-		if best_payload.is_empty() or grid_distance < best_distance:
-			best_payload = target_payload
-			best_distance = grid_distance
-	return best_payload
+		var grid_distance: int = _get_combatant_grid_distance(source_payload, target_payload)
+		best_distance = mini(best_distance, grid_distance)
+		weighted_candidates.append({"payload": target_payload, "distance": grid_distance})
+	if weighted_candidates.is_empty():
+		return {}
+	var total_weight := 0
+	for candidate in weighted_candidates:
+		var candidate_payload: Dictionary = candidate.get("payload", {})
+		var candidate_distance := int(candidate.get("distance", 999999))
+		var weight := maxi(8 - maxi(candidate_distance - best_distance, 0), 1)
+		if str(candidate_payload.get("id", "")) == selected_combatant_id:
+			weight += 2
+		candidate["weight"] = weight
+		total_weight += weight
+	var roll := npc_queue_rng.randi_range(1, total_weight)
+	for candidate in weighted_candidates:
+		roll -= int(candidate.get("weight", 1))
+		if roll <= 0:
+			return candidate.get("payload", {})
+	return weighted_candidates[0].get("payload", {})
+
+func _choose_npc_first_aid_target_payload(source_payload: Dictionary) -> Dictionary:
+	var source_id := str(source_payload.get("id", ""))
+	var weighted_candidates: Array[Dictionary] = []
+	for combatant_id_variant in encounter_combatants.keys():
+		var target_payload: Dictionary = encounter_combatants[str(combatant_id_variant)]
+		if target_payload.is_empty():
+			continue
+		var target_id := str(target_payload.get("id", ""))
+		var valid_target := false
+		if target_id == source_id:
+			valid_target = float(target_payload.get("current_hp", 0.0)) > 0.0
+		else:
+			valid_target = _is_support_target_selectable(source_payload, target_payload)
+		if not valid_target:
+			continue
+		var missing_health_weight := _get_missing_health_steps_from_payload(target_payload)
+		if missing_health_weight <= 0:
+			continue
+		weighted_candidates.append({
+			"payload": target_payload,
+			"weight": missing_health_weight + (1 if target_id == source_id else 0),
+		})
+	if weighted_candidates.is_empty():
+		return {}
+	var total_weight := 0
+	for candidate in weighted_candidates:
+		total_weight += int(candidate.get("weight", 1))
+	var roll := npc_queue_rng.randi_range(1, total_weight)
+	for candidate in weighted_candidates:
+		roll -= int(candidate.get("weight", 1))
+		if roll <= 0:
+			return candidate.get("payload", {})
+	return weighted_candidates[0].get("payload", {})
+
+func _apply_npc_repeat_penalty(base_weight: int, candidate_payload: Dictionary, recent_choice: Dictionary) -> int:
+	if recent_choice.is_empty():
+		return base_weight
+	if str(candidate_payload.get("action_name", "")) != str(recent_choice.get("action_name", "")):
+		return base_weight
+	if str(candidate_payload.get("target_id", "")) != str(recent_choice.get("target_id", "")):
+		return base_weight
+	return maxi(int(ceil(float(base_weight) / 3.0)), 1)
+
+func _get_health_ratio_from_payload(payload: Dictionary) -> float:
+	var max_hp := float(payload.get("max_hp", 0.0))
+	if max_hp <= 0.0:
+		return 1.0
+	return clampf(float(payload.get("current_hp", max_hp)) / max_hp, 0.0, 1.0)
+
+func _get_missing_health_steps_from_payload(payload: Dictionary) -> int:
+	var max_hp := float(payload.get("max_hp", 0.0))
+	if max_hp <= 0.0:
+		return 0
+	var missing_hp := maxf(max_hp - float(payload.get("current_hp", max_hp)), 0.0)
+	if missing_hp <= 0.0:
+		return 0
+	return maxi(int(ceil((missing_hp / max_hp) * 4.0)), 1)
+
+func _shuffle_array_in_place(values: Array) -> void:
+	for index in range(values.size() - 1, 0, -1):
+		var swap_index := npc_queue_rng.randi_range(0, index)
+		var current_value: Variant = values[index]
+		values[index] = values[swap_index]
+		values[swap_index] = current_value
 
 func _get_action_resource_for_entry(actor: CreatureData, loadout: int, action_entry: Dictionary) -> Dictionary:
 	var action_name := str(action_entry.get("name", ""))
@@ -2686,13 +3013,7 @@ func _is_support_target_selectable(local_payload: Dictionary, target_payload: Di
 	return not _are_hostile_combatants(local_payload, target_payload)
 
 func _find_action_entry_for_actor(actor: CreatureData, loadout: int, action_name: String, action_source: String, action_hand: String) -> Dictionary:
-	var entries: Array[Dictionary] = []
-	if actor is HumanoidData:
-		entries = (actor as HumanoidData).get_available_actions(loadout)
-	else:
-		for actor_action in actor.actions:
-			if actor_action is Action:
-				entries.append({"action": actor_action, "weapon": null, "hand": "Innate"})
+	var entries := _get_action_entries_for_actor(actor, loadout)
 
 	var name_only_match: Dictionary = {}
 	for entry in entries:
@@ -2715,8 +3036,8 @@ func _find_action_entry_for_actor(actor: CreatureData, loadout: int, action_name
 func _get_action_entries_for_actor(actor: CreatureData, loadout: int) -> Array[Dictionary]:
 	if actor == null:
 		return []
-	if actor is HumanoidData:
-		return (actor as HumanoidData).get_available_actions(loadout)
+	if actor.has_method("get_available_actions"):
+		return actor.get_available_actions(loadout)
 	var entries: Array[Dictionary] = []
 	for actor_action in actor.actions:
 		if actor_action is Action:
@@ -2822,21 +3143,15 @@ func _build_action_resolution_debug_message(source_payload: Dictionary, actor: C
 	var actor_name := str(source_payload.get("name", "Someone"))
 	var available_entries: Array[String] = []
 	var equipment_summary := ""
-	if actor is HumanoidData:
-		var equipment := (actor as HumanoidData).equipment
+	if actor != null and "equipment" in actor:
+		var equipment: Equipment = actor.equipment
 		equipment_summary = " Equipped: W1R=%s, W1L=%s, W2R=%s, W2L=%s" % [
 			_item_name_for_debug(equipment.weapon1Right if equipment != null else null),
 			_item_name_for_debug(equipment.weapon1Left if equipment != null else null),
 			_item_name_for_debug(equipment.weapon2Right if equipment != null else null),
 			_item_name_for_debug(equipment.weapon2Left if equipment != null else null),
 		]
-	var entries: Array[Dictionary] = []
-	if actor is HumanoidData:
-		entries = (actor as HumanoidData).get_available_actions(loadout)
-	else:
-		for actor_action in actor.actions:
-			if actor_action is Action:
-				entries.append({"action": actor_action, "weapon": null, "hand": "Innate"})
+	var entries := _get_action_entries_for_actor(actor, loadout)
 	for entry in entries:
 		var action: Action = entry.get("action", null)
 		if action == null:

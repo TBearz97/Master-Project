@@ -5,6 +5,8 @@ const PLAYER_CACHE_ROOT := "user://temp/campaign_players"
 signal encounter_state_changed(started: bool)
 signal authority_role_changed(is_host: bool)
 signal member_list_changed()
+signal player_sheet_refresh_pending_changed()
+signal player_sheet_refresh_completed()
 
 @onready var member_list: VBoxContainer = %Members
 @onready var notification_inbox: VBoxContainer = %Inbox
@@ -30,6 +32,8 @@ var pending_skill_check_offers: Dictionary = {}
 var encounter_started: bool = false
 var is_host_role: bool = false
 var selected_handout_id := ""
+var awaiting_player_sheet_refresh: bool = false
+var pending_player_sheet_peer_ids: Array[int] = []
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(_on_peer_connected)
@@ -78,7 +82,7 @@ func become_client() -> void:
 	%LeaveCampaign.show()
 
 func _on_connected_to_server() -> void:
-	rpc_id(1, "server_register_player", FileAccess.get_file_as_bytes("user://characters/" + PlayerVariables.getName() + ".res"))
+	_send_local_player_registration()
 
 func _on_peer_connected(peerId: int) -> void:
 	if not multiplayer.is_server():
@@ -96,7 +100,53 @@ func _on_peer_disconnected(peerId: int) -> void:
 		membersByPeerId.erase(peerId)
 	if membersCharacters.has(peerId):
 		membersCharacters.erase(peerId)
+	_remove_pending_player_sheet_refresh_peer(peerId)
 	_broadcast_member_list()
+
+func request_player_sheet_refresh() -> void:
+	if not multiplayer.is_server():
+		return
+	pending_player_sheet_peer_ids.clear()
+	for peer_id_variant in membersByPeerId.keys():
+		var peer_id := int(peer_id_variant)
+		if peer_id <= 0 or peer_id == multiplayer.get_unique_id():
+			continue
+		pending_player_sheet_peer_ids.append(peer_id)
+	pending_player_sheet_peer_ids.sort()
+	awaiting_player_sheet_refresh = not pending_player_sheet_peer_ids.is_empty()
+	player_sheet_refresh_pending_changed.emit()
+	if not awaiting_player_sheet_refresh:
+		player_sheet_refresh_completed.emit()
+		return
+	for peer_id in pending_player_sheet_peer_ids:
+		rpc_id(peer_id, "client_request_player_sheet_refresh")
+
+func is_waiting_for_player_sheet_refresh() -> bool:
+	return awaiting_player_sheet_refresh
+
+func get_pending_player_sheet_refresh_peer_ids() -> Array[int]:
+	return pending_player_sheet_peer_ids.duplicate()
+
+func _send_local_player_registration() -> void:
+	PlayerVariables.save()
+	var character_name := PlayerVariables.getName().strip_edges()
+	if character_name.is_empty():
+		push_error("Cannot register player without a character name.")
+		return
+	var file_path := "user://characters/%s.res" % character_name
+	if not FileAccess.file_exists(file_path):
+		push_error("Character file %s does not exist" % file_path)
+		return
+	rpc_id(1, "server_register_player", FileAccess.get_file_as_bytes(file_path))
+
+func _remove_pending_player_sheet_refresh_peer(peer_id: int) -> void:
+	if not pending_player_sheet_peer_ids.has(peer_id):
+		return
+	pending_player_sheet_peer_ids.erase(peer_id)
+	player_sheet_refresh_pending_changed.emit()
+	if pending_player_sheet_peer_ids.is_empty():
+		awaiting_player_sheet_refresh = false
+		player_sheet_refresh_completed.emit()
 
 @rpc("any_peer", "reliable")
 func server_register_player(playerData: PackedByteArray) -> void:
@@ -128,7 +178,12 @@ func server_register_player(playerData: PackedByteArray) -> void:
 		return
 
 	membersByPeerId[peerId] = membersCharacters[peerId]._name
+	_remove_pending_player_sheet_refresh_peer(peerId)
 	_broadcast_member_list()
+
+@rpc("authority", "call_local", "reliable")
+func client_request_player_sheet_refresh() -> void:
+	_send_local_player_registration()
 
 @rpc("authority", "call_local", "reliable")
 func client_confirm_registered_peer_id(peer_id: int) -> void:
@@ -158,12 +213,15 @@ func _disconnected() -> void:
 	membersCharacters.clear()
 	pending_skill_check_requests.clear()
 	pending_skill_check_offers.clear()
+	pending_player_sheet_peer_ids.clear()
 	encounter_started = false
 	is_host_role = false
 	selected_handout_id = ""
+	awaiting_player_sheet_refresh = false
 	encounter_state_changed.emit(encounter_started)
 	authority_role_changed.emit(is_host_role)
 	member_list_changed.emit()
+	player_sheet_refresh_pending_changed.emit()
 
 	%JoinCampaign.show()
 	%LeaveCampaign.hide()
