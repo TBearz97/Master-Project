@@ -55,7 +55,6 @@ func _ready() -> void:
 	campaign_description.text = CampaignVariables.getCampaignDescription()
 	_setup_skill_checks()
 	_setup_notes()
-	print(Steam.get_godotsteam_version())
 	campaign_manager.use_steam()
 	campaign_manager.become_host()
 	_refresh_player_picker()

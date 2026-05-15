@@ -23,7 +23,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_pefuq")
 points = NodePath("HBoxContainer/Money")
-selected = NodePath("ItemList")
+selected = NodePath("SelectedItemsScroll/ItemList")
 grid = NodePath("ScrollContainer/ItemGrid")
 
 [node name="StartingItems" type="Label" parent="."]
@@ -37,7 +37,7 @@ vertical_alignment = 1
 [node name="Explaination" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "You can choose items freely to a total cost of 300.
+text = "You can choose items freely to a total cost of 600.
 Any money left is kept in your inventory"
 label_settings = SubResource("LabelSettings_46w1h")
 horizontal_alignment = 1
@@ -74,16 +74,21 @@ size_flags_horizontal = 4
 text = "Currently Selected:"
 label_settings = SubResource("LabelSettings_46w1h")
 
-[node name="ItemList" type="ItemList" parent="."]
-custom_minimum_size = Vector2(100, 100)
+[node name="SelectedItemsScroll" type="ScrollContainer" parent="."]
+clip_contents = false
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ItemList" type="ItemList" parent="SelectedItemsScroll"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 3
 tooltip_text = "Click on an item to remove"
 allow_search = false
 auto_width = true
-auto_height = true
 text_overrun_behavior = 0
+wraparound_items = false
 item_count = 4
 max_columns = 4
 same_column_width = true

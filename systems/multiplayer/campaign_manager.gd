@@ -292,8 +292,9 @@ func _client_append_chat_line(senderPeerId: int, messageText: String) -> void:
 	if senderPeerId == multiplayer.get_unique_id():
 		senderName += " (You)"
 
-	chat_log.text += senderName + ": " + messageText + "\n"
-	all_logs.text += senderName + ": " + messageText + "\n"
+	var formatted_message := _escape_bbcode_text(senderName + ": " + messageText)
+	_append_log_line(chat_log, formatted_message, "")
+	_append_log_line(all_logs, formatted_message, "")
 
 func _append_system_chat_line(sender_name: String, message_text: String, tooltip: String = "") -> void:
 	var formatted_message := "%s: %s" % [sender_name, message_text]

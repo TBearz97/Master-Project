@@ -18,11 +18,18 @@ func _init(__name: String = "", shortDescription: String = "", longDescription: 
 		_load_icon_from_name()
 
 func _print() -> String:
-	return (
-		"Name: " + _name + "\n" +
-		"Weight: " + str(weight) + "\n" +
-		"Value: " + str(value) + "\n"
-	)
+	var details := [
+		"Name: %s" % _name,
+		"Weight: %s" % str(weight),
+		"Value: %s" % str(value),
+	]
+	var summary := short_description.strip_edges()
+	var description := long_description.strip_edges()
+	if not summary.is_empty():
+		details.append("Flavor: %s" % summary)
+	if not description.is_empty() and description != summary:
+		details.append("Description: %s" % description)
+	return "\n".join(details) + "\n"
 
 func _load_icon_from_name() -> void:
 	var file_name := _name + ".png"

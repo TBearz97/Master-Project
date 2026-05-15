@@ -95,7 +95,6 @@ anchor_bottom = 1.0
 offset_top = 76.0
 grow_horizontal = 2
 grow_vertical = 2
-split_offset = 360
 
 [node name="CombatantsColumn" type="VSplitContainer" parent="Panel/OuterSplit"]
 layout_mode = 2

@@ -354,8 +354,7 @@ func _begin_encounter(campaign_manager: Node) -> void:
 		var actor := _get_actor_data_from_payload(payload)
 		if actor == null:
 			continue
-		actor.normalizeVitals()
-		actor.currentHP = clampf(minf(actor.maxHP, actor.currentVitality), 0.0, actor.maxHP)
+		actor.normalizeVitals(true)
 		var updated_payload := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
 		if updated_payload.is_empty():
 			continue
@@ -424,8 +423,7 @@ func _end_encounter() -> void:
 		var actor := _get_actor_data_from_payload(payload)
 		if actor == null:
 			continue
-		actor.normalizeVitals()
-		actor.currentHP = clampf(minf(actor.maxHP, actor.currentVitality), 0.0, actor.maxHP)
+		actor.normalizeVitals(true)
 		var updated_payload := _rebuild_combatant_payload(payload, int(payload.get("active_loadout", 1)))
 		if updated_payload.is_empty():
 			continue
@@ -3096,7 +3094,7 @@ func _rebuild_combatant_payload_for_actor(base_payload: Dictionary, actor: Creat
 		return {}
 	var payload := base_payload.duplicate(true)
 	payload["active_loadout"] = active_loadout
-	actor.normalizeVitals()
+	actor.normalizeVitals(true)
 	var action_points := actor.getActionPoints()
 	payload["current_hp"] = actor.currentHP
 	payload["max_hp"] = actor.maxHP
@@ -4307,6 +4305,8 @@ func _build_player_payload(player_data: PlayerData, peer_id: int) -> Dictionary:
 func _build_npc_payload(npc: NPC) -> Dictionary:
 	_ensure_basic_actions_for_actor(npc.data)
 	npc.data.normalizeVitals(true)
+	npc.data.currentHP = npc.data.maxHP
+	npc.data.currentVitality = npc.data.maxVitality
 	var details := [
 		npc.short_description,
 		"Attributes: %s" % _format_attribute_values(npc.data.attributes),
@@ -4664,7 +4664,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 		if campaign_manager == null or not campaign_manager.membersCharacters.has(peer_id):
 			return {}
 		var player_data: PlayerData = campaign_manager.membersCharacters[peer_id]
-		player_data.normalizeVitals()
+		player_data.normalizeVitals(true)
 		var player_action_points := player_data.getActionPoints()
 		payload["current_hp"] = player_data.currentHP
 		payload["max_hp"] = player_data.maxHP
@@ -4710,7 +4710,7 @@ func _rebuild_combatant_payload(base_payload: Dictionary, active_loadout: int) -
 	if npc == null:
 		return {}
 	_ensure_basic_actions_for_actor(npc.data)
-	npc.data.normalizeVitals()
+	npc.data.normalizeVitals(true)
 	var npc_action_points := npc.data.getActionPoints()
 	payload["current_hp"] = npc.data.currentHP
 	payload["max_hp"] = npc.data.maxHP

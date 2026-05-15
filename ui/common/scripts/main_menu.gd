@@ -24,6 +24,8 @@ func _on_pressed() -> void:
 
 func _on_confirmed() -> void:
 	if get_tree().current_scene.name != "Character_Creator":
+		if PlayerVariables.current() != null and not PlayerVariables.getName().strip_edges().is_empty():
+			PlayerVariables.save()
 		PlayerVariables.reset_current_player()
 	_go_to_menu()
 

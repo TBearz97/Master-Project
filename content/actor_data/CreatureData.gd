@@ -122,15 +122,18 @@ func normalizeVitals(refill_if_uninitialized: bool = false) -> void:
 	maxHP = getMaxHealth()
 	maxVitality = getMaxVitality()
 	maxConcentration = getMaxConcentration()
-	if refill_if_uninitialized and (currentHP <= 0.0 or previous_max_hp <= 1.0):
+	var refill_health := refill_if_uninitialized and previous_max_hp <= 1.0 and currentHP <= 0.0
+	var refill_vitality := refill_if_uninitialized and previous_max_vitality <= 1.0 and currentVitality <= 0.0
+	var refill_concentration := refill_if_uninitialized and previous_max_concentration <= 0 and currentConcentration <= 0
+	if refill_health:
 		currentHP = maxHP
 	else:
 		currentHP = clampf(currentHP, 0.0, maxHP)
-	if refill_if_uninitialized and (currentVitality <= 0.0 or previous_max_vitality <= 1.0):
+	if refill_vitality:
 		currentVitality = maxVitality
 	else:
 		currentVitality = clampf(currentVitality, 0.0, maxVitality)
-	if (refill_if_uninitialized and currentConcentration <= 0) or previous_max_concentration <= 0:
+	if refill_concentration:
 		currentConcentration = maxConcentration
 	else:
 		currentConcentration = clampi(currentConcentration, 0, maxConcentration)
